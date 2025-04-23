@@ -22,4 +22,9 @@ public class ChatRestController {
     public ResponseEntity<?> chatMatchingStatus(@PathVariable String stdNo) {
         return chatService.chatMatchingStatus(stdNo);
     }
+
+    @GetMapping("/matching/cancel/{stdNo}")
+    public ResponseEntity<?> cancelMatching(@PathVariable String stdNo) {
+        return chatService.cancelMatching(stdNo);
+    }
 }

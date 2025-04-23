@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +26,9 @@ public class ChatService {
 
     @Autowired
     private BaseUtil baseUtil;
+
+    @Autowired
+    private SimpMessagingTemplate messagingTemplate;
 
     private List<UserDto> matchWaitingList = new ArrayList<>(); //매칭을 누른 사용자의 대기 리스트
     private List<MatchingDto> matchingSuccessList = new ArrayList<>(); //매칭된 사용자들의 리스트
@@ -82,13 +86,6 @@ public class ChatService {
                         this.matchingSuccessList.add(matchingDto); //매칭 성공 리스트에 추가
                         this.matchWaitingList.remove(userDto1);
                         this.matchWaitingList.remove(userDto2); //매칭 대기 리스트에서 제거
-
-                        for(MatchingDto matchingDto1 : this.matchingSuccessList) {
-                            System.out.println("매칭 성공 리스트");
-                            System.out.println(matchingDto1.getFirstUser().getStdNo());
-                            System.out.println(matchingDto1.getSecondUser().getStdNo());
-                            System.out.println(matchingDto1.getMatchingId());
-                        }
                         return;
                     }
 
@@ -130,12 +127,52 @@ public class ChatService {
                                 .response(HttpStatus.BAD_REQUEST, "등록되지 않은 학번입니다.", stdNo));
             }
         } catch (Exception e) {
-            log.error("Error: {}", e.getMessage());
+            log.error(e.getMessage());
             return ResponseEntity
                     .internalServerError()
                     .body(ResponseDto
                     .response(HttpStatus.INTERNAL_SERVER_ERROR, "조회중 오류가 발생하였습니다.", stdNo));
         }
+    }
+
+    public ResponseEntity<?> cancelMatching(String stdNo){
+        try{
+            if(userRepository.existsByStdNo(stdNo)) {
+                this.disconnectClientsFromTopic(this.findMatchingId(stdNo));
+                this.matchWaitingList.removeIf(userDto -> userDto.getStdNo().equals(stdNo)); //매칭 대기 리스트에서 제거
+                this.matchingSuccessList.removeIf(matchingDto -> matchingDto.getFirstUser().getStdNo().equals(stdNo) || matchingDto.getSecondUser().getStdNo().equals(stdNo)); //매칭 성공 리스트에서 제거
+                return ResponseEntity
+                        .ok()
+                        .body(ResponseDto
+                                .response(HttpStatus.OK, "매칭 취소되었습니다.", stdNo));
+            } else {
+                return ResponseEntity
+                        .badRequest()
+                        .body(ResponseDto
+                                .response(HttpStatus.BAD_REQUEST, "등록되지 않은 학번입니다.", stdNo));
+            }
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return ResponseEntity
+                    .internalServerError()
+                    .body(ResponseDto
+                            .response(HttpStatus.INTERNAL_SERVER_ERROR, "오류가 발생하였습니다.", stdNo));
+        }
+    }
+
+    public String findMatchingId(String stdNo) {
+        for(MatchingDto matchingDto : this.matchingSuccessList) {
+            if(matchingDto.getFirstUser().getStdNo().equals(stdNo) || matchingDto.getSecondUser().getStdNo().equals(stdNo)) {
+                return matchingDto.getMatchingId();
+            }
+        }
+        return null;
+    }
+
+    public void disconnectClientsFromTopic(String matchingId) {
+        // 연결 종료 메시지 전송
+        messagingTemplate.convertAndSend("/sub/chat." + matchingId,
+                ChatResponseDto.response(HttpStatus.OK, "연결이 종료되었습니다.", false, null));
     }
 
 

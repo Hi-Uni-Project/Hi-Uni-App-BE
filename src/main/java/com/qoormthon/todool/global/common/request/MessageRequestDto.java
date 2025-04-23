@@ -10,5 +10,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class MessageRequestDto {
+    private String senderStdNo;
+    private String receiverStdNo;
     private String message;
+    private String date;
 }

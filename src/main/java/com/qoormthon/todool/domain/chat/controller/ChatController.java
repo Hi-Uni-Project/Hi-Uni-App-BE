@@ -1,9 +1,12 @@
 package com.qoormthon.todool.domain.chat.controller;
 
+import com.qoormthon.todool.domain.chat.dto.ChatDto;
+import com.qoormthon.todool.domain.chat.repository.ChatRepository;
 import com.qoormthon.todool.domain.chat.service.ChatService;
 import com.qoormthon.todool.domain.user.dto.UserDto;
 import com.qoormthon.todool.global.common.request.MessageRequestDto;
 import com.qoormthon.todool.global.common.response.MessageResponseDto;
+import com.qoormthon.todool.global.common.util.BaseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
@@ -17,14 +20,25 @@ public class ChatController {
     @Autowired
     private ChatService chatService;
 
+    @Autowired
+    private BaseUtil baseUtil;
+
+    @Autowired
+    private ChatRepository chatRepository;
+
 
     @MessageMapping("/chat.{matchingId}") // "/pub/chat"
-    @SendTo("/sub/chat")
-    public MessageResponseDto sendMessage(MessageRequestDto requestDto, @DestinationVariable String matchingId) {
-        System.out.println(requestDto.getMessage());
-        MessageResponseDto responseDto = new MessageResponseDto();
-        responseDto.setMessage(requestDto.getMessage());
-        return responseDto;
+    @SendTo("/sub/chat.{matchingId}")
+    public MessageRequestDto sendMessage(MessageRequestDto requestDto, @DestinationVariable String matchingId) {
+        ChatDto chatDto = new ChatDto();
+        chatDto.setSenderStdNo(requestDto.getSenderStdNo());
+        chatDto.setReceiverStdNo(requestDto.getReceiverStdNo());
+        chatDto.setMessage(requestDto.getMessage());
+        chatDto.setMatchingId(matchingId);
+        chatDto.setDate(baseUtil.getTodayAndTime());
+        chatRepository.save(chatDto.toEntity());
+
+        return requestDto;
     }
 
     @GetMapping("/test")
