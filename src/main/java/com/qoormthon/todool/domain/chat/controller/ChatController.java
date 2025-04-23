@@ -7,6 +7,8 @@ import com.qoormthon.todool.domain.user.dto.UserDto;
 import com.qoormthon.todool.global.common.request.MessageRequestDto;
 import com.qoormthon.todool.global.common.response.MessageResponseDto;
 import com.qoormthon.todool.global.common.util.BaseUtil;
+import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
+@Hidden
 public class ChatController {
     @Autowired
     private ChatService chatService;

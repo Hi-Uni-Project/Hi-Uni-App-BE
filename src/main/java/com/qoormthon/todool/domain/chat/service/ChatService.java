@@ -1,5 +1,6 @@
 package com.qoormthon.todool.domain.chat.service;
 
+import com.qoormthon.todool.domain.chat.dto.ChatUserDto;
 import com.qoormthon.todool.domain.chat.dto.MatchingDto;
 import com.qoormthon.todool.domain.user.dto.UserDto;
 import com.qoormthon.todool.domain.user.repository.UserRepository;
@@ -30,12 +31,12 @@ public class ChatService {
     @Autowired
     private SimpMessagingTemplate messagingTemplate;
 
-    private List<UserDto> matchWaitingList = new ArrayList<>(); //매칭을 누른 사용자의 대기 리스트
+    private List<ChatUserDto> matchWaitingList = new ArrayList<>(); //매칭을 누른 사용자의 대기 리스트
     private List<MatchingDto> matchingSuccessList = new ArrayList<>(); //매칭된 사용자들의 리스트
 
 
 
-    public ResponseEntity<?> chatMatching(UserDto userDto) {
+    public ResponseEntity<?> chatMatching(ChatUserDto userDto) {
         try {
             //매칭 전 초기화
             this.matchWaitingList.remove(userDto);
@@ -54,13 +55,13 @@ public class ChatService {
                             .response(HttpStatus.OK, "매칭 대기 리스트에 등록되었습니다.", userDto));
         } catch (Exception e) {
             return ResponseEntity
-                    .ok()
+                    .badRequest()
                     .body(ResponseDto
                             .response(HttpStatus.BAD_REQUEST, e.getMessage(), userDto));
         }
     }
 
-    public void registerToMatchingList(UserDto userDto) throws Exception {
+    public void registerToMatchingList(ChatUserDto userDto) throws Exception {
             if(!userRepository.existsByStdNo(userDto.getStdNo())) { //등록되지 않은 학번
                 throw new Exception("등록되지 않은 학번입니다.");
             } else {
@@ -71,9 +72,9 @@ public class ChatService {
     @Scheduled(fixedRate = 300)
     public void processMatching(){
 
-        List<UserDto> tempMatchWaitingList = new ArrayList<>(this.matchWaitingList); //매칭 대기 리스트 복사
-        for(UserDto userDto1 : tempMatchWaitingList) {
-            for(UserDto userDto2 : tempMatchWaitingList) {
+        List<ChatUserDto> tempMatchWaitingList = new ArrayList<>(this.matchWaitingList); //매칭 대기 리스트 복사
+        for(ChatUserDto userDto1 : tempMatchWaitingList) {
+            for(ChatUserDto userDto2 : tempMatchWaitingList) {
                 if(!userDto1.equals(userDto2)){
                     int baseUserStdNo = Integer.parseInt(userDto1.getStdNo().substring(2, 4)); //기준 유저의 학번
                     int targetUserStdNo = Integer.parseInt(userDto2.getStdNo().substring(2, 4)); //대상 유저의 학번
@@ -106,7 +107,7 @@ public class ChatService {
                     }
                 }
 
-                for(UserDto userDto : this.matchWaitingList) {
+                for(ChatUserDto userDto : this.matchWaitingList) {
                     if(userDto.getStdNo().equals(stdNo)){
                         return ResponseEntity
                                 .ok()

@@ -5,9 +5,14 @@ import com.qoormthon.todool.domain.user.repository.UserRepository;
 import com.qoormthon.todool.global.common.response.ResponseDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
 
 
 @Slf4j
@@ -16,9 +21,25 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private ResourceLoader resourceLoader;
 
-    public ResponseEntity<?> signUp(UserDto userDto) {
+
+    public ResponseEntity<?> signUp(UserDto userDto, MultipartFile file) {
+        String filePath;
+
         try {
+            if (file != null && !file.isEmpty()) {
+                String fileName = file.getOriginalFilename(); //파일 이름
+                Resource resource = resourceLoader.getResource("classpath:static/images");
+                String uploadDir = resource.getFile().getAbsolutePath();
+                filePath = "/images/" + fileName;
+                file.transferTo(new File(uploadDir + File.separator + fileName));
+                userDto.setImageUrl(filePath);
+            } else {
+                userDto.setImageUrl(null);
+            }
+
             if(userRepository.existsByStdNo(userDto.getStdNo())){ //이미 존재하는 유저..
                 return ResponseEntity.badRequest()
                         .body(ResponseDto
