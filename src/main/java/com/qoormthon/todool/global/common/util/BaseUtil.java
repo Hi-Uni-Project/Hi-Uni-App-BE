@@ -9,6 +9,7 @@ import java.security.SecureRandom;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -42,6 +43,10 @@ public class BaseUtil {
 
     public Boolean isValidCode(String code){
         return authCode.equals(code);
+    }
+
+    public String getUUID() {
+        return UUID.randomUUID().toString();
     }
 
 }
