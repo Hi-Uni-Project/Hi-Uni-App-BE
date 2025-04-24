@@ -140,8 +140,6 @@ public class ChatService {
         try{
             if(userRepository.existsByStdNo(stdNo)) {
                 this.disconnectClientsFromTopic(this.findMatchingId(stdNo));
-                this.matchWaitingList.removeIf(userDto -> userDto.getStdNo().equals(stdNo)); //매칭 대기 리스트에서 제거
-                this.matchingSuccessList.removeIf(matchingDto -> matchingDto.getFirstUser().getStdNo().equals(stdNo) || matchingDto.getSecondUser().getStdNo().equals(stdNo)); //매칭 성공 리스트에서 제거
                 return ResponseEntity
                         .ok()
                         .body(ResponseDto
@@ -174,6 +172,20 @@ public class ChatService {
         // 연결 종료 메시지 전송
         messagingTemplate.convertAndSend("/sub/chat." + matchingId,
                 ChatResponseDto.response(HttpStatus.OK, "연결이 종료되었습니다.", false, null));
+
+        for(MatchingDto matchingDto : this.matchingSuccessList) { //매칭 성공 리스트에서 제거
+            if(matchingDto.getMatchingId().equals(matchingId)){
+                for(ChatUserDto chatUserDto : this.matchWaitingList) {
+                    if(chatUserDto.equals(matchingDto.getFirstUser()) || chatUserDto.equals(matchingDto.getSecondUser())){
+                        this.matchWaitingList.remove(matchingDto.getFirstUser());
+                        this.matchWaitingList.remove(matchingDto.getSecondUser());
+                        break;
+                    }
+                }
+                this.matchingSuccessList.remove(matchingDto);
+                break;
+            }
+        }
     }
 
 

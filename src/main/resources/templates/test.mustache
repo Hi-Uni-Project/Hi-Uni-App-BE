@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>랜덤 매칭 채팅</title>
     <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
     <style>
@@ -194,21 +193,19 @@
     </style>
 </head>
 <body>
-<h1>랜덤 매칭 채팅</h1>
-
 <div id="user-info-container" class="container">
     <h2>사용자 정보 입력</h2>
     <div class="form-group">
         <label for="stdNo">학번</label>
-        <input type="text" id="stdNo" placeholder="예: 20191476" required>
+        <input type="text" id="stdNo" value="20211444" required>
     </div>
     <div class="form-group">
         <label for="nickName">닉네임</label>
-        <input type="text" id="nickName" placeholder="닉네임을 입력하세요" required>
+        <input type="text" id="nickName" value="홍길동" required>
     </div>
     <div class="form-group">
         <label for="major">학과</label>
-        <input type="text" id="major" placeholder="예: Computer Science" required>
+        <input type="text" id="major" value="컴퓨터공학과" required>
     </div>
     <div class="form-group">
         <label for="gender">성별</label>
