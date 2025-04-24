@@ -12,7 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/user")
-@Tag(name = "유저 관련된 api 입니다.", description = "로그인, 회원가입, 유저 정보 수정 등의 기능입니다.")
+@Tag(name = "유저 관련 api 입니다.", description = "로그인, 회원가입, 유저 정보 수정 등의 기능입니다.")
 public class UserController {
     @Autowired
     private UserService userService;

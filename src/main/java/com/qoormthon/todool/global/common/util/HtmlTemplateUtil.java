@@ -1,5 +1,8 @@
 package com.qoormthon.todool.global.common.util;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class HtmlTemplateUtil {
     public String createHtmlEmailTemplate(String authCode, String username, String email) {
         return "<!DOCTYPE html>\n" +

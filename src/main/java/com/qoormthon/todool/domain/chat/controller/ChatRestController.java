@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/chat")
-@Tag(name = "매칭 관련된 api 입니다.", description = "매칭시작, 매칭 상태 조회, 매칭 취소 기능입니다.")
+@Tag(name = "매칭 관련 api 입니다.", description = "매칭시작, 매칭 상태 조회, 매칭 취소 기능입니다.")
 public class ChatRestController {
 
     @Autowired

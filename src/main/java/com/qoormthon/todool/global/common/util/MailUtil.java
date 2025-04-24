@@ -1,5 +1,6 @@
 package com.qoormthon.todool.global.common.util;
 
+import com.qoormthon.todool.domain.mail.dto.MailAuthenticationDto;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.Getter;
@@ -9,12 +10,17 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Component
 public class MailUtil {
 
     @Autowired
     private JavaMailSender emailSender;
+
+    private List<MailAuthenticationDto> mailAuthenticationDtoList = new ArrayList<>();
 
     private String[] recipients = {};
 
@@ -27,6 +33,8 @@ public class MailUtil {
         helper.setTo(to);
         helper.setSubject(subject);
         helper.setText(htmlContent, true);
+
+        emailSender.send(message);
     }
 
     public void addRecipient(String email) {
@@ -38,5 +46,27 @@ public class MailUtil {
 
     public void clearRecipients() {
         recipients = new String[0];
+    }
+
+    public void addMailAuthenticationList(MailAuthenticationDto mailAuthenticationDto) {
+        this.mailAuthenticationDtoList.add(mailAuthenticationDto);
+    }
+
+    public void deleteMailAuthenticationList(String stdNo) {
+        for(MailAuthenticationDto mailAuthenticationDto : this.mailAuthenticationDtoList) {
+            if(mailAuthenticationDto.getStdNo().equals(stdNo)){
+                this.mailAuthenticationDtoList.remove(mailAuthenticationDto);
+                break;
+            }
+        }
+    }
+
+    public String getUserAuthenticationCode(String stdNo) {
+        for(MailAuthenticationDto mailAuthenticationDto : this.mailAuthenticationDtoList) {
+            if(mailAuthenticationDto.getStdNo().equals(stdNo)){
+                return mailAuthenticationDto.getAuthenticationCode();
+            }
+        }
+        return null;
     }
 }

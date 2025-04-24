@@ -16,7 +16,6 @@ import java.util.UUID;
 @Component
 public class BaseUtil {
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-    private static String authCode = "";
 
     public LocalDateTime getNow() {
         return LocalDateTime.now();
@@ -33,16 +32,7 @@ public class BaseUtil {
     public String getCode() {
         SecureRandom random = new SecureRandom();
         int code = 100000 + random.nextInt(900000);
-        authCode = String.valueOf(code);
         return String.valueOf(code);
-    }
-
-    public void clearCode() {
-        authCode = null;
-    }
-
-    public Boolean isValidCode(String code){
-        return authCode.equals(code);
     }
 
     public String getUUID() {
