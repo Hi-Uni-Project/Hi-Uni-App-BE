@@ -30,7 +30,7 @@ public class UnivController {
         return univService.findByUnivName(univName);
     }
 
-    @Operation(summary = "특정 대학교의 학과를 모두 조회합니다.", description = "부분 일치 검색 방식이며 리스트 형태로 반환됩니다.")
+    @Operation(summary = "특정 대학교의 학과를(학교명으로) 모두 조회합니다.", description = "부분 일치 검색 방식이며 리스트 형태로 반환됩니다.")
     @GetMapping("/find/major/{univName}")
     public ResponseEntity<?> findByUnivMajorName(@PathVariable String univName) {
         return univService.findByUnivMajorName(univName);
