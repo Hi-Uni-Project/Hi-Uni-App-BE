@@ -1,6 +1,7 @@
 package com.qoormthon.todool.domain.user.controller;
 
 import com.qoormthon.todool.domain.user.dto.UserDto;
+import com.qoormthon.todool.domain.user.dto.UserLoginDto;
 import com.qoormthon.todool.domain.user.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -26,4 +27,11 @@ public class UserController {
                                     ,@RequestPart(value = "image", required = false) MultipartFile file) {
         return userService.signUp(userDto, file);
     }
+
+    @Operation(summary = "로그인 api", description = "유저 로그인 api 입니다. jwt 토큰을 발급합니다.")
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody UserLoginDto userLoginDto){
+        return userService.login(userLoginDto);
+    }
+
 }
