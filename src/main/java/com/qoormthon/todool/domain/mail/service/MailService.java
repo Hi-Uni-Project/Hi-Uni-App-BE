@@ -88,8 +88,8 @@ public class MailService {
     }
 
     public ResponseEntity<?> mailAuthenticationCodeIsValid(MailAuthenticationDto mailAuthenticationDto) {
-        try {
 
+        try {
             for(MailAuthenticationDto mailAuthenticationDto1 : mailUtil.getMailAuthenticationDtoList()) {
                 if(mailAuthenticationDto1.getStdNo().equals(mailAuthenticationDto.getStdNo())){
                     if(mailAuthenticationDto1.getAuthenticationCode().equals(mailAuthenticationDto.getAuthenticationCode())){
@@ -99,21 +99,14 @@ public class MailService {
                         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                                 .body(ResponseDto.response(HttpStatus.UNAUTHORIZED, "인증번호가 일치하지 않습니다.", mailAuthenticationDto.getStdNo()));
                     }
-                } else {
-                    return ResponseEntity.badRequest()
-                            .body(ResponseDto.response(HttpStatus.BAD_REQUEST, "발급된 인증번호가 존재하지 않습니다.", mailAuthenticationDto.getStdNo()));
                 }
             }
-
+            return ResponseEntity.badRequest()
+                    .body(ResponseDto.response(HttpStatus.BAD_REQUEST, "발급된 인증번호가 존재하지 않습니다.", mailAuthenticationDto.getStdNo()));
         } catch (Exception e) {
             log.error(e.getMessage());
             return ResponseEntity.internalServerError()
                     .body(ResponseDto.response(HttpStatus.INTERNAL_SERVER_ERROR, "알 수 없는 오류입니다.", mailAuthenticationDto.getStdNo()));
         }
-        return ResponseEntity.internalServerError()
-                .body(ResponseDto.response(HttpStatus.INTERNAL_SERVER_ERROR, "알 수 없는 오류입니다.", mailAuthenticationDto.getStdNo()));
     }
-
-
-
 }
