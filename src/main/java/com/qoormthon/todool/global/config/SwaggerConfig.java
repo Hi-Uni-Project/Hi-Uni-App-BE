@@ -23,7 +23,7 @@ public class SwaggerConfig {
                                         .name("Authorization"))
                 )
                 .info(new Info()
-                        .title("PL website API")
+                        .title("To-Dool API")
                         .description("API 호출에는 JWT 인증이 필요합니다.(role USER/ADMIN)")
                         .version("1.0.0"))
                 .addSecurityItem(new SecurityRequirement().addList("bearerAuth"));
