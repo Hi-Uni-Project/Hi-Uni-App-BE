@@ -20,6 +20,9 @@ public class UserEntity {
     private String stdNo; //학번 pk
 
     @Column(length = 255)
+    private String password; //비밀번호
+
+    @Column(length = 255)
     private String nickName; //닉네임
 
     @Column(length = 255)

@@ -13,6 +13,9 @@ public class UserDto {
     @Schema(example = "20251444")
     private String stdNo; //학번 pk
 
+    @Schema(example = "your_password")
+    private String password; //비밀번호
+
     @Schema(example = "홍길동")
     private String nickName; //닉네임
 
@@ -32,6 +35,7 @@ public class UserDto {
         UserEntity userEntity = new UserEntity();
         return UserEntity.builder()
                 .stdNo(this.stdNo)
+                .password(this.password)
                 .nickName(this.nickName)
                 .major(this.major)
                 .gender(this.gender)
