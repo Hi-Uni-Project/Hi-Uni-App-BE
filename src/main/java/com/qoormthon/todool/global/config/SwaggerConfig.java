@@ -28,11 +28,4 @@ public class SwaggerConfig {
                         .version("1.0.0"))
                 .addSecurityItem(new SecurityRequirement().addList("bearerAuth"));
     }
-
-    private Info apiInfo() {
-        return new Info()
-                .title("To-Dool Swagger")
-                .description("To-Dool Backend API documentation")
-                .version("1.0.0");
-    }
 }
