@@ -66,6 +66,14 @@ public class UserService {
 
         try {
             if (file != null && !file.isEmpty()) {
+
+                String contentType = file.getContentType();
+                if (contentType == null || !contentType.startsWith("image/")) {
+                    return ResponseEntity.badRequest()
+                            .body(ResponseDto
+                                    .response(HttpStatus.BAD_REQUEST, "이미지 파일만 업로드 가능합니다.", null));
+                }
+
                 String fileName = file.getOriginalFilename(); //파일 이름
                 Resource resource = resourceLoader.getResource("classpath:static/images");
                 String uploadDir = resource.getFile().getAbsolutePath();

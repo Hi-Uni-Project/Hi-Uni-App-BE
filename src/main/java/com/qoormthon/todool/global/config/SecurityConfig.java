@@ -57,7 +57,8 @@ public class SecurityConfig {
                                 "/swagger-resources/**",
                                 "/test",
                                 "/user/login",
-                                "/user/signup"
+                                "/user/signup",
+                                "/images/**"
                         ).permitAll()
                         .requestMatchers(
                                 "/chat/matching",
