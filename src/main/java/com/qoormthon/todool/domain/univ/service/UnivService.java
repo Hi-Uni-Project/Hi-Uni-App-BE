@@ -49,6 +49,17 @@ public class UnivService {
             if(univName.isEmpty() || univName == null){
                 throw new Exception("대학명이 null 입니다");
             }
+
+            if(univName.length() <= 1) {
+                return ResponseEntity.badRequest()
+                        .body(ResponseDto.response(HttpStatus.BAD_REQUEST, "대학명은 2글자 이상이어야 합니다.", null));
+            }
+
+            if(univName.equals("대학") || univName.equals("대학교") || univName.equals("학교")){
+                return ResponseEntity.badRequest()
+                        .body(ResponseDto.response(HttpStatus.BAD_REQUEST, "대학명이 유효하지 않습니다.", null));
+            }
+
             List<UnivDataDto.School> filter = univDataDto.getRecords().stream()
                     .filter(school -> school.get학교영문명().contains(univName) || school.get학교명().contains(univName))
                     .toList();
@@ -65,9 +76,20 @@ public class UnivService {
 
     public ResponseEntity<?> findByUnivMajorName(String univName) {
         try {
-            if(univName.isEmpty() || univName == null){
+            if(univName.isEmpty() || univName == null || univName.equals(" ")){
                 throw new Exception("대학명이 null 입니다");
             }
+
+            if(univName.length() <= 1) {
+                return ResponseEntity.badRequest()
+                        .body(ResponseDto.response(HttpStatus.BAD_REQUEST, "대학명은 2글자 이상이어야 합니다.", null));
+            }
+
+            if(univName.equals("대학") || univName.equals("대학교") || univName.equals("학교")){
+                return ResponseEntity.badRequest()
+                        .body(ResponseDto.response(HttpStatus.BAD_REQUEST, "대학명이 유효하지 않습니다.", null));
+            }
+
             List<UnivMajorDataDto.Major> filter = univMajorDataDto.getRecords().stream()
                     .filter(major -> major.get학교명().contains(univName))
                     .toList();
