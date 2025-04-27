@@ -19,6 +19,9 @@ public class UserDto {
     @Schema(example = "홍길동")
     private String nickName; //닉네임
 
+    @Schema(example = "서울대학교")
+    private String univ;
+
     @Schema(example = "컴퓨터공학과")
     private String major; //학과
 
@@ -37,6 +40,7 @@ public class UserDto {
                 .stdNo(this.stdNo)
                 .password(this.password)
                 .nickName(this.nickName)
+                .univ(this.univ)
                 .major(this.major)
                 .gender(this.gender)
                 .mbti(this.mbti)

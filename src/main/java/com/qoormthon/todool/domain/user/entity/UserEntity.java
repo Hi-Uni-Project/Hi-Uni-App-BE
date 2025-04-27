@@ -26,6 +26,9 @@ public class UserEntity {
     private String nickName; //닉네임
 
     @Column(length = 255)
+    private String univ;
+
+    @Column(length = 255)
     private String major; //학과
 
     @Column(length = 255)
