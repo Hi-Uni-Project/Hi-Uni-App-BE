@@ -96,6 +96,7 @@ public class ChatService {
     }
 
     public ResponseEntity<?> chatMatchingStatus(String stdNo) {
+
         try {
             if(userRepository.existsByStdNo(stdNo)){
                 for(MatchingDto matchingDto : this.matchingSuccessList) {
@@ -140,6 +141,12 @@ public class ChatService {
         try{
             if(userRepository.existsByStdNo(stdNo)) {
                 this.disconnectClientsFromTopic(this.findMatchingId(stdNo));
+                for(ChatUserDto chatUserDto : this.matchWaitingList) { //매칭 대기 리스트에서 제거
+                    if(chatUserDto.getStdNo().equals(stdNo)) {
+                        this.matchWaitingList.remove(chatUserDto);
+                        break;
+                    }
+                }
                 return ResponseEntity
                         .ok()
                         .body(ResponseDto
