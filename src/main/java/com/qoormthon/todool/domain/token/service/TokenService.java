@@ -36,8 +36,8 @@ public class TokenService {
             }
         } catch (Exception e) {
             log.error(e.getMessage());
-            return ResponseEntity.internalServerError()
-                    .body(ResponseDto.response(HttpStatus.INTERNAL_SERVER_ERROR, "서버 오류", null));
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(ResponseDto.response(HttpStatus.UNAUTHORIZED, "유효하지 않은 토큰입니다.", null));
         }
     }
 
