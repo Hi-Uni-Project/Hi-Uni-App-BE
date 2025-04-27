@@ -52,6 +52,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
+
+            log.info(request.getMethod() + ":" + request.getRequestURI() + " 요청이 들어왔습니다.");
+
             String token = jwTutil.extractToken(request);
 
             if (token == null) {
