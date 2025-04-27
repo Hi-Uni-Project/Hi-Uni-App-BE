@@ -79,7 +79,7 @@ public class ChatService {
                     int baseUserStdNo = Integer.parseInt(userDto1.getStdNo().substring(2, 4)); //기준 유저의 학번
                     int targetUserStdNo = Integer.parseInt(userDto2.getStdNo().substring(2, 4)); //대상 유저의 학번
 
-                    if(Math.abs(baseUserStdNo - targetUserStdNo) >= 2 && userDto1.getMajor().equals(userDto2.getMajor())){ //학번이 2 이상 차이나면서 같은 학과일 경우
+                    if(Math.abs(baseUserStdNo - targetUserStdNo) >= 2 && userDto1.getMajor().equals(userDto2.getMajor()) && userDto1.getUniv().equals(userDto2.getUniv())) { //학번이 2 이상 차이나면서 같은 학교 학과일 경우
                         MatchingDto matchingDto = new MatchingDto();
                         matchingDto.setMatchingId(baseUtil.getUUID()); //토픽 지정
                         matchingDto.setFirstUser(userDto1);
