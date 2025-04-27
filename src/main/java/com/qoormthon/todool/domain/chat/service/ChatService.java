@@ -65,6 +65,11 @@ public class ChatService {
             if(!userRepository.existsByStdNo(userDto.getStdNo())) { //등록되지 않은 학번
                 throw new Exception("등록되지 않은 학번입니다.");
             } else {
+                for(ChatUserDto chatUserDto : this.matchWaitingList) {
+                    if(chatUserDto.getStdNo().equals(userDto.getStdNo())) { //이미 매칭 대기 리스트에 등록된 경우
+                        throw new Exception("이미 매칭 대기 리스트에 등록되어 있습니다.");
+                    }
+                }
                 this.matchWaitingList.add(userDto); //매칭 대기 리스트에 추가
             }
     }

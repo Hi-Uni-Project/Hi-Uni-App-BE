@@ -59,17 +59,17 @@ public class SecurityConfig {
                                 "/user/login",
                                 "/user/signup",
                                 "/images/**",
-                                "/auth/refresh"
-                        ).permitAll()
-                        .requestMatchers(
-                                "/chat/matching",
-                                "/chat/matching/status/**",
-                                "/chat/matching/cancel/**",
+                                "/auth/refresh",
                                 "/univ/find/**",
                                 "/univ/find/major/**",
                                 "/univ/find/all",
                                 "/mail/valid",
                                 "/mail/send"
+                        ).permitAll()
+                        .requestMatchers(
+                                "/chat/matching",
+                                "/chat/matching/status/**",
+                                "/chat/matching/cancel/**"
                         ).hasAnyRole("USER", "ADMIN")
                         .anyRequest().hasRole("ADMIN"))
                 .addFilterBefore(new JwtAuthenticationFilter(jwTutil), UsernamePasswordAuthenticationFilter.class);
