@@ -10,13 +10,16 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.time.Duration;
 
 
 @Slf4j
@@ -39,10 +42,24 @@ public class UserService {
             if(userRepository.existsByStdNo(userLoginDto.getStdNo())) {
                 UserEntity userEntity = userRepository.findByStdNo(userLoginDto.getStdNo());
                 if(hash.matches(userLoginDto.getPassword(), userEntity.getPassword())) {
-                    String token = jwTutil.createToken(userLoginDto.getStdNo(), "USER");
+                    String accessToken = jwTutil.createAccessToken(userLoginDto.getStdNo(), "USER");
+                    String refreshToken = jwTutil.createRefreshToken(userLoginDto.getStdNo(), "USER");
+
+                    ResponseCookie responseCookie = ResponseCookie.from("refreshToken", refreshToken)
+                            .httpOnly(true)
+                            .secure(true)
+                            .sameSite("Strict")
+                            .path("/auth")
+                            .maxAge(Duration.ofDays(7))
+                            .build();
+
+
+
                     return ResponseEntity.ok()
+                            .header("Authorization", "Bearer " + accessToken)
+                            .header(HttpHeaders.SET_COOKIE, responseCookie.toString())
                             .body(ResponseDto
-                                    .response(HttpStatus.OK, "로그인에 성공하였습니다.", token));
+                                    .response(HttpStatus.OK, "로그인에 성공하였습니다.", userLoginDto.getStdNo()));
                 } else {
                     return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                             .body(ResponseDto

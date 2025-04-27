@@ -12,11 +12,14 @@ import java.util.Date;
 @Component
 public class JWTutil {
     private final SecretKey secretKey;
-    private final int expiredms;
+    private final int accessExpiredms;
+    private final int refreshExpiredms;
 
     @Autowired
-    public JWTutil(SecretKey secretKey, @Value("${jwt.expiration}")int expiredms){
-        this.expiredms = expiredms;
+    public JWTutil(SecretKey secretKey, @Value("${jwt.access.expiration}")int accessExpiredms
+    , @Value("${jwt.refresh.expiration}")int refreshExpiredms) {
+        this.accessExpiredms = accessExpiredms;
+        this.refreshExpiredms = refreshExpiredms;
         this.secretKey = secretKey;
     }
     public String getUserId(String token){
@@ -31,12 +34,20 @@ public class JWTutil {
         return new Date(System.currentTimeMillis());
     }
 
-    public Date getExpirationDate() {
-        return new Date(getCurrentDate().getTime() + expiredms);
+    public Date getAccessExpirationDate() {
+        return new Date(getCurrentDate().getTime() + accessExpiredms);
+    }
+
+    public Date getRefreshExpirationDate() {
+        return new Date(getCurrentDate().getTime() + refreshExpiredms);
     }
 
     public Boolean isExpired(String token){
         return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().getExpiration().before(new Date());
+    }
+
+    public String getType(String token) {
+        return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().get("type", String.class);
     }
 
     public String extractToken(HttpServletRequest request) {
@@ -50,11 +61,23 @@ public class JWTutil {
     }
 
 
-    public String createToken(String stdNo, String role){
+    public String createAccessToken(String stdNo, String role){
         return Jwts.builder()
+                .claim("type", "access")
                 .setSubject(stdNo)
                 .issuedAt(getCurrentDate())
-                .expiration(getExpirationDate())
+                .expiration(getAccessExpirationDate())
+                .claim("roles", "ROLE_"+role)
+                .signWith(secretKey)
+                .compact();
+    }
+
+    public String createRefreshToken(String stdNo, String role){
+        return Jwts.builder()
+                .claim("type", "refresh")
+                .setSubject(stdNo)
+                .issuedAt(getCurrentDate())
+                .expiration(getRefreshExpirationDate())
                 .claim("roles", "ROLE_"+role)
                 .signWith(secretKey)
                 .compact();

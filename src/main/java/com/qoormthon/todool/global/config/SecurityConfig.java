@@ -58,7 +58,8 @@ public class SecurityConfig {
                                 "/test",
                                 "/user/login",
                                 "/user/signup",
-                                "/images/**"
+                                "/images/**",
+                                "/auth/refresh"
                         ).permitAll()
                         .requestMatchers(
                                 "/chat/matching",
