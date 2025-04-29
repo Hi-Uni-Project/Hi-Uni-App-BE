@@ -10,6 +10,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
 @Service
 @Slf4j
 public class TokenService {
@@ -23,12 +26,10 @@ public class TokenService {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                         .body(ResponseDto.response(HttpStatus.UNAUTHORIZED, "리프레시 토큰이 존재하지 않습니다.", null));
             } else {
-
                 if(jwTutil.getType(refreshToken).equals("access")) {
                     return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                             .body(ResponseDto.response(HttpStatus.UNAUTHORIZED, "리프레시 토큰이 아닙니다.", null));
                 }
-
                 String token = jwTutil.createAccessToken(jwTutil.getUserId(refreshToken), jwTutil.getRole(refreshToken));
                 return ResponseEntity.ok()
                         .header("Authorization", "Bearer " + token)

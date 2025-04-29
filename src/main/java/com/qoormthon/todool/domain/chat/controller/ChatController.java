@@ -34,8 +34,8 @@ public class ChatController {
     @SendTo("/sub/chat.{matchingId}")
     public MessageRequestDto sendMessage(MessageRequestDto requestDto, @DestinationVariable String matchingId) {
         ChatDto chatDto = new ChatDto();
-        chatDto.setSenderStdNo(requestDto.getSenderStdNo());
-        chatDto.setReceiverStdNo(requestDto.getReceiverStdNo());
+        chatDto.setSenderUserId(requestDto.getSenderUserId());
+        chatDto.setReceiverUserId(requestDto.getReceiverUserId());
         chatDto.setMessage(requestDto.getMessage());
         chatDto.setMatchingId(matchingId);
         chatDto.setDate(baseUtil.getTodayAndTime());

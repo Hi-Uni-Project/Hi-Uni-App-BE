@@ -8,6 +8,9 @@ import lombok.Setter;
 @Setter
 public class MailSendDto {
 
+    @Schema(example = "tempId")
+    private String userId;
+
     @Schema(example = "20211476")
     private String stdNo;
 

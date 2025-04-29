@@ -27,7 +27,8 @@ public class JWTutil {
     }
 
     public String getRole(String token){
-        return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().get("roles", String.class);
+        String role = Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().get("roles", String.class).substring(5);
+        return role;
     }
 
     public Date getCurrentDate() {
@@ -42,7 +43,7 @@ public class JWTutil {
         return new Date(getCurrentDate().getTime() + refreshExpiredms);
     }
 
-    public Boolean isExpired(String token){
+    public boolean isExpired(String token){
         return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().getExpiration().before(new Date());
     }
 

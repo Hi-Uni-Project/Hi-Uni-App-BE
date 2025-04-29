@@ -39,11 +39,11 @@ public class UserService {
 
     public ResponseEntity<?> login(UserLoginDto userLoginDto) {
         try {
-            if(userRepository.existsByStdNo(userLoginDto.getStdNo())) {
-                UserEntity userEntity = userRepository.findByStdNo(userLoginDto.getStdNo());
+            if(userRepository.existsByUserId(userLoginDto.getUserId())) {
+                UserEntity userEntity = userRepository.findByUserId(userLoginDto.getUserId());
                 if(hash.matches(userLoginDto.getPassword(), userEntity.getPassword())) {
-                    String accessToken = jwTutil.createAccessToken(userLoginDto.getStdNo(), "USER");
-                    String refreshToken = jwTutil.createRefreshToken(userLoginDto.getStdNo(), "USER");
+                    String accessToken = jwTutil.createAccessToken(userLoginDto.getUserId(), "USER");
+                    String refreshToken = jwTutil.createRefreshToken(userLoginDto.getUserId(), "USER");
 
                     ResponseCookie responseCookie = ResponseCookie.from("refreshToken", refreshToken)
                             .httpOnly(true)
@@ -59,21 +59,21 @@ public class UserService {
                             .header("Authorization", "Bearer " + accessToken)
                             .header(HttpHeaders.SET_COOKIE, responseCookie.toString())
                             .body(ResponseDto
-                                    .response(HttpStatus.OK, "로그인에 성공하였습니다.", userLoginDto.getStdNo()));
+                                    .response(HttpStatus.OK, "로그인에 성공하였습니다.", userLoginDto.getUserId()));
                 } else {
                     return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                             .body(ResponseDto
-                                    .response(HttpStatus.UNAUTHORIZED, "비밀번호가 일치하지 않습니다.", userLoginDto.getStdNo()));
+                                    .response(HttpStatus.UNAUTHORIZED, "비밀번호가 일치하지 않습니다.", userLoginDto.getUserId()));
                 }
 
             } else {
                 return ResponseEntity.badRequest()
                         .body(ResponseDto
-                                .response(HttpStatus.BAD_REQUEST, "존재하지 않는 유저입니다", userLoginDto.getStdNo()));
+                                .response(HttpStatus.BAD_REQUEST, "존재하지 않는 유저입니다", userLoginDto.getUserId()));
             }
         } catch (Exception e) {
             return ResponseEntity.internalServerError()
-                    .body(ResponseDto.response(HttpStatus.INTERNAL_SERVER_ERROR, "알 수 없는 오류입니다.", userLoginDto.getStdNo()));
+                    .body(ResponseDto.response(HttpStatus.INTERNAL_SERVER_ERROR, "알 수 없는 오류입니다.", userLoginDto.getUserId()));
         }
     }
 
@@ -101,7 +101,7 @@ public class UserService {
                 userDto.setImageUrl(null);
             }
 
-            if(userRepository.existsByStdNo(userDto.getStdNo())){ //이미 존재하는 유저..
+            if(userRepository.existsByUserId(userDto.getUserId())){ //이미 존재하는 유저..
                 return ResponseEntity.badRequest()
                         .body(ResponseDto
                                 .response(HttpStatus.BAD_REQUEST, "이미 존재하는 유저입니다", userDto.getStdNo()));

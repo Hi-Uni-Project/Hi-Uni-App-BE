@@ -4,12 +4,17 @@ package com.qoormthon.todool.domain.user.dto;
 import com.qoormthon.todool.domain.user.entity.UserEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
+import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
 public class UserDto {
+
+    @Schema(example = "tempId")
+    private String userId; //아이디 pk
+
     @Schema(example = "20251444")
     private String stdNo; //학번 pk
 
@@ -37,6 +42,7 @@ public class UserDto {
     public UserEntity toEntity() {
         UserEntity userEntity = new UserEntity();
         return UserEntity.builder()
+                .userId(this.userId)
                 .stdNo(this.stdNo)
                 .password(this.password)
                 .nickName(this.nickName)

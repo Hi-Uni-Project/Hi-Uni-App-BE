@@ -63,9 +63,9 @@ public class ChatRestController {
                     )
             )
     )
-    @GetMapping("/matching/status/{stdNo}")
-    public ResponseEntity<?> chatMatchingStatus(@PathVariable String stdNo) {
-        return chatService.chatMatchingStatus(stdNo);
+    @GetMapping("/matching/status/{userId}")
+    public ResponseEntity<?> chatMatchingStatus(@PathVariable String userId) {
+        return chatService.chatMatchingStatus(userId);
     }
 
     @ApiResponse(
@@ -88,8 +88,8 @@ public class ChatRestController {
     @Operation(summary = "매칭 취소 및 채팅 나가기 api 입니다", description = "매칭중에 취소하거나 또는 채팅방에서 나갈때 호출되는 api 입니다. " +
             "채팅도중 해당 api를 호출하면 매칭 성공 리스트에서 제외되며 채팅방에서 나가게 됩니다. " +
             "이때 서버측에서는 웹소켓을 통해 나와 상대에게 연결 종료를 지시하게 되며 프론트엔드에서 연결 종료 시키면 될 것 같습니다")
-    @GetMapping("/matching/cancel/{stdNo}")
-    public ResponseEntity<?> cancelMatching(@PathVariable String stdNo) {
-        return chatService.cancelMatching(stdNo);
+    @GetMapping("/matching/cancel/{userId}")
+    public ResponseEntity<?> cancelMatching(@PathVariable String userId) {
+        return chatService.cancelMatching(userId);
     }
 }

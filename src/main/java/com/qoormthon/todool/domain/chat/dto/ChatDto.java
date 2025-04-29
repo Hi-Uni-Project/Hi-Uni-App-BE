@@ -9,8 +9,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ChatDto {
-    private String senderStdNo;
-    private String receiverStdNo;
+    private String senderUserId;
+    private String receiverUserId;
     private String message;
 
     @Schema(hidden = true)
@@ -22,8 +22,8 @@ public class ChatDto {
     public ChatEntity toEntity() {
         ChatEntity chatEntity = new ChatEntity();
         return chatEntity.builder()
-                .senderStdNo(this.senderStdNo)
-                .receiverStdNo(this.receiverStdNo)
+                .senderUserId(this.senderUserId)
+                .receiverUserId(this.receiverUserId)
                 .message(this.message)
                 .matchingId(this.matchingId)
                 .date(this.date)

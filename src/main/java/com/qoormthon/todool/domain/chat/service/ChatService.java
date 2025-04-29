@@ -62,7 +62,7 @@ public class ChatService {
     }
 
     public void registerToMatchingList(ChatUserDto userDto) throws Exception {
-            if(!userRepository.existsByStdNo(userDto.getStdNo())) { //등록되지 않은 학번
+            if(!userRepository.existsByUserId(userDto.getUserId())) { //등록되지 않은 학번
                 throw new Exception("등록되지 않은 학번입니다.");
             } else {
                 for(ChatUserDto chatUserDto : this.matchWaitingList) {
@@ -100,12 +100,12 @@ public class ChatService {
         }
     }
 
-    public ResponseEntity<?> chatMatchingStatus(String stdNo) {
+    public ResponseEntity<?> chatMatchingStatus(String userId) {
 
         try {
-            if(userRepository.existsByStdNo(stdNo)){
+            if(userRepository.existsByUserId(userId)){
                 for(MatchingDto matchingDto : this.matchingSuccessList) {
-                    if(matchingDto.getFirstUser().getStdNo().equals(stdNo) || matchingDto.getSecondUser().getStdNo().equals(stdNo)){
+                    if(matchingDto.getFirstUser().getUserId().equals(userId) || matchingDto.getSecondUser().getUserId().equals(userId)) {
                         return ResponseEntity
                                 .ok()
                                 .body(ChatResponseDto
@@ -114,40 +114,40 @@ public class ChatService {
                 }
 
                 for(ChatUserDto userDto : this.matchWaitingList) {
-                    if(userDto.getStdNo().equals(stdNo)){
+                    if(userDto.getUserId().equals(userId)) {
                         return ResponseEntity
                                 .ok()
                                 .body(ChatResponseDto
-                                        .response(HttpStatus.OK, "매칭중", false, stdNo));
+                                        .response(HttpStatus.OK, "매칭중", false, userId));
                     }
                 }
 
                 return ResponseEntity
                         .ok()
                         .body(ChatResponseDto
-                                .response(HttpStatus.OK, "매칭 대기중", false, stdNo));
+                                .response(HttpStatus.OK, "매칭 대기중", false, userId));
 
             } else {
                 return ResponseEntity
                         .badRequest()
                         .body(ResponseDto
-                                .response(HttpStatus.BAD_REQUEST, "등록되지 않은 학번입니다.", stdNo));
+                                .response(HttpStatus.BAD_REQUEST, "등록되지 않은 학번입니다.", userId));
             }
         } catch (Exception e) {
             log.error(e.getMessage());
             return ResponseEntity
                     .internalServerError()
                     .body(ResponseDto
-                    .response(HttpStatus.INTERNAL_SERVER_ERROR, "조회중 오류가 발생하였습니다.", stdNo));
+                    .response(HttpStatus.INTERNAL_SERVER_ERROR, "조회중 오류가 발생하였습니다.", userId));
         }
     }
 
-    public ResponseEntity<?> cancelMatching(String stdNo){
+    public ResponseEntity<?> cancelMatching(String userId){
         try{
-            if(userRepository.existsByStdNo(stdNo)) {
-                this.disconnectClientsFromTopic(this.findMatchingId(stdNo));
+            if(userRepository.existsByUserId(userId)) {
+                this.disconnectClientsFromTopic(this.findMatchingId(userId));
                 for(ChatUserDto chatUserDto : this.matchWaitingList) { //매칭 대기 리스트에서 제거
-                    if(chatUserDto.getStdNo().equals(stdNo)) {
+                    if(chatUserDto.getUserId().equals(userId)) {
                         this.matchWaitingList.remove(chatUserDto);
                         break;
                     }
@@ -155,25 +155,25 @@ public class ChatService {
                 return ResponseEntity
                         .ok()
                         .body(ResponseDto
-                                .response(HttpStatus.OK, "매칭 취소되었습니다.", stdNo));
+                                .response(HttpStatus.OK, "매칭 취소되었습니다.", userId));
             } else {
                 return ResponseEntity
                         .badRequest()
                         .body(ResponseDto
-                                .response(HttpStatus.BAD_REQUEST, "등록되지 않은 학번입니다.", stdNo));
+                                .response(HttpStatus.BAD_REQUEST, "등록되지 않은 학번입니다.", userId));
             }
         } catch (Exception e) {
             log.error(e.getMessage());
             return ResponseEntity
                     .internalServerError()
                     .body(ResponseDto
-                            .response(HttpStatus.INTERNAL_SERVER_ERROR, "오류가 발생하였습니다.", stdNo));
+                            .response(HttpStatus.INTERNAL_SERVER_ERROR, "오류가 발생하였습니다.", userId));
         }
     }
 
-    public String findMatchingId(String stdNo) {
+    public String findMatchingId(String userId) {
         for(MatchingDto matchingDto : this.matchingSuccessList) {
-            if(matchingDto.getFirstUser().getStdNo().equals(stdNo) || matchingDto.getSecondUser().getStdNo().equals(stdNo)) {
+            if(matchingDto.getFirstUser().getUserId().equals(userId) || matchingDto.getSecondUser().getUserId().equals(userId)) {
                 return matchingDto.getMatchingId();
             }
         }

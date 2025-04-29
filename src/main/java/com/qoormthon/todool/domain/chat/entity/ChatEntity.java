@@ -16,10 +16,10 @@ public class ChatEntity {
     private Long chatId;
 
     @Column(length = 255)
-    private String senderStdNo;
+    private String senderUserId;
 
     @Column(length = 255)
-    private String receiverStdNo;
+    private String receiverUserId;
 
     @Column(length = 1000)
     private String message;

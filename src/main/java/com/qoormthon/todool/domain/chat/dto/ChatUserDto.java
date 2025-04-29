@@ -9,6 +9,9 @@ import lombok.Setter;
 @Setter
 public class ChatUserDto {
 
+    @Schema(example = "tempId")
+    private String userId; //아이디 pk
+
     @Schema(example = "20251444")
     private String stdNo; //학번 pk
 

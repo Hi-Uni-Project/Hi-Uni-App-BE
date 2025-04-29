@@ -17,6 +17,9 @@ public class UserEntity {
 
     @Id
     @Column(length = 255)
+    private String userId; //아이디 pk
+
+    @Column(length = 255)
     private String stdNo; //학번 pk
 
     @Column(length = 255)

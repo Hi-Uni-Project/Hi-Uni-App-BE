@@ -52,18 +52,18 @@ public class MailUtil {
         this.mailAuthenticationDtoList.add(mailAuthenticationDto);
     }
 
-    public void deleteMailAuthenticationList(String stdNo) {
+    public void deleteMailAuthenticationList(String userId) {
         for(MailAuthenticationDto mailAuthenticationDto : this.mailAuthenticationDtoList) {
-            if(mailAuthenticationDto.getStdNo().equals(stdNo)){
+            if(mailAuthenticationDto.getStdNo().equals(userId)){
                 this.mailAuthenticationDtoList.remove(mailAuthenticationDto);
                 break;
             }
         }
     }
 
-    public String getUserAuthenticationCode(String stdNo) {
+    public String getUserAuthenticationCode(String userId) {
         for(MailAuthenticationDto mailAuthenticationDto : this.mailAuthenticationDtoList) {
-            if(mailAuthenticationDto.getStdNo().equals(stdNo)){
+            if(mailAuthenticationDto.getUserId().equals(userId)){
                 return mailAuthenticationDto.getAuthenticationCode();
             }
         }

@@ -40,19 +40,20 @@ public class MailService {
     public ResponseEntity<?> sendMailAuthenticationCode(MailSendDto mailSendDto) {
         try {
 
-            if(!userRepository.existsByStdNo(mailSendDto.getStdNo())) {
+            if(!userRepository.existsByUserId(mailSendDto.getUserId())) {
                 return ResponseEntity
                         .badRequest()
                         .body(ResponseDto
-                                .response(HttpStatus.BAD_REQUEST, "등록되지 않은 학번입니다.", mailSendDto.getStdNo()));
+                                .response(HttpStatus.BAD_REQUEST, "등록되지 않은 학번입니다.", mailSendDto.getUserId()));
             }
 
 
             MailAuthenticationDto mailAuthenticationDto = new MailAuthenticationDto();
+            mailAuthenticationDto.setUserId(mailSendDto.getUserId());
             mailAuthenticationDto.setStdNo(mailSendDto.getStdNo());
             mailAuthenticationDto.setAuthenticationCode(baseUtil.getCode());
 
-            mailUtil.deleteMailAuthenticationList(mailSendDto.getStdNo());
+            mailUtil.deleteMailAuthenticationList(mailSendDto.getUserId());
             mailUtil.addMailAuthenticationList(mailAuthenticationDto);
 
             if(mailSendDto.getUnivName().equals("대진대학교")){
