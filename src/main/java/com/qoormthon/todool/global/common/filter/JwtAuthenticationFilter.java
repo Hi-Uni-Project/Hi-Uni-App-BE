@@ -2,6 +2,7 @@ package com.qoormthon.todool.global.common.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.qoormthon.todool.global.common.response.ResponseDto;
+import com.qoormthon.todool.global.common.util.BaseUtil;
 import com.qoormthon.todool.global.common.util.JWTutil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -32,13 +33,12 @@ import java.util.List;
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-    @Autowired
-    private ApplicationContext applicationContext;
-
     private JWTutil jwTutil;
+    private BaseUtil baseUtil;
 
-    public JwtAuthenticationFilter(JWTutil jwTutil) {
+    public JwtAuthenticationFilter(JWTutil jwTutil, BaseUtil baseUtil) {
         this.jwTutil = jwTutil;
+        this.baseUtil = baseUtil;
     }
 
     private void handleAuthenticationError(HttpServletResponse response) throws IOException {
@@ -53,7 +53,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
 
-            log.info(request.getMethod() + ":" + request.getRequestURI() + " 요청이 들어왔습니다.");
+            log.info("[" + baseUtil.getClientIpv4(request) + "]" + request.getMethod() + ":" + request.getRequestURI() + " 요청이 들어왔습니다.");
 
             String token = jwTutil.extractToken(request);
 

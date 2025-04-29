@@ -2,6 +2,7 @@ package com.qoormthon.todool.global.config;
 
 import com.qoormthon.todool.global.common.filter.JwtAuthenticationFilter;
 import com.qoormthon.todool.global.common.security.CustomAccessDeniedHandler;
+import com.qoormthon.todool.global.common.util.BaseUtil;
 import com.qoormthon.todool.global.common.util.JWTutil;
 import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +42,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http, JWTutil jwTutil) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, JWTutil jwTutil, BaseUtil baseUtil) throws Exception {
         http
                 .exceptionHandling(exception -> exception
                         .accessDeniedHandler(accessDeniedHandler)); //인가 예외처리
@@ -72,7 +73,7 @@ public class SecurityConfig {
                                 "/chat/matching/cancel/**"
                         ).hasAnyRole("USER", "ADMIN")
                         .anyRequest().hasRole("ADMIN"))
-                .addFilterBefore(new JwtAuthenticationFilter(jwTutil), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(new JwtAuthenticationFilter(jwTutil, baseUtil), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 

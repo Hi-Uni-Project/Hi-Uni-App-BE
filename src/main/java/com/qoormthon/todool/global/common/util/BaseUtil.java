@@ -1,5 +1,6 @@
 package com.qoormthon.todool.global.common.util;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
@@ -37,6 +38,33 @@ public class BaseUtil {
 
     public String getUUID() {
         return UUID.randomUUID().toString();
+    }
+
+    public String getClientIpv4(HttpServletRequest request) {
+        String[] headerNames = {
+                "X-Forwarded-For",
+                "Proxy-Client-IP",
+                "WL-Proxy-Client-IP",
+                "HTTP_CLIENT_IP",
+                "HTTP_X_FORWARDED_FOR"
+        };
+
+        String ip = null;
+        for (String headerName : headerNames) {
+            ip = request.getHeader(headerName);
+            if (ip != null && !ip.isEmpty() && !"unknown".equalsIgnoreCase(ip)) {
+                // 쉼표로 구분된 경우 첫 번째 IP 사용
+                ip = ip.split(",")[0].trim();
+                break;
+            }
+        }
+        if (ip == null || ip.isEmpty()) {
+            ip = request.getRemoteAddr();
+        }
+        if (ip != null && ip.matches("^(?:[0-9]{1,3}\\.){3}[0-9]{1,3}$")) {
+            return ip;
+        }
+        return "127.0.0.1";
     }
 
 }
