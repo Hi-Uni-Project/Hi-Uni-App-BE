@@ -27,7 +27,7 @@ public class JWTutil {
     }
 
     public String getRole(String token){
-        String role = Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().get("roles", String.class).substring(5);
+        String role = Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().get("roles", String.class);
         return role;
     }
 

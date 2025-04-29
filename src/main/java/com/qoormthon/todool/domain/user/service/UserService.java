@@ -6,6 +6,7 @@ import com.qoormthon.todool.domain.user.entity.UserEntity;
 import com.qoormthon.todool.domain.user.repository.UserRepository;
 import com.qoormthon.todool.global.common.response.ResponseDto;
 import com.qoormthon.todool.global.common.util.JWTutil;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -120,6 +121,38 @@ public class UserService {
         }
 
 
+    }
+
+    public ResponseEntity<?> searchUserInfo(String userId, HttpServletRequest request) {
+        try {
+            if(userId.isEmpty() || userId == null) {
+                return ResponseEntity.badRequest()
+                        .body(ResponseDto
+                                .response(HttpStatus.BAD_REQUEST, "유저 아이디를 입력해주세요", userId));
+            }
+
+            if(!jwTutil.getUserId(jwTutil.extractToken(request)).equals(userId)){
+                return ResponseEntity.badRequest()
+                        .body(ResponseDto
+                                .response(HttpStatus.BAD_REQUEST, "본인만 조회할 수 있습니다.", userId));
+            }
+
+            if(!userRepository.existsByUserId(userId)) {
+                return ResponseEntity.badRequest()
+                        .body(ResponseDto
+                                .response(HttpStatus.BAD_REQUEST, "존재하지 않는 유저입니다", userId));
+            } else {
+                UserEntity userEntity = userRepository.findByUserId(userId);
+                return ResponseEntity.ok()
+                        .body(ResponseDto
+                                .response(HttpStatus.OK, "조회 성공", userEntity));
+            }
+        } catch (Exception e) {
+            log.error("err : " + e.getMessage());
+            return ResponseEntity.internalServerError()
+                    .body(ResponseDto
+                            .response(HttpStatus.INTERNAL_SERVER_ERROR, "알 수 없는 오류입니다.", userId));
+        }
     }
 
 }

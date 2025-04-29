@@ -5,6 +5,7 @@ import com.qoormthon.todool.domain.user.dto.UserLoginDto;
 import com.qoormthon.todool.domain.user.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +33,12 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody UserLoginDto userLoginDto){
         return userService.login(userLoginDto);
+    }
+
+    @Operation(summary = "유저정보 조회 api", description = "유저 아이디로 유저 정보를 조회합니다.")
+    @GetMapping("/find/{userId}")
+    public ResponseEntity<?> searchUserInfo(@PathVariable String userId, HttpServletRequest request) {
+        return userService.searchUserInfo(userId, request);
     }
 
 }

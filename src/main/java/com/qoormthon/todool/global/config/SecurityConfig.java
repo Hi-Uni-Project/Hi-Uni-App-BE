@@ -65,12 +65,14 @@ public class SecurityConfig {
                                 "/univ/find/major/**",
                                 "/univ/find/all",
                                 "/mail/valid",
-                                "/mail/send"
+                                "/mail/send",
+                                "/chat-connect/**"
                         ).permitAll()
                         .requestMatchers(
                                 "/chat/matching",
                                 "/chat/matching/status/**",
-                                "/chat/matching/cancel/**"
+                                "/chat/matching/cancel/**",
+                                "/user/find/**"
                         ).hasAnyRole("USER", "ADMIN")
                         .anyRequest().hasRole("ADMIN"))
                 .addFilterBefore(new JwtAuthenticationFilter(jwTutil, baseUtil), UsernamePasswordAuthenticationFilter.class);

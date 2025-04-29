@@ -33,6 +33,7 @@ public class ChatController {
     @MessageMapping("/chat.{matchingId}") // "/pub/chat"
     @SendTo("/sub/chat.{matchingId}")
     public MessageRequestDto sendMessage(MessageRequestDto requestDto, @DestinationVariable String matchingId) {
+        System.out.println("sendMessage 메서드 호출");
         ChatDto chatDto = new ChatDto();
         chatDto.setSenderUserId(requestDto.getSenderUserId());
         chatDto.setReceiverUserId(requestDto.getReceiverUserId());

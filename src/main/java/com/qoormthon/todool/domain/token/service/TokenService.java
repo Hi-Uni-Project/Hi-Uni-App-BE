@@ -30,7 +30,7 @@ public class TokenService {
                     return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                             .body(ResponseDto.response(HttpStatus.UNAUTHORIZED, "리프레시 토큰이 아닙니다.", null));
                 }
-                String token = jwTutil.createAccessToken(jwTutil.getUserId(refreshToken), jwTutil.getRole(refreshToken));
+                String token = jwTutil.createAccessToken(jwTutil.getUserId(refreshToken), jwTutil.getRole(refreshToken).substring(5));
                 return ResponseEntity.ok()
                         .header("Authorization", "Bearer " + token)
                         .body(ResponseDto.response(HttpStatus.OK, "토큰이 갱신되었습니다.", null));

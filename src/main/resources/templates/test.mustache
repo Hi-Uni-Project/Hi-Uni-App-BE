@@ -8,21 +8,21 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            max-width: 800px;
+            max-width: 500px;
             margin: 0 auto;
             padding: 20px;
         }
 
         .container {
             border: 1px solid #ccc;
-            border-radius: 5px;
+            border-radius: 8px;
             padding: 20px;
             margin-bottom: 20px;
         }
 
-        h1 {
+        h2 {
             text-align: center;
-            color: #333;
+            margin-bottom: 20px;
         }
 
         .form-group {
@@ -35,7 +35,7 @@
             font-weight: bold;
         }
 
-        input, select {
+        input {
             width: 100%;
             padding: 8px;
             border: 1px solid #ddd;
@@ -46,11 +46,10 @@
         button {
             background-color: #4CAF50;
             color: white;
-            padding: 10px 15px;
+            padding: 10px;
             border: none;
             border-radius: 4px;
             cursor: pointer;
-            font-size: 16px;
             width: 100%;
         }
 
@@ -60,34 +59,15 @@
 
         button:disabled {
             background-color: #cccccc;
-            cursor: not-allowed;
-        }
-
-        .button-container {
-            display: flex;
-            gap: 10px;
-            margin-top: 10px;
         }
 
         .cancel-button {
             background-color: #f44336;
         }
 
-        .cancel-button:hover {
-            background-color: #d32f2f;
-        }
-
-        .leave-button {
-            background-color: #ff9800;
-        }
-
-        .leave-button:hover {
-            background-color: #f57c00;
-        }
-
-        #matching-status {
-            margin-top: 20px;
-            padding: 10px;
+        .status {
+            margin-top: 10px;
+            padding: 8px;
             border-radius: 4px;
             text-align: center;
         }
@@ -109,10 +89,8 @@
 
         #chat-container {
             display: none;
-            margin-top: 20px;
             border: 1px solid #ddd;
             border-radius: 5px;
-            overflow: hidden;
         }
 
         .chat-header {
@@ -121,11 +99,6 @@
             border-bottom: 1px solid #ddd;
             display: flex;
             justify-content: space-between;
-            align-items: center;
-        }
-
-        .chat-header-content {
-            flex-grow: 1;
         }
 
         .chat-messages {
@@ -148,40 +121,24 @@
 
         .chat-input button {
             width: auto;
-            border-radius: 0;
         }
 
         .message {
             margin-bottom: 10px;
-            padding: 8px 12px;
+            padding: 8px;
             border-radius: 10px;
             max-width: 70%;
-            word-wrap: break-word;
         }
 
         .message-received {
             background-color: #e9e9eb;
-            align-self: flex-start;
             margin-right: auto;
         }
 
         .message-sent {
             background-color: #dcf8c6;
-            align-self: flex-end;
             margin-left: auto;
             text-align: right;
-        }
-
-        .message-container {
-            display: flex;
-            flex-direction: column;
-            margin-bottom: 5px;
-        }
-
-        .message-info {
-            font-size: 12px;
-            color: #777;
-            margin-bottom: 2px;
         }
 
         .system-message {
@@ -193,62 +150,35 @@
     </style>
 </head>
 <body>
-<div id="user-info-container" class="container">
-    <h2>사용자 정보 입력</h2>
+<div id="login-container" class="container">
+    <h2>로그인</h2>
     <div class="form-group">
-        <label for="stdNo">학번</label>
-        <input type="text" id="stdNo" value="20211444" required>
-    </div>
-    <div class="form-group">
-        <label for="nickName">닉네임</label>
-        <input type="text" id="nickName" value="홍길동" required>
+        <label for="userId">아이디</label>
+        <input type="text" id="userId" placeholder="아이디를 입력하세요">
     </div>
     <div class="form-group">
-        <label for="major">학과</label>
-        <input type="text" id="major" value="컴퓨터공학과" required>
+        <label for="password">비밀번호</label>
+        <input type="password" id="password" placeholder="비밀번호를 입력하세요">
     </div>
-    <div class="form-group">
-        <label for="gender">성별</label>
-        <select id="gender" required>
-            <option value="male">남성</option>
-            <option value="female">여성</option>
-        </select>
-    </div>
-    <div class="form-group">
-        <label for="mbti">MBTI</label>
-        <select id="mbti" required>
-            <option value="INTJ">INTJ</option>
-            <option value="INTP">INTP</option>
-            <option value="ENTJ">ENTJ</option>
-            <option value="ENTP">ENTP</option>
-            <option value="INFJ">INFJ</option>
-            <option value="INFP">INFP</option>
-            <option value="ENFJ">ENFJ</option>
-            <option value="ENFP">ENFP</option>
-            <option value="ISTJ">ISTJ</option>
-            <option value="ISFJ">ISFJ</option>
-            <option value="ESTJ">ESTJ</option>
-            <option value="ESFJ">ESFJ</option>
-            <option value="ISTP">ISTP</option>
-            <option value="ISFP">ISFP</option>
-            <option value="ESTP">ESTP</option>
-            <option value="ESFP">ESFP</option>
-        </select>
-    </div>
-    <div class="button-container">
-        <button id="start-matching-btn">랜덤 매칭 시작</button>
-        <button id="cancel-matching-btn" class="cancel-button" style="display: none;">매칭 취소</button>
-    </div>
-    <div id="matching-status"></div>
+    <button id="login-btn">로그인</button>
+    <div id="login-status" class="status"></div>
+</div>
+
+<div id="matching-container" class="container" style="display: none;">
+    <h2>랜덤 매칭</h2>
+    <div id="user-info"></div>
+    <button id="start-matching-btn">매칭 시작</button>
+    <button id="cancel-matching-btn" class="cancel-button" style="display: none;">매칭 취소</button>
+    <div id="matching-status" class="status"></div>
 </div>
 
 <div id="chat-container">
     <div class="chat-header">
-        <div class="chat-header-content">
+        <div>
             <h3>채팅방</h3>
             <div id="partner-info"></div>
         </div>
-        <button id="leave-chat-btn" class="leave-button">채팅방 나가기</button>
+        <button id="leave-chat-btn" class="cancel-button">나가기</button>
     </div>
     <div class="chat-messages" id="chat-messages"></div>
     <div class="chat-input">
@@ -264,311 +194,279 @@
     let matchingId = null;
     let stompClient = null;
     let statusCheckInterval = null;
+    let authToken = null;
 
-    // 요소들
-    const startMatchingBtn = document.getElementById('start-matching-btn');
-    const cancelMatchingBtn = document.getElementById('cancel-matching-btn');
-    const leaveChatBtn = document.getElementById('leave-chat-btn');
-    const matchingStatus = document.getElementById('matching-status');
+    // DOM 요소
+    const loginContainer = document.getElementById('login-container');
+    const matchingContainer = document.getElementById('matching-container');
     const chatContainer = document.getElementById('chat-container');
+    const userInfo = document.getElementById('user-info');
     const partnerInfo = document.getElementById('partner-info');
+    const loginStatus = document.getElementById('login-status');
+    const matchingStatus = document.getElementById('matching-status');
     const chatMessages = document.getElementById('chat-messages');
     const messageInput = document.getElementById('message-input');
-    const sendMessageBtn = document.getElementById('send-message-btn');
-    const userInfoContainer = document.getElementById('user-info-container');
 
-    // 매칭 시작 버튼 클릭 이벤트
-    startMatchingBtn.addEventListener('click', startMatching);
+    // 페이지 로드시 실행
+    document.addEventListener('DOMContentLoaded', function() {
+        // 로컬 스토리지에서 토큰 확인
+        authToken = localStorage.getItem('authToken');
+        const userId = localStorage.getItem('userId');
 
-    // 매칭 취소 버튼 클릭 이벤트
-    cancelMatchingBtn.addEventListener('click', cancelMatching);
-
-    // 채팅방 나가기 버튼 클릭 이벤트
-    leaveChatBtn.addEventListener('click', leaveChat);
-
-    // 메시지 전송 버튼 클릭 이벤트
-    sendMessageBtn.addEventListener('click', sendMessage);
-
-    // 엔터키로 메시지 전송
-    messageInput.addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-            sendMessage();
+        if (authToken && userId) {
+            fetchUserInfo(userId);
         }
+
+        // 이벤트 리스너 설정
+        document.getElementById('login-btn').addEventListener('click', login);
+        document.getElementById('start-matching-btn').addEventListener('click', startMatching);
+        document.getElementById('cancel-matching-btn').addEventListener('click', cancelMatching);
+        document.getElementById('leave-chat-btn').addEventListener('click', leaveChat);
+        document.getElementById('send-message-btn').addEventListener('click', sendMessage);
+        document.getElementById('message-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') sendMessage();
+        });
     });
 
-    // 매칭 시작 함수
-    function startMatching() {
-        // 사용자 정보 가져오기
-        const stdNo = document.getElementById('stdNo').value;
-        const nickName = document.getElementById('nickName').value;
-        const major = document.getElementById('major').value;
-        const gender = document.getElementById('gender').value;
-        const mbti = document.getElementById('mbti').value;
+    // 로그인 함수
+    function login() {
+        const userId = document.getElementById('userId').value;
+        const password = document.getElementById('password').value;
 
-        // 입력 검증
-        if (!stdNo || !nickName || !major) {
-            alert('모든 필드를 입력해주세요');
+        if (!userId || !password) {
+            loginStatus.textContent = '아이디와 비밀번호를 입력하세요';
+            loginStatus.className = 'status error';
             return;
         }
 
-        // 사용자 정보 저장
-        currentUser = {
-            stdNo: stdNo,
-            nickName: nickName,
-            major: major,
-            gender: gender,
-            mbti: mbti
-        };
+        fetch('http://localhost:8080/user/login', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({userId, password})
+        })
+        .then(response => {
+            // 헤더에서 토큰 추출
+            authToken = response.headers.get('authorization');
+            if (authToken) {
+                localStorage.setItem('authToken', authToken);
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.status === 'OK') {
+                localStorage.setItem('userId', data.data);
+                fetchUserInfo(data.data);
+            } else {
+                loginStatus.textContent = data.message || '로그인 실패';
+                loginStatus.className = 'status error';
+            }
+        })
+        .catch(error => {
+            loginStatus.textContent = '로그인 요청 실패';
+            loginStatus.className = 'status error';
+        });
+    }
 
-        // 버튼 상태 변경
-        startMatchingBtn.disabled = true;
-        cancelMatchingBtn.style.display = 'block';
-        matchingStatus.className = 'waiting';
+    // 사용자 정보 가져오기
+    function fetchUserInfo(userId) {
+        fetch(`http://localhost:8080/user/find/${userId}`, {
+            headers: {'Authorization': authToken}
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'OK') {
+                currentUser = data.data;
+                userInfo.innerHTML = `
+                    <p><strong>닉네임:</strong> ${currentUser.nickName}</p>
+                    <p><strong>학번:</strong> ${currentUser.stdNo}</p>
+                    <p><strong>학과:</strong> ${currentUser.major}</p>
+                `;
+
+                loginContainer.style.display = 'none';
+                matchingContainer.style.display = 'block';
+            } else {
+                alert('사용자 정보를 가져오는데 실패했습니다.');
+            }
+        });
+    }
+
+    // 매칭 시작
+    function startMatching() {
+        document.getElementById('start-matching-btn').disabled = true;
+        document.getElementById('cancel-matching-btn').style.display = 'block';
+        matchingStatus.className = 'status waiting';
         matchingStatus.textContent = '매칭 대기 중...';
 
-        // 매칭 요청 API 호출
+        const matchingData = {
+            userId: currentUser.userId,
+            stdNo: currentUser.stdNo,
+            nickName: currentUser.nickName,
+            univ: currentUser.univ,
+            major: currentUser.major,
+            gender: currentUser.gender,
+            mbti: currentUser.mbti
+        };
+
         fetch('http://localhost:8080/chat/matching', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': authToken
             },
-            body: JSON.stringify(currentUser)
+            body: JSON.stringify(matchingData)
         })
         .then(response => response.json())
         .then(data => {
-            console.log('매칭 요청 성공:', data);
-
-            // 매칭 상태 확인 시작
             statusCheckInterval = setInterval(checkMatchingStatus, 2000);
         })
-        .catch(error => {
-            console.error('매칭 요청 실패:', error);
-            matchingStatus.className = 'error';
-            matchingStatus.textContent = '매칭 요청에 실패했습니다. 다시 시도해주세요.';
-            startMatchingBtn.disabled = false;
-            cancelMatchingBtn.style.display = 'none';
+        .catch(() => {
+            matchingStatus.className = 'status error';
+            matchingStatus.textContent = '매칭 요청 실패';
+            document.getElementById('start-matching-btn').disabled = false;
+            document.getElementById('cancel-matching-btn').style.display = 'none';
         });
     }
 
-    // 매칭 취소 함수
+    // 매칭 취소
     function cancelMatching() {
-        // 매칭 취소 API 호출
-        fetch(`http://localhost:8080/chat/matching/cancel/${currentUser.stdNo}`, {
-            method: 'GET'
+        fetch(`http://localhost:8080/chat/matching/cancel/${currentUser.userId}`, {
+            headers: {'Authorization': authToken}
         })
         .then(response => response.json())
         .then(data => {
-            console.log('매칭 취소 성공:', data);
-
-            // 상태 체크 중지
-            if (statusCheckInterval) {
-                clearInterval(statusCheckInterval);
-                statusCheckInterval = null;
-            }
-
-            // UI 업데이트
+            clearInterval(statusCheckInterval);
             matchingStatus.className = '';
             matchingStatus.textContent = '';
-            startMatchingBtn.disabled = false;
-            cancelMatchingBtn.style.display = 'none';
-        })
-        .catch(error => {
-            console.error('매칭 취소 실패:', error);
-            alert('매칭 취소에 실패했습니다. 다시 시도해주세요.');
+            document.getElementById('start-matching-btn').disabled = false;
+            document.getElementById('cancel-matching-btn').style.display = 'none';
         });
     }
 
-    // 채팅방 나가기 함수
-    function leaveChat() {
-        if (confirm('정말로 채팅방을 나가시겠습니까?')) {
-            // 매칭 취소 API 호출 (채팅방 나가기도 동일한 API 사용)
-            fetch(`http://localhost:8080/chat/matching/cancel/${currentUser.stdNo}`, {
-                method: 'GET'
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log('채팅방 나가기 성공:', data);
-
-                // 웹소켓 연결 종료
-                if (stompClient && stompClient.connected) {
-                    stompClient.disconnect();
-                }
-
-                // UI 초기화
-                chatContainer.style.display = 'none';
-                userInfoContainer.style.display = 'block';
-                startMatchingBtn.disabled = false;
-                cancelMatchingBtn.style.display = 'none';
-                matchingStatus.className = '';
-                matchingStatus.textContent = '';
-                chatMessages.innerHTML = '';
-                messageInput.value = '';
-
-                // 매칭 상태 초기화
-                matchingId = null;
-                partnerUser = {};
-            })
-            .catch(error => {
-                console.error('채팅방 나가기 실패:', error);
-                alert('채팅방 나가기에 실패했습니다. 다시 시도해주세요.');
-            });
-        }
-    }
-
-    // 매칭 상태 확인 함수
+    // 매칭 상태 확인
     function checkMatchingStatus() {
-        fetch(`http://localhost:8080/chat/matching/status/${currentUser.stdNo}`)
+        fetch(`http://localhost:8080/chat/matching/status/${currentUser.userId}`, {
+            headers: {'Authorization': authToken}
+        })
         .then(response => response.json())
         .then(data => {
-            console.log('매칭 상태:', data);
+            console.log("매칭 상태 응답:", data); // 디버깅용 로그
 
-            if (data.isMatched) {
-                // 매칭 성공
+            // 매칭 성공 여부 확인 (API 응답에서 matched 속성 사용)
+            if (data.matched) {
                 clearInterval(statusCheckInterval);
-                statusCheckInterval = null;
-                matchingStatus.className = 'success';
-                matchingStatus.textContent = '매칭 성공! 채팅을 시작합니다.';
-                cancelMatchingBtn.style.display = 'none';
+                matchingStatus.className = 'status success';
+                matchingStatus.textContent = '매칭 성공!';
 
-                // 매칭 ID 저장
                 matchingId = data.data.matchingId;
 
-                // 상대방 정보 저장
-                if (data.data.firstUser.stdNo === currentUser.stdNo) {
+                if (data.data.firstUser.userId === currentUser.userId) {
                     partnerUser = data.data.secondUser;
                 } else {
                     partnerUser = data.data.firstUser;
                 }
 
-                // 채팅 UI 표시
-                showChatUI();
+                partnerInfo.textContent = `상대방: ${partnerUser.nickName} (${partnerUser.major})`;
+                matchingContainer.style.display = 'none';
+                chatContainer.style.display = 'block';
 
-                // 웹소켓 연결
+                const systemMessage = document.createElement('div');
+                systemMessage.className = 'system-message';
+                systemMessage.textContent = `${partnerUser.nickName}님과 연결되었습니다.`;
+                chatMessages.appendChild(systemMessage);
+
                 connectWebSocket();
             }
-        })
-        .catch(error => {
-            console.error('매칭 상태 확인 실패:', error);
         });
     }
 
-    // 채팅 UI 표시 함수
-    function showChatUI() {
-        // 상대방 정보 표시
-        partnerInfo.innerHTML = `상대방: ${partnerUser.nickName} (${partnerUser.major}, ${partnerUser.mbti})`;
+    // 채팅방 나가기
+    function leaveChat() {
+        fetch(`http://localhost:8080/chat/matching/cancel/${currentUser.userId}`, {
+            headers: {'Authorization': authToken}
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (stompClient) stompClient.disconnect();
 
-        // 채팅 컨테이너 표시
-        chatContainer.style.display = 'block';
-
-        // 사용자 정보 입력 숨기기
-        userInfoContainer.style.display = 'none';
-
-        // 시스템 메시지 표시
-        const systemMessage = document.createElement('div');
-        systemMessage.className = 'system-message';
-        systemMessage.textContent = `${partnerUser.nickName}님과 연결되었습니다. 대화를 시작하세요.`;
-        chatMessages.appendChild(systemMessage);
+            chatContainer.style.display = 'none';
+            matchingContainer.style.display = 'block';
+            document.getElementById('start-matching-btn').disabled = false;
+            document.getElementById('cancel-matching-btn').style.display = 'none';
+            matchingStatus.className = '';
+            matchingStatus.textContent = '';
+            chatMessages.innerHTML = '';
+            messageInput.value = '';
+            matchingId = null;
+        });
     }
 
-    // 웹소켓 연결 함수
+    // 웹소켓 연결
     function connectWebSocket() {
-        // SockJS와 STOMP 클라이언트 생성
         const socket = new SockJS('/chat-connect');
         stompClient = Stomp.over(socket);
 
-        // 연결
-        stompClient.connect({}, function(frame) {
-            console.log('웹소켓 연결 성공:', frame);
+        const headers = {};
+        if (authToken) {
+            headers['Authorization'] = authToken;
+        }
 
-            // 채팅 토픽 구독
+        stompClient.connect(headers, function(frame) {
             stompClient.subscribe(`/sub/chat.${matchingId}`, function(message) {
-                const receivedMessage = JSON.parse(message.body);
+                const received = JSON.parse(message.body);
 
-                // 서버에서 연결 종료 메시지인지 확인
-                if(receivedMessage.status === "OK" && receivedMessage.isMatched === false) {
-                    console.log('서버에서 연결 종료 요청:', receivedMessage);
-
-                    // 시스템 메시지로 표시
+                // 연결 종료 메시지 처리
+                if(received.status === "OK" && received.matched === false) {
                     const systemMessage = document.createElement('div');
                     systemMessage.className = 'system-message';
-                    systemMessage.textContent = receivedMessage.message || "채팅이 종료되었습니다.";
+                    systemMessage.textContent = received.message || "채팅이 종료되었습니다.";
                     chatMessages.appendChild(systemMessage);
 
-                    // 잠시 후 연결 종료 및 화면 초기화
                     setTimeout(() => {
-                        // 웹소켓 연결 종료
-                        if (stompClient) {
-                            stompClient.disconnect();
-                        }
-
-                        // UI 초기화
+                        if (stompClient) stompClient.disconnect();
                         chatContainer.style.display = 'none';
-                        userInfoContainer.style.display = 'block';
-                        startMatchingBtn.disabled = false;
-                        cancelMatchingBtn.style.display = 'none';
-                        matchingStatus.className = '';
+                        matchingContainer.style.display = 'block';
+                        document.getElementById('start-matching-btn').disabled = false;
                         matchingStatus.textContent = '';
-
-                        // 매칭 상태 초기화
-                        matchingId = null;
-                        partnerUser = {};
-                    }, 3000); // 3초 후 연결 종료
-
+                    }, 3000);
                     return;
                 }
 
-                // 일반 메시지 처리
-                displayMessage(receivedMessage);
+                // 일반 메시지 표시
+                displayMessage(received);
             });
-        }, function(error) {
-            console.error('웹소켓 연결 실패:', error);
-            alert('채팅 연결에 실패했습니다. 페이지를 새로고침 해주세요.');
         });
     }
 
-    // 메시지 전송 함수
+    // 메시지 전송
     function sendMessage() {
         const messageContent = messageInput.value.trim();
         if (messageContent && stompClient) {
             const chatMessage = {
-                senderStdNo: currentUser.stdNo,
-                receiverStdNo: partnerUser.stdNo,
+                senderUserId: currentUser.userId,
+                receiverUserId: partnerUser.userId,
                 message: messageContent,
                 date: new Date().toISOString()
             };
 
-            // 메시지 발송
             stompClient.send(`/pub/chat.${matchingId}`, {}, JSON.stringify(chatMessage));
-
-            // 입력 필드 초기화
             messageInput.value = '';
         }
     }
 
-    // 메시지 표시 함수
+    // 메시지 표시
     function displayMessage(message) {
-        const messageContainer = document.createElement('div');
-        messageContainer.className = 'message-container';
-
         const messageElement = document.createElement('div');
-        const isSentByMe = message.senderStdNo === currentUser.stdNo;
+        const isSentByMe = message.senderUserId === currentUser.userId;
 
         messageElement.className = `message ${isSentByMe ? 'message-sent' : 'message-received'}`;
-
-        const messageInfo = document.createElement('div');
-        messageInfo.className = 'message-info';
-        messageInfo.textContent = isSentByMe ? '나' : partnerUser.nickName;
-
-        const messageContent = document.createElement('div');
-        messageContent.textContent = message.message;
-
-        messageContainer.appendChild(messageInfo);
-        messageContainer.appendChild(messageContent);
-        messageElement.appendChild(messageContainer);
+        messageElement.innerHTML = `
+            <div>
+                <div style="font-size: 12px; color: #777;">${isSentByMe ? '나' : partnerUser.nickName}</div>
+                <div>${message.message}</div>
+            </div>
+        `;
 
         chatMessages.appendChild(messageElement);
-
-        // 스크롤을 가장 아래로 이동
         chatMessages.scrollTop = chatMessages.scrollHeight;
     }
 </script>
