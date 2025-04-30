@@ -143,6 +143,7 @@ public class UserService {
                                 .response(HttpStatus.BAD_REQUEST, "존재하지 않는 유저입니다", userId));
             } else {
                 UserEntity userEntity = userRepository.findByUserId(userId);
+                userEntity.setPassword(null);
                 return ResponseEntity.ok()
                         .body(ResponseDto
                                 .response(HttpStatus.OK, "조회 성공", userEntity));
