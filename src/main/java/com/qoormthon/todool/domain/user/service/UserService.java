@@ -38,6 +38,9 @@ public class UserService {
     @Autowired
     private BCryptPasswordEncoder hash;
 
+    @Autowired
+    private CheckUserService checkUserService;
+
     public ResponseEntity<?> login(UserLoginDto userLoginDto) {
         try {
             if(userRepository.existsByUserId(userLoginDto.getUserId())) {
@@ -102,10 +105,10 @@ public class UserService {
                 userDto.setImageUrl(null);
             }
 
-            if(userRepository.existsByUserId(userDto.getUserId())){ //이미 존재하는 유저..
+            if(!checkUserService.booleanCheckUserId(userDto.getUserId())){ //이미 존재하는 유저..
                 return ResponseEntity.badRequest()
                         .body(ResponseDto
-                                .response(HttpStatus.BAD_REQUEST, "이미 존재하는 유저입니다", userDto.getStdNo()));
+                                .response(HttpStatus.BAD_REQUEST, "유효하지 않은 id 입니다.", userDto.getStdNo()));
             } else {
                 userDto.setPassword(hash.encode(userDto.getPassword())); //비밀번호 해싱처리
                 userRepository.save(userDto.toEntity());

@@ -2,6 +2,7 @@ package com.qoormthon.todool.domain.user.controller;
 
 import com.qoormthon.todool.domain.user.dto.UserDto;
 import com.qoormthon.todool.domain.user.dto.UserLoginDto;
+import com.qoormthon.todool.domain.user.service.CheckUserService;
 import com.qoormthon.todool.domain.user.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -18,6 +19,9 @@ import org.springframework.web.multipart.MultipartFile;
 public class UserController {
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private CheckUserService checkUserService;
 
     @Operation(summary = "회원가입 api", description = "이미지는 선택사항 입니다.")
     @PostMapping(
@@ -39,6 +43,12 @@ public class UserController {
     @GetMapping("/find/{userId}")
     public ResponseEntity<?> searchUserInfo(@PathVariable String userId, HttpServletRequest request) {
         return userService.searchUserInfo(userId, request);
+    }
+
+    @Operation(summary = "유저 id 유효성 체크 api", description = "현재 유저 아이디가 사용 가능한지 체크합니다.")
+    @GetMapping("/check/{userId}")
+    public ResponseEntity<?> checkUserId(@PathVariable String userId) {
+        return checkUserService.checkUserId(userId);
     }
 
 }

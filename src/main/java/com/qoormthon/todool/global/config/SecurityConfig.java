@@ -59,6 +59,7 @@ public class SecurityConfig {
                                 "/test",
                                 "/user/login",
                                 "/user/signup",
+                                "/user/check/**",
                                 "/images/**",
                                 "/auth/refresh",
                                 "/univ/find/**",
