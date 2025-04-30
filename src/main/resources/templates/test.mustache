@@ -239,7 +239,7 @@
             return;
         }
 
-        fetch('http://localhost:8080/user/login', {
+        fetch('/user/login', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({userId, password})
@@ -269,7 +269,7 @@
 
     // 사용자 정보 가져오기
     function fetchUserInfo(userId) {
-        fetch(`http://localhost:8080/user/find/${userId}`, {
+        fetch(`/user/find/${userId}`, {
             headers: {'Authorization': authToken}
         })
         .then(response => response.json())
@@ -307,7 +307,7 @@
             mbti: currentUser.mbti
         };
 
-        fetch('http://localhost:8080/chat/matching', {
+        fetch('/chat/matching', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -329,7 +329,7 @@
 
     // 매칭 취소
     function cancelMatching() {
-        fetch(`http://localhost:8080/chat/matching/cancel/${currentUser.userId}`, {
+        fetch(`/chat/matching/cancel/${currentUser.userId}`, {
             headers: {'Authorization': authToken}
         })
         .then(response => response.json())
@@ -344,7 +344,7 @@
 
     // 매칭 상태 확인
     function checkMatchingStatus() {
-        fetch(`http://localhost:8080/chat/matching/status/${currentUser.userId}`, {
+        fetch(`/chat/matching/status/${currentUser.userId}`, {
             headers: {'Authorization': authToken}
         })
         .then(response => response.json())
@@ -381,7 +381,7 @@
 
     // 채팅방 나가기
     function leaveChat() {
-        fetch(`http://localhost:8080/chat/matching/cancel/${currentUser.userId}`, {
+        fetch(`/chat/matching/cancel/${currentUser.userId}`, {
             headers: {'Authorization': authToken}
         })
         .then(response => response.json())
