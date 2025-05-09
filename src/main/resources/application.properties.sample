@@ -32,5 +32,10 @@ jwt.expiration=86400000
 jwt.access.expiration=7200000
 jwt.refresh.expiration=604800000
 
+#인코딩
+server.servlet.encoding.charset=UTF-8
+server.servlet.encoding.force=true
+server.servlet.encoding.enabled=true
+
 
 
