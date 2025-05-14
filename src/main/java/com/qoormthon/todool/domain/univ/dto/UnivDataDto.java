@@ -1,5 +1,6 @@
 package com.qoormthon.todool.domain.univ.dto;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
@@ -17,11 +18,16 @@ public class UnivDataDto {
     @Getter
     @Setter
     public static class School {
-        private String 학교명;
-        @JsonProperty("학교 영문명")
-        private String 학교영문명;
-//        private String 본분교구분명;
-        private String 대학구분명;
+
+        @JsonAlias("학교명")
+        private String univName;
+
+        @JsonAlias("학교 영문명")
+        private String univNameEng;
+
+//
+        @JsonAlias("대학구분명")
+        private String univTypeName;
 //        private String 학교구분명;
 //        private String 설립형태구분명;
 //        private String 시도코드;
@@ -30,7 +36,8 @@ public class UnivDataDto {
 //        private String 소재지지번주소;
 //        private String 도로명우편번호;
 //        private String 소재지우편번호;
-        private String 홈페이지주소;
+        @JsonAlias("홈페이지주소")
+        private String websiteUrl;
 //        private String 대표전화번호;
 //        private String 대표팩스번호;
 //        private String 설립일자;

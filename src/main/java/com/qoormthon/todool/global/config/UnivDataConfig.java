@@ -33,7 +33,7 @@ public class UnivDataConfig {
             InputStream inputStream = resource.getInputStream();
             UnivDataDto univDataDto = objectMapper.readValue(inputStream, UnivDataDto.class);
             List<UnivDataDto.School> filter = univDataDto.getRecords().stream()
-                    .filter(school -> !"대학원".equals(school.get대학구분명()))
+                    .filter(school -> !"대학원".equals(school.getUnivTypeName()))
                     .toList();
             UnivDataDto filteredDto = new UnivDataDto();
             filteredDto.setRecords(filter);
@@ -51,7 +51,7 @@ public class UnivDataConfig {
             InputStream inputStream = resource.getInputStream();
             UnivMajorDataDto univMajorDataDto = objectMapper.readValue(inputStream, UnivMajorDataDto.class);
             List<UnivMajorDataDto.Major> filter = univMajorDataDto.getRecords().stream()
-                    .filter(major -> !major.get학교명().contains("대학원"))
+                    .filter(major -> !major.getUnivName().contains("대학원"))
                     .toList();
             UnivMajorDataDto filteredDto = new UnivMajorDataDto();
             filteredDto.setRecords(filter);

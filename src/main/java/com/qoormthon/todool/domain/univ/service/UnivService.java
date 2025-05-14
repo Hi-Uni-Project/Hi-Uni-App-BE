@@ -61,7 +61,7 @@ public class UnivService {
             }
 
             List<UnivDataDto.School> filter = univDataDto.getRecords().stream()
-                    .filter(school -> school.get학교영문명().contains(univName) || school.get학교명().contains(univName))
+                    .filter(school -> school.getUnivNameEng().contains(univName) || school.getUnivName().contains(univName))
                     .toList();
             UnivDataDto filteredDto = new UnivDataDto();
             filteredDto.setRecords(filter);
@@ -91,7 +91,7 @@ public class UnivService {
             }
 
             List<UnivMajorDataDto.Major> filter = univMajorDataDto.getRecords().stream()
-                    .filter(major -> major.get학교명().contains(univName))
+                    .filter(major -> major.getUnivName().contains(univName))
                     .toList();
             UnivMajorDataDto filteredDto = new UnivMajorDataDto();
             filteredDto.setRecords(filter);

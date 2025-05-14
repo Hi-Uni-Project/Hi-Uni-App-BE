@@ -1,5 +1,7 @@
 package com.qoormthon.todool.domain.univ.dto;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import java.util.List;
@@ -19,8 +21,14 @@ public class UnivMajorDataDto {
     @Getter
     @Setter
     public static class Major {
-        private String 학교명;
-        private String 학과명;
+        @JsonAlias("학교명")
+        private String univName;
+
+        @JsonAlias("학과명")
+        private String majorName;
+
+        @JsonAlias("단과대학명")
+        private String collegeName;
     }
 
 }
