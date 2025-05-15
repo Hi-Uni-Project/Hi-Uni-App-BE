@@ -60,10 +60,10 @@ public class UserService {
 
 
                     return ResponseEntity.ok()
-                            .header("Authorization", "Bearer " + accessToken)
+//                            .header("Authorization", "Bearer " + accessToken)
                             .header(HttpHeaders.SET_COOKIE, responseCookie.toString())
                             .body(ResponseDto
-                                    .response(HttpStatus.OK, "로그인에 성공하였습니다.", userLoginDto.getUserId()));
+                                    .response(HttpStatus.OK, "로그인에 성공하였습니다.", accessToken));
                 } else {
                     return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                             .body(ResponseDto
@@ -112,9 +112,24 @@ public class UserService {
             } else {
                 userDto.setPassword(hash.encode(userDto.getPassword())); //비밀번호 해싱처리
                 userRepository.save(userDto.toEntity());
+                //jwt 토큰 반환 로직
+                String accessToken = jwTutil.createAccessToken(userDto.getUserId(), "USER");
+                String refreshToken = jwTutil.createRefreshToken(userDto.getUserId(), "USER");
+
+                ResponseCookie responseCookie = ResponseCookie.from("refreshToken", refreshToken)
+                        .httpOnly(true)
+                        .secure(true)
+                        .sameSite("Strict")
+                        .path("/auth")
+                        .maxAge(Duration.ofDays(7))
+                        .build();
+
+
+
                 return ResponseEntity.ok()
+                        .header(HttpHeaders.SET_COOKIE, responseCookie.toString())
                         .body(ResponseDto
-                                .response(HttpStatus.OK, "회원가입에 성공하였습니다.", userDto.getStdNo()));
+                                .response(HttpStatus.OK, "회원가입에 성공하였습니다.", accessToken));
             }
         } catch (Exception e) {
             log.error("err : " + e.getMessage());
