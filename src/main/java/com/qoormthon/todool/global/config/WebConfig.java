@@ -11,7 +11,8 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addMapping("/**")
                 .allowedOrigins(
                         "http://localhost:8080",
-                        "http://localhost:3000"
+                        "http://localhost:3000",
+                        "https://hi-uni-web-fe.vercel.app"
                 )
                 .allowCredentials(true)
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
