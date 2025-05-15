@@ -110,6 +110,13 @@ public class UserService {
                         .body(ResponseDto
                                 .response(HttpStatus.BAD_REQUEST, "유효하지 않은 id 입니다.", userDto.getStdNo()));
             } else {
+
+                if(!checkUserService.booleanCheckUserPwd(userDto.getPassword())) {
+                    return ResponseEntity.badRequest()
+                            .body(ResponseDto
+                                    .response(HttpStatus.BAD_REQUEST, "유효하지 않은 패스워드 입니다.", userDto.getStdNo()));
+                }
+
                 userDto.setPassword(hash.encode(userDto.getPassword())); //비밀번호 해싱처리
                 userRepository.save(userDto.toEntity());
                 //jwt 토큰 반환 로직

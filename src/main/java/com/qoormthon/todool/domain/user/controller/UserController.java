@@ -46,9 +46,15 @@ public class UserController {
     }
 
     @Operation(summary = "유저 id 유효성 체크 api", description = "현재 유저 아이디가 사용 가능한지 체크합니다.")
-    @GetMapping("/check/{userId}")
+    @GetMapping("/check/id/{userId}")
     public ResponseEntity<?> checkUserId(@PathVariable String userId) {
         return checkUserService.checkUserId(userId);
+    }
+
+    @Operation(summary = "유저 pwd 유효성 체크 api", description = "현재 유저 패스워드가 사용 가능한지 체크합니다.")
+    @GetMapping("/check/pwd/{userPwd}")
+    public ResponseEntity<?> checkUserPwd(@PathVariable String userPwd) {
+        return checkUserService.checkUserPwd(userPwd);
     }
 
 }
