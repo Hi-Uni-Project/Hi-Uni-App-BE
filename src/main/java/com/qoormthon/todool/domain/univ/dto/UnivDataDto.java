@@ -22,8 +22,8 @@ public class UnivDataDto {
         @JsonAlias("학교명")
         private String univName;
 
-        @JsonAlias("학교 영문명")
-        private String univNameEng;
+//        @JsonAlias("학교 영문명")
+//        private String univNameEng;
 
 //
         @JsonAlias("대학구분명")

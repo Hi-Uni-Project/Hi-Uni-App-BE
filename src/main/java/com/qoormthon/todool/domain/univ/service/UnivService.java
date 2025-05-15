@@ -61,7 +61,7 @@ public class UnivService {
             }
 
             List<UnivDataDto.School> filter = univDataDto.getRecords().stream()
-                    .filter(school -> school.getUnivNameEng().contains(univName) || school.getUnivName().contains(univName))
+                    .filter(school -> school.getUnivName().contains(univName))
                     .toList();
             UnivDataDto filteredDto = new UnivDataDto();
             filteredDto.setRecords(filter);
