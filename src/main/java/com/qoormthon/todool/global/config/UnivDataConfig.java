@@ -11,7 +11,8 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 
 import java.io.InputStream;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 @Configuration
@@ -28,13 +29,18 @@ public class UnivDataConfig {
 
     @Bean
     public UnivDataDto loadUnivData(){
+
+        Map<String, UnivDataDto.School> uniqueSchools = new HashMap<>();
+
         try {
             Resource resource = resourceLoader.getResource("classpath:static/data/univdata.json");
             InputStream inputStream = resource.getInputStream();
             UnivDataDto univDataDto = objectMapper.readValue(inputStream, UnivDataDto.class);
-            List<UnivDataDto.School> filter = univDataDto.getRecords().stream()
+            univDataDto.getRecords().stream()
                     .filter(school -> !"대학원".equals(school.getUnivTypeName()))
-                    .toList();
+                    .forEach(school -> uniqueSchools.putIfAbsent(school.getUnivName(), school));
+
+            List<UnivDataDto.School> filter = new ArrayList<>(uniqueSchools.values());
             UnivDataDto filteredDto = new UnivDataDto();
             filteredDto.setRecords(filter);
             return filteredDto;
@@ -50,6 +56,7 @@ public class UnivDataConfig {
             Resource resource = resourceLoader.getResource("classpath:static/data/univMajorData.json");
             InputStream inputStream = resource.getInputStream();
             UnivMajorDataDto univMajorDataDto = objectMapper.readValue(inputStream, UnivMajorDataDto.class);
+
             List<UnivMajorDataDto.Major> filter = univMajorDataDto.getRecords().stream()
                     .filter(major -> !major.getUnivName().contains("대학원"))
                     .toList();
