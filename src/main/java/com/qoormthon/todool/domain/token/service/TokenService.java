@@ -1,7 +1,7 @@
 package com.qoormthon.todool.domain.token.service;
 
 import com.qoormthon.todool.global.common.response.ResponseDto;
-import com.qoormthon.todool.global.common.util.JWTutil;
+import com.qoormthon.todool.global.security.util.JWTutil;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -9,9 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
-import java.io.PrintWriter;
-import java.io.StringWriter;
 
 @Service
 @Slf4j

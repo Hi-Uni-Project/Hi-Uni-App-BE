@@ -2,8 +2,7 @@ package com.qoormthon.todool.domain.chat.service;
 
 import com.qoormthon.todool.domain.chat.dto.ChatUserDto;
 import com.qoormthon.todool.domain.chat.dto.MatchingDto;
-import com.qoormthon.todool.domain.user.dto.UserDto;
-import com.qoormthon.todool.domain.user.repository.UserRepository;
+import com.qoormthon.todool.domain.user.adapter.out.persistence.UserRepository;
 import com.qoormthon.todool.global.common.response.ChatResponseDto;
 import com.qoormthon.todool.global.common.response.ResponseDto;
 import com.qoormthon.todool.global.common.util.BaseUtil;

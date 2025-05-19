@@ -2,7 +2,6 @@ package com.qoormthon.todool.domain.chat.controller;
 
 import com.qoormthon.todool.domain.chat.dto.ChatUserDto;
 import com.qoormthon.todool.domain.chat.service.ChatService;
-import com.qoormthon.todool.domain.user.dto.UserDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;

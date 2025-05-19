@@ -2,7 +2,7 @@ package com.qoormthon.todool.domain.mail.service;
 
 import com.qoormthon.todool.domain.mail.dto.MailAuthenticationDto;
 import com.qoormthon.todool.domain.mail.dto.MailSendDto;
-import com.qoormthon.todool.domain.user.repository.UserRepository;
+import com.qoormthon.todool.domain.user.adapter.out.persistence.UserRepository;
 import com.qoormthon.todool.global.common.response.ResponseDto;
 import com.qoormthon.todool.global.common.util.BaseUtil;
 import com.qoormthon.todool.global.common.util.HtmlTemplateUtil;
@@ -11,15 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 @Slf4j
