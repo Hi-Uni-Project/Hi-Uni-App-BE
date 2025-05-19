@@ -34,20 +34,37 @@ public class UserCredentialsCheckApi {
 
 
 
-
     @ApiResponse(
-            responseCode = "400",
-            description = "정책에 어긋나는 아이디일 경우",
+            responseCode = "200",
+            description = "### ✅ 사용 가능한 아이디일 경우",
             content = @Content(
                     mediaType = "application/json",
                     schema = @Schema(
                             example = """
                                     {
-                                         "status": "BAD_REQUEST",
-                                         "message": "패스워드는 6자 이상 18자 이하로 입력해주세요.",
-                                         "data": false
-                                       }
+                                       "status": "OK",
+                                       "message": "사용 가능한 id 입니다.",
+                                       "data": true
+                                    }
                                     """
+
+                    )
+            )
+    )
+    @ApiResponse(
+            responseCode = "400",
+            description = "--- \n### ❌ 사용 불가능한 아이디일 경우",
+            content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(
+                            example = """
+                                    {
+                                           "status": "BAD_REQUEST",
+                                           "message": "영문 소문자만 가능합니다.",
+                                           "data": false
+                                    }
+                                    """
+
                     )
             )
     )
@@ -59,6 +76,41 @@ public class UserCredentialsCheckApi {
                 .body(ResponseDto.response(HttpStatus.OK, checkUserIdResponseDto.getMessage(), checkUserIdResponseDto.isValid()));
     }
 
+
+    @ApiResponse(
+            responseCode = "200",
+            description = "### ✅ 사용 가능한 비밀번호일 경우",
+            content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(
+                            example = """
+                                    {
+                                       "status": "OK",
+                                       "message": "사용 가능한 비밀번호 입니다.",
+                                       "data": true
+                                    }
+                                    """
+
+                    )
+            )
+    )
+    @ApiResponse(
+            responseCode = "400",
+            description = "--- \n### ❌ 사용 불가능한 비밀번호일 경우",
+            content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(
+                            example = """
+                                    {
+                                       "status": "BAD_REQUEST",
+                                       "message": "한글은 포함될 수 없습니다.",
+                                       "data": false
+                                    }
+                                    """
+
+                    )
+            )
+    )
     @Operation(summary = "유저 pwd 유효성 체크 api", description = "현재 유저 패스워드가 사용 가능한지 체크합니다.")
     @GetMapping("/check/pwd/{userPwd}")
     public ResponseEntity<?> checkUserPwd(@PathVariable String userPwd) {

@@ -122,6 +122,11 @@ public class CheckUserService implements CheckUserIdUseCase, CheckUserPwdUseCase
             throw new UserInvalidValueException("이모티콘은 사용할 수 없습니다.");
         }
 
+        // 7. 한글은 포함될 수 없음
+        if (userPwd.matches(".*[ㄱ-ㅎㅏ-ㅣ가-힣].*")) {
+            throw new UserInvalidValueException("한글은 포함될 수 없습니다.");
+        }
+
         //------------------------------------------------------------------
 
         return CheckUserPwdResponseDto.builder()
