@@ -4,17 +4,19 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @Builder
-public class UserFindResponseDto {
+public class FindUserResponseDto {
     private String userId;
     private String stdNo;
     private String nickName;
-    private String univ;
+    private String univName;
     private String firstMajor;
     private String secondMajor;
-    private String gender;
     private String mbti;
+    private List<Long> userInterests;
     private String imageUrl;
 }

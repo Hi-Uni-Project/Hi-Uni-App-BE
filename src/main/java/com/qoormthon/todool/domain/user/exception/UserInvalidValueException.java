@@ -1,7 +1,10 @@
 package com.qoormthon.todool.domain.user.exception;
 
-public class UserInvalidValueException extends RuntimeException {
-    public UserInvalidValueException(String message) {
-        super(message);
+import com.qoormthon.todool.global.error.exception.CustomException;
+import com.qoormthon.todool.global.error.exception.ErrorCode;
+
+public class UserInvalidValueException extends CustomException {
+    public UserInvalidValueException(ErrorCode errorCode) {
+        super(errorCode);
     }
 }

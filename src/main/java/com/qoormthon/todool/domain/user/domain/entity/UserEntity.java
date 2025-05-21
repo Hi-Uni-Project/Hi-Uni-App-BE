@@ -29,7 +29,7 @@ public class UserEntity {
     private String nickName; //닉네임
 
     @Column(length = 255)
-    private String univ;
+    private String univName;
 
     @Column(length = 255)
     private String firstMajor; //학과

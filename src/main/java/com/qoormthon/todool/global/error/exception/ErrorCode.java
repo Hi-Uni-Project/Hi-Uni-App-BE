@@ -11,6 +11,25 @@ public enum ErrorCode {
     INVALID_INPUT_VALUE(HttpStatus.BAD_REQUEST, "INVALID_INPUT_VALUE", "입력값이 유효하지 않습니다."),
     VALIDATION_FAILED(HttpStatus.BAD_REQUEST, "VALIDATION_FAILED", "요청 데이터가 유효하지 않습니다."),
 
+    // 400 Bad Request 사용자 아이디 관련 에러코드
+    USER_ID_EMPTY(HttpStatus.BAD_REQUEST, "USER_ID_EMPTY", "아이디는 비어있을 수 없습니다."),
+    USER_ID_DUPLICATE(HttpStatus.BAD_REQUEST, "USER_ID_DUPLICATE", "이미 사용중인 아이디입니다."),
+    USER_ID_LENGTH_INVALID(HttpStatus.BAD_REQUEST, "USER_ID_LENGTH_INVALID", "아이디는 4자 이상 12자 이하로 입력해주세요."),
+    USER_ID_UPPERCASE_NOT_ALLOWED(HttpStatus.BAD_REQUEST, "USER_ID_UPPERCASE_NOT_ALLOWED", "영문 대문자는 사용할 수 없습니다."),
+    USER_ID_SPACE_NOT_ALLOWED(HttpStatus.BAD_REQUEST, "USER_ID_SPACE_NOT_ALLOWED", "공백은 포함될 수 없습니다."),
+    USER_ID_SPECIAL_CHAR_NOT_ALLOWED(HttpStatus.BAD_REQUEST, "USER_ID_SPECIAL_CHAR_NOT_ALLOWED", "특수문자는 포함될 수 없습니다."),
+    USER_ID_EMOJI_NOT_ALLOWED(HttpStatus.BAD_REQUEST, "USER_ID_EMOJI_NOT_ALLOWED", "이모티콘은 사용할 수 없습니다."),
+    USER_ID_KOREAN_NOT_ALLOWED(HttpStatus.BAD_REQUEST, "USER_ID_KOREAN_NOT_ALLOWED", "한글은 포함될 수 없습니다."),
+
+    // 400 Bad Request 사용자 비밀번호 관련 에러코드
+    PASSWORD_LENGTH_INVALID(HttpStatus.BAD_REQUEST, "PASSWORD_LENGTH_INVALID", "패스워드는 6자 이상 18자 이하로 입력해주세요."),
+    PASSWORD_NO_LOWERCASE(HttpStatus.BAD_REQUEST, "PASSWORD_NO_LOWERCASE", "영문 소문자가 최소 1자 이상 포함되어야 합니다."),
+    PASSWORD_NO_UPPERCASE(HttpStatus.BAD_REQUEST, "PASSWORD_NO_UPPERCASE", "영문 대문자가 최소 1자 이상 포함되어야 합니다."),
+    PASSWORD_NO_SPECIAL_CHAR(HttpStatus.BAD_REQUEST, "PASSWORD_NO_SPECIAL_CHAR", "특수문자가 최소 1자 이상 포함되어야 합니다."),
+    PASSWORD_SPACE_NOT_ALLOWED(HttpStatus.BAD_REQUEST, "PASSWORD_SPACE_NOT_ALLOWED", "공백은 포함될 수 없습니다."),
+    PASSWORD_EMOJI_NOT_ALLOWED(HttpStatus.BAD_REQUEST, "PASSWORD_EMOJI_NOT_ALLOWED", "이모티콘은 사용할 수 없습니다."),
+    PASSWORD_KOREAN_NOT_ALLOWED(HttpStatus.BAD_REQUEST, "PASSWORD_KOREAN_NOT_ALLOWED", "한글은 포함될 수 없습니다."),
+
 
     // 401 Unauthorized
     UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "UNAUTHORIZED", "인증이 필요합니다."),

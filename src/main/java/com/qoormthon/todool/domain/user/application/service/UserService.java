@@ -2,12 +2,11 @@ package com.qoormthon.todool.domain.user.application.service;
 
 import com.qoormthon.todool.domain.user.adapter.dto.request.UserSignUpRequestDto;
 import com.qoormthon.todool.domain.user.adapter.dto.request.UserLoginRequestDto;
-import com.qoormthon.todool.domain.user.adapter.dto.response.UserFindResponseDto;
+import com.qoormthon.todool.domain.user.adapter.dto.response.FindUserResponseDto;
 import com.qoormthon.todool.domain.user.application.port.in.FindUserUseCase;
 import com.qoormthon.todool.domain.user.application.port.out.FindUserPort;
 import com.qoormthon.todool.domain.user.domain.entity.UserEntity;
 import com.qoormthon.todool.domain.user.adapter.out.persistence.UserRepository;
-import com.qoormthon.todool.domain.user.exception.UserFindException;
 import com.qoormthon.todool.domain.user.mapper.UserMapper;
 import com.qoormthon.todool.global.common.response.ResponseDto;
 import com.qoormthon.todool.global.security.util.JWTutil;
@@ -34,24 +33,21 @@ public class UserService implements FindUserUseCase {
 
     private final UserMapper userMapper;
     private final FindUserPort findUserPort;
+    private final BCryptPasswordEncoder hash;
+    private final JWTutil jwTutil;
+    private final CheckUserService checkUserService;
+    private final ResourceLoader resourceLoader;
 
     @Autowired
     private UserRepository userRepository;
 
     @Autowired
-    private ResourceLoader resourceLoader;
-
-    @Autowired
-    private JWTutil jwTutil;
-
-    @Autowired
-    private BCryptPasswordEncoder hash;
-
-    @Autowired
-    private CheckUserService checkUserService;
-
-    @Autowired
-    public UserService(UserMapper userMapper, FindUserPort findUserPort) {
+    public UserService(UserMapper userMapper, FindUserPort findUserPort, BCryptPasswordEncoder hash
+    , JWTutil jwTutil, CheckUserService checkUserService, ResourceLoader resourceLoader) {
+        this.resourceLoader = resourceLoader;
+        this.checkUserService = checkUserService;
+        this.jwTutil = jwTutil;
+        this.hash = hash;
         this.findUserPort = findUserPort;
         this.userMapper = userMapper;
     }
@@ -163,21 +159,22 @@ public class UserService implements FindUserUseCase {
 
     }
 
-    public UserFindResponseDto userFind(String userId, HttpServletRequest request) {
-            if(userId == null || userId.isEmpty()) {
-                throw new UserFindException("유저 아이디를 입력해주세요.");
-            }
-
-            if(!jwTutil.getUserId(jwTutil.extractToken(request)).equals(userId)){
-                throw new UserFindException("본인만 조회할 수 있습니다.");
-            }
-
-            if(!userRepository.existsByUserId(userId)) {
-                throw new UserFindException("존재하지 않는 유저입니다.");
-            }
-
-            return userMapper.userToUserFindResponseDto(findUserPort.findByUserId(userId));
-
+    @Override
+    public FindUserResponseDto userFind(String userId, HttpServletRequest request) {
+//            if(userId == null || userId.isEmpty()) {
+//                throw new UserFindException("유저 아이디를 입력해주세요.");
+//            }
+//
+//            if(!jwTutil.getUserId(jwTutil.extractToken(request)).equals(userId)){
+//                throw new UserFindException("본인만 조회할 수 있습니다.");
+//            }
+//
+//            if(!userRepository.existsByUserId(userId)) {
+//                throw new UserFindException("존재하지 않는 유저입니다.");
+//            }
+//
+//            return userMapper.userToUserFindResponseDto(findUserPort.findByUserId(userId));
+            return null;
     }
 
 }

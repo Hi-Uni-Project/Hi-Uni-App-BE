@@ -7,6 +7,7 @@ import com.qoormthon.todool.domain.user.application.port.in.CheckUserIdUseCase;
 import com.qoormthon.todool.domain.user.application.port.in.CheckUserPwdUseCase;
 import com.qoormthon.todool.domain.user.application.port.out.ExistsByUserPort;
 import com.qoormthon.todool.domain.user.exception.UserInvalidValueException;
+import com.qoormthon.todool.global.error.exception.ErrorCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,43 +26,43 @@ public class CheckUserService implements CheckUserIdUseCase, CheckUserPwdUseCase
     @Override
     public CheckUserIdResponseDto checkUserId(String userId) {
         if (userId == null || userId.isEmpty()) {
-            throw new UserInvalidValueException("아이디는 비어있을 수 없습니다.");
+            throw new UserInvalidValueException(ErrorCode.USER_ID_EMPTY);
         }
 
         if (existsByUserPort.existsByUserId(userId)) {
-            throw new UserInvalidValueException("이미 사용중인 아이디 입니다.");
+            throw new UserInvalidValueException(ErrorCode.USER_ID_DUPLICATE);
         }
 
         //----------사용자 아이디 입력 정책에 따른 검사 필터-------------------------
 
         // +. 4자 ~ 12자 사이
         if (userId.length() < 4 || userId.length() > 12) {
-            throw new UserInvalidValueException("아이디는 4자 이상 12자 이하로 입력해주세요.");
+            throw new UserInvalidValueException(ErrorCode.USER_ID_LENGTH_INVALID);
         }
 
         // 1. 영문 소문자만 가능 (a-z)
         if (userId.matches(".*[A-Z].*")) {
-            throw new UserInvalidValueException("영문 소문자만 가능합니다.");
+            throw new UserInvalidValueException(ErrorCode.USER_ID_UPPERCASE_NOT_ALLOWED);
         }
 
         // 2. 공백은 포함될 수 없음
         if (userId.contains(" ")) {
-            throw new UserInvalidValueException("공백은 포함될 수 없습니다.");
+            throw new UserInvalidValueException(ErrorCode.USER_ID_SPACE_NOT_ALLOWED);
         }
 
         // 3. 특수 문자는 포함될 수 없음
         if (userId.matches(".*[!@#$%^&*()\\-_=+\\[\\]{}|;:'\",.<>/?].*")) {
-            throw new UserInvalidValueException("특수문자는 포함될 수 없습니다.");
+            throw new UserInvalidValueException(ErrorCode.USER_ID_SPECIAL_CHAR_NOT_ALLOWED);
         }
 
         // 4. 이코티콘 포함될 수 없음
         if (containsEmoji(userId)) {
-            throw new UserInvalidValueException("이모티콘은 사용할 수 없습니다.");
+            throw new UserInvalidValueException(ErrorCode.USER_ID_EMOJI_NOT_ALLOWED);
         }
 
         // 5. 한글은 포함될 수 없음
         if (userId.matches(".*[ㄱ-ㅎㅏ-ㅣ가-힣].*")) {
-            throw new UserInvalidValueException("한글은 포함될 수 없습니다.");
+            throw new UserInvalidValueException(ErrorCode.USER_ID_KOREAN_NOT_ALLOWED);
         }
 
         //------------------------------------------------------------------
@@ -94,37 +95,37 @@ public class CheckUserService implements CheckUserIdUseCase, CheckUserPwdUseCase
     public CheckUserPwdResponseDto checkUserPwd(String userPwd) {
         // 1. 6자~18자 사이
         if (userPwd.length() < 6 || userPwd.length() > 18) {
-            throw new UserInvalidValueException("패스워드는 6자 이상 18자 이하로 입력해주세요.");
+            throw new UserInvalidValueException(ErrorCode.PASSWORD_LENGTH_INVALID);
         }
 
         // 2. 영문 소문자 최소 1자 이상 포함
         if (!userPwd.matches(".*[a-z].*")) {
-            throw new UserInvalidValueException("영문 소문자가 최소 1자 이상 포함되어야 합니다.");
+            throw new UserInvalidValueException(ErrorCode.PASSWORD_NO_LOWERCASE);
         }
 
         //3. 영문 대문자 최소 1자 이상 포함
         if (!userPwd.matches(".*[A-Z].*")) {
-            throw new UserInvalidValueException("영문 대문자가 최소 1자 이상 포함되어야 합니다.");
+            throw new UserInvalidValueException(ErrorCode.PASSWORD_NO_UPPERCASE);
         }
 
         //4. 특수문자 최소 1자 이상 포함
         if (!userPwd.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?].*")) {
-            throw new UserInvalidValueException("특수문자가 최소 1자 이상 포함되어야 합니다.");
+            throw new UserInvalidValueException(ErrorCode.PASSWORD_NO_SPECIAL_CHAR);
         }
 
         //5. 공백 금지
         if (userPwd.contains(" ")) {
-            throw new UserInvalidValueException("공백은 포함될 수 없습니다.");
+            throw new UserInvalidValueException(ErrorCode.PASSWORD_SPACE_NOT_ALLOWED);
         }
 
         //6. 이모티콘 금지
         if (containsEmoji(userPwd)) {
-            throw new UserInvalidValueException("이모티콘은 사용할 수 없습니다.");
+            throw new UserInvalidValueException(ErrorCode.PASSWORD_EMOJI_NOT_ALLOWED);
         }
 
         // 7. 한글은 포함될 수 없음
         if (userPwd.matches(".*[ㄱ-ㅎㅏ-ㅣ가-힣].*")) {
-            throw new UserInvalidValueException("한글은 포함될 수 없습니다.");
+            throw new UserInvalidValueException(ErrorCode.PASSWORD_KOREAN_NOT_ALLOWED);
         }
 
         //------------------------------------------------------------------

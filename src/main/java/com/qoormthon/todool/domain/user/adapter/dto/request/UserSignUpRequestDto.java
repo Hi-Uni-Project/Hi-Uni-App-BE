@@ -47,7 +47,7 @@ public class UserSignUpRequestDto {
                 .stdNo(this.stdNo)
                 .password(this.password)
                 .nickName(this.nickName)
-                .univ(this.univ)
+                .univName(this.univ)
                 .firstMajor(this.firstMajor)
                 .secondMajor(this.secondMajor)
                 .mbti(this.mbti)

@@ -14,7 +14,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(UserInvalidValueException.class)
     public ResponseEntity<?> UserInvalidValueException(UserInvalidValueException e) {
-        return ResponseEntity.status(ErrorCode.INVALID_INPUT_VALUE.getHttpStatus())
-                .body(ResponseDto.response(ErrorCode.INVALID_INPUT_VALUE.getHttpStatus(), e.getMessage(), false));
+        return ResponseEntity.status(e.getErrorCode().getHttpStatus())
+                .body(ResponseDto.response(e.getErrorCode().getHttpStatus(), e.getMessage(), false));
     }
 }
