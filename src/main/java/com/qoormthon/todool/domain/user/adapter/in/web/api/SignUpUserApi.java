@@ -6,6 +6,9 @@ import com.qoormthon.todool.domain.user.application.port.in.SignUpUserUseCase;
 import com.qoormthon.todool.domain.user.mapper.UserMapper;
 import com.qoormthon.todool.global.common.response.ResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
@@ -28,6 +31,40 @@ public class SignUpUserApi {
         this.userMapper = userMapper;
     }
 
+    @ApiResponse(
+            responseCode = "200",
+            description = "### ✅ 회원가입에 성공한 경우",
+            content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(
+                            example = """
+                                    {
+                                       "status": "OK",
+                                       "message": "회원가입에 성공하였습니다.",
+                                       "data": "eyJhbGciOiJIUzI1NiJ9.eyJ0eXBlIjoiYWNjZXN..."
+                                     }
+                                    """
+
+                    )
+            )
+    )
+    @ApiResponse(
+            responseCode = "400",
+            description = "--- \n### ❌ 이미 등록된 사용자일 경우",
+            content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(
+                            example = """
+                                    {
+                                       "status": "BAD_REQUEST",
+                                       "message": "이미 등록된 사용자입니다.",
+                                       "data": null
+                                     }
+                                    """
+
+                    )
+            )
+    )
     @Operation(summary = "회원가입 api", description = "이미지는 선택사항 입니다.")
     @PostMapping(
             value = "/signup",

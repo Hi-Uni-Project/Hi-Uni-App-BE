@@ -6,6 +6,9 @@ import com.qoormthon.todool.domain.user.application.port.in.LoginUserUseCase;
 import com.qoormthon.todool.domain.user.mapper.UserMapper;
 import com.qoormthon.todool.global.common.response.ResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -31,6 +34,40 @@ public class LoginUserApi {
         this.userMapper = userMapper;
     }
 
+    @ApiResponse(
+            responseCode = "200",
+            description = "### ✅ 로그인에 성공한 경우",
+            content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(
+                            example = """
+                                    {
+                                       "status": "OK",
+                                       "message": "로그인 성공",
+                                       "data": "eyJhbGciOiJIUzI1NiJ9.eyJ0eXBlIjoiYWNjZXN..."
+                                    }
+                                    """
+
+                    )
+            )
+    )
+    @ApiResponse(
+            responseCode = "401",
+            description = "--- \n### ❌ 로그인에 실패한 경우",
+            content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(
+                            example = """
+                                    {
+                                        "status": "UNAUTHORIZED",
+                                        "message": "아이디 또는 비밀번호가 올바르지 않습니다.",
+                                        "data": false
+                                    }
+                                    """
+
+                    )
+            )
+    )
     @Operation(summary = "로그인 api", description = "유저 로그인 api 입니다. jwt 토큰을 발급합니다.")
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginUserRequestDto loginUserRequestDto){
