@@ -2,6 +2,7 @@ package com.qoormthon.todool.domain.user.mapper;
 
 import com.qoormthon.todool.domain.user.adapter.dto.request.LoginUserRequestDto;
 import com.qoormthon.todool.domain.user.adapter.dto.request.SignUpUserRequestDto;
+import com.qoormthon.todool.domain.user.adapter.dto.response.FindUserResponseDto;
 import com.qoormthon.todool.domain.user.application.command.LoginUserCommand;
 import com.qoormthon.todool.domain.user.application.command.SignUpUserCommand;
 import com.qoormthon.todool.domain.user.domain.entity.UserEntity;
@@ -77,6 +78,20 @@ public class UserMapper {
                 .secondMajor(signUpUserCommand.getSecondMajor())
                 .mbti(signUpUserCommand.getMbti())
                 .imageUrl(signUpUserCommand.getImageUrl())
+                .build();
+    }
+
+    public FindUserResponseDto userToFindUserResponseDto(User user) {
+        return FindUserResponseDto.builder()
+                .userId(user.getUserId())
+                .admissionYear(user.getAdmissionYear())
+                .nickName(user.getNickName())
+                .univName(user.getUnivName())
+                .firstMajor(user.getFirstMajor())
+                .secondMajor(user.getSecondMajor())
+                .mbti(user.getMbti())
+                .userInterests(user.getUserInterests())
+                .imageUrl(user.getImageUrl())
                 .build();
     }
 }

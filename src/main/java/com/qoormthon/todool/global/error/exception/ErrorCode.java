@@ -44,6 +44,7 @@ public enum ErrorCode {
     TOKEN_INVALID(HttpStatus.UNAUTHORIZED, "TOKEN_INVALID", "유효하지 않은 토큰입니다."),
 
     // 403 Forbidden
+    SELF_ACCESS_ONLY(HttpStatus.FORBIDDEN, "SELF_ACCESS_ONLY", "본인의 정보만 조회할 수 있습니다."),
     FORBIDDEN(HttpStatus.FORBIDDEN, "FORBIDDEN", "접근 권한이 없습니다."),
     ACCESS_DENIED(HttpStatus.FORBIDDEN, "ACCESS_DENIED", "이 기능에 접근할 수 없습니다."),
 

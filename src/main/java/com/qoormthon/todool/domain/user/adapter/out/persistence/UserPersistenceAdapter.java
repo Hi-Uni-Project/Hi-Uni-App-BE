@@ -44,6 +44,7 @@ public class UserPersistenceAdapter implements ExistsByUserPort, FindUserPort, S
         List<Long> userInterestIdList = userInterestRepository.findAllByUserId(userId).stream()
                 .map(UserInterestEntity::getInterestId)
                 .toList();
+        System.out.println(userInterestIdList);
         User user = userMapper.UserEntityToUser(userRepository.findByUserId(userId), userInterestIdList);
 
         return user;

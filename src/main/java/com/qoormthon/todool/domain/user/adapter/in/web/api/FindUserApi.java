@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.lang.annotation.Repeatable;
 import java.util.List;
 
 @RestController
@@ -63,16 +64,16 @@ public class FindUserApi {
             )
     )
     @ApiResponse(
-            responseCode = "400",
-            description = "--- \n### ❌ 유저가 존재하지 않을 경우",
+            responseCode = "403",
+            description = "--- \n### ❌ 유저가 조회 대상과 일치하지 않을 경우",
             content = @Content(
                     mediaType = "application/json",
                     schema = @Schema(
                             example = """
                                     {
-                                           "status": "BAD_REQUEST",
-                                           "message": "유저가 존재하지 않습니다.",
-                                           "data": null
+                                       "status": "FORBIDDEN",
+                                       "message": "본인의 정보만 조회할 수 있습니다.",
+                                       "data": null
                                     }
                                     """
 
@@ -82,23 +83,9 @@ public class FindUserApi {
     @Operation(summary = "유저정보 조회 api", description = "유저 아이디로 유저 정보를 조회합니다.")
     @GetMapping("/find/{userId}")
     public ResponseEntity<?> UserFind(@PathVariable String userId, HttpServletRequest request) {
-
+        FindUserResponseDto findUserResponseDto = findUserUseCase.userFind(userId, request);
         return ResponseEntity.status(HttpStatus.OK)
-                .body(ResponseDto.response(HttpStatus.OK, "유저 정보 조회 성공", FindUserResponseDto.builder()
-                        .userId("test123")
-                        .stdNo("20230101")
-                        .nickName("guest")
-                        .univName("하이유니대학교")
-                        .firstMajor("시각디자인학과")
-                        .secondMajor("컴퓨터공학과")
-                        .mbti("INTJ")
-                        .userInterests(List.of(20L, 4L, 5L))
-                        .imageUrl("https://example.com/image.jpg")
-                        .build())
-                );
-//        UserFindResponseDto userFindResponseDto = FindUserUseCase.userFind(userId, request);
-//        return ResponseEntity.status(HttpStatus.OK)
-//                .body(ResponseDto.response(HttpStatus.OK, "유저 정보 조회 성공", userFindResponseDto));
+                .body(ResponseDto.response(HttpStatus.OK, "유저 정보 조회 성공", findUserResponseDto));
     }
 
 }

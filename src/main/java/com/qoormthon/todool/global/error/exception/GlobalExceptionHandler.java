@@ -47,4 +47,10 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(e.getErrorCode().getHttpStatus())
                 .body(ResponseDto.response(e.getErrorCode().getHttpStatus(), e.getMessage(), null));
     }
+
+    @ExceptionHandler(SelfAccessOnlyException.class)
+    public ResponseEntity<?> SelfAccessOnlyException(SelfAccessOnlyException e) {
+        return ResponseEntity.status(e.getErrorCode().getHttpStatus())
+                .body(ResponseDto.response(e.getErrorCode().getHttpStatus(), e.getMessage(), null));
+    }
 }

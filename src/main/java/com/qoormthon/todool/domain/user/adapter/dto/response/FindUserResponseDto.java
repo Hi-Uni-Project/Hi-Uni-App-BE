@@ -11,7 +11,7 @@ import java.util.List;
 @Builder
 public class FindUserResponseDto {
     private String userId;
-    private String stdNo;
+    private String admissionYear;
     private String nickName;
     private String univName;
     private String firstMajor;
