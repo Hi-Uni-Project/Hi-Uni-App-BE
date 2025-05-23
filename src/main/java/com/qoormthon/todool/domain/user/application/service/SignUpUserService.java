@@ -19,15 +19,16 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseCookie;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.time.Duration;
+import java.io.FileOutputStream;
+import java.util.UUID;
 
 @Service
 @Slf4j
@@ -59,16 +60,33 @@ public class SignUpUserService implements SignUpUserUseCase {
     public SignUpUserResponseDto signUp(SignUpUserCommand signUpUserCommand, MultipartFile file) {
         String filePath;
         if (file != null && !file.isEmpty()) {
-            String contentType = file.getContentType();
-            if (contentType == null || !contentType.startsWith("image/")) {
+
+            if (!this.isValidImageFile(file)) {
                 throw new InvalidFileTypeException(ErrorCode.IMAGE_FILE_ONLY);
             }
+
             try {
-                String fileName = file.getOriginalFilename(); //파일 이름
+                String fileName = file.getOriginalFilename(); //원본 파일 이름 추출
+                String fileExtension = ""; //파일 확장자 변수
+
+
+                if (fileName != null && fileName.contains(".")) { //확장자 추출
+                    fileExtension = fileName.substring(fileName.lastIndexOf("."));
+                }
+
+                fileName = UUID.randomUUID() + fileExtension; //UUID+확장자로 파일 이름 생성
+                BufferedImage originalImage = ImageIO.read(file.getInputStream());
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                ImageIO.write(originalImage, fileExtension.replace(".", "").toLowerCase(), baos);
+                byte[] imageBytes = baos.toByteArray();
                 Resource resource = resourceLoader.getResource("classpath:static/images");
                 String uploadDir = resource.getFile().getAbsolutePath();
+                File outputFile = new File(uploadDir + File.separator + fileName);
+                try (FileOutputStream fos = new FileOutputStream(outputFile)) {
+                    fos.write(imageBytes); // 바이트 배열을 파일로 저장
+                }
+
                 filePath = "/images/" + fileName;
-                file.transferTo(new File(uploadDir + File.separator + fileName));
                 signUpUserCommand.setImageUrl(filePath);
             } catch (Exception e) {
                 log.error("File upload failed", e);
@@ -97,5 +115,40 @@ public class SignUpUserService implements SignUpUserUseCase {
                  .accessToken(accessToken)
                  .refreshToken(refreshToken)
                  .build();
+    }
+
+    private boolean isValidImageFile(MultipartFile file) {
+        String fileName = file.getOriginalFilename();
+        String contentType = file.getContentType();
+
+        try {
+            BufferedImage originalImage = ImageIO.read(file.getInputStream());
+
+            if (contentType == null || !contentType.startsWith("image/")) { //contentType 확인
+                log.error("콘텐츠 타입 에러 : " + contentType);
+                return false;
+            }
+
+            if (fileName == null) { //파일 이름 확인
+                log.error("파일 이름 에러 : " + fileName);
+                return false;
+            }
+
+            if (!fileName.endsWith(".jpg") && !fileName.endsWith(".jpeg") && !fileName.endsWith(".png") && !fileName.endsWith(".PNG")) { //파일 확장자 확인
+                log.error("파일 확장자 에러 : " + fileName);
+                return false;
+            }
+
+            if (originalImage == null) {
+                log.error("유효한 이미지 파일이 아님 : " + fileName);
+                return false;
+            }
+
+
+        } catch (Exception e) {
+            return false;
+        }
+
+        return true;
     }
 }

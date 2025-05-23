@@ -29,8 +29,7 @@ public class TokenService {
                 }
                 String token = jwTutil.createAccessToken(jwTutil.getUserId(refreshToken), jwTutil.getRole(refreshToken).substring(5));
                 return ResponseEntity.ok()
-                        .header("Authorization", "Bearer " + token)
-                        .body(ResponseDto.response(HttpStatus.OK, "토큰이 갱신되었습니다.", null));
+                        .body(ResponseDto.response(HttpStatus.OK, "토큰이 갱신되었습니다.", token));
             }
         } catch (Exception e) {
             log.error(e.getMessage());
