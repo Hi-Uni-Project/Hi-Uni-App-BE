@@ -74,22 +74,6 @@ public class CheckUserService implements CheckUserIdUseCase, CheckUserPwdUseCase
 
     }
 
-    public boolean booleanCheckUserId(String userId) {
-        if (userId.isEmpty() || userId == null) {
-            return false;
-        }
-
-        if (existsByUserPort.existsByUserId(userId)) {
-            return false;
-        } else {
-            if (containsEmoji(userId) || userId.length() < 4 || userId.length() > 12 || userId.matches(".*[A-Z].*") || userId.contains(" ") || userId.matches(".*[!@#$%^&*()\\-_=+\\[\\]{}|;:'\",.<>/?].*")
-                    || userId.matches(".*[ㄱ-ㅎㅏ-ㅣ가-힣].*")) {
-                return false;
-            }
-            return true;
-        }
-
-    }
 
     @Override
     public CheckUserPwdResponseDto checkUserPwd(String userPwd) {
@@ -136,16 +120,6 @@ public class CheckUserService implements CheckUserIdUseCase, CheckUserPwdUseCase
                 .build();
 
     }
-
-    public boolean booleanCheckUserPwd(String userPwd) {
-        if (userPwd.length() < 6 || userPwd.length() > 18 || !userPwd.matches(".*[a-z].*") || !userPwd.matches(".*[A-Z].*")
-                || !userPwd.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?].*") || userPwd.contains(" ") || containsEmoji(userPwd)) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-
 
     // 이모지 검증 메서드
     private boolean containsEmoji(String text) {

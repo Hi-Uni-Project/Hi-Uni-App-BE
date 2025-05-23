@@ -15,10 +15,11 @@ public class User {
     private final String userId;
 
     //속성 필드
-    private String stdNo;
     private String password;
+    private String admissionYear;
     private String nickName;
     private String univName;
+    private String univMail;
     private String firstMajor;
     private String secondMajor;
     private String mbti;

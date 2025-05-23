@@ -6,10 +6,10 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class UserLoginRequestDto {
-    @Schema(example = "tempId")
+public class LoginUserRequestDto {
+    @Schema(example = "tempid")
     private String userId; //아이디 pk
 
-    @Schema(example = "your_password")
+    @Schema(example = "Temp1234!")
     private String password; //비밀번호
 }

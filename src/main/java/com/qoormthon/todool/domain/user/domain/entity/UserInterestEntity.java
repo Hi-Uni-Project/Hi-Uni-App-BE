@@ -16,6 +16,9 @@ public class UserInterestEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(length = 255)
+    private String userId; //FK
+
     private Long interestId;
 
 

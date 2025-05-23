@@ -20,16 +20,19 @@ public class UserEntity {
     private String userId; //아이디 pk
 
     @Column(length = 255)
-    private String stdNo; //학번
+    private String password; //비밀번호
 
     @Column(length = 255)
-    private String password; //비밀번호
+    private String admissionYear; //입학연도
 
     @Column(length = 255)
     private String nickName; //닉네임
 
     @Column(length = 255)
     private String univName;
+
+    @Column(length = 255)
+    private String univMail; //대학교 이메일
 
     @Column(length = 255)
     private String firstMajor; //학과

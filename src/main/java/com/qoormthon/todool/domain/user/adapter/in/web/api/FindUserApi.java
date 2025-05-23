@@ -24,11 +24,11 @@ import java.util.List;
 @Tag(name = "유저 관련 api 입니다.", description = "로그인, 회원가입, 유저 정보 수정 등의 기능입니다.")
 public class FindUserApi {
 
-    private final FindUserUseCase FindUserUseCase;
+    private final FindUserUseCase findUserUseCase;
 
     @Autowired
-    public FindUserApi(FindUserUseCase FIndUserUseCase) {
-        this.FindUserUseCase = FIndUserUseCase;
+    public FindUserApi(FindUserUseCase findUserUseCase) {
+        this.findUserUseCase = findUserUseCase;
     }
 
     @ApiResponse(

@@ -10,6 +10,12 @@ public enum ErrorCode {
     MISSING_REQUIRED_FIELD(HttpStatus.BAD_REQUEST, "MISSING_REQUIRED_FIELD", "필수 입력값이 누락되었습니다."),
     INVALID_INPUT_VALUE(HttpStatus.BAD_REQUEST, "INVALID_INPUT_VALUE", "입력값이 유효하지 않습니다."),
     VALIDATION_FAILED(HttpStatus.BAD_REQUEST, "VALIDATION_FAILED", "요청 데이터가 유효하지 않습니다."),
+    DUPLICATED_USER(HttpStatus.BAD_REQUEST, "DUPLICATED_USER", "이미 등록된 사용자입니다."),
+
+    // 400 Bad Request 파일 관련 에러코드
+    UNSUPPORTED_FILE_FORMAT(HttpStatus.BAD_REQUEST, "UNSUPPORTED_FILE_FORMAT", "지원하지 않는 파일 형식입니다."),
+    IMAGE_FILE_ONLY(HttpStatus.BAD_REQUEST, "IMAGE_FILE_ONLY", "이미지 파일만 업로드 가능합니다."),
+    INVALID_FILE_EXTENSION(HttpStatus.BAD_REQUEST, "INVALID_FILE_EXTENSION", "허용되지 않는 파일 확장자입니다."),
 
     // 400 Bad Request 사용자 아이디 관련 에러코드
     USER_ID_EMPTY(HttpStatus.BAD_REQUEST, "USER_ID_EMPTY", "아이디는 비어있을 수 없습니다."),
@@ -32,6 +38,7 @@ public enum ErrorCode {
 
 
     // 401 Unauthorized
+    INVALID_CREDENTIALS(HttpStatus.UNAUTHORIZED, "INVALID_CREDENTIALS", "아이디 또는 비밀번호가 올바르지 않습니다."),
     UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "UNAUTHORIZED", "인증이 필요합니다."),
     TOKEN_EXPIRED(HttpStatus.UNAUTHORIZED, "TOKEN_EXPIRED", "토큰이 만료되었습니다."),
     TOKEN_INVALID(HttpStatus.UNAUTHORIZED, "TOKEN_INVALID", "유효하지 않은 토큰입니다."),
