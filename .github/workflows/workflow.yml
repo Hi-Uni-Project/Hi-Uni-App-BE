@@ -9,7 +9,7 @@ on:
 jobs:
   CI/CD:
     runs-on: ubuntu-latest
-    stept:
+    steps:
       - name: 깃헙 레파지토리 가져오기
         uses: actions/checkout@v4
 
