@@ -30,6 +30,9 @@ jobs:
       - name: 빌드 파일 이름 변경
         run: mv ./build/libs/*SNAPSHOT.jar ./hiuni.jar
 
+      - name: tobe 디렉토리 생성
+        run: mkdir -p /home/ubuntu/hiuni-project/tobe
+
       - name: SCP로 EC2에 파일 전송
         uses: appleboy/scp-action@v0.1.7
         with:
