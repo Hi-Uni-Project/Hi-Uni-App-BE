@@ -48,7 +48,7 @@ jobs:
           script_stop: true
           script: |
             rm -rf /home/ubuntu/hiuni-project/current
-            mkdir /home/ubunut/hiuni-project/current
+            mkdir /home/ubuntu/hiuni-project/current
             mv /home/ubuntu/hiuni-project/tobe/hiuni.jar /home/ubuntu/hiuni-project/current/hiuni.jar
             cd /home/ubuntu/hiuni-project/current
             sudo fuser -k -n tcp 443 || true
