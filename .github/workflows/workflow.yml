@@ -7,7 +7,7 @@ on:
 
 
 jobs:
-  CI/CD:
+  ci-cd:
     runs-on: ubuntu-latest
     steps:
       - name: 깃헙 레파지토리 가져오기
