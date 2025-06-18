@@ -41,7 +41,7 @@ feat: 한글
 ex) 
 [Feature] 로그인 추가
 
-# [2] 프로젝트 구조
+# [3] 프로젝트 구조
 ```
 src/main/java/com/project/hiuni/
 ├── HiuniApplication.java
