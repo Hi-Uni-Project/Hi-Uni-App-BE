@@ -1,8 +1,21 @@
 # Hi-Uni api 서버 입니다.
 
 ---
+# [1] Git 커밋 규칙
 
-# 프로젝트 구조
+ex)
+feat: 한글
+
+* **fix**: 버그 수정
+* **docs**: 문서 수정
+* **style**: 코드 포맷팅, 세미콜론 등 (로직 변경 없음)
+* **chore**: 빌드, 패키지 관리, 파일 삭제 등 기타 작업 (간단하고 하찮은? 일들)
+* **refactor**: 코드 리팩토링
+* **test**: 테스트 코드, 리팩토링 테스트 코드 추가
+* **feat**: 새로운 기능 추가
+
+
+# [2] 프로젝트 구조
 ```
 src/main/java/com/project/hiuni/
 ├── HiuniApplication.java
