@@ -39,7 +39,7 @@ feat: 한글
 * **[Security]** 보안 관련
 
 ex) 
-[Feature] 로그인 추가
+[Feature] 회원관리
 
 # [3] 프로젝트 구조
 ```
