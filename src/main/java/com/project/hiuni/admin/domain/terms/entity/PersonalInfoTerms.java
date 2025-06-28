@@ -1,7 +1,6 @@
 package com.project.hiuni.admin.domain.terms.entity;
 
 import com.project.hiuni.admin.common.BaseEntity;
-import com.project.hiuni.admin.domain.terms.entity.TermsInfo;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

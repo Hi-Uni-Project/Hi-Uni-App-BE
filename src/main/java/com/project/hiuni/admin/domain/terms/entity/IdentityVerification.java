@@ -37,4 +37,12 @@ public class IdentityVerification extends BaseEntity {
 			.termsInfo(termsInfo)
 			.build();
 	}
+
+	public String getContents(){
+		return this.termsInfo.getAgreeContents();
+	}
+
+	public String getVersion(){
+		return this.termsInfo.getAgreeVersion();
+	}
 }
