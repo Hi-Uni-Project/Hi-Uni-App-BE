@@ -1,5 +1,6 @@
 package com.project.hiuni.admin.domain.terms.entity;
 
+import com.project.hiuni.admin.common.BaseEntity;
 import com.project.hiuni.admin.domain.terms.entity.TermsInfo;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -16,7 +17,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "service_improvment_terms")
 @Entity
-public class ServiceImprovementTerms {
+public class ServiceImprovementTerms extends BaseEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

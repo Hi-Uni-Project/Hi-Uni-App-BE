@@ -22,7 +22,11 @@ public class TermsInfo {
 	private LocalDateTime effectiveDate;
 
 	@Builder
-	public TermsInfo(String agreeContents, String agreeVersion, @Nullable LocalDateTime effectiveDate) {
+	public TermsInfo(
+		String agreeContents,
+		String agreeVersion,
+		@Nullable LocalDateTime effectiveDate
+	) {
 		this.agreeContents = agreeContents;
 		this.agreeVersion = agreeVersion;
 		this.effectiveDate = effectiveDate;
@@ -34,5 +38,15 @@ public class TermsInfo {
 		LocalDateTime effectiveDate
 	) {
 		return new TermsInfo(agreeContents, agreeVersion, effectiveDate);
+	}
+
+	public static TermsInfo of(
+		String agreeContents,
+		String agreeVersion
+	) {
+		return TermsInfo.builder()
+			.agreeContents(agreeContents)
+			.agreeVersion(agreeVersion)
+			.build();
 	}
 }

@@ -1,6 +1,7 @@
 package com.project.hiuni.admin.domain.terms.entity;
 
 
+import com.project.hiuni.admin.common.BaseEntity;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,7 +17,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "identity_verification")
 @Entity
-public class IdentityVerification {
+public class IdentityVerification extends BaseEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
