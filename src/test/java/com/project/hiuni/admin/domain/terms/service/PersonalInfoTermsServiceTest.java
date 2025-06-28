@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.project.hiuni.admin.domain.terms.entity.PersonalInfoTerms;
 import com.project.hiuni.admin.domain.terms.repository.PersonalInfoTermsRepository;
+import java.time.LocalDateTime;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,16 +28,17 @@ class PersonalInfoTermsServiceTest {
 		//given
 		String testContent = "test_content";
 		String version = "1";
+		LocalDateTime effectiveDate = LocalDateTime.now();
 
 		//when
-		personalInfoTermsService.create(testContent, version);
+		personalInfoTermsService.create(testContent, version, effectiveDate);
 
 		//then
 		PersonalInfoTerms result = personalInfoTermsRepository.findById(1L)
 			.orElseThrow();
 
 		assertThat(result.getId()).isEqualTo(1L);
-		assertThat(result.getTermsInfo().getEffectiveDate()).isNull();
+		assertThat(result.getTermsInfo().getEffectiveDate()).isEqualTo(effectiveDate);
 		assertThat(result.getCreatedAt()).isNotNull();
 		assertThat(result.getUpdatedAt()).isNotNull();
 	}

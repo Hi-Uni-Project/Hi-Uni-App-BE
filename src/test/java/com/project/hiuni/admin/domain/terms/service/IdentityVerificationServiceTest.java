@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.project.hiuni.admin.domain.terms.entity.IdentityVerification;
 import com.project.hiuni.admin.domain.terms.entity.TermsInfo;
 import com.project.hiuni.admin.domain.terms.repository.IdentityVerificationRepository;
+import java.time.LocalDateTime;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +27,10 @@ class IdentityVerificationServiceTest {
 		//given
 		String testContent = "test_content";
 		String version = "1";
+		LocalDateTime effectiveDate = LocalDateTime.now();
 
 		//when
-		identityVerificationService.create(testContent, version);
+		identityVerificationService.create(testContent, version, effectiveDate);
 
 		//then
 		var result = identityVerificationRepository.findById(1L)
@@ -41,9 +43,10 @@ class IdentityVerificationServiceTest {
 	void test2() throws Exception {
 		//given
 		String testContent = "test_content";
-		String version = "1";
+		String version = "2";
+		LocalDateTime effectiveDate = LocalDateTime.now();
 
-		identityVerificationRepository.save(IdentityVerification.of(TermsInfo.of(testContent, version)));
+		identityVerificationRepository.save(IdentityVerification.of(TermsInfo.of(testContent, version, effectiveDate)));
 
 		//when
 		var result = identityVerificationService.findByVersion(version);

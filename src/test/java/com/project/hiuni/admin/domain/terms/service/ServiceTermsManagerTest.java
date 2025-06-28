@@ -1,12 +1,8 @@
 package com.project.hiuni.admin.domain.terms.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
-import com.project.hiuni.admin.domain.terms.entity.IdentityVerification;
 import com.project.hiuni.admin.domain.terms.entity.ServiceTerms;
-import com.project.hiuni.admin.domain.terms.entity.TermsInfo;
-import com.project.hiuni.admin.domain.terms.repository.IdentityVerificationRepository;
 import com.project.hiuni.admin.domain.terms.repository.ServiceTermsRepository;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.DisplayName;

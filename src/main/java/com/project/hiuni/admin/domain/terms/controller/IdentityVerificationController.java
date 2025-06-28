@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
-@RequestMapping("/admin/identity-Verificaitons")
+@RequestMapping("/admin/identity-terms")
 @RestController
 public class IdentityVerificationController {
 
@@ -23,8 +23,8 @@ public class IdentityVerificationController {
 	@GetMapping("/versions")
 	public ResponseDto<TermsResponseDto> findByVersion(@RequestParam String version) {
 
-		IdentityVerification identityVerification = identityVerificationService.findByVersion(
-			version);
+		IdentityVerification identityVerification =
+			identityVerificationService.findByVersion(version);
 
 		TermsResponseDto termsResponseDto = new TermsResponseDto(
 			identityVerification.getContents(),
@@ -37,7 +37,11 @@ public class IdentityVerificationController {
 
 	@PostMapping
 	public void create(@RequestBody TermsRequestDto termsRequestDto) {
-		identityVerificationService.create(termsRequestDto.content(), termsRequestDto.version());
+		identityVerificationService.create(
+			termsRequestDto.content(),
+			termsRequestDto.version(),
+			termsRequestDto.effectiveDate()
+		);
 	}
 
 }
