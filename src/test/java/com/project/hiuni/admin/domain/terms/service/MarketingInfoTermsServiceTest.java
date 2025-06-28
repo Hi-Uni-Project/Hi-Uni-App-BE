@@ -3,9 +3,7 @@ package com.project.hiuni.admin.domain.terms.service;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.project.hiuni.admin.domain.terms.entity.MarketingInfoTerms;
-import com.project.hiuni.admin.domain.terms.entity.ServiceImprovementTerms;
 import com.project.hiuni.admin.domain.terms.repository.MarketingInfoTermsRepository;
-import com.project.hiuni.admin.domain.terms.repository.ServiceImprovementTermsRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -5,7 +5,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.project.hiuni.admin.domain.terms.entity.IdentityVerification;
 import com.project.hiuni.admin.domain.terms.entity.TermsInfo;
 import com.project.hiuni.admin.domain.terms.repository.IdentityVerificationRepository;
-import java.time.LocalDateTime;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,14 +26,30 @@ class IdentityVerificationServiceTest {
 		//given
 		String testContent = "test_content";
 		String version = "1";
-		LocalDateTime effectiveDate = LocalDateTime.now();
 
 		//when
-		identityVerificationService.create(testContent, version, effectiveDate);
+		identityVerificationService.create(testContent, version);
 
 		//then
-		IdentityVerification result = identityVerificationRepository.findById(1L)
+		var result = identityVerificationRepository.findById(1L)
 			.orElseThrow();
 		assertThat(result.getId()).isEqualTo(1L);
+	}
+
+	@DisplayName("회원 가입 동의 내용을 조회할 수 있다.")
+	@Test
+	void test2() throws Exception {
+		//given
+		String testContent = "test_content";
+		String version = "1";
+
+		identityVerificationRepository.save(IdentityVerification.of(TermsInfo.of(testContent, version)));
+
+		//when
+		var result = identityVerificationService.findByVersion(version);
+
+		//then
+		assertThat(result.getContents()).isEqualTo(testContent);
+		assertThat(result.getVersion()).isEqualTo(version);
 	}
 }
