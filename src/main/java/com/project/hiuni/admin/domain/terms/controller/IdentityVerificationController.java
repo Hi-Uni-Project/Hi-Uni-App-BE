@@ -29,7 +29,7 @@ public class IdentityVerificationController {
 		TermsResponseDto termsResponseDto = new TermsResponseDto(
 			identityVerification.getContents(),
 			identityVerification.getVersion(),
-			null
+			identityVerification.getEffectiveDate()
 		);
 
 		return ResponseDto.response(termsResponseDto);
@@ -44,7 +44,7 @@ public class IdentityVerificationController {
 		TermsResponseDto termsResponseDto = new TermsResponseDto(
 			identityVerification.getContents(),
 			identityVerification.getVersion(),
-			null
+			identityVerification.getEffectiveDate()
 		);
 
 		return ResponseDto.response(termsResponseDto);

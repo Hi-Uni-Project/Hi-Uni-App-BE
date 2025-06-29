@@ -28,7 +28,7 @@ public class ServiceImprovementTermsController {
 		TermsResponseDto termsResponseDto = new TermsResponseDto(
 			serviceImprovementTerms.getContents(),
 			serviceImprovementTerms.getVersion(),
-			null
+			serviceImprovementTerms.getEffectiveDate()
 		);
 
 		return ResponseDto.response(termsResponseDto);
@@ -42,7 +42,7 @@ public class ServiceImprovementTermsController {
 		TermsResponseDto termsResponseDto = new TermsResponseDto(
 			serviceImprovementTerms.getContents(),
 			serviceImprovementTerms.getVersion(),
-			null
+			serviceImprovementTerms.getEffectiveDate()
 		);
 
 		return ResponseDto.response(termsResponseDto);

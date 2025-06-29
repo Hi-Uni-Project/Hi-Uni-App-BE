@@ -28,7 +28,7 @@ public class MarketingInfoTermsController {
 		TermsResponseDto termsResponseDto = new TermsResponseDto(
 			marketingInfoTerms.getContents(),
 			marketingInfoTerms.getVersion(),
-			null
+			marketingInfoTerms.getEffectiveDate()
 		);
 
 		return ResponseDto.response(termsResponseDto);
@@ -42,7 +42,7 @@ public class MarketingInfoTermsController {
 		TermsResponseDto termsResponseDto = new TermsResponseDto(
 			marketingInfoTerms.getContents(),
 			marketingInfoTerms.getVersion(),
-			null
+			marketingInfoTerms.getEffectiveDate()
 		);
 
 		return ResponseDto.response(termsResponseDto);

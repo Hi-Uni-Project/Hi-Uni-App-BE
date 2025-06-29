@@ -28,7 +28,7 @@ public class PersonalInfoTermsController {
 		TermsResponseDto termsResponseDto = new TermsResponseDto(
 			personalInfoTerms.getContents(),
 			personalInfoTerms.getVersion(),
-			null
+			personalInfoTerms.getEffectiveDate()
 		);
 
 		return ResponseDto.response(termsResponseDto);
@@ -42,7 +42,7 @@ public class PersonalInfoTermsController {
 		TermsResponseDto termsResponseDto = new TermsResponseDto(
 			personalInfoTerms.getContents(),
 			personalInfoTerms.getVersion(),
-			null
+			personalInfoTerms.getEffectiveDate()
 		);
 
 		return ResponseDto.response(termsResponseDto);
