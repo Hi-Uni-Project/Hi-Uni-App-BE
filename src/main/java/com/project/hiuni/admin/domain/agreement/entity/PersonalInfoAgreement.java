@@ -9,6 +9,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -24,4 +25,16 @@ public class PersonalInfoAgreement extends BaseEntity {
 
 	@Embedded
 	private AgreementInfo agreementInfo;
+
+	@Builder
+	private PersonalInfoAgreement(Long id, AgreementInfo agreementInfo) {
+		this.id = id;
+		this.agreementInfo = agreementInfo;
+	}
+
+	public static PersonalInfoAgreement from(AgreementInfo agreementInfo) {
+		return PersonalInfoAgreement.builder()
+			.agreementInfo(agreementInfo)
+			.build();
+	}
 }

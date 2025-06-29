@@ -8,6 +8,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -23,4 +24,16 @@ public class IdentityVerificationAgreement extends BaseEntity {
 
 	@Embedded
 	private AgreementInfo agreementInfo;
+
+	@Builder
+	private IdentityVerificationAgreement(Long id, AgreementInfo agreementInfo) {
+		this.id = id;
+		this.agreementInfo = agreementInfo;
+	}
+
+	public static IdentityVerificationAgreement from(AgreementInfo agreementInfo) {
+		return IdentityVerificationAgreement.builder()
+			.agreementInfo(agreementInfo)
+			.build();
+	}
 }
