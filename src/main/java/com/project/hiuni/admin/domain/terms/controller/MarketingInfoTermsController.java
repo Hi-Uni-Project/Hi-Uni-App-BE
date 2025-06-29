@@ -27,7 +27,7 @@ public class MarketingInfoTermsController {
 
 		TermsResponseDto termsResponseDto = new TermsResponseDto(
 			marketingInfoTerms.getContents(),
-			marketingInfoTerms.getTermsInfo().getAgreeVersion(),
+			marketingInfoTerms.getVersion(),
 			null
 		);
 
@@ -41,7 +41,7 @@ public class MarketingInfoTermsController {
 
 		TermsResponseDto termsResponseDto = new TermsResponseDto(
 			marketingInfoTerms.getContents(),
-			marketingInfoTerms.getTermsInfo().getAgreeVersion(),
+			marketingInfoTerms.getVersion(),
 			null
 		);
 
@@ -50,6 +50,7 @@ public class MarketingInfoTermsController {
 
 	@PostMapping
 	public void create(@RequestBody TermsRequestDto termsRequestDto) {
+
 		marketingInfoTermsService.create(
 			termsRequestDto.content(),
 			termsRequestDto.version(),

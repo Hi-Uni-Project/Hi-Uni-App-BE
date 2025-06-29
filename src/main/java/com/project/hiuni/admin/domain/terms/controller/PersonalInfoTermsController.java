@@ -2,8 +2,8 @@ package com.project.hiuni.admin.domain.terms.controller;
 
 import com.project.hiuni.admin.domain.terms.dto.TermsRequestDto;
 import com.project.hiuni.admin.domain.terms.dto.TermsResponseDto;
-import com.project.hiuni.admin.domain.terms.entity.IdentityVerification;
-import com.project.hiuni.admin.domain.terms.service.IdentityVerificationService;
+import com.project.hiuni.admin.domain.terms.entity.PersonalInfoTerms;
+import com.project.hiuni.admin.domain.terms.service.PersonalInfoTermsService;
 import com.project.hiuni.global.common.dto.response.ResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,21 +14,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
-@RequestMapping("/admin/identity-terms")
+@RequestMapping("/admin/personal-info")
 @RestController
-public class IdentityVerificationController {
+public class PersonalInfoTermsController {
 
-	private final IdentityVerificationService identityVerificationService;
+	private final PersonalInfoTermsService personalInfoTermsService;
 
 	@GetMapping("/{version}")
 	public ResponseDto<TermsResponseDto> findByVersion(@PathVariable String version) {
 
-		IdentityVerification identityVerification =
-			identityVerificationService.getByVersion(version);
+		PersonalInfoTerms personalInfoTerms = personalInfoTermsService.getByVersion(version);
 
 		TermsResponseDto termsResponseDto = new TermsResponseDto(
-			identityVerification.getContents(),
-			identityVerification.getVersion(),
+			personalInfoTerms.getContents(),
+			personalInfoTerms.getVersion(),
 			null
 		);
 
@@ -38,12 +37,11 @@ public class IdentityVerificationController {
 	@GetMapping
 	public ResponseDto<TermsResponseDto> findLatest() {
 
-		IdentityVerification identityVerification =
-			identityVerificationService.getByLatest();
+		PersonalInfoTerms personalInfoTerms = personalInfoTermsService.getByLastest();
 
 		TermsResponseDto termsResponseDto = new TermsResponseDto(
-			identityVerification.getContents(),
-			identityVerification.getVersion(),
+			personalInfoTerms.getContents(),
+			personalInfoTerms.getVersion(),
 			null
 		);
 
@@ -52,11 +50,11 @@ public class IdentityVerificationController {
 
 	@PostMapping
 	public void create(@RequestBody TermsRequestDto termsRequestDto) {
-		identityVerificationService.create(
+
+		personalInfoTermsService.create(
 			termsRequestDto.content(),
 			termsRequestDto.version(),
 			termsRequestDto.effectiveDate()
 		);
 	}
-
 }
