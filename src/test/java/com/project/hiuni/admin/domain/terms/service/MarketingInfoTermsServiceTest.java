@@ -6,6 +6,7 @@ import com.project.hiuni.admin.domain.terms.entity.MarketingInfoTerms;
 import com.project.hiuni.admin.domain.terms.entity.TermsInfo;
 import com.project.hiuni.admin.domain.terms.repository.MarketingInfoTermsRepository;
 import java.time.LocalDateTime;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,10 @@ class MarketingInfoTermsServiceTest {
 	@Autowired
 	private MarketingInfoTermsRepository marketingInfoTermsRepository;
 
+	@BeforeEach
+	void setUp() {
+		marketingInfoTermsRepository.deleteAll();
+	}
 
 	@DisplayName("서비스 개선 동의 내역을 저장할 수 있다.")
 	@Test
