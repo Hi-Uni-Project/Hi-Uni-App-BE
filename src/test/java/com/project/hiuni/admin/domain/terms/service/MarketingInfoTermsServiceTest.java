@@ -44,7 +44,7 @@ class MarketingInfoTermsServiceTest {
 		assertThat(result.getUpdatedAt()).isNotNull();
 	}
 
-	@DisplayName("마케팅 동의 내용을 조회할 수 있다.")
+	@DisplayName("마케팅 동의 내용을 버전에 따라 조회할 수 있다.")
 	@Test
 	void test2() throws Exception {
 		//given
@@ -57,10 +57,37 @@ class MarketingInfoTermsServiceTest {
 		);
 
 		//when
-		var result = marketingInfoTermsService.findByVersion(version);
+		var result = marketingInfoTermsService.getByVersion(version);
 
 		//then
 		assertThat(result.getContents()).isEqualTo(testContent);
 		assertThat(result.getVersion()).isEqualTo(version);
+	}
+
+	@DisplayName("마케팅 동의 내용의 최근 버전을 조회할 수 있다.")
+	@Test
+	void test3() throws Exception {
+		//given
+		String testContent1 = "test_content";
+		String version1 = "2";
+		LocalDateTime effectiveDate1 = LocalDateTime.now();
+
+		String testContent2 = "test_content3";
+		String version2 = "3";
+		LocalDateTime effectiveDate2 = LocalDateTime.now();
+
+		marketingInfoTermsRepository.save(
+			MarketingInfoTerms.of(TermsInfo.of(testContent1, version1, effectiveDate1))
+		);
+		marketingInfoTermsRepository.save(
+			MarketingInfoTerms.of(TermsInfo.of(testContent2, version2, effectiveDate2))
+		);
+
+		//when
+		var result = marketingInfoTermsService.getByLastest();
+
+		//then
+		assertThat(result.getContents()).isEqualTo(testContent2);
+		assertThat(result.getVersion()).isEqualTo(version2);
 	}
 }
