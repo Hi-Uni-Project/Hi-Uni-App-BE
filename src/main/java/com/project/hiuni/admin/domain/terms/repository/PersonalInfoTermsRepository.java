@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface PersonalInfoTermsRepository extends JpaRepository<PersonalInfoTerms, Long> {
 
 	Optional<PersonalInfoTerms> findIdentityVerificationByTermsInfo_AgreeVersion(String version);
+
 	Optional<PersonalInfoTerms> findTopByOrderByCreatedAtDesc();
-	Long findTopIdByOrderByIdDesc();
 }

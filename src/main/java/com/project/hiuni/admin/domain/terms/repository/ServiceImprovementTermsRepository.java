@@ -7,7 +7,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface ServiceImprovementTermsRepository extends
 	JpaRepository<ServiceImprovementTerms, Long> {
 
-	Optional<ServiceImprovementTerms> findIdentityVerificationByTermsInfo_AgreeVersion(String version);
+	Optional<ServiceImprovementTerms> findIdentityVerificationByTermsInfo_AgreeVersion(
+		String version);
+
 	Optional<ServiceImprovementTerms> findTopByOrderByCreatedAtDesc();
-	Long findTopIdByOrderByIdDesc();
 }
