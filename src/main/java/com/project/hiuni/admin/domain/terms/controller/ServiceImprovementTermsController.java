@@ -2,8 +2,8 @@ package com.project.hiuni.admin.domain.terms.controller;
 
 import com.project.hiuni.admin.domain.terms.dto.TermsRequestDto;
 import com.project.hiuni.admin.domain.terms.dto.TermsResponseDto;
-import com.project.hiuni.admin.domain.terms.entity.PersonalInfoTerms;
-import com.project.hiuni.admin.domain.terms.service.PersonalInfoTermsService;
+import com.project.hiuni.admin.domain.terms.entity.ServiceImprovementTerms;
+import com.project.hiuni.admin.domain.terms.service.ServiceImprovementTermsManager;
 import com.project.hiuni.global.common.dto.response.ResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,20 +14,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
-@RequestMapping("/admin/personal-terms")
+@RequestMapping("/admin/service-improvements-terms")
 @RestController
-public class PersonalInfoTermsController {
+public class ServiceImprovementTermsController {
 
-	private final PersonalInfoTermsService personalInfoTermsService;
+	private final ServiceImprovementTermsManager ServiceImprovementTermsManager;
 
 	@GetMapping("/{version}")
 	public ResponseDto<TermsResponseDto> findByVersion(@PathVariable String version) {
 
-		PersonalInfoTerms personalInfoTerms = personalInfoTermsService.getByVersion(version);
+		ServiceImprovementTerms serviceImprovementTerms = ServiceImprovementTermsManager.getByVersion(version);
 
 		TermsResponseDto termsResponseDto = new TermsResponseDto(
-			personalInfoTerms.getContents(),
-			personalInfoTerms.getVersion(),
+			serviceImprovementTerms.getContents(),
+			serviceImprovementTerms.getVersion(),
 			null
 		);
 
@@ -37,11 +37,11 @@ public class PersonalInfoTermsController {
 	@GetMapping
 	public ResponseDto<TermsResponseDto> findLatest() {
 
-		PersonalInfoTerms personalInfoTerms = personalInfoTermsService.getByLastest();
+		ServiceImprovementTerms serviceImprovementTerms = ServiceImprovementTermsManager.getByLastest();
 
 		TermsResponseDto termsResponseDto = new TermsResponseDto(
-			personalInfoTerms.getContents(),
-			personalInfoTerms.getVersion(),
+			serviceImprovementTerms.getContents(),
+			serviceImprovementTerms.getVersion(),
 			null
 		);
 
@@ -51,7 +51,7 @@ public class PersonalInfoTermsController {
 	@PostMapping
 	public void create(@RequestBody TermsRequestDto termsRequestDto) {
 
-		personalInfoTermsService.create(
+		ServiceImprovementTermsManager.create(
 			termsRequestDto.content(),
 			termsRequestDto.version(),
 			termsRequestDto.effectiveDate()
