@@ -8,4 +8,5 @@ public interface PersonalInfoTermsRepository extends JpaRepository<PersonalInfoT
 
 	Optional<PersonalInfoTerms> findIdentityVerificationByTermsInfo_AgreeVersion(String version);
 	Optional<PersonalInfoTerms> findTopByOrderByCreatedAtDesc();
+	Long findTopIdByOrderByIdDesc();
 }

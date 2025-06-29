@@ -8,4 +8,5 @@ public interface IdentityVerificationRepository extends JpaRepository<IdentityVe
 
 	Optional<IdentityVerification> findIdentityVerificationByTermsInfo_AgreeVersion(String version);
 	Optional<IdentityVerification> findTopByOrderByCreatedAtDesc();
+	Long findTopIdByOrderByIdDesc();
 }

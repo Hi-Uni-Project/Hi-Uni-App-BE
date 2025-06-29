@@ -8,4 +8,5 @@ public interface MarketingInfoTermsRepository extends JpaRepository<MarketingInf
 
 	Optional<MarketingInfoTerms> findIdentityVerificationByTermsInfo_AgreeVersion(String version);
 	Optional<MarketingInfoTerms> findTopByOrderByCreatedAtDesc();
+	Long findTopIdByOrderByIdDesc();
 }
