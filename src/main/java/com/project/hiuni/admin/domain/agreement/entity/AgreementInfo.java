@@ -17,18 +17,18 @@ public class AgreementInfo {
 
 	private Long userId;
 
-	private Long personalInfoTermId;
+	private Long termsId;
 
 	private LocalDateTime agreedAt;
 
 	@Builder
-	public AgreementInfo(long userId, long personalInfoTermId, LocalDateTime agreedAt) {
+	public AgreementInfo(long userId, long termsId, LocalDateTime agreedAt) {
 		this.userId = userId;
-		this.personalInfoTermId = personalInfoTermId;
+		this.termsId = termsId;
 		this.agreedAt = agreedAt;
 	}
 
-	public static AgreementInfo of(long userId, long personalInfoTermId, LocalDateTime agreedAt) {
-		return new AgreementInfo(userId, personalInfoTermId, agreedAt);
+	public static AgreementInfo of(long userId, long termsId, LocalDateTime agreedAt) {
+		return new AgreementInfo(userId, termsId, agreedAt);
 	}
 }
