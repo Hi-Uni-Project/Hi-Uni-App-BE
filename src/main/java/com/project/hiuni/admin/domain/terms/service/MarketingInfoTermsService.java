@@ -3,6 +3,7 @@ package com.project.hiuni.admin.domain.terms.service;
 import com.project.hiuni.admin.domain.terms.entity.MarketingInfoTerms;
 import com.project.hiuni.admin.domain.terms.entity.TermsInfo;
 import com.project.hiuni.admin.domain.terms.repository.MarketingInfoTermsRepository;
+import com.project.hiuni.global.exception.ErrorCode;
 import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
 import lombok.RequiredArgsConstructor;
@@ -23,8 +24,13 @@ public class MarketingInfoTermsService {
 		marketingInfoTermsRepository.save(marketingInfoTerms);
 	}
 
-	public MarketingInfoTerms findByVersion(String version) {
+	public MarketingInfoTerms getByVersion(String version) {
 		return marketingInfoTermsRepository.findIdentityVerificationByTermsInfo_AgreeVersion(version)
-			.orElseThrow(() -> new NoSuchElementException("no content by " + version));
+			.orElseThrow(() -> new NoSuchElementException(ErrorCode.NOT_FOUND.getMessage() + ":" + version));
+	}
+
+	public MarketingInfoTerms getByLastest() {
+		return marketingInfoTermsRepository.findTopByOrderByCreatedAtDesc()
+			.orElseThrow(() -> new NoSuchElementException(ErrorCode.NOT_FOUND.getMessage()));
 	}
 }

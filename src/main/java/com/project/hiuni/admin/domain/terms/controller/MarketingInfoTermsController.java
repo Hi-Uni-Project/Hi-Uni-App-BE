@@ -7,10 +7,10 @@ import com.project.hiuni.admin.domain.terms.service.MarketingInfoTermsService;
 import com.project.hiuni.global.common.dto.response.ResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
@@ -20,10 +20,24 @@ public class MarketingInfoTermsController {
 
 	private final MarketingInfoTermsService marketingInfoTermsService;
 
-	@GetMapping("/versions")
-	public ResponseDto<TermsResponseDto> findByVersion(@RequestParam String version) {
+	@GetMapping("/{version}")
+	public ResponseDto<TermsResponseDto> findByVersion(@PathVariable String version) {
 
-		MarketingInfoTerms marketingInfoTerms = marketingInfoTermsService.findByVersion(version);
+		MarketingInfoTerms marketingInfoTerms = marketingInfoTermsService.getByVersion(version);
+
+		TermsResponseDto termsResponseDto = new TermsResponseDto(
+			marketingInfoTerms.getContents(),
+			marketingInfoTerms.getTermsInfo().getAgreeVersion(),
+			null
+		);
+
+		return ResponseDto.response(termsResponseDto);
+	}
+
+	@GetMapping
+	public ResponseDto<TermsResponseDto> findLatest() {
+
+		MarketingInfoTerms marketingInfoTerms = marketingInfoTermsService.getByLastest();
 
 		TermsResponseDto termsResponseDto = new TermsResponseDto(
 			marketingInfoTerms.getContents(),

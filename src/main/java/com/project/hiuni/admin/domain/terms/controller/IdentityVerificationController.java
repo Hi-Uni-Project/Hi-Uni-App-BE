@@ -7,10 +7,10 @@ import com.project.hiuni.admin.domain.terms.service.IdentityVerificationService;
 import com.project.hiuni.global.common.dto.response.ResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
@@ -20,11 +20,26 @@ public class IdentityVerificationController {
 
 	private final IdentityVerificationService identityVerificationService;
 
-	@GetMapping("/versions")
-	public ResponseDto<TermsResponseDto> findByVersion(@RequestParam String version) {
+	@GetMapping("/{version}")
+	public ResponseDto<TermsResponseDto> findByVersion(@PathVariable String version) {
 
 		IdentityVerification identityVerification =
-			identityVerificationService.findByVersion(version);
+			identityVerificationService.getByVersion(version);
+
+		TermsResponseDto termsResponseDto = new TermsResponseDto(
+			identityVerification.getContents(),
+			identityVerification.getTermsInfo().getAgreeVersion(),
+			null
+		);
+
+		return ResponseDto.response(termsResponseDto);
+	}
+
+	@GetMapping
+	public ResponseDto<TermsResponseDto> findLatest() {
+
+		IdentityVerification identityVerification =
+			identityVerificationService.getByLatest();
 
 		TermsResponseDto termsResponseDto = new TermsResponseDto(
 			identityVerification.getContents(),

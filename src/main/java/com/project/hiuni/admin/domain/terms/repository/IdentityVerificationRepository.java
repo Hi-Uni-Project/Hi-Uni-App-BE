@@ -3,9 +3,9 @@ package com.project.hiuni.admin.domain.terms.repository;
 import com.project.hiuni.admin.domain.terms.entity.IdentityVerification;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.web.bind.annotation.RequestParam;
 
 public interface IdentityVerificationRepository extends JpaRepository<IdentityVerification, Long> {
 
-	Optional<IdentityVerification> findIdentityVerificationByTermsInfo_AgreeVersion(@RequestParam String version);
+	Optional<IdentityVerification> findIdentityVerificationByTermsInfo_AgreeVersion(String version);
+	Optional<IdentityVerification> findTopByOrderByCreatedAtDesc();
 }

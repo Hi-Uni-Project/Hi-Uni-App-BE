@@ -7,4 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface MarketingInfoTermsRepository extends JpaRepository<MarketingInfoTerms, Long> {
 
 	Optional<MarketingInfoTerms> findIdentityVerificationByTermsInfo_AgreeVersion(String version);
+	Optional<MarketingInfoTerms> findTopByOrderByCreatedAtDesc();
 }

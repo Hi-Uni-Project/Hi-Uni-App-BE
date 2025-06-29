@@ -3,6 +3,7 @@ package com.project.hiuni.admin.domain.terms.service;
 import com.project.hiuni.admin.domain.terms.entity.IdentityVerification;
 import com.project.hiuni.admin.domain.terms.entity.TermsInfo;
 import com.project.hiuni.admin.domain.terms.repository.IdentityVerificationRepository;
+import com.project.hiuni.global.exception.ErrorCode;
 import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
 import lombok.RequiredArgsConstructor;
@@ -23,9 +24,14 @@ public class IdentityVerificationService {
 		identityVerificationRepository.save(identityVerification);
 	}
 
-	public IdentityVerification findByVersion(String version) {
+	public IdentityVerification getByVersion(String version) {
 
 		return identityVerificationRepository.findIdentityVerificationByTermsInfo_AgreeVersion(version)
-			.orElseThrow(() -> new NoSuchElementException("no content by " + version));
+			.orElseThrow(() -> new NoSuchElementException(ErrorCode.NOT_FOUND.getMessage() + ":" + version));
+	}
+
+	public IdentityVerification getByLatest() {
+		return identityVerificationRepository.findTopByOrderByCreatedAtDesc()
+			.orElseThrow(() -> new NoSuchElementException(ErrorCode.NOT_FOUND.getMessage()));
 	}
 }
