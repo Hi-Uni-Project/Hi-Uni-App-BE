@@ -1,10 +1,5 @@
 package com.project.hiuni.admin.domain.terms.service;
 
-import com.project.hiuni.admin.domain.terms.repository.IdentityVerificationRepository;
-import com.project.hiuni.admin.domain.terms.repository.MarketingInfoTermsRepository;
-import com.project.hiuni.admin.domain.terms.repository.PersonalInfoTermsRepository;
-import com.project.hiuni.admin.domain.terms.repository.ServiceImprovementTermsRepository;
-import com.project.hiuni.admin.domain.terms.repository.ServiceTermsRepository;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import lombok.RequiredArgsConstructor;
@@ -19,20 +14,19 @@ public class TermsIdService {
 	private static final Map<String, Long> requiredTermIds = new ConcurrentHashMap<>();
 	private static final Map<String, Long> optionalTermIds = new ConcurrentHashMap<>();
 
-	private final IdentityVerificationRepository identityVerificationRepository;
-	private final MarketingInfoTermsRepository marketingInfoTermsRepository;
-	private final PersonalInfoTermsRepository personalInfoTermsRepository;
-	private final ServiceImprovementTermsRepository serviceImprovementTermsRepository;
-	private final ServiceTermsRepository serviceTermsRepository;
-
+	private final IdentityVerificationService identityVerificationService;
+	private final MarketingInfoTermsService marketingInfoTermsService;
+	private final PersonalInfoTermsService personalInfoTermsService;
+	private final ServiceImprovementTermsManager serviceImprovementTermsManager;
+	private final ServiceTermsManager serviceTermsManager;
 
 	public void cacheTermsIds(){
 
-		Long identityTermId = identityVerificationRepository.findTopIdByOrderByIdDesc();
-		Long marketingTermId = marketingInfoTermsRepository.findTopIdByOrderByIdDesc();
-		Long personalTermId = personalInfoTermsRepository.findTopIdByOrderByIdDesc();
-		Long serviceImprovementTermId = serviceImprovementTermsRepository.findTopIdByOrderByIdDesc();
-		Long serviceTermId = serviceTermsRepository.findTopIdByOrderByIdDesc();
+		long identityTermId = identityVerificationService.getByLatest().getId();
+		long marketingTermId = marketingInfoTermsService.getByLastest().getId();
+		long personalTermId = personalInfoTermsService.getByLastest().getId();
+		long serviceImprovementTermId = serviceImprovementTermsManager.getByLastest().getId();
+		long serviceTermId = serviceTermsManager.getByLastest().getId();
 
 		requiredTermIds.put("identityTermId", identityTermId);
 		requiredTermIds.put("personalTermId", personalTermId);
