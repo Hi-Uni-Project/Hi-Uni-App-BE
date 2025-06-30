@@ -33,6 +33,6 @@ public class CustomUserDetails implements UserDetails {
 
   @Override
   public String getUsername() {
-    return userEntity.getNickname(); //닉네임을 사용자 이름으로 사용합니다
+    return userEntity.getSocialEmail(); //사용자 식별자로 소셜 이메일을 사용합니다
   }
 }
