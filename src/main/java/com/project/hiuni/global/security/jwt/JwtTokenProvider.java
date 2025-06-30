@@ -59,6 +59,12 @@ public class JwtTokenProvider {
         .get("userId", Long.class);
   }
 
+  /**
+   * JWT 토큰의 유효성을 검증하는 메서드입니다.
+   *
+   * @param token JWT 토큰
+   * @return 유효성 검사 결과 (true: 유효, false: 무효)
+   */
   public Boolean validateToken(String token) {
     try {
       Jwts.parser()
