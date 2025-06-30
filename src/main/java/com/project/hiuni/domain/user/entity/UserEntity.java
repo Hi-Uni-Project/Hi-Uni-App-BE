@@ -1,5 +1,6 @@
 package com.project.hiuni.domain.user.entity;
 
+import com.project.hiuni.global.common.entity.BaseTime;
 import com.project.hiuni.global.security.core.Role;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -18,7 +19,11 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-public class UserEntity {
+
+/**
+ * BaseTime 클래스를 상속받아 생성 및 수정 시간을 자동으로 기록합니다
+ */
+public class UserEntity extends BaseTime {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,6 +45,8 @@ public class UserEntity {
 
   @Column(unique = true, nullable = false)
   private String nickname;
+
+  private String imageUrl;
 
   @Enumerated(EnumType.STRING)
   private Role role;
