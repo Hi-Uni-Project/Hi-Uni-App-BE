@@ -7,11 +7,12 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UnivcertResponseDto {
-    //private String univ_email;
-    //private String univ_name;
-    private boolean success;
-    //private String domain;
-    //private String status;
+public class UnivcertResponse {
+
+  //private String univ_email;
+  //private String univ_name;
+  private boolean success;
+  //private String domain;
+  //private String status;
 
 }

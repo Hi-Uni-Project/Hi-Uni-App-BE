@@ -6,7 +6,7 @@ build/
 !**/src/test/**/build/
 .DS_Store
 application.properties
-application.propetries.prod
+application.properties.prod
 ### STS ###
 .apt_generated
 .classpath

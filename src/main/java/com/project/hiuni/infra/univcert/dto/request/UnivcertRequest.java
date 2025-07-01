@@ -7,7 +7,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class UnivcertRequestDto {
-    private String email;
-    private String univName;
+public class UnivcertRequest {
+
+  private String email;
+  private String univName;
 }
