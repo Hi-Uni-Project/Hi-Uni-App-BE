@@ -1,6 +1,6 @@
 package com.project.hiuni.global.security.core;
 
-import com.project.hiuni.domain.user.entity.UserEntity;
+import com.project.hiuni.domain.user.entity.User;
 import java.util.Collection;
 import java.util.Collections;
 import lombok.RequiredArgsConstructor;
@@ -14,16 +14,16 @@ import org.springframework.security.core.userdetails.UserDetails;
 @RequiredArgsConstructor
 public class CustomUserDetails implements UserDetails {
 
-  private final UserEntity userEntity;
+  private final User user;
 
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    return Collections.singleton(new SimpleGrantedAuthority(userEntity.getRole().name()));
+    return Collections.singleton(new SimpleGrantedAuthority(user.getRole().name()));
   }
 
   public Long getId() {
-    return userEntity.getId();
+    return user.getId();
   }
 
   @Override
@@ -33,6 +33,6 @@ public class CustomUserDetails implements UserDetails {
 
   @Override
   public String getUsername() {
-    return userEntity.getSocialEmail(); //사용자 식별자로 소셜 이메일을 사용합니다
+    return user.getSocialEmail(); //사용자 식별자로 소셜 이메일을 사용합니다
   }
 }
