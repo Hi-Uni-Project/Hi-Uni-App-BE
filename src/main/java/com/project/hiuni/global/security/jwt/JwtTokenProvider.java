@@ -7,7 +7,6 @@ import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.security.SignatureException;
 import java.util.Date;
 import javax.crypto.SecretKey;
@@ -85,11 +84,6 @@ public class JwtTokenProvider {
     } catch (ExpiredJwtException e) {
       //토큰이 만료됨
       log.error("[" + TraceIdHolder.get() + "]:(토큰이 만료됨)");
-      return false;
-
-    } catch (UnsupportedJwtException e) {
-      //지원하지 않는 토큰 형식
-      log.error("[" + TraceIdHolder.get() + "]:(지원하지 않는 토큰 형식)");
       return false;
 
     } catch (IllegalArgumentException e) {
