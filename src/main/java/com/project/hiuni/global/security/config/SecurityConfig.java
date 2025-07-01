@@ -1,5 +1,8 @@
 package com.project.hiuni.global.security.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.project.hiuni.global.common.dto.response.ResponseDto;
+import com.project.hiuni.global.exception.ErrorCode;
 import com.project.hiuni.global.security.jwt.JwtTokenFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -18,6 +21,11 @@ public class SecurityConfig {
 
   private final JwtTokenFilter jwtTokenFilter;
 
+  /**
+   * 예외처리 응답을 위해 사용되는 객체입니다.
+   */
+  private final ObjectMapper objectMapper;
+
   @Bean
   public BCryptPasswordEncoder passwordEncoder() {
     return new BCryptPasswordEncoder();
@@ -25,6 +33,21 @@ public class SecurityConfig {
 
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+
+    // 인증 실패 시 반환할 JSON 응답
+    String invalidAuthenticationResponse = objectMapper
+        .writeValueAsString(ResponseDto.response(
+            ErrorCode.TOKEN_INVALID.getHttpStatus(),
+            ErrorCode.TOKEN_INVALID.getMessage(),
+            null));
+
+    // 인가 실패 시 반환할 JSON 응답
+    String invalidAuthorizationResponse = objectMapper
+        .writeValueAsString(ResponseDto.response(
+            ErrorCode.ACCESS_DENIED.getHttpStatus(),
+            ErrorCode.ACCESS_DENIED.getMessage(),
+            null));
+
     http
         .csrf(csrf -> csrf.disable())
         .sessionManagement(
@@ -32,9 +55,24 @@ public class SecurityConfig {
         .authorizeHttpRequests(auth -> auth
             .requestMatchers(
                 "/swagger-ui/**",
-                "/v3/api-docs/**"
+                "/v3/api-docs/**",
+                "/test/create-token"
             ).permitAll()
             .anyRequest().authenticated())
+        .exceptionHandling(e -> e
+            //인증 실패 시 응답 핸들링
+            .authenticationEntryPoint(((request, response, authException) -> {
+              response.setStatus(ErrorCode.TOKEN_INVALID.getHttpStatus().value());
+              response.setContentType("application/json");
+              response.getWriter().write(invalidAuthenticationResponse);
+            }
+            ))
+            //인가 실패 시 응답 핸들링
+            .accessDeniedHandler((request, response, authException) -> {
+              response.setStatus(ErrorCode.TOKEN_INVALID.getHttpStatus().value());
+              response.setContentType("application/json");
+              response.getWriter().write(invalidAuthorizationResponse);
+            }))
         .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
     return http.build();
   }

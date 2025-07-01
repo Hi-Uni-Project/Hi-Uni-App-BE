@@ -1,6 +1,10 @@
 package com.project.hiuni.global.security.jwt;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.project.hiuni.domain.user.exception.CustomUserNotFoundException;
+import com.project.hiuni.global.common.dto.response.ResponseDto;
 import com.project.hiuni.global.common.threadlocal.TraceIdHolder;
+import com.project.hiuni.global.exception.ErrorCode;
 import com.project.hiuni.global.security.core.CustomUserDetailsService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -37,6 +41,11 @@ public class JwtTokenFilter extends OncePerRequestFilter {
    */
   private final CustomUserDetailsService customUserDetailsService;
 
+  /**
+   * 예외처리 응답을 위해 사용되는 객체입니다.
+   */
+  private final ObjectMapper objectMapper;
+
 
   @Override
   protected void doFilterInternal(HttpServletRequest request,
@@ -57,12 +66,12 @@ public class JwtTokenFilter extends OncePerRequestFilter {
       String method = request.getMethod();
 
       //토큰이 존재하고 유효한 경우를 확인합니다.
-      if (accessToken != null && jwtTokenProvider.validateToken(accessToken)) {
+      if (jwtTokenProvider.validateToken(accessToken) && accessToken != null) {
         log.info(
             "[" + TraceIdHolder.get() + "]" + "[" + request.getRemoteAddr() + "]:" + "[" + method
                 + ":" + url + "]" + "(allowed)");
 
-        //토큰에서 사용자 조회 후 인증 객체를 생성합니다.
+        //토큰에서 사용자 조회 후 인증 객체를 생성합니다.(유저가 존재하지 않을 경우 CustomUserNotFoundException 발생)
         UsernamePasswordAuthenticationToken authenticationToken = getAuthentication(accessToken);
 
         //인증된 사용자 객체를 시큐리티 컨텍스트에 설정합니다.
@@ -75,6 +84,20 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
       filterChain.doFilter(request, response);
 
+    } catch (CustomUserNotFoundException e) {
+      log.info(
+          "[" + TraceIdHolder.get() + "]" + "(해당 사용자를 찾을 수 없습니다.)");
+
+      // 유저가 존재하지 않을 경우 반환되는 json 응답.
+      String userNotFoundExceptionResponse = objectMapper
+          .writeValueAsString(ResponseDto.response(
+              ErrorCode.USER_NOT_FOUND.getHttpStatus(),
+              ErrorCode.USER_NOT_FOUND.getMessage(),
+              null));
+      response.setStatus(ErrorCode.USER_NOT_FOUND.getHttpStatus().value());
+      response.setContentType("application/json");
+      response.getWriter().write(userNotFoundExceptionResponse);
+      
     } finally {
       // 요청이 끝난 후 TraceIdHolder를 정리합니다.
       TraceIdHolder.clear();
