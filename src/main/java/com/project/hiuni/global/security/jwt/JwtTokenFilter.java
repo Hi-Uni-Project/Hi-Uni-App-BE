@@ -1,11 +1,13 @@
 package com.project.hiuni.global.security.jwt;
 
+import com.project.hiuni.global.common.threadlocal.TraceIdHolder;
 import com.project.hiuni.global.security.core.CustomUserDetailsService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -41,31 +43,43 @@ public class JwtTokenFilter extends OncePerRequestFilter {
       HttpServletResponse response, FilterChain filterChain
   ) throws ServletException, IOException {
 
-    //요청 헤더에서 JWT 토큰을 추출합니다.
-    String accessToken = this.getTokenFromRequest(request);
+    try {
+      //TraceID 발급 및 설정
+      TraceIdHolder.set(UUID.randomUUID().toString().substring(0, 8));
 
-    //로깅을 위해 요청 URL을 가져옵니다.
-    String url = request.getRequestURI().toString();
+      //요청 헤더에서 JWT 토큰을 추출합니다.
+      String accessToken = this.getTokenFromRequest(request);
 
-    //로깅을 위해 요청 메서드를 가져옵니다.
-    String method = request.getMethod();
+      //로깅을 위해 요청 URL을 가져옵니다.
+      String url = request.getRequestURI().toString();
 
-    //토큰이 존재하고 유효한 경우를 확인합니다.
-    if (accessToken != null && jwtTokenProvider.validateToken(accessToken)) {
-      log.info("[" + request.getRemoteAddr() + "]:" + "[" + method + ":" + url + "]" + "(allowed)");
+      //로깅을 위해 요청 메서드를 가져옵니다.
+      String method = request.getMethod();
 
-      //토큰에서 사용자 조회 후 인증 객체를 생성합니다.
-      UsernamePasswordAuthenticationToken authenticationToken = getAuthentication(accessToken);
+      //토큰이 존재하고 유효한 경우를 확인합니다.
+      if (accessToken != null && jwtTokenProvider.validateToken(accessToken)) {
+        log.info(
+            "[" + TraceIdHolder.get() + "]" + "[" + request.getRemoteAddr() + "]:" + "[" + method
+                + ":" + url + "]" + "(allowed)");
 
-      //인증된 사용자 객체를 시큐리티 컨텍스트에 설정합니다.
-      SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-    } else {
-      log.info("[" + request.getRemoteAddr() + "]:" + "[" + method + ":" + url + "]" + "(denied)");
+        //토큰에서 사용자 조회 후 인증 객체를 생성합니다.
+        UsernamePasswordAuthenticationToken authenticationToken = getAuthentication(accessToken);
+
+        //인증된 사용자 객체를 시큐리티 컨텍스트에 설정합니다.
+        SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+      } else {
+        log.info(
+            "[" + TraceIdHolder.get() + "]" + "[" + request.getRemoteAddr() + "]:" + "[" + method
+                + ":" + url + "]" + "(denied)");
+      }
+
+      filterChain.doFilter(request, response);
+
+    } finally {
+      // 요청이 끝난 후 TraceIdHolder를 정리합니다.
+      TraceIdHolder.clear();
+
     }
-
-    filterChain.doFilter(request, response);
-
-
   }
 
 

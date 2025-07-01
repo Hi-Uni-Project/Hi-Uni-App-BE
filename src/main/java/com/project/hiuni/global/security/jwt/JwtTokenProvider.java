@@ -1,5 +1,6 @@
 package com.project.hiuni.global.security.jwt;
 
+import com.project.hiuni.global.common.threadlocal.TraceIdHolder;
 import com.project.hiuni.global.security.core.CustomUserDetails;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
@@ -11,6 +12,7 @@ import io.jsonwebtoken.security.SignatureException;
 import java.util.Date;
 import javax.crypto.SecretKey;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
@@ -18,6 +20,7 @@ import org.springframework.stereotype.Component;
  * JWT 토큰 생성 및 추출, 검증하는 클래스 입니다.
  */
 @Component
+@Slf4j
 @RequiredArgsConstructor
 public class JwtTokenProvider {
 
@@ -76,26 +79,32 @@ public class JwtTokenProvider {
 
     } catch (MalformedJwtException e) {
       //토큰 형식이 잘못됨
+      log.error("[" + TraceIdHolder.get() + "]:(토큰 형식이 잘못됨)");
       return false;
 
     } catch (ExpiredJwtException e) {
       //토큰이 만료됨
+      log.error("[" + TraceIdHolder.get() + "]:(토큰이 만료됨)");
       return false;
 
     } catch (UnsupportedJwtException e) {
       //지원하지 않는 토큰 형식
+      log.error("[" + TraceIdHolder.get() + "]:(지원하지 않는 토큰 형식)");
       return false;
 
     } catch (IllegalArgumentException e) {
       //토큰이 비어있거나 잘못된 형식
+      log.error("[" + TraceIdHolder.get() + "]:(토큰이 비어있거나 잘못된 형식)");
       return false;
 
     } catch (SignatureException e) {
       //시그니처 검증 실패
+      log.error("[" + TraceIdHolder.get() + "]:(시그니처 검증 실패)");
       return false;
 
     } catch (JwtException e) {
       //기타 JWT 관련 예외
+      log.error("[" + TraceIdHolder.get() + "]:(기타 JWT 예외 발생)");
       return false;
     }
 
