@@ -9,6 +9,7 @@ import com.project.hiuni.admin.domain.agreement.repository.PersonalInfoAgreement
 import com.project.hiuni.admin.domain.agreement.repository.ServiceImprovementAgreementRepository;
 import com.project.hiuni.admin.domain.agreement.repository.ServiceTermsAgreementRepository;
 import com.project.hiuni.admin.domain.terms.service.TermsIdService;
+import com.project.hiuni.domain.user.service.UserAgreementService;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

@@ -1,4 +1,4 @@
-package com.project.hiuni.admin.domain.agreement.service;
+package com.project.hiuni.domain.user.service;
 
 import com.project.hiuni.admin.domain.agreement.entity.AgreementInfo;
 import com.project.hiuni.admin.domain.agreement.entity.IdentityVerificationAgreement;
