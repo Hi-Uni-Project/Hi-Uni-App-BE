@@ -137,8 +137,6 @@ public class User extends BaseEntity {
         .imageUrl(null)
         .role(Role.ROLE_USER)
         .build();
-
-
   }
 
 

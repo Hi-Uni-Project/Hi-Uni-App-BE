@@ -1,7 +1,5 @@
 package com.project.hiuni.domain.test;
 
-import static com.project.hiuni.global.security.core.Role.ROLE_USER;
-
 import com.project.hiuni.domain.user.entity.User;
 import com.project.hiuni.global.security.core.CustomUserDetails;
 import com.project.hiuni.global.security.jwt.JwtTokenProvider;
@@ -27,10 +25,7 @@ public class JwtTestController {
 
   @GetMapping("/create-token")
   public String createToken() {
-    User user = new User();
-    user.setId(1L);
-    user.setRole(ROLE_USER);
-    user.setSocialEmail("test@kakao.com");
+    User user = User.createTestUserOf(1L);
 
     UserDetails userDetails = new CustomUserDetails(user);
 

@@ -1,6 +1,5 @@
 package com.project.hiuni.global.security.jwt;
 
-import static com.project.hiuni.global.security.core.Role.ROLE_USER;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.project.hiuni.domain.user.entity.User;
@@ -27,10 +26,7 @@ class JwtTokenProviderTest {
   @DisplayName("JWT 토큰을 생성한다.")
   void createToken() {
     //given
-    User user = new User();
-    user.setId(1L);
-    user.setRole(ROLE_USER);
-    user.setSocialEmail("test@kakao.com");
+    User user = User.createTestUserOf(1L);
 
     UserDetails userDetails = new CustomUserDetails(user);
 
@@ -49,10 +45,7 @@ class JwtTokenProviderTest {
   @DisplayName("JWT 토큰에서 사용자 ID를 추출한다.")
   void getUserIdFromToken() {
     //given
-    User user = new User();
-    user.setId(1L);
-    user.setRole(ROLE_USER);
-    user.setSocialEmail("test@kakao.com");
+    User user = User.createTestUserOf(1L);
 
     UserDetails userDetails = new CustomUserDetails(user);
 
@@ -73,10 +66,7 @@ class JwtTokenProviderTest {
   @DisplayName("JWT 토큰의 유효성을 검증한다.")
   void validateToken() {
     //given
-    User user = new User();
-    user.setId(1L);
-    user.setRole(ROLE_USER);
-    user.setSocialEmail("test@kakao.com");
+    User user = User.createTestUserOf(1L);
 
     UserDetails userDetails = new CustomUserDetails(user);
 
