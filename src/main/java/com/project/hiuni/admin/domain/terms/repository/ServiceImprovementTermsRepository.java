@@ -8,6 +8,5 @@ public interface ServiceImprovementTermsRepository extends
 	JpaRepository<ServiceImprovementTerms, Long> {
 
 	Optional<ServiceImprovementTerms> findIdentityVerificationByTermsInfo_AgreeVersion(String version);
-
 	Optional<ServiceImprovementTerms> findTopByOrderByCreatedAtDesc();
 }
