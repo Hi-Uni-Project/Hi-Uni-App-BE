@@ -110,6 +110,7 @@ public class User extends BaseEntity {
       String univName, String majorName,
       String univEmail, String nickname, String imageUrl) {
     return User.builder()
+        .id(id)
         .socialEmail(socialEmail)
         .socialProvider(socialProvider)
         .univName(univName)
