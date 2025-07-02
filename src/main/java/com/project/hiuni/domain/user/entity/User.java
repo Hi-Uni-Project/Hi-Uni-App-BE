@@ -66,7 +66,6 @@ public class User extends BaseEntity {
   /**
    * 일반 사용자를 생성하는 메서드 입니다
    *
-   * @param id             사용자 식별을 위한 ID 값(pk)
    * @param socialEmail    소셜로그인 후 조회된 사용자의 이메일
    * @param socialProvider 소셜로그인 제공자 (예: "google", "kakao")
    * @param univName       대학교 이름
@@ -76,11 +75,11 @@ public class User extends BaseEntity {
    * @param imageUrl       사용자 프로필 이미지 URL
    * @return 생성된 User 객체
    */
-  public static User createStandardUserOf(Long id, String socialEmail, String socialProvider,
+  public static User createStandardUserOf(String socialEmail, String socialProvider,
       String univName, String majorName,
       String univEmail, String nickname, String imageUrl) {
     return User.builder()
-        .id(id)
+        .id(null)
         .socialEmail(socialEmail)
         .socialProvider(socialProvider)
         .univName(univName)
@@ -96,7 +95,6 @@ public class User extends BaseEntity {
   /**
    * 어드민 사용자를 생성하는 메서드 입니다
    *
-   * @param id             사용자 식별을 위한 ID 값(pk)
    * @param socialEmail    소셜로그인 후 조회된 사용자의 이메일
    * @param socialProvider 소셜로그인 제공자 (예: "google", "kakao")
    * @param univName       대학교 이름
@@ -106,11 +104,11 @@ public class User extends BaseEntity {
    * @param imageUrl       사용자 프로필 이미지 URL
    * @return 생성된 User 객체
    */
-  public static User createAdminUserOf(Long id, String socialEmail, String socialProvider,
+  public static User createAdminUserOf(String socialEmail, String socialProvider,
       String univName, String majorName,
       String univEmail, String nickname, String imageUrl) {
     return User.builder()
-        .id(id)
+        .id(null)
         .socialEmail(socialEmail)
         .socialProvider(socialProvider)
         .univName(univName)
