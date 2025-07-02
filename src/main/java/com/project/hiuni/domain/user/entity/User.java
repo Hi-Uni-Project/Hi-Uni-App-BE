@@ -11,6 +11,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -46,6 +47,50 @@ public class User extends BaseEntity {
 
   @Enumerated(EnumType.STRING)
   private Role role;
+
+  @Builder
+  private User(Long id, String socialEmail, String socialProvider, String univName,
+      String majorName, String univEmail, String nickname, String imageUrl, Role role) {
+
+    this.socialEmail = socialEmail;
+    this.socialProvider = socialProvider;
+    this.univName = univName;
+    this.majorName = majorName;
+    this.univEmail = univEmail;
+    this.nickname = nickname;
+    this.imageUrl = imageUrl;
+    this.role = role;
+  }
+
+  public static User createStandardUserOf(String socialEmail, String socialProvider,
+      String univName, String majorName,
+      String univEmail, String nickname, String imageUrl) {
+    return User.builder()
+        .socialEmail(socialEmail)
+        .socialProvider(socialProvider)
+        .univName(univName)
+        .majorName(majorName)
+        .univEmail(univEmail)
+        .nickname(nickname)
+        .imageUrl(imageUrl)
+        .role(Role.ROLE_USER)
+        .build();
+  }
+
+  public static User createAdminUserOf(String socialEmail, String socialProvider,
+      String univName, String majorName,
+      String univEmail, String nickname, String imageUrl) {
+    return User.builder()
+        .socialEmail(socialEmail)
+        .socialProvider(socialProvider)
+        .univName(univName)
+        .majorName(majorName)
+        .univEmail(univEmail)
+        .nickname(nickname)
+        .imageUrl(imageUrl)
+        .role(Role.ROLE_ADMIN)
+        .build();
+  }
 
 
 }
