@@ -52,7 +52,7 @@ class JwtTokenProviderTest {
     Authentication authentication =
         new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 
-    String token = jwtTokenProvider.createToken(authentication, 5000L);
+    String token = jwtTokenProvider.createToken(authentication, 100000L);
 
     //when
     Long userId = jwtTokenProvider.getUserIdFromToken(token);
