@@ -62,6 +62,18 @@ public class User extends BaseEntity {
     this.role = role;
   }
 
+  /**
+   * 일반 사용자를 생성하는 메서드 입니다
+   *
+   * @param socialEmail    소셜로그인 후 조회된 사용자의 이메일
+   * @param socialProvider 소셜로그인 제공자 (예: "google", "kakao")
+   * @param univName       대학교 이름
+   * @param majorName      전공 이름
+   * @param univEmail      대학교 이메일
+   * @param nickname       사용자 닉네임
+   * @param imageUrl       사용자 프로필 이미지 URL
+   * @return 생성된 User 객체
+   */
   public static User createStandardUserOf(String socialEmail, String socialProvider,
       String univName, String majorName,
       String univEmail, String nickname, String imageUrl) {
@@ -77,6 +89,19 @@ public class User extends BaseEntity {
         .build();
   }
 
+
+  /**
+   * 어드민 사용자를 생성하는 메서드 입니다
+   *
+   * @param socialEmail    소셜로그인 후 조회된 사용자의 이메일
+   * @param socialProvider 소셜로그인 제공자 (예: "google", "kakao")
+   * @param univName       대학교 이름
+   * @param majorName      전공 이름
+   * @param univEmail      대학교 이메일
+   * @param nickname       사용자 닉네임
+   * @param imageUrl       사용자 프로필 이미지 URL
+   * @return 생성된 User 객체
+   */
   public static User createAdminUserOf(String socialEmail, String socialProvider,
       String univName, String majorName,
       String univEmail, String nickname, String imageUrl) {
