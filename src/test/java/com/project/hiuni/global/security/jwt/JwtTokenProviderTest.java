@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.project.hiuni.domain.user.entity.User;
 import com.project.hiuni.global.security.core.CustomUserDetails;
 import com.project.hiuni.global.security.core.CustomUserDetailsService;
+import com.project.hiuni.global.security.core.Role;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ class JwtTokenProviderTest {
   @DisplayName("JWT 토큰을 생성한다.")
   void createToken() {
     //given
-    User user = User.createTestUserOf(1L);
+    User user = this.createTestUserOf(1L);
 
     UserDetails userDetails = new CustomUserDetails(user);
 
@@ -45,7 +46,7 @@ class JwtTokenProviderTest {
   @DisplayName("JWT 토큰에서 사용자 ID를 추출한다.")
   void getUserIdFromToken() {
     //given
-    User user = User.createTestUserOf(1L);
+    User user = this.createTestUserOf(1L);
 
     UserDetails userDetails = new CustomUserDetails(user);
 
@@ -65,8 +66,9 @@ class JwtTokenProviderTest {
   @Test
   @DisplayName("JWT 토큰의 유효성을 검증한다.")
   void validateToken() {
+
     //given
-    User user = User.createTestUserOf(1L);
+    User user = this.createTestUserOf(1L);
 
     UserDetails userDetails = new CustomUserDetails(user);
 
@@ -93,4 +95,28 @@ class JwtTokenProviderTest {
 
 
   }
+
+
+  /**
+   * 테스트용 mock 사용자를 생성하는 메서드 입니다. 생성된 User 객체는 다음과 같은 속성을 가집니다: socialEmail => id + "@gmail.com"
+   * socialProvider => "kakao" univName => "익명대학교" majorName => "컴퓨터공학과" univEmail => id +
+   * "@anonymous.ac.kr" nickname => "anonymous" + id imageUrl => null role => ROLE_USER
+   *
+   * @param id 사용자 식별을 위한 ID 값(pk)
+   * @return 생성된 User 객체
+   */
+  private User createTestUserOf(Long id) {
+    return User.builder()
+        .id(id)
+        .socialEmail(id + "@gmail.com")
+        .socialProvider("kakao")
+        .univName("익명대학교")
+        .majorName("컴퓨터공학과")
+        .univEmail(id + "@anonymous.ac.kr")
+        .nickname("anonymous" + id)
+        .imageUrl(null)
+        .role(Role.ROLE_USER)
+        .build();
+  }
+
 }
