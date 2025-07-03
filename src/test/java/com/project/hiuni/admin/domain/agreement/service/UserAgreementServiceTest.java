@@ -9,10 +9,11 @@ import com.project.hiuni.admin.domain.agreement.repository.PersonalInfoAgreement
 import com.project.hiuni.admin.domain.agreement.repository.ServiceImprovementAgreementRepository;
 import com.project.hiuni.admin.domain.agreement.repository.ServiceTermsAgreementRepository;
 import com.project.hiuni.admin.domain.terms.service.TermsIdService;
-import com.project.hiuni.domain.user.service.UserAgreementService;
+import com.project.hiuni.domain.user.v1.service.UserAgreementService;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,7 +21,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 @ActiveProfiles("test")
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class UserAgreementServiceTest {
 
 	@Autowired
@@ -48,33 +49,125 @@ class UserAgreementServiceTest {
 		serviceImprovementAgreementRepository.deleteAll();
 	}
 
-	@DisplayName("필수 약관 동의 내역을 저장할 수 있다.")
-	@Test
-	void test1() throws Exception {
-		//given
-		when(termsIdService.getServiceTermId()).thenReturn(1L);
-		when(termsIdService.getPersonalTermId()).thenReturn(2L);
-		when(termsIdService.getIdentityTermId()).thenReturn(3L);
 
-		//when
-		userAgreementService.addRequiredTerms(1L, LocalDateTime.now());
+	@Nested
+	@DisplayName("약관들의 동의 내역을 저장할 수 있다.")
+	class AgreementsTest{
 
-		//then
-		assertThat(serviceTermsAgreementRepository.findAll())
-			.hasSize(1)
-			.extracting("agreementInfo.termsId")
-			.containsExactly(1L);
+		@DisplayName("마케팅 동의 = true, 서비스 개선 = false")
+		@Test
+		void test1() throws Exception {
+			//given
+			when(termsIdService.getServiceTermId()).thenReturn(1L);
+			when(termsIdService.getPersonalTermId()).thenReturn(2L);
+			when(termsIdService.getIdentityTermId()).thenReturn(3L);
+			when(termsIdService.getMarketingTermId()).thenReturn(4L);
+			when(termsIdService.getServiceImprovementTermId()).thenReturn(5L);
 
-		assertThat(personalInfoAgreementRepository.findAll())
-			.hasSize(1)
-			.extracting("agreementInfo.termsId")
-			.containsExactly(2L);
+			//when
+			userAgreementService.addAgreements(1L, true, false);
 
-		assertThat(identityVerificationAgreementRepository.findAll())
-			.hasSize(1)
-			.extracting("agreementInfo.termsId")
-			.containsExactly(3L);
+			//then
+			assertThat(serviceTermsAgreementRepository.findAll())
+				.hasSize(1)
+				.extracting("agreementInfo.termsId")
+				.containsExactly(1L);
+
+			assertThat(personalInfoAgreementRepository.findAll())
+				.hasSize(1)
+				.extracting("agreementInfo.termsId")
+				.containsExactly(2L);
+
+			assertThat(identityVerificationAgreementRepository.findAll())
+				.hasSize(1)
+				.extracting("agreementInfo.termsId")
+				.containsExactly(3L);
+
+			assertThat(marketingAgreementRepository.findAll())
+				.hasSize(1)
+				.extracting("agreementInfo.termsId")
+				.containsExactly(4L);
+
+			assertThat(serviceImprovementAgreementRepository.findAll()).isEmpty();
+		}
+
+
+		@DisplayName("마케팅 동의 = true, 서비스 개선 = true")
+		@Test
+		void test2() throws Exception {
+			//given
+			when(termsIdService.getServiceTermId()).thenReturn(1L);
+			when(termsIdService.getPersonalTermId()).thenReturn(2L);
+			when(termsIdService.getIdentityTermId()).thenReturn(3L);
+			when(termsIdService.getMarketingTermId()).thenReturn(4L);
+			when(termsIdService.getServiceImprovementTermId()).thenReturn(5L);
+
+			//when
+			userAgreementService.addAgreements(1L, true, true);
+
+			//then
+			assertThat(serviceTermsAgreementRepository.findAll())
+				.hasSize(1)
+				.extracting("agreementInfo.termsId")
+				.containsExactly(1L);
+
+			assertThat(personalInfoAgreementRepository.findAll())
+				.hasSize(1)
+				.extracting("agreementInfo.termsId")
+				.containsExactly(2L);
+
+			assertThat(identityVerificationAgreementRepository.findAll())
+				.hasSize(1)
+				.extracting("agreementInfo.termsId")
+				.containsExactly(3L);
+
+			assertThat(marketingAgreementRepository.findAll())
+				.hasSize(1)
+				.extracting("agreementInfo.termsId")
+				.containsExactly(4L);
+
+			assertThat(serviceImprovementAgreementRepository.findAll())
+				.hasSize(1)
+				.extracting("agreementInfo.termsId")
+				.containsExactly(5L);
+		}
+
+		@DisplayName("마케팅 동의 = false, 서비스 개선 = false")
+		@Test
+		void test3() throws Exception {
+			//given
+			when(termsIdService.getServiceTermId()).thenReturn(1L);
+			when(termsIdService.getPersonalTermId()).thenReturn(2L);
+			when(termsIdService.getIdentityTermId()).thenReturn(3L);
+			when(termsIdService.getMarketingTermId()).thenReturn(4L);
+			when(termsIdService.getServiceImprovementTermId()).thenReturn(5L);
+
+			//when
+			userAgreementService.addAgreements(1L, false, false);
+
+			//then
+			assertThat(serviceTermsAgreementRepository.findAll())
+				.hasSize(1)
+				.extracting("agreementInfo.termsId")
+				.containsExactly(1L);
+
+			assertThat(personalInfoAgreementRepository.findAll())
+				.hasSize(1)
+				.extracting("agreementInfo.termsId")
+				.containsExactly(2L);
+
+			assertThat(identityVerificationAgreementRepository.findAll())
+				.hasSize(1)
+				.extracting("agreementInfo.termsId")
+				.containsExactly(3L);
+
+			assertThat(marketingAgreementRepository.findAll()).isEmpty();
+
+			assertThat(serviceImprovementAgreementRepository.findAll()).isEmpty();
+		}
+
 	}
+
 
 	@DisplayName("마케팅 약관 동의 내역을 저장할 수 있다.")
 	@Test
@@ -90,21 +183,5 @@ class UserAgreementServiceTest {
 			.hasSize(1)
 			.extracting("agreementInfo.termsId")
 			.containsExactly(5L);
-	}
-
-	@DisplayName("서비스 성능 향상 약관 동의 내역을 저장할 수 있다.")
-	@Test
-	void test3() throws Exception {
-		//given
-		when(termsIdService.getServiceImprovementTermId()).thenReturn(3L);
-
-		//when
-		userAgreementService.addServiceImprovementTerms(1L, LocalDateTime.now());
-
-		//then
-		assertThat(serviceImprovementAgreementRepository.findAll())
-			.hasSize(1)
-			.extracting("agreementInfo.termsId")
-			.containsExactly(3L);
 	}
 }
