@@ -19,7 +19,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "user")
 @Entity
-
 public class User extends BaseEntity {
 
   @Id
@@ -48,9 +47,12 @@ public class User extends BaseEntity {
   @Enumerated(EnumType.STRING)
   private Role role;
 
+  private boolean marketingConsent;
+
   @Builder
   private User(Long id, String socialEmail, String socialProvider, String univName,
-      String majorName, String univEmail, String nickname, String imageUrl, Role role) {
+      String majorName, String univEmail, String nickname, String imageUrl, Role role,
+	  boolean marketingConsent) {
 
     this.id = id;
     this.socialEmail = socialEmail;
@@ -61,6 +63,7 @@ public class User extends BaseEntity {
     this.nickname = nickname;
     this.imageUrl = imageUrl;
     this.role = role;
+	this.marketingConsent = marketingConsent;
   }
 
   /**
@@ -75,9 +78,19 @@ public class User extends BaseEntity {
    * @param imageUrl       사용자 프로필 이미지 URL
    * @return 생성된 User 객체
    */
-  public static User createStandardUserOf(String socialEmail, String socialProvider,
-      String univName, String majorName,
-      String univEmail, String nickname, String imageUrl) {
+  public static User createStandardUserOf(
+      String socialEmail,
+      String socialProvider,
+      String univName,
+      String majorName,
+      String univEmail,
+      String nickname,
+      String imageUrl,
+      boolean isMarketingConsent
+  ) {
+
+
+
     return User.builder()
         .id(null)
         .socialEmail(socialEmail)
@@ -88,6 +101,7 @@ public class User extends BaseEntity {
         .nickname(nickname)
         .imageUrl(imageUrl)
         .role(Role.ROLE_USER)
+        .marketingConsent(isMarketingConsent)
         .build();
   }
 
@@ -119,5 +133,4 @@ public class User extends BaseEntity {
         .role(Role.ROLE_ADMIN)
         .build();
   }
-
 }
