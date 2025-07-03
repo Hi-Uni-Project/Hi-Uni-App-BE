@@ -120,27 +120,4 @@ public class User extends BaseEntity {
         .build();
   }
 
-  /**
-   * 테스트용 mock 사용자를 생성하는 메서드 입니다. 생성된 User 객체는 다음과 같은 속성을 가집니다: socialEmail => id + "@gmail.com"
-   * socialProvider => "kakao" univName => "익명대학교" majorName => "컴퓨터공학과" univEmail => id +
-   * "@anonymous.ac.kr" nickname => "anonymous" + id imageUrl => null role => ROLE_USER
-   *
-   * @param id 사용자 식별을 위한 ID 값(pk)
-   * @return 생성된 User 객체
-   */
-  public static User createTestUserOf(Long id) {
-    return User.builder()
-        .id(id)
-        .socialEmail(id + "@gmail.com")
-        .socialProvider("kakao")
-        .univName("익명대학교")
-        .majorName("컴퓨터공학과")
-        .univEmail(id + "@anonymous.ac.kr")
-        .nickname("anonymous" + id)
-        .imageUrl(null)
-        .role(Role.ROLE_USER)
-        .build();
-  }
-
-
 }
