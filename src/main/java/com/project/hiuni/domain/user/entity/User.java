@@ -1,6 +1,7 @@
 package com.project.hiuni.domain.user.entity;
 
 import com.project.hiuni.admin.common.BaseEntity;
+import com.project.hiuni.domain.user.v1.service.SocialProvider;
 import com.project.hiuni.global.security.core.Role;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -29,7 +30,8 @@ public class User extends BaseEntity {
 	private String socialEmail;
 
 	@Column(nullable = false)
-	private String socialProvider;
+	@Enumerated(EnumType.STRING)
+	private SocialProvider socialProvider;
 
 	@Column(nullable = false)
 	private String univName;
@@ -50,7 +52,7 @@ public class User extends BaseEntity {
 	private boolean marketingConsent;
 
 	@Builder
-	private User(Long id, String socialEmail, String socialProvider, String univName,
+	private User(Long id, String socialEmail, SocialProvider socialProvider, String univName,
 		String majorName, String univEmail, String nickname, String imageUrl, Role role,
 		boolean marketingConsent) {
 
@@ -80,7 +82,7 @@ public class User extends BaseEntity {
 	 */
 	public static User createStandardUserOf(
 		String socialEmail,
-		String socialProvider,
+		SocialProvider socialProvider,
 		String univName,
 		String majorName,
 		String univEmail,
@@ -116,7 +118,7 @@ public class User extends BaseEntity {
 	 * @param imageUrl       사용자 프로필 이미지 URL
 	 * @return 생성된 User 객체
 	 */
-	public static User createAdminUserOf(String socialEmail, String socialProvider,
+	public static User createAdminUserOf(String socialEmail, SocialProvider socialProvider,
 		String univName, String majorName,
 		String univEmail, String nickname, String imageUrl) {
 		return User.builder()

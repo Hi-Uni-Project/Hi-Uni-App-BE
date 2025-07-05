@@ -11,6 +11,7 @@ public enum ErrorCode {
     INVALID_INPUT_VALUE(HttpStatus.BAD_REQUEST, "INVALID_INPUT_VALUE", "입력값이 유효하지 않습니다."),
     VALIDATION_FAILED(HttpStatus.BAD_REQUEST, "VALIDATION_FAILED", "요청 데이터가 유효하지 않습니다."),
     DUPLICATED_USER(HttpStatus.BAD_REQUEST, "DUPLICATED_USER", "이미 등록된 사용자입니다."),
+    DUPLICATED_NICKNAME(HttpStatus.BAD_REQUEST, "DUPLICATED_NICKNAME", "이미 등록된 닉네임입니다."),
 
     // 400 Bad Request 파일 관련 에러코드
     UNSUPPORTED_FILE_FORMAT(HttpStatus.BAD_REQUEST, "UNSUPPORTED_FILE_FORMAT", "지원하지 않는 파일 형식입니다."),
