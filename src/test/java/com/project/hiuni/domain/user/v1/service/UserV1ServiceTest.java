@@ -27,14 +27,6 @@ class UserV1ServiceTest {
 		userRepository.deleteAll();
 	}
 
-	@Test
-	void test3() throws Exception {
-		//given
-		//when
-		//then
-
-	}
-
 	@DisplayName("마케팅 수신을 거절할 수 있다.")
 	@Test
 	void test1() {

@@ -12,8 +12,8 @@ import org.springframework.boot.test.system.OutputCaptureExtension;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 
-@ExtendWith(OutputCaptureExtension.class)
 @ActiveProfiles("test")
+@ExtendWith(OutputCaptureExtension.class)
 @Import({AsyncTestHandler.class})
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class AsyncExceptionHandlerTest {
@@ -27,7 +27,7 @@ class AsyncExceptionHandlerTest {
 		//given
 		//when
 		asyncTest.throwException(34L, false, false);
-
+		Thread.sleep(500);
 		//then
 		assertThat(output).contains("비동기 메서드 호출 중 처리되지 않은 예외 발생");
 	}
