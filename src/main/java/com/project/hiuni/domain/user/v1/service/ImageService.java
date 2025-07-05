@@ -1,6 +1,7 @@
 package com.project.hiuni.domain.user.v1.service;
 
 import com.project.hiuni.domain.user.entity.Image;
+import java.io.IOException;
 import java.util.UUID;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -9,12 +10,13 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 public class ImageService {
 
-	public Image create(MultipartFile image) {
+	public Image create(MultipartFile image) throws IOException {
 		
 		if(image == null) return Image.builder().build();
+
 		String storedImageName = generateImageName(image.getOriginalFilename());
 
-		return Image.of(image.getOriginalFilename(), storedImageName);
+		return Image.of(image.getOriginalFilename(), storedImageName, image.getBytes());
 	}
 
 	private String generateImageName(String originalFilename) {

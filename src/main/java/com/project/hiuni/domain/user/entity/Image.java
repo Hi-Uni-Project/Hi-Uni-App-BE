@@ -1,9 +1,11 @@
 package com.project.hiuni.domain.user.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -24,15 +26,21 @@ public class Image {
 
 	private String storedImageName;
 
+	@Lob
+	@Column(columnDefinition = "LONGBLOB")
+	private byte[] imageData;
+
 	@Builder
-	private Image(Long id, String uploadImageName, String storedImageName) {
+	private Image(Long id, String uploadImageName, String storedImageName, byte[] imageData) {
 		this.id = id;
 		this.uploadImageName = uploadImageName;
 		this.storedImageName = storedImageName;
+		this.imageData = imageData;
 	}
 
-	public static Image of(String uploadImageName, String storedImageName) {
+	public static Image of(String uploadImageName, String storedImageName, byte[] imageData) {
 		return Image.builder()
+			.imageData(imageData)
 			.uploadImageName(uploadImageName)
 			.storedImageName(storedImageName)
 			.build();

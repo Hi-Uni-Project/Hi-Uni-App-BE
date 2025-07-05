@@ -6,6 +6,7 @@ import com.project.hiuni.domain.user.v1.service.UserAgreementService;
 import com.project.hiuni.domain.user.v1.service.UserV1Service;
 import com.project.hiuni.domain.user.v1.service.UserVerificationService;
 import com.project.hiuni.global.common.dto.response.ResponseDto;
+import java.io.IOException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +31,8 @@ public class UserV1Controller {
 
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping
-	public ResponseDto<Long> createUser(@RequestBody UserPostRequest request) {
+	public ResponseDto<Long> createUser(@RequestBody UserPostRequest request) throws IOException {
+
 		User user = userV1Service.create(request);
 		userAgreementService.addAgreements(user.getId(), request.marketingConsent(), request.improvementConsent());
 

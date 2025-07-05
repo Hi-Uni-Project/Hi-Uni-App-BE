@@ -6,6 +6,7 @@ import com.project.hiuni.domain.user.entity.User;
 import com.project.hiuni.domain.user.exception.CustomUserNotFoundException;
 import com.project.hiuni.domain.user.repository.UserRepository;
 import com.project.hiuni.global.exception.ErrorCode;
+import java.io.IOException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,11 +20,13 @@ public class UserV1Service {
 	private final UserVerificationService userVerificationService;
 	private final ImageService imageService;
 
-	public User create(UserPostRequest request) {
+	public User create(UserPostRequest request) throws IOException {
+
 		userVerificationService.checkEmailDuplication(
 			request.socialEmail(),
 			request.socialProvider()
 		);
+
 		Image image = imageService.create(request.imageFile());
 		User user = User.createStandardUserOf(request, image);
 
