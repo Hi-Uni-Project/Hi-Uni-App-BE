@@ -34,18 +34,29 @@ public class UserV1Service {
 	}
 
 	public User cancelMarketingSubs(long userId) {
-		User user = userRepository.findById(userId)
-			.orElseThrow(() -> new CustomUserNotFoundException(ErrorCode.NOT_FOUND));
+		User user = findUser(userId);
 		user.cancelMarketingConsent();
 
 		return user;
 	}
 
 	public User agreeMarketingSubs(long userId) {
-		User user = userRepository.findById(userId)
-			.orElseThrow(() -> new CustomUserNotFoundException(ErrorCode.NOT_FOUND));
+		User user = findUser(userId);
 		user.agreeMarketingConsent();
 
 		return user;
+	}
+
+	public void changeNickname(long userId, String newNickname) {
+		User user = findUser(userId);
+
+		userVerificationService.checkNicknameDuplication(newNickname);
+		user.changeNickname(newNickname);
+	}
+
+
+	private User findUser(long userId) {
+		return userRepository.findById(userId)
+			.orElseThrow(() -> new CustomUserNotFoundException(ErrorCode.NOT_FOUND));
 	}
 }

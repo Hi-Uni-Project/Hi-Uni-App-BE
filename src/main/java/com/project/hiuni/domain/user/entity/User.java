@@ -190,4 +190,8 @@ public class User extends BaseEntity {
 	public void agreeMarketingConsent() {
 		this.marketingConsent = true;
 	}
+
+	public void changeNickname(String newNickname) {
+		this.nickname = newNickname;
+	}
 }

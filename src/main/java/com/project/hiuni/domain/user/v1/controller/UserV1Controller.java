@@ -6,6 +6,7 @@ import com.project.hiuni.domain.user.v1.service.UserAgreementService;
 import com.project.hiuni.domain.user.v1.service.UserV1Service;
 import com.project.hiuni.domain.user.v1.service.UserVerificationService;
 import com.project.hiuni.global.common.dto.response.ResponseDto;
+import com.project.hiuni.global.security.jwt.JwtTokenProvider;
 import java.io.IOException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -28,6 +29,7 @@ public class UserV1Controller {
 	private final UserV1Service  userV1Service;
 	private final UserAgreementService userAgreementService;
 	private final UserVerificationService userVerificationService;
+	private final JwtTokenProvider jwtTokenProvider;
 
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping
@@ -54,6 +56,12 @@ public class UserV1Controller {
 	@PatchMapping("/{userId}/marketing/agree")
 	public ResponseEntity<?> agreeMarketing(@PathVariable long userId) {
 		userV1Service.agreeMarketingSubs(userId);
+		return ResponseEntity.ok().build();
+	}
+
+	@PatchMapping("/{userId}/nickname")
+	public ResponseEntity<?> changeNickname(@PathVariable long userId, @RequestParam String newNickname) {
+		userV1Service.changeNickname(userId, newNickname);
 		return ResponseEntity.ok().build();
 	}
 }
