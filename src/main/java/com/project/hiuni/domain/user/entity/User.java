@@ -1,6 +1,7 @@
 package com.project.hiuni.domain.user.entity;
 
 import com.project.hiuni.admin.common.BaseEntity;
+import com.project.hiuni.domain.user.dto.request.UserPostRequest;
 import com.project.hiuni.domain.user.v1.service.SocialProvider;
 import com.project.hiuni.global.security.core.Role;
 import jakarta.persistence.Column;
@@ -50,11 +51,12 @@ public class User extends BaseEntity {
 	private Role role;
 
 	private boolean marketingConsent;
+	private boolean improvementConsent;
 
 	@Builder
 	private User(Long id, String socialEmail, SocialProvider socialProvider, String univName,
 		String majorName, String univEmail, String nickname, String imageUrl, Role role,
-		boolean marketingConsent) {
+		boolean marketingConsent, boolean improvementConsent) {
 
 		this.id = id;
 		this.socialEmail = socialEmail;
@@ -66,6 +68,7 @@ public class User extends BaseEntity {
 		this.imageUrl = imageUrl;
 		this.role = role;
 		this.marketingConsent = marketingConsent;
+		this.improvementConsent = improvementConsent;
 	}
 
 	/**
@@ -102,6 +105,24 @@ public class User extends BaseEntity {
 			.imageUrl(imageUrl)
 			.role(Role.ROLE_USER)
 			.marketingConsent(isMarketingConsent)
+			.build();
+	}
+
+	public static User createStandardUserOf(
+		UserPostRequest request
+	) {
+
+		return User.builder()
+			.socialEmail(request.socialEmail())
+			.socialProvider(request.socialProvider())
+			.univName(request.univName())
+			.majorName(request.majorName())
+			.univEmail(request.univEmail())
+			.nickname(request.nickname())
+			.imageUrl(request.imageUrl())
+			.role(Role.ROLE_USER)
+			.marketingConsent(request.marketingConsent())
+			.improvementConsent(request.improvementConsent())
 			.build();
 	}
 

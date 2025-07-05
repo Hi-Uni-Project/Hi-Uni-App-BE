@@ -1,28 +1,46 @@
 package com.project.hiuni.domain.user.v1.controller;
 
+import com.project.hiuni.domain.user.dto.request.UserPostRequest;
 import com.project.hiuni.domain.user.entity.User;
 import com.project.hiuni.domain.user.v1.service.UserAgreementService;
 import com.project.hiuni.domain.user.v1.service.UserV1Service;
+import com.project.hiuni.domain.user.v1.service.UserVerificationService;
+import com.project.hiuni.global.common.dto.response.ResponseDto;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
+@RequiredArgsConstructor
+@RestController
 @RequestMapping("/api/v1/user")
 public class UserV1Controller {
 
-	private UserV1Service  userV1Service;
-	private UserAgreementService userAgreementService;
+	private final UserV1Service  userV1Service;
+	private final UserAgreementService userAgreementService;
+	private final UserVerificationService userVerificationService;
 
+	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping
-	public ResponseEntity<?> createUser() {
+	public ResponseDto<Long> createUser(@RequestBody UserPostRequest request) {
 
-		User user = userV1Service.create();
+		User user = userV1Service.create(request);
+		userAgreementService.addAgreements(user.getId(), request.marketingConsent(), request.improvementConsent());
 
-		//TODO: 마케팅 정보 동의, 서비스 개선 동의 boolean값이 필요합니다.
-		//userAgreementService.add(user.getId(),);
+		return ResponseDto.response(user.getId());
+	}
 
+	@GetMapping("/nickname")
+	public ResponseEntity<?> getUserNickname(@RequestParam String nickname) {
+		userVerificationService.checkNicknameDuplication(nickname);
 		return ResponseEntity.ok().build();
 	}
 
@@ -33,7 +51,7 @@ public class UserV1Controller {
 	}
 
 	@PatchMapping("/{userId}/marketing/agree")
-	public ResponseEntity<?> updateUser(@PathVariable long userId) {
+	public ResponseEntity<?> agreeMarketing(@PathVariable long userId) {
 		userV1Service.agreeMarketingSubs(userId);
 		return ResponseEntity.ok().build();
 	}

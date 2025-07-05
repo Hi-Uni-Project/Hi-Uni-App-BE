@@ -1,5 +1,6 @@
 package com.project.hiuni.domain.user.v1.service;
 
+import com.project.hiuni.domain.user.dto.request.UserPostRequest;
 import com.project.hiuni.domain.user.entity.User;
 import com.project.hiuni.domain.user.exception.CustomUserNotFoundException;
 import com.project.hiuni.domain.user.repository.UserRepository;
@@ -14,9 +15,16 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserV1Service {
 
 	private final UserRepository userRepository;
+	private final UserVerificationService userVerificationService;
 
-	public User create() {
-		return null;
+	public User create(UserPostRequest request) {
+		userVerificationService.checkEmailDuplication(
+			request.socialEmail(),
+			request.socialProvider()
+		);
+		User user = User.createStandardUserOf(request);
+
+		return userRepository.save(user);
 	}
 
 	public User cancelMarketingSubs(long userId) {
