@@ -7,7 +7,6 @@ import com.project.hiuni.domain.user.entity.User;
 import com.project.hiuni.domain.user.repository.UserRepository;
 import com.project.hiuni.global.security.core.Role;
 import jakarta.transaction.Transactional;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,10 +25,7 @@ class UserV1ServiceTest {
 	@Autowired
 	private UserV1Service userV1Service;
 
-	@BeforeEach
-	void setUp() {
-		userRepository.deleteAll();
-	}
+
 
 	@DisplayName("회원을 생성하여 저장할 수 있다.")
 	@Test
@@ -136,10 +132,26 @@ class UserV1ServiceTest {
 		assertThat(result.isMarketingConsent()).isTrue();
 	}
 
-	private User getTestUser(boolean marketingConsent, String mail, String test) {
+	@DisplayName("닉네임을 변경할 수 있다.")
+	@Test
+	void test6() throws Exception {
+		//given
+		String nickname = "test";
+		User testUser = getTestUser(false, "test@gmail.com", nickname);
+		User user = userRepository.save(testUser);
+
+		//when
+		String newNickname = "test2";
+		userV1Service.changeNickname(user.getId(), newNickname);
+
+		//then
+		assertThat(user.getNickname()).isEqualTo(newNickname);
+	}
+
+	private User getTestUser(boolean marketingConsent, String mail, String nickname) {
 		return User.builder()
 			.marketingConsent(marketingConsent)
-			.nickname(test)
+			.nickname(nickname)
 			.socialEmail(mail)
 			.socialProvider(SocialProvider.KAKAO)
 			.univName("testUni")
