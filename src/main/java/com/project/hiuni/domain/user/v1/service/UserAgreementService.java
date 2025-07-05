@@ -1,4 +1,4 @@
-package com.project.hiuni.domain.user.service;
+package com.project.hiuni.domain.user.v1.service;
 
 import com.project.hiuni.admin.domain.agreement.entity.AgreementInfo;
 import com.project.hiuni.admin.domain.agreement.entity.IdentityVerificationAgreement;
@@ -15,8 +15,10 @@ import com.project.hiuni.admin.domain.terms.service.TermsIdService;
 import jakarta.transaction.Transactional;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @RequiredArgsConstructor
 @Transactional
 @Service
@@ -29,8 +31,29 @@ public class UserAgreementService {
 	private final ServiceTermsAgreementRepository serviceTermsAgreementRepository;
 	private final ServiceImprovementAgreementRepository serviceImprovementAgreementRepository;
 
+    public void addAgreements(long userId, boolean isMarketingAgreed, boolean isServiceImprovementAgreed) {
 
-	public void addRequiredTerms(long userId, LocalDateTime agreedAt) {
+		LocalDateTime agreementDate = LocalDateTime.now();
+
+	    addRequiredTerms(userId, agreementDate);
+
+	    if(isMarketingAgreed) {
+		    addMarketingTerms(userId, agreementDate);
+	    }
+
+		if(isServiceImprovementAgreed) {
+			addServiceImprovementTerms(userId, agreementDate);
+		}
+    }
+
+	public void addMarketingTerms(long userId, LocalDateTime agreedAt) {
+		marketingAgreementRepository.save(MarketingAgreement.from(
+			AgreementInfo.of(userId, termsIdService.getMarketingTermId(), agreedAt))
+		);
+		log.info("marketing agreement :: userId = {}, date = {}", userId, agreedAt);
+	}
+
+	private void addRequiredTerms(long userId, LocalDateTime agreedAt) {
 
 		serviceTermsAgreementRepository.save(ServiceTermsAgreement.from(
 			AgreementInfo.of(userId, termsIdService.getServiceTermId(), agreedAt))
@@ -43,17 +66,15 @@ public class UserAgreementService {
 		identityVerificationAgreementRepository.save(IdentityVerificationAgreement.from(
 			AgreementInfo.of(userId, termsIdService.getIdentityTermId(), agreedAt))
 		);
+		log.info("required agreement :: userId = {}, date = {}", userId, agreedAt);
 	}
 
-	public void addMarketingTerms(long userId, LocalDateTime agreedAt) {
-		marketingAgreementRepository.save(MarketingAgreement.from(
-			AgreementInfo.of(userId, termsIdService.getMarketingTermId(), agreedAt))
-		);
-	}
 
-	public void addServiceImprovementTerms(long userId, LocalDateTime agreedAt) {
+	private void addServiceImprovementTerms(long userId, LocalDateTime agreedAt) {
+
 		serviceImprovementAgreementRepository.save(ServiceImprovementAgreement.from(
 			AgreementInfo.of(userId, termsIdService.getServiceImprovementTermId(), agreedAt))
 		);
+		log.info("service improvement agreement :: userId = {}, date = {}", userId, agreedAt);
 	}
 }

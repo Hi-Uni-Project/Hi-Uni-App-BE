@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "marketing_subs_agreement")
+@Table(name = "identity_verification_agreement")
 @Entity
 public class IdentityVerificationAgreement extends BaseEntity {
 
