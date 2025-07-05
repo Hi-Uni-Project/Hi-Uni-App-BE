@@ -2,16 +2,20 @@ package com.project.hiuni.domain.user.v1.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.project.hiuni.domain.user.dto.request.UserPostRequest;
 import com.project.hiuni.domain.user.entity.User;
 import com.project.hiuni.domain.user.repository.UserRepository;
 import com.project.hiuni.global.security.core.Role;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ActiveProfiles;
 
+@Transactional
 @ActiveProfiles("test")
 @SpringBootTest
 class UserV1ServiceTest {
@@ -25,6 +29,47 @@ class UserV1ServiceTest {
 	@BeforeEach
 	void setUp() {
 		userRepository.deleteAll();
+	}
+
+	@DisplayName("회원을 생성하여 저장할 수 있다.")
+	@Test
+	void test3() throws Exception {
+		//given
+		byte[] fakeJpeg = new byte[] {(byte)0xFF, (byte)0xD8, (byte)0xFF, (byte)0xE0};
+
+		String originalFilename = "originTitle.jpg";
+		MockMultipartFile imageFile = new MockMultipartFile(
+			"file",
+			originalFilename,
+			"image/jpeg",
+			fakeJpeg
+		);
+		UserPostRequest userPostRequest = new UserPostRequest(
+			"test@gmail.com",
+			SocialProvider.KAKAO,
+			"testUniv",
+			"major",
+			"test@univ.com",
+			"nickname",
+			"imageUrl",
+			imageFile,
+			false,
+			false
+		);
+		//when
+		User user = userV1Service.create(userPostRequest);
+
+		//then
+		assertThat(user).isNotNull();
+		assertThat(user.getNickname()).isEqualTo("nickname");
+		assertThat(user.getSocialEmail()).isEqualTo("test@gmail.com");
+		assertThat(user.getUnivName()).isEqualTo("testUniv");
+		assertThat(user.getUnivEmail()).isEqualTo("test@univ.com");
+		assertThat(user.getSocialProvider()).isEqualTo(SocialProvider.KAKAO);
+		assertThat(user.isMarketingConsent()).isFalse();
+		assertThat(user.isImprovementConsent()).isFalse();
+		assertThat(user.getImage().getStoredImageName()).isNotNull();
+		assertThat(user.getImage().getUploadImageName()).isEqualTo(originalFilename);
 	}
 
 	@DisplayName("마케팅 수신을 거절할 수 있다.")
