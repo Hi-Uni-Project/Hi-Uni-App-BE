@@ -4,6 +4,7 @@ import com.project.hiuni.admin.common.BaseEntity;
 import com.project.hiuni.domain.user.dto.request.UserPostRequest;
 import com.project.hiuni.domain.user.v1.service.SocialProvider;
 import com.project.hiuni.global.security.core.Role;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -12,7 +13,6 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
@@ -60,8 +60,8 @@ public class User extends BaseEntity {
 
 	private boolean improvementConsent;
 
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "image_id")
+
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")
 	private Image image;
 
 	@Builder
@@ -137,8 +137,7 @@ public class User extends BaseEntity {
 		UserPostRequest request,
 		Image image
 	) {
-
-		return User.builder()
+		User user = User.builder()
 			.socialEmail(request.socialEmail())
 			.socialProvider(request.socialProvider())
 			.univName(request.univName())
@@ -152,6 +151,9 @@ public class User extends BaseEntity {
 			.image(image)
 			.status(UserStatus.ACTIVE)
 			.build();
+
+		image.addUser(user);
+		return user;
 	}
 
 
@@ -193,5 +195,21 @@ public class User extends BaseEntity {
 
 	public void changeNickname(String newNickname) {
 		this.nickname = newNickname;
+	}
+
+	public void withdraw() {
+		this.status = UserStatus.WITHDRAWN;
+	}
+
+	public void deleteImage() {
+		this.image.removeUser();
+		this.image = null;
+	}
+
+	public void changeProfileImage(Image image) {
+		if (image != null) {
+			image.addUser(this);
+			this.image = image;
+		}
 	}
 }

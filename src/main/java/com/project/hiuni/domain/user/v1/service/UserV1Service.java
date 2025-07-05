@@ -10,6 +10,7 @@ import java.io.IOException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 @RequiredArgsConstructor
 @Transactional
@@ -54,9 +55,27 @@ public class UserV1Service {
 		user.changeNickname(newNickname);
 	}
 
+	public void withdrawUser(long userId) {
+		User user = findUser(userId);
+		user.withdraw();
+	}
+
+
+	public void deleteProfileImage(long userId) {
+		User user = findUser(userId);
+		if (user.getImage() != null) {
+			user.deleteImage();
+		}
+	}
 
 	private User findUser(long userId) {
 		return userRepository.findById(userId)
 			.orElseThrow(() -> new CustomUserNotFoundException(ErrorCode.NOT_FOUND));
+	}
+
+	public void changeProfileImage(long userId, MultipartFile newImage) throws IOException {
+		User user = findUser(userId);
+		Image image = imageService.create(newImage);
+		user.changeProfileImage(image);
 	}
 }
