@@ -1,6 +1,7 @@
 package com.project.hiuni.domain.user.dto.request;
 
 import com.project.hiuni.domain.user.v1.service.SocialProvider;
+import org.springframework.web.multipart.MultipartFile;
 
 public record UserPostRequest(
 
@@ -11,6 +12,7 @@ public record UserPostRequest(
 	String univEmail,
 	String nickname,
 	String imageUrl,
+	MultipartFile imageFile,
 	boolean marketingConsent,
 	boolean improvementConsent
 ) {

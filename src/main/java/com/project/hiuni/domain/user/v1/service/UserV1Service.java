@@ -1,6 +1,7 @@
 package com.project.hiuni.domain.user.v1.service;
 
 import com.project.hiuni.domain.user.dto.request.UserPostRequest;
+import com.project.hiuni.domain.user.entity.Image;
 import com.project.hiuni.domain.user.entity.User;
 import com.project.hiuni.domain.user.exception.CustomUserNotFoundException;
 import com.project.hiuni.domain.user.repository.UserRepository;
@@ -16,13 +17,15 @@ public class UserV1Service {
 
 	private final UserRepository userRepository;
 	private final UserVerificationService userVerificationService;
+	private final ImageService imageService;
 
 	public User create(UserPostRequest request) {
 		userVerificationService.checkEmailDuplication(
 			request.socialEmail(),
 			request.socialProvider()
 		);
-		User user = User.createStandardUserOf(request);
+		Image image = imageService.create(request.imageFile());
+		User user = User.createStandardUserOf(request, image);
 
 		return userRepository.save(user);
 	}

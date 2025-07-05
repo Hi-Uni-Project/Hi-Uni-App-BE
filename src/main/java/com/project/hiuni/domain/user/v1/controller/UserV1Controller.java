@@ -31,7 +31,6 @@ public class UserV1Controller {
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping
 	public ResponseDto<Long> createUser(@RequestBody UserPostRequest request) {
-
 		User user = userV1Service.create(request);
 		userAgreementService.addAgreements(user.getId(), request.marketingConsent(), request.improvementConsent());
 

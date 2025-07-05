@@ -8,9 +8,12 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -54,7 +57,12 @@ public class User extends BaseEntity {
 	private UserStatus status;
 
 	private boolean marketingConsent;
+
 	private boolean improvementConsent;
+
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "image_id")
+	private Image image;
 
 	@Builder
 	private User(
@@ -69,7 +77,8 @@ public class User extends BaseEntity {
 		Role role,
 		UserStatus status,
 		boolean marketingConsent,
-		boolean improvementConsent
+		boolean improvementConsent,
+		Image image
 	) {
 
 		this.id = id;
@@ -84,6 +93,7 @@ public class User extends BaseEntity {
 		this.status = status;
 		this.marketingConsent = marketingConsent;
 		this.improvementConsent = improvementConsent;
+		this.image = image;
 	}
 
 	/**
@@ -124,7 +134,8 @@ public class User extends BaseEntity {
 	}
 
 	public static User createStandardUserOf(
-		UserPostRequest request
+		UserPostRequest request,
+		Image image
 	) {
 
 		return User.builder()
@@ -138,6 +149,7 @@ public class User extends BaseEntity {
 			.role(Role.ROLE_USER)
 			.marketingConsent(request.marketingConsent())
 			.improvementConsent(request.improvementConsent())
+			.image(image)
 			.status(UserStatus.ACTIVE)
 			.build();
 	}
