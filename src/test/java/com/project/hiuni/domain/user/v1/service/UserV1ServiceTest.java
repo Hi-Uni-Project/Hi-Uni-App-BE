@@ -70,6 +70,40 @@ class UserV1ServiceTest {
 		assertThat(user.isImprovementConsent()).isFalse();
 		assertThat(user.getImage().getStoredImageName()).isNotNull();
 		assertThat(user.getImage().getUploadImageName()).isEqualTo(originalFilename);
+		assertThat(user.getImage().getImageData()).isEqualTo(new byte[] {(byte)0xFF, (byte)0xD8, (byte)0xFF, (byte)0xE0});
+	}
+
+	@DisplayName("이미지 파일이 null일 경우 이미지 엔티티의 필드도 null이다.")
+	@Test
+	void test5() throws Exception {
+		//given
+		UserPostRequest userPostRequest = new UserPostRequest(
+			"test@gmail.com",
+			SocialProvider.KAKAO,
+			"testUniv",
+			"major",
+			"test@univ.com",
+			"nickname",
+			"imageUrl",
+			null,
+			false,
+			false
+		);
+		//when
+		User user = userV1Service.create(userPostRequest);
+
+		//then
+		assertThat(user).isNotNull();
+		assertThat(user.getNickname()).isEqualTo("nickname");
+		assertThat(user.getSocialEmail()).isEqualTo("test@gmail.com");
+		assertThat(user.getUnivName()).isEqualTo("testUniv");
+		assertThat(user.getUnivEmail()).isEqualTo("test@univ.com");
+		assertThat(user.getSocialProvider()).isEqualTo(SocialProvider.KAKAO);
+		assertThat(user.isMarketingConsent()).isFalse();
+		assertThat(user.isImprovementConsent()).isFalse();
+		assertThat(user.getImage().getStoredImageName()).isNull();
+		assertThat(user.getImage().getUploadImageName()).isNull();
+		assertThat(user.getImage().getImageData()).isNull();
 	}
 
 	@DisplayName("마케팅 수신을 거절할 수 있다.")

@@ -39,4 +39,16 @@ class ImageServiceTest {
 		assertThat(image.getStoredImageName()).isNotEmpty();
 	}
 
+	@DisplayName("이미지 파일이 null이면 빈 이미지 엔티티가 들어간다.")
+	@Test
+	void test2() throws Exception {
+		//given
+		//when
+		Image image = imageService.create(null);
+		//then
+		assertThat(image.getImageData()).isNull();
+		assertThat(image.getStoredImageName()).isNull();
+		assertThat(image.getUploadImageName()).isNull();
+	}
+
 }
