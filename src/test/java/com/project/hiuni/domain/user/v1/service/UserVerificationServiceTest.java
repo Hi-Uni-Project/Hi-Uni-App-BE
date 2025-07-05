@@ -17,13 +17,13 @@ import org.springframework.test.context.ActiveProfiles;
 
 @ActiveProfiles("test")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class UserVerificationTest {
+class UserVerificationServiceTest {
 
 	@Autowired
 	private UserRepository userRepository;
 
 	@Autowired
-	private UserVerification userVerification;
+	private UserVerificationService userVerificationService;
 
 	@BeforeEach
 	void setUp() {
@@ -41,7 +41,7 @@ class UserVerificationTest {
 		userRepository.save(testUser);
 
 		//when then
-		assertThatThrownBy(() -> userVerification.checkEmailDuplication(email, provider))
+		assertThatThrownBy(() -> userVerificationService.checkEmailDuplication(email, provider))
 			.isInstanceOf(CustomUserDuplicationException.class);
 	}
 
@@ -57,7 +57,7 @@ class UserVerificationTest {
 
 		//when then
 		assertThatNoException()
-			.isThrownBy(() -> userVerification.checkEmailDuplication("test3@gmail.com", provider));
+			.isThrownBy(() -> userVerificationService.checkEmailDuplication("test3@gmail.com", provider));
 	}
 
 
@@ -73,7 +73,7 @@ class UserVerificationTest {
 		userRepository.save(testUser);
 
 		//when then
-		assertThatThrownBy(() -> userVerification.checkNicknameDuplication(nickname))
+		assertThatThrownBy(() -> userVerificationService.checkNicknameDuplication(nickname))
 			.isInstanceOf(CustomNicknameDuplicationException.class);
 	}
 
@@ -90,7 +90,7 @@ class UserVerificationTest {
 
 		//when then
 		assertThatNoException()
-			.isThrownBy(() -> userVerification.checkNicknameDuplication("nickname"));
+			.isThrownBy(() -> userVerificationService.checkNicknameDuplication("nickname"));
 	}
 
 	private User getTestUser(String mail, String nickname, SocialProvider socialProvider) {
