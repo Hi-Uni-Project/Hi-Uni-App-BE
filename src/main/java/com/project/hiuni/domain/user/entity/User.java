@@ -50,13 +50,27 @@ public class User extends BaseEntity {
 	@Enumerated(EnumType.STRING)
 	private Role role;
 
+	@Enumerated(EnumType.STRING)
+	private UserStatus status;
+
 	private boolean marketingConsent;
 	private boolean improvementConsent;
 
 	@Builder
-	private User(Long id, String socialEmail, SocialProvider socialProvider, String univName,
-		String majorName, String univEmail, String nickname, String imageUrl, Role role,
-		boolean marketingConsent, boolean improvementConsent) {
+	private User(
+		Long id,
+		String socialEmail,
+		SocialProvider socialProvider,
+		String univName,
+		String majorName,
+		String univEmail,
+		String nickname,
+		String imageUrl,
+		Role role,
+		UserStatus status,
+		boolean marketingConsent,
+		boolean improvementConsent
+	) {
 
 		this.id = id;
 		this.socialEmail = socialEmail;
@@ -67,6 +81,7 @@ public class User extends BaseEntity {
 		this.nickname = nickname;
 		this.imageUrl = imageUrl;
 		this.role = role;
+		this.status = status;
 		this.marketingConsent = marketingConsent;
 		this.improvementConsent = improvementConsent;
 	}
@@ -123,6 +138,7 @@ public class User extends BaseEntity {
 			.role(Role.ROLE_USER)
 			.marketingConsent(request.marketingConsent())
 			.improvementConsent(request.improvementConsent())
+			.status(UserStatus.ACTIVE)
 			.build();
 	}
 
