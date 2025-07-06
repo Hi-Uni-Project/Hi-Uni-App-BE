@@ -6,13 +6,15 @@ import com.project.hiuni.domain.user.dto.request.UserPostRequest;
 import com.project.hiuni.domain.user.entity.User;
 import com.project.hiuni.domain.user.repository.UserRepository;
 import com.project.hiuni.global.security.core.Role;
-import jakarta.transaction.Transactional;
+import java.io.IOException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 @ActiveProfiles("test")
@@ -31,27 +33,9 @@ class UserV1ServiceTest {
 	@Test
 	void test3() throws Exception {
 		//given
-		byte[] fakeJpeg = new byte[] {(byte)0xFF, (byte)0xD8, (byte)0xFF, (byte)0xE0};
+		var imageFile = getImageFile("image1.jpg");
+		var userPostRequest = getUserPostRequest(imageFile);
 
-		String originalFilename = "originTitle.jpg";
-		MockMultipartFile imageFile = new MockMultipartFile(
-			"file",
-			originalFilename,
-			"image/jpeg",
-			fakeJpeg
-		);
-		UserPostRequest userPostRequest = new UserPostRequest(
-			"test@gmail.com",
-			SocialProvider.KAKAO,
-			"testUniv",
-			"major",
-			"test@univ.com",
-			"nickname",
-			"imageUrl",
-			imageFile,
-			false,
-			false
-		);
 		//when
 		User user = userV1Service.create(userPostRequest);
 
@@ -64,27 +48,16 @@ class UserV1ServiceTest {
 		assertThat(user.getSocialProvider()).isEqualTo(SocialProvider.KAKAO);
 		assertThat(user.isMarketingConsent()).isFalse();
 		assertThat(user.isImprovementConsent()).isFalse();
-		assertThat(user.getImage().getStoredImageName()).isNotNull();
-		assertThat(user.getImage().getUploadImageName()).isEqualTo(originalFilename);
-		assertThat(user.getImage().getImageData()).isEqualTo(new byte[] {(byte)0xFF, (byte)0xD8, (byte)0xFF, (byte)0xE0});
+		assertThat(user.getProfileImage().getStoredImageName()).isNotNull();
+		assertThat(user.getProfileImage().getUploadImageName()).isEqualTo(imageFile.getOriginalFilename());
+		assertThat(user.getProfileImage().getImageData()).isEqualTo(new byte[] {(byte)0xFF, (byte)0xD8, (byte)0xFF, (byte)0xE0});
 	}
 
 	@DisplayName("이미지 파일이 null일 경우 이미지 엔티티의 필드도 null이다.")
 	@Test
 	void test5() throws Exception {
 		//given
-		UserPostRequest userPostRequest = new UserPostRequest(
-			"test@gmail.com",
-			SocialProvider.KAKAO,
-			"testUniv",
-			"major",
-			"test@univ.com",
-			"nickname",
-			"imageUrl",
-			null,
-			false,
-			false
-		);
+		UserPostRequest userPostRequest = getUserPostRequest(null);
 		//when
 		User user = userV1Service.create(userPostRequest);
 
@@ -97,9 +70,9 @@ class UserV1ServiceTest {
 		assertThat(user.getSocialProvider()).isEqualTo(SocialProvider.KAKAO);
 		assertThat(user.isMarketingConsent()).isFalse();
 		assertThat(user.isImprovementConsent()).isFalse();
-		assertThat(user.getImage().getStoredImageName()).isNull();
-		assertThat(user.getImage().getUploadImageName()).isNull();
-		assertThat(user.getImage().getImageData()).isNull();
+		assertThat(user.getProfileImage().getStoredImageName()).isNull();
+		assertThat(user.getProfileImage().getUploadImageName()).isNull();
+		assertThat(user.getProfileImage().getImageData()).isNull();
 	}
 
 	@DisplayName("마케팅 수신을 거절할 수 있다.")
@@ -148,6 +121,43 @@ class UserV1ServiceTest {
 		assertThat(user.getNickname()).isEqualTo(newNickname);
 	}
 
+	@DisplayName("프로필 이미지를 삭제할 수 있다.")
+	@Test
+	void test7() throws Exception {
+		//given
+		var imageFile = getImageFile("image1.jpg");
+		UserPostRequest userPostRequest = getUserPostRequest(imageFile);
+		User user = userV1Service.create(userPostRequest);
+
+		//when
+		userV1Service.deleteProfileImage(user.getId());
+
+		//then
+		User result = userRepository.findById(user.getId()).get();
+		assertThat(result.getProfileImage()).isNull();
+	}
+
+	@Rollback(false)
+	@DisplayName("프로필 이미지를 변경할 수 있다.")
+	@Test
+	void test8() throws Exception {
+		//given
+		var imageFile = getImageFile("image1.jpg");
+		UserPostRequest userPostRequest = getUserPostRequest(imageFile);
+		User user = userV1Service.create(userPostRequest);
+		String storedImageName = user.getProfileImage().getStoredImageName();
+
+		var newImage = getImageFile("image2.jpg");
+
+		//when
+		userV1Service.changeProfileImage(user.getId(), newImage);
+
+		//then
+		User result = userRepository.findById(user.getId()).get();
+		assertThat(result.getProfileImage().getUploadImageName()).isEqualTo(newImage.getOriginalFilename());
+		assertThat(result.getProfileImage().getStoredImageName()).isNotEqualTo(storedImageName);
+	}
+
 	private User getTestUser(boolean marketingConsent, String mail, String nickname) {
 		return User.builder()
 			.marketingConsent(marketingConsent)
@@ -160,5 +170,31 @@ class UserV1ServiceTest {
 			.role(Role.ROLE_USER)
 			.univEmail("test@unive.com")
 			.build();
+	}
+
+	private UserPostRequest getUserPostRequest(MockMultipartFile imageFile) {
+		return new UserPostRequest(
+			"test@gmail.com",
+			SocialProvider.KAKAO,
+			"testUniv",
+			"major",
+			"test@univ.com",
+			"nickname",
+			"imageUrl",
+			imageFile,
+			false,
+			false
+		);
+	}
+
+	private MockMultipartFile getImageFile(String originFilename) throws IOException {
+		byte[] fakeJpeg = new byte[] {(byte)0xFF, (byte)0xD8, (byte)0xFF, (byte)0xE0};
+
+		return new MockMultipartFile(
+			"file",
+			originFilename,
+			"image/jpeg",
+			fakeJpeg
+		);
 	}
 }

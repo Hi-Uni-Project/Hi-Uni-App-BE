@@ -2,7 +2,7 @@ package com.project.hiuni.domain.user.v1.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.project.hiuni.domain.user.entity.Image;
+import com.project.hiuni.domain.user.entity.ProfileImage;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +12,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 @ActiveProfiles("test")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class ImageServiceTest {
+class ProfileImageServiceTest {
 
 	@Autowired
 	private ImageService imageService;
@@ -32,23 +32,22 @@ class ImageServiceTest {
 		);
 
 		//when
-		Image image = imageService.create(imageFile);
+		ProfileImage profileImage = imageService.create(imageFile);
 
 		//then
-		assertThat(image.getUploadImageName()).isEqualTo(originalFilename);
-		assertThat(image.getStoredImageName()).isNotEmpty();
+		assertThat(profileImage.getUploadImageName()).isEqualTo(originalFilename);
+		assertThat(profileImage.getStoredImageName()).isNotEmpty();
 	}
 
-	@DisplayName("이미지 파일이 null이면 빈 이미지 엔티티가 들어간다.")
+	@DisplayName("이미지 파일이 null이면 빈 이미지 엔티티가 생성된다.")
 	@Test
 	void test2() throws Exception {
 		//given
 		//when
-		Image image = imageService.create(null);
+		ProfileImage profileImage = imageService.create(null);
 		//then
-		assertThat(image.getImageData()).isNull();
-		assertThat(image.getStoredImageName()).isNull();
-		assertThat(image.getUploadImageName()).isNull();
+		assertThat(profileImage.getImageData()).isNull();
+		assertThat(profileImage.getStoredImageName()).isNull();
+		assertThat(profileImage.getUploadImageName()).isNull();
 	}
-
 }
