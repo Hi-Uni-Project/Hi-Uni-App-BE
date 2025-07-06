@@ -1,6 +1,7 @@
 package com.project.hiuni.domain.user.v1.controller;
 
 import com.project.hiuni.domain.user.dto.request.UserPostRequest;
+import com.project.hiuni.domain.user.dto.response.UserResponse;
 import com.project.hiuni.domain.user.entity.User;
 import com.project.hiuni.domain.user.v1.service.UserAgreementService;
 import com.project.hiuni.domain.user.v1.service.UserV1Service;
@@ -91,5 +92,12 @@ public class UserV1Controller {
 
 		userV1Service.changeProfileImage(userId, newImage);
 		return ResponseEntity.ok().build();
+	}
+
+	@GetMapping("/{userId}")
+	public ResponseDto<UserResponse> getUser(@PathVariable long userId) {
+		User user = userV1Service.findUser(userId);
+		UserResponse userResponse = UserResponse.from(user);
+		return  ResponseDto.response(userResponse);
 	}
 }
