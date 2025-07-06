@@ -1,7 +1,7 @@
 package com.project.hiuni.domain.user.v1.service;
 
 import com.project.hiuni.domain.user.dto.request.UserPostRequest;
-import com.project.hiuni.domain.user.entity.Image;
+import com.project.hiuni.domain.user.entity.ProfileImage;
 import com.project.hiuni.domain.user.entity.User;
 import com.project.hiuni.domain.user.exception.CustomUserNotFoundException;
 import com.project.hiuni.domain.user.repository.UserRepository;
@@ -28,8 +28,8 @@ public class UserV1Service {
 			request.socialProvider()
 		);
 
-		Image image = imageService.create(request.imageFile());
-		User user = User.createStandardUserOf(request, image);
+		ProfileImage profileImage = imageService.create(request.imageFile());
+		User user = User.createStandardUserOf(request, profileImage);
 
 		return userRepository.save(user);
 	}
@@ -63,19 +63,19 @@ public class UserV1Service {
 
 	public void deleteProfileImage(long userId) {
 		User user = findUser(userId);
-		if (user.getImage() != null) {
+		if (user.getProfileImage() != null) {
 			user.deleteImage();
 		}
 	}
 
-	private User findUser(long userId) {
-		return userRepository.findById(userId)
-			.orElseThrow(() -> new CustomUserNotFoundException(ErrorCode.NOT_FOUND));
-	}
-
 	public void changeProfileImage(long userId, MultipartFile newImage) throws IOException {
 		User user = findUser(userId);
-		Image image = imageService.create(newImage);
-		user.changeProfileImage(image);
+		ProfileImage profileImage = imageService.create(newImage);
+		user.changeProfileImage(profileImage);
+	}
+
+	public User findUser(long userId) {
+		return userRepository.findById(userId)
+			.orElseThrow(() -> new CustomUserNotFoundException(ErrorCode.NOT_FOUND));
 	}
 }

@@ -13,6 +13,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
@@ -60,9 +61,9 @@ public class User extends BaseEntity {
 
 	private boolean improvementConsent;
 
-
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")
-	private Image image;
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+	@JoinColumn(name = "profile_image_id")
+	private ProfileImage profileImage;
 
 	@Builder
 	private User(
@@ -78,7 +79,7 @@ public class User extends BaseEntity {
 		UserStatus status,
 		boolean marketingConsent,
 		boolean improvementConsent,
-		Image image
+		ProfileImage profileImage
 	) {
 
 		this.id = id;
@@ -93,7 +94,7 @@ public class User extends BaseEntity {
 		this.status = status;
 		this.marketingConsent = marketingConsent;
 		this.improvementConsent = improvementConsent;
-		this.image = image;
+		this.profileImage = profileImage;
 	}
 
 	/**
@@ -135,7 +136,7 @@ public class User extends BaseEntity {
 
 	public static User createStandardUserOf(
 		UserPostRequest request,
-		Image image
+		ProfileImage profileImage
 	) {
 		User user = User.builder()
 			.socialEmail(request.socialEmail())
@@ -148,11 +149,10 @@ public class User extends BaseEntity {
 			.role(Role.ROLE_USER)
 			.marketingConsent(request.marketingConsent())
 			.improvementConsent(request.improvementConsent())
-			.image(image)
+			.profileImage(profileImage)
 			.status(UserStatus.ACTIVE)
 			.build();
 
-		image.addUser(user);
 		return user;
 	}
 
@@ -202,14 +202,10 @@ public class User extends BaseEntity {
 	}
 
 	public void deleteImage() {
-		this.image.removeUser();
-		this.image = null;
+		this.profileImage = null;
 	}
 
-	public void changeProfileImage(Image image) {
-		if (image != null) {
-			image.addUser(this);
-			this.image = image;
-		}
+	public void changeProfileImage(ProfileImage profileImage) {
+		this.profileImage = profileImage;
 	}
 }

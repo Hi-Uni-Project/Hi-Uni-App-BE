@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "profile_image")
 @Entity
-public class Image {
+public class ProfileImage {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,15 +31,15 @@ public class Image {
 	private byte[] imageData;
 
 	@Builder
-	private Image(Long id, String uploadImageName, String storedImageName, byte[] imageData) {
+	private ProfileImage(Long id, String uploadImageName, String storedImageName, byte[] imageData) {
 		this.id = id;
 		this.uploadImageName = uploadImageName;
 		this.storedImageName = storedImageName;
 		this.imageData = imageData;
 	}
 
-	public static Image of(String uploadImageName, String storedImageName, byte[] imageData) {
-		return Image.builder()
+	public static ProfileImage of(String uploadImageName, String storedImageName, byte[] imageData) {
+		return ProfileImage.builder()
 			.imageData(imageData)
 			.uploadImageName(uploadImageName)
 			.storedImageName(storedImageName)
