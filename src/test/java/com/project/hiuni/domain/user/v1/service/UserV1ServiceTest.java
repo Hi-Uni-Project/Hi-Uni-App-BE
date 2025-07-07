@@ -7,7 +7,6 @@ import com.project.hiuni.domain.user.dto.request.UserPostRequest;
 import com.project.hiuni.domain.user.entity.User;
 import com.project.hiuni.domain.user.repository.UserRepository;
 import com.project.hiuni.global.security.core.Role;
-import java.io.IOException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -185,17 +184,6 @@ class UserV1ServiceTest {
 			imageFile,
 			false,
 			false
-		);
-	}
-
-	private MockMultipartFile getImageFile(String originFilename) throws IOException {
-		byte[] fakeJpeg = new byte[] {(byte)0xFF, (byte)0xD8, (byte)0xFF, (byte)0xE0};
-
-		return new MockMultipartFile(
-			"file",
-			originFilename,
-			"image/jpeg",
-			fakeJpeg
 		);
 	}
 }
