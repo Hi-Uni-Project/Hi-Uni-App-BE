@@ -2,6 +2,7 @@ package com.project.hiuni.domain.user.v1.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.project.hiuni.TestUtils;
 import com.project.hiuni.domain.user.dto.request.UserPostRequest;
 import com.project.hiuni.domain.user.entity.User;
 import com.project.hiuni.domain.user.repository.UserRepository;
@@ -33,7 +34,7 @@ class UserV1ServiceTest {
 	@Test
 	void test3() throws Exception {
 		//given
-		var imageFile = getImageFile("image1.jpg");
+		var imageFile = TestUtils.getMockImageFile("jpg","testImage.jpg","image/jpg");
 		var userPostRequest = getUserPostRequest(imageFile);
 
 		//when
@@ -50,7 +51,7 @@ class UserV1ServiceTest {
 		assertThat(user.isImprovementConsent()).isFalse();
 		assertThat(user.getProfileImage().getStoredImageName()).isNotNull();
 		assertThat(user.getProfileImage().getUploadImageName()).isEqualTo(imageFile.getOriginalFilename());
-		assertThat(user.getProfileImage().getImageData()).isEqualTo(new byte[] {(byte)0xFF, (byte)0xD8, (byte)0xFF, (byte)0xE0});
+		assertThat(user.getProfileImage().getImageData()).isNotEqualTo(imageFile.getBytes());
 	}
 
 	@DisplayName("이미지 파일이 null일 경우 이미지 엔티티의 필드도 null이다.")
@@ -125,7 +126,7 @@ class UserV1ServiceTest {
 	@Test
 	void test7() throws Exception {
 		//given
-		var imageFile = getImageFile("image1.jpg");
+		var imageFile = TestUtils.getMockImageFile("jpg","testImage.jpg","image/jpg");
 		UserPostRequest userPostRequest = getUserPostRequest(imageFile);
 		User user = userV1Service.create(userPostRequest);
 
@@ -142,12 +143,12 @@ class UserV1ServiceTest {
 	@Test
 	void test8() throws Exception {
 		//given
-		var imageFile = getImageFile("image1.jpg");
+		var imageFile = TestUtils.getMockImageFile("jpg","testImage.jpg","image/jpg");
 		UserPostRequest userPostRequest = getUserPostRequest(imageFile);
 		User user = userV1Service.create(userPostRequest);
 		String storedImageName = user.getProfileImage().getStoredImageName();
 
-		var newImage = getImageFile("image2.jpg");
+		var newImage = TestUtils.getMockImageFile("jpeg","testImage2.jpg","image/jpeg");
 
 		//when
 		userV1Service.changeProfileImage(user.getId(), newImage);

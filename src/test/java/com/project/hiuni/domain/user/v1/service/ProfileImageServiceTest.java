@@ -2,6 +2,7 @@ package com.project.hiuni.domain.user.v1.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.project.hiuni.TestUtils;
 import com.project.hiuni.domain.user.entity.ProfileImage;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,27 +18,61 @@ class ProfileImageServiceTest {
 	@Autowired
 	private ImageService imageService;
 
-	@DisplayName("이미지 엔티티를 생성할 수 있다.")
+	@DisplayName("이미지(jpg) 엔티티를 생성할 수 있다.")
 	@Test
 	void test1() throws Exception {
 		//given
-		byte[] fakeJpeg = new byte[] {(byte)0xFF, (byte)0xD8, (byte)0xFF, (byte)0xE0};
-
-		String originalFilename = "originTitle.jpg";
-		MockMultipartFile imageFile = new MockMultipartFile(
-			"file",
+		String originalFilename = "test_image.jpg";
+		MockMultipartFile mockImageFile = TestUtils.getMockImageFile(
+			"jpg",
 			originalFilename,
-			"image/jpeg",
-			fakeJpeg
+			"image/jpg"
 		);
 
 		//when
-		ProfileImage profileImage = imageService.create(imageFile);
+		ProfileImage profileImage = imageService.create(mockImageFile);
 
 		//then
 		assertThat(profileImage.getUploadImageName()).isEqualTo(originalFilename);
 		assertThat(profileImage.getStoredImageName()).isNotEmpty();
 	}
+
+	@DisplayName("이미지(jpeg) 엔티티를 생성할 수 있다.")
+	@Test
+	void test3() throws Exception {
+		//given
+		String originalFilename = "test_image.jpeg";
+		MockMultipartFile mockImageFile = TestUtils.getMockImageFile(
+			"jpeg",
+			originalFilename,
+			"image/jpeg"
+		);
+		//when
+		ProfileImage profileImage = imageService.create(mockImageFile);
+
+		//then
+		assertThat(profileImage.getUploadImageName()).isEqualTo(originalFilename);
+		assertThat(profileImage.getStoredImageName()).isNotEmpty();
+	}
+
+	@DisplayName("이미지(png) 엔티티를 생성할 수 있다.")
+	@Test
+	void test4() throws Exception {
+		//given
+		String originalFilename = "test_image.png";
+		MockMultipartFile mockImageFile = TestUtils.getMockImageFile(
+			"png",
+			originalFilename,
+			"image/png"
+		);
+		//when
+		ProfileImage profileImage = imageService.create(mockImageFile);
+
+		//then
+		assertThat(profileImage.getUploadImageName()).isEqualTo(originalFilename);
+		assertThat(profileImage.getStoredImageName()).isNotEmpty();
+	}
+
 
 	@DisplayName("이미지 파일이 null이면 빈 이미지 엔티티가 생성된다.")
 	@Test
