@@ -39,8 +39,11 @@ public class UserV1Controller {
 	public ResponseDto<Long> createUser(@RequestBody UserPostRequest request) throws IOException {
 
 		User user = userV1Service.create(request);
-		userAgreementService.addAgreements(user.getId(), request.marketingConsent(),
-			request.improvementConsent());
+		userAgreementService.addAgreements(
+			user.getId(),
+			request.marketingConsent(),
+			request.improvementConsent()
+		);
 
 		//TODO: 리프레시 토큰, 액세스 토큰 발급 필요
 		return ResponseDto.response(user.getId());

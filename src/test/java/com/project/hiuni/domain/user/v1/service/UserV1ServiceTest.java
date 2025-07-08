@@ -41,7 +41,6 @@ class UserV1ServiceTest {
 
 		//then
 		assertThat(user).isNotNull();
-		assertThat(user.getNickname()).isEqualTo("nickname");
 		assertThat(user.getSocialEmail()).isEqualTo("test@gmail.com");
 		assertThat(user.getUnivName()).isEqualTo("testUniv");
 		assertThat(user.getUnivEmail()).isEqualTo("test@univ.com");
@@ -63,7 +62,6 @@ class UserV1ServiceTest {
 
 		//then
 		assertThat(user).isNotNull();
-		assertThat(user.getNickname()).isEqualTo("nickname");
 		assertThat(user.getSocialEmail()).isEqualTo("test@gmail.com");
 		assertThat(user.getUnivName()).isEqualTo("testUniv");
 		assertThat(user.getUnivEmail()).isEqualTo("test@univ.com");
@@ -161,7 +159,7 @@ class UserV1ServiceTest {
 	private User getTestUser(boolean marketingConsent, String mail, String nickname) {
 		return User.builder()
 			.marketingConsent(marketingConsent)
-			.nickname(nickname)
+			.nickname(null)
 			.socialEmail(mail)
 			.socialProvider(SocialProvider.KAKAO)
 			.univName("testUni")
@@ -179,7 +177,7 @@ class UserV1ServiceTest {
 			"testUniv",
 			"major",
 			"test@univ.com",
-			"nickname",
+			null,
 			"imageUrl",
 			imageFile,
 			false,
