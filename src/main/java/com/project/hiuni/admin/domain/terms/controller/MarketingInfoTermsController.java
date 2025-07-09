@@ -42,7 +42,7 @@ public class MarketingInfoTermsController {
 	@GetMapping
 	public ResponseDto<TermsResponseDto> findLatest() {
 
-		MarketingInfoTerms marketingInfoTerms = marketingInfoTermsService.getByLastest();
+		MarketingInfoTerms marketingInfoTerms = marketingInfoTermsService.getByLatest();
 
 		TermsResponseDto termsResponseDto = new TermsResponseDto(
 			marketingInfoTerms.getContents(),

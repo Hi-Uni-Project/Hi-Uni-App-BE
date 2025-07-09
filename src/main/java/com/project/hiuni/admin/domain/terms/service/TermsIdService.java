@@ -29,7 +29,7 @@ public class TermsIdService {
 	public void cacheTermsIds(){
 
 		long identityTermId = identityVerificationService.getByLatest().getId();
-		long marketingTermId = marketingInfoTermsService.getByLastest().getId();
+		long marketingTermId = marketingInfoTermsService.getByLatest().getId();
 		long personalTermId = personalInfoTermsService.getByLastest().getId();
 		long serviceImprovementTermId = serviceImprovementTermsManager.getByLastest().getId();
 		long serviceTermId = serviceTermsManager.getByLastest().getId();
