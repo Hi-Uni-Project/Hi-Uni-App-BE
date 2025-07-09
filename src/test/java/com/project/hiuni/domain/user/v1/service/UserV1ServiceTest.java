@@ -20,20 +20,19 @@ import org.springframework.transaction.annotation.Transactional;
 @ActiveProfiles("test")
 @SpringBootTest
 class UserV1ServiceTest {
-	
+
 	@Autowired
 	private UserRepository userRepository;
-	
+
 	@Autowired
 	private UserV1Service userV1Service;
-
 
 
 	@DisplayName("회원을 생성하여 저장할 수 있다.")
 	@Test
 	void test3() throws Exception {
 		//given
-		var imageFile = TestUtils.getMockImageFile("jpg","testImage.jpg","image/jpg");
+		var imageFile = TestUtils.getMockImageFile("jpg", "testImage.jpg", "image/jpg");
 		var userPostRequest = getUserPostRequest(imageFile);
 
 		//when
@@ -48,7 +47,8 @@ class UserV1ServiceTest {
 		assertThat(user.isMarketingConsent()).isFalse();
 		assertThat(user.isImprovementConsent()).isFalse();
 		assertThat(user.getProfileImage().getStoredImageName()).isNotNull();
-		assertThat(user.getProfileImage().getUploadImageName()).isEqualTo(imageFile.getOriginalFilename());
+		assertThat(user.getProfileImage().getUploadImageName()).isEqualTo(
+			imageFile.getOriginalFilename());
 		assertThat(user.getProfileImage().getImageData()).isNotEqualTo(imageFile.getBytes());
 	}
 
@@ -123,7 +123,7 @@ class UserV1ServiceTest {
 	@Test
 	void test7() throws Exception {
 		//given
-		var imageFile = TestUtils.getMockImageFile("jpg","testImage.jpg","image/jpg");
+		var imageFile = TestUtils.getMockImageFile("jpg", "testImage.jpg", "image/jpg");
 		UserPostRequest userPostRequest = getUserPostRequest(imageFile);
 		User user = userV1Service.create(userPostRequest);
 
@@ -140,19 +140,20 @@ class UserV1ServiceTest {
 	@Test
 	void test8() throws Exception {
 		//given
-		var imageFile = TestUtils.getMockImageFile("jpg","testImage.jpg","image/jpg");
+		var imageFile = TestUtils.getMockImageFile("jpg", "testImage.jpg", "image/jpg");
 		UserPostRequest userPostRequest = getUserPostRequest(imageFile);
 		User user = userV1Service.create(userPostRequest);
 		String storedImageName = user.getProfileImage().getStoredImageName();
 
-		var newImage = TestUtils.getMockImageFile("jpeg","testImage2.jpg","image/jpeg");
+		var newImage = TestUtils.getMockImageFile("jpeg", "testImage2.jpg", "image/jpeg");
 
 		//when
 		userV1Service.changeProfileImage(user.getId(), newImage);
 
 		//then
 		User result = userRepository.findById(user.getId()).get();
-		assertThat(result.getProfileImage().getUploadImageName()).isEqualTo(newImage.getOriginalFilename());
+		assertThat(result.getProfileImage().getUploadImageName()).isEqualTo(
+			newImage.getOriginalFilename());
 		assertThat(result.getProfileImage().getStoredImageName()).isNotEqualTo(storedImageName);
 	}
 
