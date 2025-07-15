@@ -56,7 +56,7 @@ public class SecurityConfig {
             .requestMatchers(
                 "/swagger-ui/**",
                 "/v3/api-docs/**",
-                "/test/create-token"
+                "/test/**"
             ).permitAll()
             .anyRequest().authenticated())
         .exceptionHandling(e -> e
