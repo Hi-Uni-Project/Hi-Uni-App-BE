@@ -2,7 +2,6 @@ package com.project.hiuni.admin.domain.terms.docs;
 
 import com.project.hiuni.admin.domain.terms.dto.TermsRequestDto;
 import com.project.hiuni.admin.domain.terms.dto.TermsResponseDto;
-import com.project.hiuni.global.common.dto.response.ResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
