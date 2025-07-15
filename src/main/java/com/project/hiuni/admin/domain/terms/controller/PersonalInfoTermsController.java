@@ -5,10 +5,8 @@ import com.project.hiuni.admin.domain.terms.dto.TermsRequestDto;
 import com.project.hiuni.admin.domain.terms.dto.TermsResponseDto;
 import com.project.hiuni.admin.domain.terms.entity.PersonalInfoTerms;
 import com.project.hiuni.admin.domain.terms.service.PersonalInfoTermsService;
-import com.project.hiuni.global.common.dto.response.ResponseDto;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,7 +22,7 @@ public class PersonalInfoTermsController implements PersonalTermsApiDocumentatio
 	private final PersonalInfoTermsService personalInfoTermsService;
 
 	@GetMapping("/{version}")
-	public ResponseDto<TermsResponseDto> findByVersion(@PathVariable String version) {
+	public ResponseEntity<TermsResponseDto> findByVersion(@PathVariable String version) {
 
 		PersonalInfoTerms personalInfoTerms = personalInfoTermsService.getByVersion(version);
 
@@ -34,11 +32,11 @@ public class PersonalInfoTermsController implements PersonalTermsApiDocumentatio
 			personalInfoTerms.getEffectiveDate()
 		);
 
-		return ResponseDto.response(termsResponseDto);
+		return ResponseEntity.ok(termsResponseDto);
 	}
 
 	@GetMapping
-	public ResponseDto<TermsResponseDto> findLatest() {
+	public ResponseEntity<TermsResponseDto> findLatest() {
 
 		PersonalInfoTerms personalInfoTerms = personalInfoTermsService.getByLastest();
 
@@ -48,7 +46,7 @@ public class PersonalInfoTermsController implements PersonalTermsApiDocumentatio
 			personalInfoTerms.getEffectiveDate()
 		);
 
-		return ResponseDto.response(termsResponseDto);
+		return ResponseEntity.ok(termsResponseDto);
 	}
 
 	@PostMapping

@@ -5,10 +5,9 @@ import com.project.hiuni.admin.domain.terms.dto.TermsRequestDto;
 import com.project.hiuni.admin.domain.terms.dto.TermsResponseDto;
 import com.project.hiuni.admin.domain.terms.entity.IdentityVerification;
 import com.project.hiuni.admin.domain.terms.service.IdentityVerificationService;
-import com.project.hiuni.global.common.dto.response.ResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,7 +24,7 @@ public class IdentityVerificationController implements IdentityTermsApiDocumenta
 	private final IdentityVerificationService identityVerificationService;
 
 	@GetMapping("/{version}")
-	public ResponseDto<TermsResponseDto> findByVersion(@PathVariable String version) {
+	public ResponseEntity<TermsResponseDto> findByVersion(@PathVariable String version) {
 
 		IdentityVerification identityVerification =
 			identityVerificationService.getByVersion(version);
@@ -36,12 +35,12 @@ public class IdentityVerificationController implements IdentityTermsApiDocumenta
 			identityVerification.getEffectiveDate()
 		);
 
-		return ResponseDto.response(termsResponseDto);
+		return ResponseEntity.ok(termsResponseDto);
 	}
 
 	@Operation(summary = "가장 최근 버전의 회원 가입 동의 약관을 조회할 수 있습니다.")
 	@GetMapping
-	public ResponseDto<TermsResponseDto> findLatest() {
+	public ResponseEntity<TermsResponseDto> findLatest() {
 
 		IdentityVerification identityVerification =
 			identityVerificationService.getByLatest();
@@ -52,7 +51,7 @@ public class IdentityVerificationController implements IdentityTermsApiDocumenta
 			identityVerification.getEffectiveDate()
 		);
 
-		return ResponseDto.response(termsResponseDto);
+		return ResponseEntity.ok().body(termsResponseDto);
 	}
 
 	@Operation(summary = "회원 가입 동의 약관을 추가할 수 있습니다.")

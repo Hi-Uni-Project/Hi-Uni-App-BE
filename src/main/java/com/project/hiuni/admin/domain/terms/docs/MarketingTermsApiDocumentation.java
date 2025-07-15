@@ -2,9 +2,9 @@ package com.project.hiuni.admin.domain.terms.docs;
 
 import com.project.hiuni.admin.domain.terms.dto.TermsRequestDto;
 import com.project.hiuni.admin.domain.terms.dto.TermsResponseDto;
-import com.project.hiuni.global.common.dto.response.ResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 public interface MarketingTermsApiDocumentation {
 
   @Operation(summary = "버전 별로 마케팅 정보 수신 약관을 조회할 수 있습니다.")
-  public ResponseDto<TermsResponseDto> findByVersion(@PathVariable String version);
+  public ResponseEntity<TermsResponseDto> findByVersion(@PathVariable String version);
 
   @Operation(summary = "버전 별로 마케팅 정보 수신 약관을 조회할 수 있습니다.")
-  public ResponseDto<TermsResponseDto> findLatest();
+  public ResponseEntity<TermsResponseDto> findLatest();
 
   @Operation(summary = "버전 별로 마케팅 정보 수신 약관 조회할 수 있습니다.")
   public void create(@RequestBody TermsRequestDto termsRequestDto);
