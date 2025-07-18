@@ -5,7 +5,6 @@ import com.project.hiuni.admin.domain.terms.dto.TermsRequestDto;
 import com.project.hiuni.admin.domain.terms.dto.TermsResponseDto;
 import com.project.hiuni.admin.domain.terms.entity.IdentityVerification;
 import com.project.hiuni.admin.domain.terms.service.IdentityVerificationService;
-import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,7 +37,6 @@ public class IdentityVerificationController implements IdentityTermsApiDocumenta
 		return ResponseEntity.ok(termsResponseDto);
 	}
 
-	@Operation(summary = "가장 최근 버전의 회원 가입 동의 약관을 조회할 수 있습니다.")
 	@GetMapping
 	public ResponseEntity<TermsResponseDto> findLatest() {
 
@@ -54,7 +52,6 @@ public class IdentityVerificationController implements IdentityTermsApiDocumenta
 		return ResponseEntity.ok().body(termsResponseDto);
 	}
 
-	@Operation(summary = "회원 가입 동의 약관을 추가할 수 있습니다.")
 	@PostMapping
 	public void create(@RequestBody TermsRequestDto termsRequestDto) {
 		identityVerificationService.create(

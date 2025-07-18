@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 public interface PersonalTermsApiDocumentation {
 
   @Operation(summary = "버전 별로 개인 정보 수집 약관을 조회할 수 있습니다.")
-  public ResponseEntity<TermsResponseDto> findByVersion(@PathVariable String version);
+  ResponseEntity<TermsResponseDto> findByVersion(@PathVariable String version);
 
-  @Operation(summary = "버전 별로 개인 정보 수집 약관을 조회할 수 있습니다.")
-  public ResponseEntity<TermsResponseDto> findLatest();
+  @Operation(summary = "가장 최근 버전의 개인 정보 수집 약관을 조회할 수 있습니다.")
+  ResponseEntity<TermsResponseDto> findLatest();
 
-  @Operation(summary = "버전 별로 개인 정보 수집 약관을 조회할 수 있습니다.")
-  public void create(@RequestBody TermsRequestDto termsRequestDto);
+  @Operation(summary = "개인 정보 수집 약관을 추가할 수 있습니다.")
+  void create(@RequestBody TermsRequestDto termsRequestDto);
 
 }

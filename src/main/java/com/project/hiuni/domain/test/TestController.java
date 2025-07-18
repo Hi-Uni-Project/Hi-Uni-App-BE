@@ -1,6 +1,7 @@
 package com.project.hiuni.domain.test;
 
 import com.project.hiuni.domain.user.entity.User;
+import com.project.hiuni.domain.user.repository.UserRepository;
 import com.project.hiuni.global.security.core.CustomUserDetails;
 import com.project.hiuni.global.security.core.Role;
 import com.project.hiuni.global.security.jwt.JwtTokenProvider;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class TestController {
 
   private final JwtTokenProvider jwtTokenProvider;
+  private final UserRepository userRepository;
 
   @GetMapping("/test")
   public String test() {
