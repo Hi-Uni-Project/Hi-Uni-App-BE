@@ -1,7 +1,7 @@
 package com.project.hiuni.global.security.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.project.hiuni.global.common.dto.response.ResponseDto;
+import com.project.hiuni.global.common.dto.response.ErrorResponse;
 import com.project.hiuni.global.exception.ErrorCode;
 import com.project.hiuni.global.security.jwt.JwtTokenFilter;
 import lombok.RequiredArgsConstructor;
@@ -36,17 +36,11 @@ public class SecurityConfig {
 
     // 인증 실패 시 반환할 JSON 응답
     String invalidAuthenticationResponse = objectMapper
-        .writeValueAsString(ResponseDto.response(
-            ErrorCode.TOKEN_INVALID.getHttpStatus(),
-            ErrorCode.TOKEN_INVALID.getMessage(),
-            null));
+        .writeValueAsString(ErrorResponse.of(ErrorCode.TOKEN_INVALID));
 
     // 인가 실패 시 반환할 JSON 응답
     String invalidAuthorizationResponse = objectMapper
-        .writeValueAsString(ResponseDto.response(
-            ErrorCode.ACCESS_DENIED.getHttpStatus(),
-            ErrorCode.ACCESS_DENIED.getMessage(),
-            null));
+        .writeValueAsString(ErrorResponse.of(ErrorCode.ACCESS_DENIED));
 
     http
         .csrf(csrf -> csrf.disable())
@@ -56,7 +50,8 @@ public class SecurityConfig {
             .requestMatchers(
                 "/swagger-ui/**",
                 "/v3/api-docs/**",
-                "/test/create-token"
+                "/test/**",
+                "/admin/**"
             ).permitAll()
             .anyRequest().authenticated())
         .exceptionHandling(e -> e

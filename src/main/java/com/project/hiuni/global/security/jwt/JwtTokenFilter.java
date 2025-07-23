@@ -2,7 +2,7 @@ package com.project.hiuni.global.security.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.hiuni.domain.user.exception.CustomUserNotFoundException;
-import com.project.hiuni.global.common.dto.response.ResponseDto;
+import com.project.hiuni.global.common.dto.response.ErrorResponse;
 import com.project.hiuni.global.common.threadlocal.TraceIdHolder;
 import com.project.hiuni.global.exception.ErrorCode;
 import com.project.hiuni.global.security.core.CustomUserDetailsService;
@@ -90,10 +90,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
       // 유저가 존재하지 않을 경우 반환되는 json 응답.
       String userNotFoundExceptionResponse = objectMapper
-          .writeValueAsString(ResponseDto.response(
-              ErrorCode.USER_NOT_FOUND.getHttpStatus(),
-              ErrorCode.USER_NOT_FOUND.getMessage(),
-              null));
+          .writeValueAsString(ErrorResponse.of(ErrorCode.USER_NOT_FOUND));
       response.setStatus(ErrorCode.USER_NOT_FOUND.getHttpStatus().value());
       response.setContentType("application/json");
       response.getWriter().write(userNotFoundExceptionResponse);
