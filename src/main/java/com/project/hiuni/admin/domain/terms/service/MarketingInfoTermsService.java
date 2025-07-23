@@ -25,11 +25,11 @@ public class MarketingInfoTermsService {
 	}
 
 	public MarketingInfoTerms getByVersion(String version) {
-		return marketingInfoTermsRepository.findIdentityVerificationByTermsInfo_AgreeVersion(version)
+		return marketingInfoTermsRepository.findMarketingInfoTermsByTermsInfo_AgreeVersion(version)
 			.orElseThrow(() -> new NoSuchElementException(ErrorCode.NOT_FOUND.getMessage() + ":" + version));
 	}
 
-	public MarketingInfoTerms getByLastest() {
+	public MarketingInfoTerms getByLatest() {
 		return marketingInfoTermsRepository.findTopByOrderByCreatedAtDesc()
 			.orElseThrow(() -> new NoSuchElementException(ErrorCode.NOT_FOUND.getMessage()));
 	}

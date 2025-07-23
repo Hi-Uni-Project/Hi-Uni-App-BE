@@ -89,7 +89,7 @@ class MarketingInfoTermsServiceTest {
 		);
 
 		//when
-		var result = marketingInfoTermsService.getByLastest();
+		var result = marketingInfoTermsService.getByLatest();
 
 		//then
 		assertThat(result.getContents()).isEqualTo(testContent2);

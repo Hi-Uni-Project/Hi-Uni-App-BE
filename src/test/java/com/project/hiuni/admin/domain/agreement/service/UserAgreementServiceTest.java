@@ -17,9 +17,11 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
+@EnableAsync
 @ActiveProfiles("test")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class UserAgreementServiceTest {
@@ -67,6 +69,7 @@ class UserAgreementServiceTest {
 			//when
 			userAgreementService.addAgreements(1L, true, false);
 
+			Thread.sleep(300);
 			//then
 			assertThat(serviceTermsAgreementRepository.findAll())
 				.hasSize(1)
@@ -105,6 +108,7 @@ class UserAgreementServiceTest {
 			//when
 			userAgreementService.addAgreements(1L, true, true);
 
+			Thread.sleep(300);
 			//then
 			assertThat(serviceTermsAgreementRepository.findAll())
 				.hasSize(1)
@@ -145,6 +149,7 @@ class UserAgreementServiceTest {
 			//when
 			userAgreementService.addAgreements(1L, false, false);
 
+			Thread.sleep(300);
 			//then
 			assertThat(serviceTermsAgreementRepository.findAll())
 				.hasSize(1)
@@ -178,6 +183,7 @@ class UserAgreementServiceTest {
 		//when
 		userAgreementService.addMarketingTerms(1L, LocalDateTime.now());
 
+		Thread.sleep(300);
 		//then
 		assertThat(marketingAgreementRepository.findAll())
 			.hasSize(1)

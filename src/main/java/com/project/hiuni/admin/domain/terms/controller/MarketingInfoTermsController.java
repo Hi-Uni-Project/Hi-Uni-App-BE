@@ -38,7 +38,7 @@ public class MarketingInfoTermsController implements MarketingTermsApiDocumentat
 	@GetMapping
 	public ResponseEntity<TermsResponseDto> findLatest() {
 
-		MarketingInfoTerms marketingInfoTerms = marketingInfoTermsService.getByLastest();
+		MarketingInfoTerms marketingInfoTerms = marketingInfoTermsService.getByLatest();
 
 		TermsResponseDto termsResponseDto = new TermsResponseDto(
 			marketingInfoTerms.getContents(),

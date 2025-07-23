@@ -3,6 +3,7 @@ package com.project.hiuni.global.security.jwt;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.project.hiuni.domain.user.entity.User;
+import com.project.hiuni.domain.user.v1.service.SocialProvider;
 import com.project.hiuni.global.security.core.CustomUserDetails;
 import com.project.hiuni.global.security.core.CustomUserDetailsService;
 import com.project.hiuni.global.security.core.Role;
@@ -13,9 +14,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.test.context.ActiveProfiles;
 
+@ActiveProfiles("test")
 @SpringBootTest
-class JwtTokenProviderTest {
+class JwtTokenSocialProviderTest {
 
   @Autowired
   JwtTokenProvider jwtTokenProvider;
@@ -109,7 +112,7 @@ class JwtTokenProviderTest {
     return User.builder()
         .id(id)
         .socialEmail(id + "@gmail.com")
-        .socialProvider("kakao")
+        .socialProvider(SocialProvider.KAKAO)
         .univName("익명대학교")
         .majorName("컴퓨터공학과")
         .univEmail(id + "@anonymous.ac.kr")

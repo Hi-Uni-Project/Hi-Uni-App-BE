@@ -16,6 +16,7 @@ import jakarta.transaction.Transactional;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -31,6 +32,7 @@ public class UserAgreementService {
 	private final ServiceTermsAgreementRepository serviceTermsAgreementRepository;
 	private final ServiceImprovementAgreementRepository serviceImprovementAgreementRepository;
 
+	@Async
     public void addAgreements(long userId, boolean isMarketingAgreed, boolean isServiceImprovementAgreed) {
 
 		LocalDateTime agreementDate = LocalDateTime.now();

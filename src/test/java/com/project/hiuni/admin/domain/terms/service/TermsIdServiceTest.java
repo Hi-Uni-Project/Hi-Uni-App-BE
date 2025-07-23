@@ -15,6 +15,7 @@ import com.project.hiuni.admin.domain.terms.repository.PersonalInfoTermsReposito
 import com.project.hiuni.admin.domain.terms.repository.ServiceImprovementTermsRepository;
 import com.project.hiuni.admin.domain.terms.repository.ServiceTermsRepository;
 import java.time.LocalDateTime;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,15 @@ class TermsIdServiceTest {
 	@Autowired
 	private ServiceTermsRepository serviceTermsRepository;
 
+	@BeforeEach
+	void setUp() {
+		identityVerificationRepository.deleteAll();
+		marketingInfoTermsRepository.deleteAll();
+		personalInfoTermsRepository.deleteAll();
+		serviceImprovementTermsRepository.deleteAll();
+		serviceTermsRepository.deleteAll();
+	}
+
 	@DisplayName("가장 최근 약관 동의 id를 캐싱할 수 있다.")
 	@Test
 	void test1() throws Exception {
@@ -56,12 +66,11 @@ class TermsIdServiceTest {
 		serviceImprovementTermsRepository.save(ServiceImprovementTerms.of(termsInfo1));
 		serviceTermsRepository.save(ServiceTerms.of(termsInfo1));
 
-
-		identityVerificationRepository.save(IdentityVerification.of(termsInfo2));
-		marketingInfoTermsRepository.save(MarketingInfoTerms.of(termsInfo2));
-		personalInfoTermsRepository.save(PersonalInfoTerms.of(termsInfo2));
-		serviceImprovementTermsRepository.save(ServiceImprovementTerms.of(termsInfo2));
-		serviceTermsRepository.save(ServiceTerms.of(termsInfo2));
+		var identityVerification = identityVerificationRepository.save(IdentityVerification.of(termsInfo2));
+		var marketingInfoTerms = marketingInfoTermsRepository.save(MarketingInfoTerms.of(termsInfo2));
+		var personalInfoTerms = personalInfoTermsRepository.save(PersonalInfoTerms.of(termsInfo2));
+		var serviceImprovementTerms = serviceImprovementTermsRepository.save(ServiceImprovementTerms.of(termsInfo2));
+		var serviceTerms = serviceTermsRepository.save(ServiceTerms.of(termsInfo2));
 
 		//when
 		termsIdService.cacheTermsIds();
@@ -71,10 +80,17 @@ class TermsIdServiceTest {
 		var optionalTermIds = termsIdService.getOptionalTermIds();
 
 		assertThat(requiredTermIds).hasSize(3)
-			.contains(entry("identityTermId", 2L), entry("personalTermId", 2L),  entry("serviceTermId", 2L));
+			.contains(
+				entry(Terms.IDENTITY.name(), identityVerification.getId()),
+				entry(Terms.PERSONAL.name(), personalInfoTerms.getId()),
+				entry(Terms.SERVICE.name(), serviceTerms.getId())
+			);
 
 		assertThat(optionalTermIds).hasSize(2)
-			.contains(entry("marketingTermId", 2L), entry("serviceImprovementTermId", 2L));
+			.contains(
+				entry(Terms.MARKETING.name(), marketingInfoTerms.getId()),
+				entry(Terms.SERVICE_IMPROVEMENT.name(), serviceImprovementTerms.getId())
+			);
 	}
 
 }
