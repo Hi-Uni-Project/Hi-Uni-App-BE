@@ -6,7 +6,6 @@ import com.project.hiuni.domain.user.entity.User;
 import com.project.hiuni.domain.user.v1.service.UserAgreementService;
 import com.project.hiuni.domain.user.v1.service.UserV1Service;
 import com.project.hiuni.domain.user.v1.service.UserVerificationService;
-import com.project.hiuni.global.common.dto.response.ResponseDto;
 import com.project.hiuni.global.security.jwt.JwtTokenProvider;
 import java.io.IOException;
 import lombok.RequiredArgsConstructor;
@@ -36,7 +35,7 @@ public class UserV1Controller {
 
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping
-	public ResponseDto<Long> createUser(@RequestBody UserPostRequest request) throws IOException {
+	public Long createUser(@RequestBody UserPostRequest request) throws IOException {
 
 		User user = userV1Service.create(request);
 		userAgreementService.addAgreements(
@@ -46,7 +45,7 @@ public class UserV1Controller {
 		);
 
 		//TODO: 리프레시 토큰, 액세스 토큰 발급 필요
-		return ResponseDto.response(user.getId());
+		return user.getId();
 	}
 
 	@GetMapping("/nickname")
@@ -98,9 +97,9 @@ public class UserV1Controller {
 	}
 
 	@GetMapping("/{userId}")
-	public ResponseDto<UserResponse> getUser(@PathVariable long userId) {
+	public UserResponse getUser(@PathVariable long userId) {
 		User user = userV1Service.findUser(userId);
 		UserResponse userResponse = UserResponse.from(user);
-		return  ResponseDto.response(userResponse);
+		return  userResponse;
 	}
 }
