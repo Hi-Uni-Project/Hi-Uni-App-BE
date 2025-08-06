@@ -2,6 +2,7 @@ package com.project.hiuni.domain.test;
 
 import com.project.hiuni.domain.user.entity.User;
 import com.project.hiuni.domain.user.repository.UserRepository;
+import com.project.hiuni.domain.user.v1.service.SocialProvider;
 import com.project.hiuni.global.security.core.CustomUserDetails;
 import com.project.hiuni.global.security.core.Role;
 import com.project.hiuni.global.security.jwt.JwtTokenProvider;
@@ -33,7 +34,7 @@ public class TestController {
     return User.builder()
         .id(id)
         .socialEmail(id + "@gmail.com")
-        .socialProvider("kakao")
+        .socialProvider(SocialProvider.KAKAO)
         .univName("익명대학교")
         .majorName("컴퓨터공학과")
         .univEmail(id + "@anonymous.ac.kr")
