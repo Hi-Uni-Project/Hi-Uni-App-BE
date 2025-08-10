@@ -12,6 +12,7 @@ import java.util.Date;
 import javax.crypto.SecretKey;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
@@ -24,6 +25,12 @@ import org.springframework.stereotype.Component;
 public class JwtTokenProvider {
 
   private final SecretKey secretKey;
+
+  @Value("${jwt.accessTokenExpirationTime}")
+  private Long accessTokenExpirationTime;
+
+  @Value("${jwt.refreshTokenExpirationTime}")
+  private Long refreshTokenExpirationTime;
 
   /**
    * JWT 토큰을 생성하는 메서드입니다.
@@ -43,6 +50,26 @@ public class JwtTokenProvider {
         .expiration(expiryDate)
         .signWith(secretKey, SignatureAlgorithm.HS512)
         .compact();
+  }
+
+  /**
+   * 액세스 토큰을 생성하는 메서드입니다.
+   *
+   * @param authentication 인증 정보
+   * @return 생성된 JWT 토큰
+   */
+  public String createAccessToken(Authentication authentication) {
+    return createToken(authentication, accessTokenExpirationTime);
+  }
+
+  /**
+   * 리프레시 토큰을 생성하는 메서드입니다.
+   *
+   * @param authentication 인증 정보
+   * @return 생성된 JWT 토큰
+   */
+  public String createRefreshToken(Authentication authentication) {
+    return createToken(authentication, refreshTokenExpirationTime);
   }
 
   /**
