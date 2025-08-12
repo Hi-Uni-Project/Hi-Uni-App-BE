@@ -2,6 +2,8 @@ package com.project.hiuni.domain.auth.entity;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.project.hiuni.domain.auth.exception.ProviderNotFoundException;
+import com.project.hiuni.global.exception.ErrorCode;
 
 public enum SocialProvider {
   GOOGLE("google"),
@@ -25,7 +27,7 @@ public enum SocialProvider {
         return provider;
       }
     }
-    throw new IllegalArgumentException("지원하지 않는 소셜 provider 입니다.: " + value);
+    throw new ProviderNotFoundException(ErrorCode.PROVIDER_NOT_FOUND);
   }
 
   @JsonCreator
