@@ -1,5 +1,6 @@
 package com.project.hiuni.domain.auth.dto.request;
 
+import com.project.hiuni.domain.auth.entity.SocialProvider;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,5 +9,7 @@ import lombok.Setter;
 @Setter
 @Builder
 public class AuthSocialRequest {
-  private String provider
+  private String provider;
+  private String idToken;
+  private SocialProvider socialProvider;
 }
