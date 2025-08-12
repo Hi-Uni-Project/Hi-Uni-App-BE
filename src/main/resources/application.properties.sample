@@ -36,3 +36,6 @@ jwt.refresh.expiration=604800000
 server.servlet.encoding.charset=UTF-8
 server.servlet.encoding.force=true
 server.servlet.encoding.enabled=true
+
+#프로필이미지경로
+file.dir=/home/ubuntu/profile_image/

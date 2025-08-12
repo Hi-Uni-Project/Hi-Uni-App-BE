@@ -37,7 +37,7 @@ class UserVerificationServiceTest {
 		String email = "test@gmail.com";
 		SocialProvider provider = SocialProvider.KAKAO;
 
-		User testUser = getTestUser(email, "test", provider);
+		User testUser = getTestUser(email, "test-image", provider);
 		userRepository.save(testUser);
 
 		//when then
@@ -52,7 +52,7 @@ class UserVerificationServiceTest {
 		String email = "test@gmail.com";
 		SocialProvider provider = SocialProvider.KAKAO;
 
-		User testUser = getTestUser(email, "test", provider);
+		User testUser = getTestUser(email, "test-image", provider);
 		userRepository.save(testUser);
 
 		//when then
@@ -67,7 +67,7 @@ class UserVerificationServiceTest {
 		//given
 		String email = "test@gmail.com";
 		SocialProvider provider = SocialProvider.KAKAO;
-		String nickname = "test";
+		String nickname = "test-image";
 
 		User testUser = getTestUser(email, nickname, provider);
 		userRepository.save(testUser);
@@ -83,7 +83,7 @@ class UserVerificationServiceTest {
 		//given
 		String email = "test@gmail.com";
 		SocialProvider provider = SocialProvider.KAKAO;
-		String nickname = "test";
+		String nickname = "test-image";
 
 		User testUser = getTestUser(email, nickname, provider);
 		userRepository.save(testUser);

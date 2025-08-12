@@ -7,14 +7,22 @@ import com.project.hiuni.domain.user.dto.request.UserPostRequest;
 import com.project.hiuni.domain.user.entity.User;
 import com.project.hiuni.domain.user.repository.UserRepository;
 import com.project.hiuni.global.security.core.Role;
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.FileSystemUtils;
 
 @Transactional
 @ActiveProfiles("test")
@@ -26,6 +34,25 @@ class UserV1ServiceTest {
 
 	@Autowired
 	private UserV1Service userV1Service;
+
+	@Value("${file.dir}")
+	private String fileDir;
+
+	@BeforeEach
+	void setup() throws Exception {
+		Path testDirPath = Paths.get(fileDir);
+		if (Files.notExists(testDirPath)) {
+			Files.createDirectories(testDirPath);
+		}
+	}
+
+	@AfterEach
+	void cleanup() throws Exception {
+		Path testDirPath = Paths.get(fileDir);
+		if (Files.exists(testDirPath)) {
+			FileSystemUtils.deleteRecursively(testDirPath);
+		}
+	}
 
 
 	@DisplayName("회원을 생성하여 저장할 수 있다.")
@@ -49,7 +76,10 @@ class UserV1ServiceTest {
 		assertThat(user.getProfileImage().getStoredImageName()).isNotNull();
 		assertThat(user.getProfileImage().getUploadImageName()).isEqualTo(
 			imageFile.getOriginalFilename());
-		assertThat(user.getProfileImage().getImageData()).isNotEqualTo(imageFile.getBytes());
+		assertThat(user.getProfileImage().getFileDir()).isNotNull();
+
+		File storedFile = new File(fileDir);
+		assertThat(storedFile).exists();
 	}
 
 	@DisplayName("이미지 파일이 null일 경우 이미지 엔티티의 필드도 null이다.")
@@ -70,14 +100,17 @@ class UserV1ServiceTest {
 		assertThat(user.isImprovementConsent()).isFalse();
 		assertThat(user.getProfileImage().getStoredImageName()).isNull();
 		assertThat(user.getProfileImage().getUploadImageName()).isNull();
-		assertThat(user.getProfileImage().getImageData()).isNull();
+		assertThat(user.getProfileImage().getFileDir()).isNull();
+
+		File storedFile = new File(fileDir + null);
+		assertThat(storedFile).doesNotExist();
 	}
 
 	@DisplayName("마케팅 수신을 거절할 수 있다.")
 	@Test
 	void test1() {
 		//given
-		User testUser = getTestUser(true, "test@gmail.com", "test");
+		User testUser = getTestUser(true, "test@gmail.com", "test-image");
 
 		User user = userRepository.save(testUser);
 
@@ -107,7 +140,7 @@ class UserV1ServiceTest {
 	@Test
 	void test6() throws Exception {
 		//given
-		String nickname = "test";
+		String nickname = "test-image";
 		User testUser = getTestUser(false, "test@gmail.com", nickname);
 		User user = userRepository.save(testUser);
 

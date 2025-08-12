@@ -4,12 +4,20 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.project.hiuni.TestUtils;
 import com.project.hiuni.domain.user.entity.ProfileImage;
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.util.FileSystemUtils;
 
 @ActiveProfiles("test")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -17,6 +25,25 @@ class ProfileImageServiceTest {
 
 	@Autowired
 	private ImageService imageService;
+
+	@Value("${file.dir}")
+	private String fileDir;
+
+	@BeforeEach
+	void setup() throws Exception {
+		Path testDirPath = Paths.get(fileDir);
+		if (Files.notExists(testDirPath)) {
+			Files.createDirectories(testDirPath);
+		}
+	}
+
+	@AfterEach
+	void cleanup() throws Exception {
+		Path testDirPath = Paths.get(fileDir);
+		if (Files.exists(testDirPath)) {
+			FileSystemUtils.deleteRecursively(testDirPath);
+		}
+	}
 
 	@DisplayName("이미지(jpg) 엔티티를 생성할 수 있다.")
 	@Test
@@ -35,7 +62,9 @@ class ProfileImageServiceTest {
 		//then
 		assertThat(profileImage.getUploadImageName()).isEqualTo(originalFilename);
 		assertThat(profileImage.getStoredImageName()).isNotEmpty();
+
 	}
+
 
 	@DisplayName("이미지(jpeg) 엔티티를 생성할 수 있다.")
 	@Test
@@ -53,6 +82,9 @@ class ProfileImageServiceTest {
 		//then
 		assertThat(profileImage.getUploadImageName()).isEqualTo(originalFilename);
 		assertThat(profileImage.getStoredImageName()).isNotEmpty();
+
+		File storedFile = new File(fileDir + profileImage.getStoredImageName());
+		assertThat(storedFile).exists();
 	}
 
 	@DisplayName("이미지(png) 엔티티를 생성할 수 있다.")
@@ -71,6 +103,9 @@ class ProfileImageServiceTest {
 		//then
 		assertThat(profileImage.getUploadImageName()).isEqualTo(originalFilename);
 		assertThat(profileImage.getStoredImageName()).isNotEmpty();
+
+		File storedFile = new File(fileDir + profileImage.getStoredImageName());
+		assertThat(storedFile).exists();
 	}
 
 
@@ -81,8 +116,9 @@ class ProfileImageServiceTest {
 		//when
 		ProfileImage profileImage = imageService.create(null);
 		//then
-		assertThat(profileImage.getImageData()).isNull();
 		assertThat(profileImage.getStoredImageName()).isNull();
 		assertThat(profileImage.getUploadImageName()).isNull();
+		File storedFile = new File(fileDir + profileImage.getStoredImageName());
+		assertThat(storedFile).doesNotExist();
 	}
 }
