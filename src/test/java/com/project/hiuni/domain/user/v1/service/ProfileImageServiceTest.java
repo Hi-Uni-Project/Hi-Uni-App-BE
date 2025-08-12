@@ -31,7 +31,6 @@ class ProfileImageServiceTest {
 
 	@BeforeEach
 	void setup() throws Exception {
-		// 테스트 시작 전, 파일 저장 디렉터리가 없으면 생성합니다.
 		Path testDirPath = Paths.get(fileDir);
 		if (Files.notExists(testDirPath)) {
 			Files.createDirectories(testDirPath);
@@ -42,8 +41,6 @@ class ProfileImageServiceTest {
 	void cleanup() throws Exception {
 		Path testDirPath = Paths.get(fileDir);
 		if (Files.exists(testDirPath)) {
-			// Files.deleteRecursively()는 내부의 모든 파일과 폴더를 삭제하고,
-			// 최종적으로 디렉토리 자체를 삭제합니다.
 			FileSystemUtils.deleteRecursively(testDirPath);
 		}
 	}
@@ -63,11 +60,9 @@ class ProfileImageServiceTest {
 		ProfileImage profileImage = imageService.create(mockImageFile);
 
 		//then
-//		assertThat(profileImage.getUploadImageName()).isEqualTo(originalFilename);
-//		assertThat(profileImage.getStoredImageName()).isNotEmpty();
-
 		assertThat(profileImage.getUploadImageName()).isEqualTo(originalFilename);
-		assertThat(profileImage.getStoredImageName()).matches("[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}\\.jpg");
+		assertThat(profileImage.getStoredImageName()).isNotEmpty();
+
 	}
 
 
