@@ -29,7 +29,7 @@ class UserRepositoryTest {
 		String email = "test@gmail.com";
 		User testUser = User.builder()
 			.marketingConsent(true)
-			.nickname("test")
+			.nickname("test-image")
 			.socialEmail(email)
 			.socialProvider(SocialProvider.KAKAO)
 			.univName("testUni")
@@ -61,7 +61,7 @@ class UserRepositoryTest {
 	@Test
 	void test2() throws Exception {
 		//given
-		String nickname = "test";
+		String nickname = "test-image";
 		User testUser = User.builder()
 			.marketingConsent(true)
 			.nickname(nickname)
