@@ -9,7 +9,6 @@ import lombok.Setter;
 @Setter
 @Builder
 public class AuthSocialRequest {
-  private String provider;
   private String idToken;
-  private SocialProvider socialProvider;
+  private SocialProvider provider;
 }
