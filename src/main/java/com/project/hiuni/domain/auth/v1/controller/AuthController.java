@@ -1,21 +1,28 @@
 package com.project.hiuni.domain.auth.v1.controller;
 
+import static com.project.hiuni.global.exception.ErrorCode.VALIDATION_FAILED;
+
 import com.project.hiuni.domain.auth.docs.AuthApiDocumentation;
 import com.project.hiuni.domain.auth.dto.request.AuthSocialRequest;
 import com.project.hiuni.domain.auth.dto.response.AuthSocialResponse;
+import com.project.hiuni.domain.auth.v1.service.AuthService;
+import com.project.hiuni.global.exception.ValidationException;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
 @Slf4j
+@RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/v1/auth")
 public class AuthController implements AuthApiDocumentation {
+
+  private final AuthService authService;
 
   @PostMapping("/social")
   public AuthSocialResponse authSocial(
@@ -24,9 +31,10 @@ public class AuthController implements AuthApiDocumentation {
 
     if(bindingResult.hasErrors()) {
       log.error("AuthSocialRequest validation failed :: {}", bindingResult.getAllErrors());
-
+      throw new ValidationException(VALIDATION_FAILED);
     }
 
+    // TODO: 소셜 로그인 처리 로직 추가해야함..
 
   }
 

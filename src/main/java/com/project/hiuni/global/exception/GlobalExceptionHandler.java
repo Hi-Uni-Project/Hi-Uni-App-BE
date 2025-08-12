@@ -19,4 +19,10 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         .body(ErrorResponse.of(e.getErrorCode()));
   }
 
+  @ExceptionHandler(ValidationException.class)
+  public ResponseEntity<ErrorResponse> providerNotFoundException(ValidationException e) {
+    return ResponseEntity.status(e.getErrorCode().getHttpStatus())
+        .body(ErrorResponse.of(e.getErrorCode()));
+  }
+
 }
