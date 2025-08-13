@@ -26,15 +26,14 @@ public class AuthController implements AuthApiDocumentation {
 
   @PostMapping("/social")
   public AuthSocialResponse authSocial(
-      @RequestBody @Valid AuthSocialRequest authSocialRequest,
-      BindingResult bindingResult) {
+      @RequestBody @Valid AuthSocialRequest authSocialRequest, BindingResult bindingResult) {
 
     if(bindingResult.hasErrors()) {
       log.error("AuthSocialRequest validation failed :: {}", bindingResult.getAllErrors());
       throw new ValidationException(VALIDATION_FAILED);
     }
 
-    // TODO: 소셜 로그인 처리 로직 추가해야함..
+    AuthSocialResponse authSocialResponse = authService.socialLogin(authSocialRequest);
 
   }
 
