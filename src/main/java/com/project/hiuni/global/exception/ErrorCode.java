@@ -13,6 +13,10 @@ public enum ErrorCode {
     DUPLICATED_USER(HttpStatus.BAD_REQUEST, "DUPLICATED_USER", "이미 등록된 사용자입니다."),
     DUPLICATED_NICKNAME(HttpStatus.BAD_REQUEST, "DUPLICATED_NICKNAME", "이미 등록된 닉네임입니다."),
 
+    // 400 Bad Request 검색 관련
+    INVALID_SEARCH_KEYWORD_LENGTH(HttpStatus.BAD_REQUEST, "INVALID_SEARCH_KEYWORD_LENGTH", "검색어는 2자 이상 입력해주세요."),
+    INVALID_SEARCH_KEYWORD(HttpStatus.BAD_REQUEST, "INVALID_SEARCH_KEYWORD", "검색어에 '대학', '대학교', '학교'는 포함될 수 없습니다."),
+
     // 400 Bad Request 파일 관련 에러코드
     UNSUPPORTED_FILE_FORMAT(HttpStatus.BAD_REQUEST, "UNSUPPORTED_FILE_FORMAT", "지원하지 않는 파일 형식입니다."),
     IMAGE_FILE_ONLY(HttpStatus.BAD_REQUEST, "IMAGE_FILE_ONLY", "이미지 파일만 업로드 가능합니다."),

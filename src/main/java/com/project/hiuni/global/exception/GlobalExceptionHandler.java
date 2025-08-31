@@ -25,4 +25,10 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         .body(ErrorResponse.of(e.getErrorCode()));
   }
 
+  @ExceptionHandler(InternalServerException.class)
+  public ResponseEntity<ErrorResponse> internalServerException(InternalServerException e) {
+    return ResponseEntity.status(e.getErrorCode().getHttpStatus())
+        .body(ErrorResponse.of(e.getErrorCode()));
+  }
+
 }

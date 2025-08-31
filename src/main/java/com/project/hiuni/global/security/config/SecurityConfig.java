@@ -52,7 +52,8 @@ public class SecurityConfig {
                 "/v3/api-docs/**",
                 "/test/**",
                 "/admin/**",
-                "/api/v1/auth/social"
+                "/api/v1/auth/social",
+                "/api/v1/univs/**"
             ).permitAll()
             .anyRequest().authenticated())
         .exceptionHandling(e -> e
