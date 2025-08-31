@@ -1,6 +1,7 @@
 package com.project.hiuni.domain.univ.v1.controller;
 
 import com.project.hiuni.domain.univ.dto.UnivDataDto.School;
+import com.project.hiuni.domain.univ.v1.docs.UnivV1Docs;
 import com.project.hiuni.domain.univ.v1.service.UnivV1Service;
 import com.project.hiuni.global.exception.ErrorCode;
 import com.project.hiuni.global.exception.ValidationException;
@@ -17,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/univs")
-public class UnivV1Controller {
+public class UnivV1Controller implements UnivV1Docs {
 
   private final UnivV1Service univV1Service;
 
@@ -26,6 +27,7 @@ public class UnivV1Controller {
    * 전체 대학교 목록을 조회합니다.
    * @return List<School> 전체 대학교 목록
    */
+  @Override
   @GetMapping
   public List<School> findAllSchools() {
     return univV1Service.findAllSchools();
@@ -38,6 +40,7 @@ public class UnivV1Controller {
    * @return List<School> 검색된 대학교 목록
    * @throws ValidationException 검색어가 비어있거나 2글자 미만인 경우 / '대학', '대학교', '학교' 가 포함되어 있으면 예외처리
    */
+  @Override
   @GetMapping("/search")
   public List<School> findSchoolsByUnivName(@RequestParam("keyword") String keyword) {
 

@@ -2,10 +2,9 @@ package com.project.hiuni.domain.univ.v1.service;
 
 import com.project.hiuni.domain.univ.dto.UnivDataDto;
 import com.project.hiuni.domain.univ.dto.UnivDataDto.School;
-import com.project.hiuni.domain.univ.dto.UnivMajorDataDto;
+import com.project.hiuni.domain.univ.dto.MajorDataDto;
 import com.project.hiuni.global.exception.ErrorCode;
 import com.project.hiuni.global.exception.InternalServerException;
-import com.project.hiuni.global.exception.ValidationException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +16,7 @@ import org.springframework.stereotype.Service;
 public class UnivV1Service {
 
   private final UnivDataDto univDataDto;
-  private final UnivMajorDataDto univMajorDataDto;
+  private final MajorDataDto majorDataDto;
 
   /**
    * 전체 대학교 목록을 조회합니다.

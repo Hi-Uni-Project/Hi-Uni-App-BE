@@ -13,7 +13,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class UnivMajorDataDto {
+public class MajorDataDto {
 
   private List<Major> records;
 
