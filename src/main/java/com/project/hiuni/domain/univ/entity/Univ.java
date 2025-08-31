@@ -1,5 +1,5 @@
 package com.project.hiuni.domain.univ.entity;
 
-public class UnivEntity {
+public class Univ {
 
 }

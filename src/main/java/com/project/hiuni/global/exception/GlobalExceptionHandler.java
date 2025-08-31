@@ -1,7 +1,11 @@
 package com.project.hiuni.global.exception;
 
 
+import com.project.hiuni.domain.auth.exception.ProviderNotFoundException;
+import com.project.hiuni.global.common.dto.response.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.reactive.result.method.annotation.ResponseEntityExceptionHandler;
 
@@ -9,9 +13,22 @@ import org.springframework.web.reactive.result.method.annotation.ResponseEntityE
 @RestControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
-//    @ExceptionHandler(InvalidValueException.class)
-//    public ResponseEntity<?> UserInvalidValueException(InvalidValueException e) {
-//        return ResponseEntity.status(e.getErrorCode().getHttpStatus())
-//                .body(ResponseDto.response(e.getErrorCode().getHttpStatus(), e.getMessage(), false));
-//    }
+  @ExceptionHandler(ProviderNotFoundException.class)
+  public ResponseEntity<ErrorResponse> providerNotFoundException(ProviderNotFoundException e) {
+    return ResponseEntity.status(e.getErrorCode().getHttpStatus())
+        .body(ErrorResponse.of(e.getErrorCode()));
+  }
+
+  @ExceptionHandler(ValidationException.class)
+  public ResponseEntity<ErrorResponse> providerNotFoundException(ValidationException e) {
+    return ResponseEntity.status(e.getErrorCode().getHttpStatus())
+        .body(ErrorResponse.of(e.getErrorCode()));
+  }
+
+  @ExceptionHandler(InternalServerException.class)
+  public ResponseEntity<ErrorResponse> internalServerException(InternalServerException e) {
+    return ResponseEntity.status(e.getErrorCode().getHttpStatus())
+        .body(ErrorResponse.of(e.getErrorCode()));
+  }
+
 }
