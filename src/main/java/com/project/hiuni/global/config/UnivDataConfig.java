@@ -2,7 +2,7 @@ package com.project.hiuni.global.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.hiuni.domain.univ.dto.UnivDataDto;
-import com.project.hiuni.domain.univ.dto.UnivMajorDataDto;
+import com.project.hiuni.domain.univ.dto.MajorDataDto;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -53,17 +53,17 @@ public class UnivDataConfig {
   }
 
   @Bean
-  public UnivMajorDataDto univMajorDataDto() {
+  public MajorDataDto univMajorDataDto() {
     try {
       Resource resource = resourceLoader.getResource("classpath:static/data/univMajorData.json");
       InputStream inputStream = resource.getInputStream();
-      UnivMajorDataDto univMajorDataDto = objectMapper.readValue(inputStream,
-          UnivMajorDataDto.class);
+      MajorDataDto majorDataDto = objectMapper.readValue(inputStream,
+          MajorDataDto.class);
 
-      List<UnivMajorDataDto.Major> filter = univMajorDataDto.getRecords().stream()
+      List<MajorDataDto.Major> filter = majorDataDto.getRecords().stream()
           .filter(major -> !major.getUnivName().contains("대학원"))
           .toList();
-      UnivMajorDataDto filteredDto = new UnivMajorDataDto();
+      MajorDataDto filteredDto = new MajorDataDto();
       filteredDto.setRecords(filter);
 
       filter = filteredDto.getRecords().stream()
@@ -75,7 +75,7 @@ public class UnivDataConfig {
       return filteredDto;
     } catch (Exception e) {
       log.error("파싱 중 에러 발생 :" + e.getMessage());
-      return new UnivMajorDataDto();
+      return new MajorDataDto();
     }
   }
 
