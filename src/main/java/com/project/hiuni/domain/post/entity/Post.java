@@ -35,44 +35,44 @@ public class Post extends BaseEntity {
     @Column(nullable = false)
     private String content;
 
-    private String company_name;
+    private String companyName;
 
-    private LocalDateTime start_date;
+    private LocalDateTime startDate;
 
-    private LocalDateTime end_date;
+    private LocalDateTime endDate;
 
     @Enumerated(EnumType.STRING)
-    private PostType post_type;
+    private PostType postType;
 
-    private String user_position;
+    private String userPosition;
 
-    private String what_learn;
+    private String whatLearn;
 
     private String feelings;
 
-    private int like_count;
+    private int likeCount;
 
-    private int bookmark_count;
+    private int bookmarkCount;
 
-    private int view_count;
+    private int viewCount;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_id", nullable = false)
     private User user;
 
     @Builder
-    public Post(String title, String content, String company_name,
-                LocalDateTime start_date, LocalDateTime end_date,
-                PostType post_type, String user_position,
-                String what_learn, String feelings, User user) {
+    public Post(String title, String content, String companyName,
+                LocalDateTime startDate, LocalDateTime endDate,
+                PostType postType, String userPosition,
+                String whatLearn, String feelings, User user) {
         this.title = title;
         this.content = content;
-        this.company_name = company_name;
-        this.start_date = start_date;
-        this.end_date = end_date;
-        this.post_type = post_type;
-        this.user_position = user_position;
-        this.what_learn = what_learn;
+        this.companyName = companyName;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.postType = postType;
+        this.userPosition = userPosition;
+        this.whatLearn = whatLearn;
         this.feelings = feelings;
         this.user = user;
     }

@@ -20,7 +20,7 @@ public class Comment extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private int like_count;
+    private int likeCount;
 
     private String content;
 }
