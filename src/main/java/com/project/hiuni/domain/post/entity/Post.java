@@ -50,11 +50,13 @@ public class Post extends BaseEntity {
 
     private String feelings;
 
-    private int likeCount;
+    private String imageUrl;
 
-    private int bookmarkCount;
+    private int likeCount=0;
 
-    private int viewCount;
+    private int bookmarkCount=0;
+
+    private int viewCount=0;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_id", nullable = false)
@@ -64,7 +66,10 @@ public class Post extends BaseEntity {
     public Post(String title, String content, String companyName,
                 LocalDateTime startDate, LocalDateTime endDate,
                 PostType postType, String userPosition,
-                String whatLearn, String feelings, User user) {
+                String whatLearn,
+                String feelings,
+                String imageUrl,
+                User user) {
         this.title = title;
         this.content = content;
         this.companyName = companyName;
@@ -74,6 +79,43 @@ public class Post extends BaseEntity {
         this.userPosition = userPosition;
         this.whatLearn = whatLearn;
         this.feelings = feelings;
+        this.imageUrl = imageUrl;
         this.user = user;
+    }
+
+    public void incrementLikeCount() {
+        likeCount++;
+    }
+
+    public void decrementLikeCount() {
+        likeCount--;
+    }
+
+    public void incrementBookmarkCount() {
+        bookmarkCount++;
+    }
+
+    public void decrementBookmarkCount() {
+        bookmarkCount--;
+    }
+
+    public void incrementViewCount() {
+        viewCount++;
+    }
+
+    public void updatePost(String title, String content, String companyName,
+                       LocalDateTime startDate, LocalDateTime endDate,
+                       PostType postType, String userPosition,
+                       String whatLearn, String feelings, String imageUrl) {
+        this.title = title;
+        this.content = content;
+        this.companyName = companyName;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.postType = postType;
+        this.userPosition = userPosition;
+        this.whatLearn = whatLearn;
+        this.feelings = feelings;
+        this.imageUrl = imageUrl;
     }
 }

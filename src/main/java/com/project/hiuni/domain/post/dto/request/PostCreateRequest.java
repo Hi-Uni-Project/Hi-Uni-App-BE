@@ -1,5 +1,6 @@
-package com.project.hiuni.domain.post.dto;
+package com.project.hiuni.domain.post.dto.request;
 
+import com.project.hiuni.domain.post.entity.PostType;
 import java.time.LocalDateTime;
 
 public record PostCreateRequest(
@@ -8,7 +9,7 @@ public record PostCreateRequest(
         String companyName,
         LocalDateTime startDate,
         LocalDateTime endDate,
-        String postType,
+        PostType postType,
         String userPosition,
         String whatLearn,
         String feelings,
