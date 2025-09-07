@@ -35,6 +35,7 @@ public class PostService {
                 .startDate(request.startDate())
                 .endDate(request.endDate())
                 .type(request.type())
+                .type(request.type())
                 .userPosition(request.userPosition())
                 .whatLearn(request.whatLearn())
                 .feelings(request.feelings())
