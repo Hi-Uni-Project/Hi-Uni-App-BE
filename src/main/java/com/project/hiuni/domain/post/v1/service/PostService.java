@@ -34,7 +34,7 @@ public class PostService {
                 .companyName(request.companyName())
                 .startDate(request.startDate())
                 .endDate(request.endDate())
-                .postType(request.postType())
+                .postType(request.type())
                 .userPosition(request.userPosition())
                 .whatLearn(request.whatLearn())
                 .feelings(request.feelings())
@@ -67,7 +67,7 @@ public class PostService {
                 request.companyName(),
                 request.startDate(),
                 request.endDate(),
-                request.postType(),
+                request.type(),
                 request.userPosition(),
                 request.whatLearn(),
                 request.feelings(),

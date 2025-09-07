@@ -1,7 +1,7 @@
 package com.project.hiuni.domain.post.dto.response;
 
 import com.project.hiuni.domain.post.entity.Post;
-import com.project.hiuni.domain.post.entity.PostType;
+import com.project.hiuni.domain.post.entity.Type;
 import java.time.LocalDateTime;
 
 public record PostUpdateResponse(
@@ -11,7 +11,7 @@ public record PostUpdateResponse(
         String companyName,
         LocalDateTime startDate,
         LocalDateTime endDate,
-        PostType postType,
+        Type type,
         String userPosition,
         String whatLearn,
         String feelings,
@@ -26,7 +26,7 @@ public record PostUpdateResponse(
                 post.getCompanyName(),
                 post.getStartDate(),
                 post.getEndDate(),
-                post.getPostType(),
+                post.getType(),
                 post.getUserPosition(),
                 post.getWhatLearn(),
                 post.getFeelings(),

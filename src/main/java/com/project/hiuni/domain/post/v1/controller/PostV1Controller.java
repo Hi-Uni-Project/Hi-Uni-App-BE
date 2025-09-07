@@ -32,24 +32,24 @@ public class PostV1Controller {
         return postService.createPost(postCreateRequest, userDetails.getId());
     }
 
-    @GetMapping("/{postId}")
+    @GetMapping("/{id}")
     public PostDetailResponse searchPost(@AuthenticationPrincipal CustomUserDetails userDetails,
-                                         @PathVariable Long postId) {
+                                         @PathVariable Long id) {
 
-        return postService.searchPost(postId);
+        return postService.searchPost(id);
     }
 
-    @PutMapping("/{postId}")
-    public PostUpdateResponse updatePost(@PathVariable Long postId,
+    @PutMapping("/{id}")
+    public PostUpdateResponse updatePost(@PathVariable Long id,
                                          @AuthenticationPrincipal CustomUserDetails userDetails,
                                          @RequestBody @Valid PostUpdateRequest postUpdateRequest){
-        return postService.updatePost(postUpdateRequest, postId, userDetails.getId());
+        return postService.updatePost(postUpdateRequest, id, userDetails.getId());
     }
 
-    @DeleteMapping("/{postId}")
-    public void deletePost(@PathVariable Long postId,
+    @DeleteMapping("/{id}")
+    public void deletePost(@PathVariable Long id,
                            @AuthenticationPrincipal CustomUserDetails userDetails) {
-        postService.deletePost(postId, userDetails.getId());
+        postService.deletePost(id, userDetails.getId());
     }
 
 }
