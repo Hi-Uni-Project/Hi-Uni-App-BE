@@ -1,5 +1,8 @@
 package com.project.hiuni.domain.auth.v1.service;
 
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.gson.GsonFactory;
 import com.project.hiuni.domain.auth.dto.request.AuthSocialRequest;
 import com.project.hiuni.domain.auth.dto.response.AuthSocialResponse;
 import com.project.hiuni.domain.auth.entity.SocialProvider;
@@ -25,7 +28,10 @@ public class AuthService {
     if(userProvider == SocialProvider.GOOGLE) {
       log.info("Google social login");
 
-      String url =
+      GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(
+          new NetHttpTransport(),
+          new GsonFactory())
+          .build();
 
 
 
