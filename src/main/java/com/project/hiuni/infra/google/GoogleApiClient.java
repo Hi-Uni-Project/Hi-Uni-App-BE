@@ -22,7 +22,12 @@ public class GoogleApiClient {
 
   private final GoogleIdTokenVerifier verifier;
 
-  public GoogleApiClient(@Value("${oauth.google.client-ids}") List<String> clientIds) {
+  public GoogleApiClient(
+      @Value("${oauth.google.client-id-android}") String clientId1,
+      @Value("${oauth.google.client-id-apple}") String clientId2) {
+
+    List<String> clientIds = List.of(clientId1, clientId2);
+
     this.verifier = new GoogleIdTokenVerifier.Builder(
         new NetHttpTransport(),
         new GsonFactory())
@@ -32,6 +37,8 @@ public class GoogleApiClient {
 
   public OAuthUserInfo getUserInfo(String idTokenString) {
     try {
+
+      log.info("구글 id 토큰 검증 시도 : " + idTokenString);
 
       GoogleIdToken idToken = verifier.verify(idTokenString);
 
@@ -54,16 +61,9 @@ public class GoogleApiClient {
 
       } catch (Exception e) {
       log.error("서버 오류로 id 토큰 검증 실패: " + e.getMessage());
-      throw new InternalServerException(ErrorCode.INTERNAL_SERVER_ERROR);
+      throw new GoogleInvalidTokenException(ErrorCode.GOOGLE_INVALID_TOKEN);
     }
 
   }
-
-
-
-
-
-
-
 
 }
