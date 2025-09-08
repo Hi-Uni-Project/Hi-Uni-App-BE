@@ -1,6 +1,8 @@
 package com.project.hiuni.global.security.jwt;
 
 import com.project.hiuni.global.common.threadlocal.TraceIdHolder;
+import com.project.hiuni.global.exception.ErrorCode;
+import com.project.hiuni.global.exception.TokenExtractionException;
 import com.project.hiuni.global.security.core.CustomUserDetails;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
@@ -46,12 +48,25 @@ public class JwtTokenProvider {
 
     return Jwts.builder()
         .subject(customUserDetails.getUsername())
-        .claim("userId", customUserDetails.getId())
+        .claim("socialId", customUserDetails.getId())
         .issuedAt(new Date())
         .expiration(expiryDate)
         .signWith(secretKey, SignatureAlgorithm.HS512)
         .compact();
   }
+
+  public String createToken(String socialId, String socialEmail, Long expirationMillis) {
+    Date expiryDate = new Date(new Date().getTime() + expirationMillis);
+
+    return Jwts.builder()
+        .subject(socialEmail)
+        .claim("socialId", socialId)
+        .issuedAt(new Date())
+        .expiration(expiryDate)
+        .signWith(secretKey, SignatureAlgorithm.HS512)
+        .compact();
+  }
+
 
   /**
    * 액세스 토큰을 생성하는 메서드입니다.
@@ -63,6 +78,13 @@ public class JwtTokenProvider {
     return createToken(authentication, accessTokenExpirationTime);
   }
 
+  public String createAccessToken(String refreshToken) {
+    String socialId = getSocialIdFromToken(refreshToken);
+    String socailEmail = getSocialEmailFromToken(refreshToken);
+
+    return createToken(socialId, socailEmail, accessTokenExpirationTime);
+  }
+
   /**
    * 리프레시 토큰을 생성하는 메서드입니다.
    *
@@ -72,23 +94,6 @@ public class JwtTokenProvider {
   public String createRefreshToken(Authentication authentication) {
     return createToken(authentication, refreshTokenExpirationTime);
   }
-
-  /**
-   * JWT 토큰에서 사용자 ID를 추출하는 메서드입니다.
-   *
-   * @param token JWT 토큰
-   * @return 사용자 ID
-   */
-  public Long getUserIdFromToken(String token) {
-    return Jwts
-        .parser()
-        .verifyWith(secretKey)
-        .build()
-        .parseSignedClaims(token)
-        .getPayload()
-        .get("userId", Long.class);
-  }
-
 
   /**
    * JWT 토큰의 유효성을 검증하는 메서드입니다.
@@ -150,6 +155,39 @@ public class JwtTokenProvider {
     String token = authHeader.substring(7);
 
     return token;
+  }
+
+
+  /**
+   * JWT 토큰에서 사용자 SocialId를 추출하는 메서드입니다.
+   *
+   * @param token JWT 토큰
+   * @return 사용자 소셜 아이디
+   */
+  public String getSocialIdFromToken(String token) {
+    return Jwts
+        .parser()
+        .verifyWith(secretKey)
+        .build()
+        .parseSignedClaims(token)
+        .getPayload()
+        .get("socialId", String.class);
+  }
+
+  /**
+   * JWT 토큰에서 사용자 soscial email을 추출하는 메서드입니다.
+   *
+   * @param token JWT 토큰
+   * @return 사용자 소셜 이메일
+   */
+  public String getSocialEmailFromToken(String token) {
+    return Jwts
+        .parser()
+        .verifyWith(secretKey)
+        .build()
+        .parseSignedClaims(token)
+        .getPayload()
+        .getSubject();
   }
 
 }

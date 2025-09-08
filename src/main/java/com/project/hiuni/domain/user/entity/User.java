@@ -1,6 +1,7 @@
 package com.project.hiuni.domain.user.entity;
 
 import com.project.hiuni.admin.common.BaseEntity;
+import com.project.hiuni.domain.auth.entity.Auth;
 import com.project.hiuni.domain.user.dto.request.UserPostRequest;
 import com.project.hiuni.domain.user.v1.service.SocialProvider;
 import com.project.hiuni.global.security.core.Role;
@@ -30,6 +31,12 @@ public class User extends BaseEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+
+	@OneToOne(fetch = FetchType.LAZY)
+	private Auth auth;
+
+	@Column(unique = true, nullable = false)
+	private String socialId;
 
 	@Column(unique = true, nullable = false)
 	private String socialEmail;

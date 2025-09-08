@@ -26,6 +26,8 @@ public class CustomUserDetails implements UserDetails {
     return user.getId();
   }
 
+  public String getSocialId() { return user.getSocialId();}
+
   @Override
   public String getPassword() {
     return ""; //소셜 로그인 사용중이므로 비밀번호는 빈 문자열로 설정합니다
@@ -33,6 +35,6 @@ public class CustomUserDetails implements UserDetails {
 
   @Override
   public String getUsername() {
-    return user.getSocialEmail(); //사용자 식별자로 소셜 이메일을 사용합니다
+    return user.getSocialEmail();
   }
 }
