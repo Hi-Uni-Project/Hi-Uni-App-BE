@@ -8,6 +8,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.SignatureException;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.Date;
 import javax.crypto.SecretKey;
 import lombok.RequiredArgsConstructor;
@@ -129,6 +130,26 @@ public class JwtTokenProvider {
       return false;
     }
 
+  }
+
+  /**
+   * HTTP 요청 헤더에서 JWT 토큰을 추출하는 메서드입니다.
+   *
+   * @param request HTTP 요청
+   * @return 추출된 JWT 토큰
+   */
+  public String extractToken(HttpServletRequest request) {
+    String authHeader = request.getHeader("Authorization");
+
+    // Authorization 헤더가 없거나 "Bearer "로 시작하지 않는 경우 예외 처리
+    if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+      log.error("Authorization 헤더가 없거나 Bearer 로 시작하지 않습니다.");
+      throw new TokenExtractionException(ErrorCode.TOKEN_EXTRACTION_FAILED);
+    }
+
+    String token = authHeader.substring(7);
+
+    return token;
   }
 
 }
