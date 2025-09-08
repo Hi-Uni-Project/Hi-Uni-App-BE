@@ -7,6 +7,7 @@ import com.project.hiuni.domain.auth.dto.request.AuthSocialRequest;
 import com.project.hiuni.domain.auth.dto.response.AuthSocialResponse;
 import com.project.hiuni.domain.auth.entity.SocialProvider;
 import com.project.hiuni.global.security.jwt.JwtTokenProvider;
+import com.project.hiuni.infra.Google.GoogleApiClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -18,8 +19,7 @@ import org.springframework.web.client.RestTemplate;
 public class AuthService {
 
   private final JwtTokenProvider jwtTokenProvider;
-  private final RestTemplate restTemplate;
-
+  private final GoogleApiClient googleApiClient;
 
   public AuthSocialResponse socialLogin(AuthSocialRequest authSocialRequest) {
     SocialProvider userProvider = authSocialRequest.getProvider();
@@ -28,10 +28,6 @@ public class AuthService {
     if(userProvider == SocialProvider.GOOGLE) {
       log.info("Google social login");
 
-      GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(
-          new NetHttpTransport(),
-          new GsonFactory())
-          .build();
 
 
 

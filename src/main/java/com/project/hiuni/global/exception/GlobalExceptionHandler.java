@@ -1,6 +1,7 @@
 package com.project.hiuni.global.exception;
 
 
+import com.project.hiuni.domain.auth.exception.GoogleInvalidTokenException;
 import com.project.hiuni.domain.auth.exception.ProviderNotFoundException;
 import com.project.hiuni.global.common.dto.response.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +28,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
   @ExceptionHandler(InternalServerException.class)
   public ResponseEntity<ErrorResponse> internalServerException(InternalServerException e) {
+    return ResponseEntity.status(e.getErrorCode().getHttpStatus())
+        .body(ErrorResponse.of(e.getErrorCode()));
+  }
+
+  @ExceptionHandler(GoogleInvalidTokenException.class)
+  public ResponseEntity<ErrorResponse> internalServerException(GoogleInvalidTokenException e) {
     return ResponseEntity.status(e.getErrorCode().getHttpStatus())
         .body(ErrorResponse.of(e.getErrorCode()));
   }

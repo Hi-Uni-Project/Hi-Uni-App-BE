@@ -48,6 +48,9 @@ public enum ErrorCode {
     TOKEN_EXPIRED(HttpStatus.UNAUTHORIZED, "TOKEN_EXPIRED", "토큰이 만료되었습니다."),
     TOKEN_INVALID(HttpStatus.UNAUTHORIZED, "TOKEN_INVALID", "유효하지 않은 토큰입니다."),
 
+    // 401 social login
+    GOOGLE_INVALID_TOKEN(HttpStatus.UNAUTHORIZED, "GOOGLE_INVALID_TOKEN", "유효하지 않은 ID 토큰입니다."),
+
     // 403 Forbidden
     SELF_ACCESS_ONLY(HttpStatus.FORBIDDEN, "SELF_ACCESS_ONLY", "본인의 정보만 조회할 수 있습니다."),
     FORBIDDEN(HttpStatus.FORBIDDEN, "FORBIDDEN", "접근 권한이 없습니다."),
