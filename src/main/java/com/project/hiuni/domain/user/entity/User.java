@@ -2,8 +2,8 @@ package com.project.hiuni.domain.user.entity;
 
 import com.project.hiuni.admin.common.BaseEntity;
 import com.project.hiuni.domain.auth.entity.Auth;
+import com.project.hiuni.domain.auth.entity.SocialProvider;
 import com.project.hiuni.domain.user.dto.request.UserPostRequest;
-import com.project.hiuni.domain.user.v1.service.SocialProvider;
 import com.project.hiuni.global.security.core.Role;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -33,6 +33,7 @@ public class User extends BaseEntity {
 	private Long id;
 
 	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "auth_id")
 	private Auth auth;
 
 	@Column(unique = true, nullable = false)
@@ -41,19 +42,15 @@ public class User extends BaseEntity {
 	@Column(unique = true, nullable = false)
 	private String socialEmail;
 
-	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
 	private SocialProvider socialProvider;
 
-	@Column(nullable = false)
 	private String univName;
 
 	private String majorName;
 
-	@Column(nullable = false)
 	private String univEmail;
 
-	//@Column(unique = true, nullable = false)
 	private String nickname;
 
 	private String imageUrl;
@@ -62,11 +59,7 @@ public class User extends BaseEntity {
 	private Role role;
 
 	@Enumerated(EnumType.STRING)
-	private UserStatus status;
-
-	private boolean marketingConsent;
-
-	private boolean improvementConsent;
+	private UserStatus userStatus;
 
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn(name = "profile_image_id")
@@ -75,6 +68,8 @@ public class User extends BaseEntity {
 	@Builder
 	private User(
 		Long id,
+		Auth auth,
+		String socialId,
 		String socialEmail,
 		SocialProvider socialProvider,
 		String univName,
@@ -83,13 +78,13 @@ public class User extends BaseEntity {
 		String nickname,
 		String imageUrl,
 		Role role,
-		UserStatus status,
-		boolean marketingConsent,
-		boolean improvementConsent,
+		UserStatus userStatus,
 		ProfileImage profileImage
 	) {
 
 		this.id = id;
+		this.auth = auth;
+		this.socialId = socialId;
 		this.socialEmail = socialEmail;
 		this.socialProvider = socialProvider;
 		this.univName = univName;
@@ -98,69 +93,34 @@ public class User extends BaseEntity {
 		this.nickname = nickname;
 		this.imageUrl = imageUrl;
 		this.role = role;
-		this.status = status;
-		this.marketingConsent = marketingConsent;
-		this.improvementConsent = improvementConsent;
+		this.userStatus = userStatus;
 		this.profileImage = profileImage;
 	}
 
 	/**
-	 * 일반 사용자를 생성하는 메서드 입니다
-	 *
-	 * @param socialEmail    소셜로그인 후 조회된 사용자의 이메일
+	 * 소셜로그인 시 일반 사용자를 생성하는 메서드 입니다.
+	 * @param socialId 소셜로그인 후 조회된 사용자의 고유 ID
+	 * @param auth     인증 정보 (Auth 객체)
+	 * @param socialEmail 소셜로그인 후 조회된 사용자의 이메일
 	 * @param socialProvider 소셜로그인 제공자 (예: "google", "kakao")
-	 * @param univName       대학교 이름
-	 * @param majorName      전공 이름
-	 * @param univEmail      대학교 이메일
-	 * @param nickname       사용자 닉네임
-	 * @param imageUrl       사용자 프로필 이미지 URL
 	 * @return 생성된 User 객체
 	 */
-	public static User createStandardUserOf(
-		String socialEmail,
-		SocialProvider socialProvider,
-		String univName,
-		String majorName,
-		String univEmail,
-		String nickname,
-		String imageUrl,
-		boolean isMarketingConsent
-	) {
-
+	public static User createStandardUserForSocial(String socialId, Auth auth, String socialEmail, SocialProvider socialProvider) {
 		return User.builder()
-			.id(null)
-			.socialEmail(socialEmail)
-			.socialProvider(socialProvider)
-			.univName(univName)
-			.majorName(majorName)
-			.univEmail(univEmail)
-			.nickname(nickname)
-			.imageUrl(imageUrl)
-			.role(Role.ROLE_USER)
-			.marketingConsent(isMarketingConsent)
-			.build();
-	}
-
-	public static User createStandardUserOf(
-		UserPostRequest request,
-		ProfileImage profileImage
-	) {
-		User user = User.builder()
-			.socialEmail(request.socialEmail())
-			.socialProvider(request.socialProvider())
-			.univName(request.univName())
-			.majorName(request.majorName())
-			.univEmail(request.univEmail())
-			.nickname(request.nickname())
-			.imageUrl(request.imageUrl())
-			.role(Role.ROLE_USER)
-			.marketingConsent(request.marketingConsent())
-			.improvementConsent(request.improvementConsent())
-			.profileImage(profileImage)
-			.status(UserStatus.ACTIVE)
-			.build();
-
-		return user;
+				.id(null)
+				.auth(auth)
+				.socialId(socialId)
+				.socialEmail(socialEmail)
+				.socialProvider(socialProvider)
+				.univName(null)
+				.majorName(null)
+				.univEmail(null)
+				.nickname(null)
+				.imageUrl(null)
+				.role(Role.ROLE_USER)
+				.userStatus(UserStatus.ACTIVE)
+				.profileImage(null)
+				.build();
 	}
 
 
@@ -192,20 +152,12 @@ public class User extends BaseEntity {
 			.build();
 	}
 
-	public void cancelMarketingConsent() {
-		this.marketingConsent = false;
-	}
-
-	public void agreeMarketingConsent() {
-		this.marketingConsent = true;
-	}
-
 	public void changeNickname(String newNickname) {
 		this.nickname = newNickname;
 	}
 
 	public void withdraw() {
-		this.status = UserStatus.WITHDRAWN;
+		this.userStatus = UserStatus.WITHDRAWN;
 	}
 
 	public void deleteImage() {

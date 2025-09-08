@@ -1,7 +1,7 @@
 package com.project.hiuni.domain.auth.dto;
 
 public interface OAuthUserInfo {
-  String getId();
+  String getSocialId();
   String getName();
   String getEmail();
 }

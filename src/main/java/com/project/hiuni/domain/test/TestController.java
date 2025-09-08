@@ -2,7 +2,6 @@ package com.project.hiuni.domain.test;
 
 import com.project.hiuni.domain.user.entity.User;
 import com.project.hiuni.domain.user.repository.UserRepository;
-import com.project.hiuni.domain.user.v1.service.SocialProvider;
 import com.project.hiuni.global.security.core.CustomUserDetails;
 import com.project.hiuni.global.security.core.Role;
 import com.project.hiuni.global.security.jwt.JwtTokenProvider;

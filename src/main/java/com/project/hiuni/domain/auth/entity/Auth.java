@@ -33,11 +33,15 @@ public class Auth extends BaseEntity {
     this.refreshToken = refreshToken;
   }
 
-  public static Auth of(Long id, String refreshToken) {
+  public static Auth from(String refreshToken) {
     return Auth.builder()
-        .id(id)
+        .id(null)
         .refreshToken(refreshToken)
         .build();
+  }
+
+  public void updateRefreshToken(String refreshToken) {
+    this.refreshToken = refreshToken;
   }
 
 }

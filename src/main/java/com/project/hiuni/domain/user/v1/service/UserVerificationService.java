@@ -1,5 +1,6 @@
 package com.project.hiuni.domain.user.v1.service;
 
+import com.project.hiuni.domain.auth.entity.SocialProvider;
 import com.project.hiuni.domain.user.exception.CustomNicknameDuplicationException;
 import com.project.hiuni.domain.user.exception.CustomUserDuplicationException;
 import com.project.hiuni.domain.user.repository.UserRepository;

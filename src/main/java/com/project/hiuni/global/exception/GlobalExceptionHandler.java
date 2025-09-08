@@ -33,9 +33,10 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
   }
 
   @ExceptionHandler(GoogleInvalidTokenException.class)
-  public ResponseEntity<ErrorResponse> internalServerException(GoogleInvalidTokenException e) {
+  public ResponseEntity<ErrorResponse> GoogleInvalidTokenException(GoogleInvalidTokenException e) {
     return ResponseEntity.status(e.getErrorCode().getHttpStatus())
         .body(ErrorResponse.of(e.getErrorCode()));
   }
+
 
 }

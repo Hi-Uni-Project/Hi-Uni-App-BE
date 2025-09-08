@@ -1,4 +1,4 @@
-package com.project.hiuni.infra.Google;
+package com.project.hiuni.infra.google;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
@@ -10,29 +10,23 @@ import com.project.hiuni.domain.auth.exception.GoogleInvalidTokenException;
 import com.project.hiuni.global.exception.ErrorCode;
 import com.project.hiuni.global.exception.InternalServerException;
 import java.util.Collections;
-import lombok.Data;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 @Component
 @Slf4j
-@RequiredArgsConstructor
 public class GoogleApiClient {
 
   private final GoogleIdTokenVerifier verifier;
 
-  @Value("${oauth.google.client-id}")
-  private String GoogleClientId;
-
-  public GoogleApiClient() {
+  public GoogleApiClient(@Value("${oauth.google.client-ids}") List<String> clientIds) {
     this.verifier = new GoogleIdTokenVerifier.Builder(
         new NetHttpTransport(),
         new GsonFactory())
-        .setAudience(Collections.singletonList(GoogleClientId))
+        .setAudience(clientIds)
         .build();
   }
 

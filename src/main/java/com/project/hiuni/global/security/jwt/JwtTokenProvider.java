@@ -78,6 +78,10 @@ public class JwtTokenProvider {
     return createToken(authentication, accessTokenExpirationTime);
   }
 
+  public String createAccessToken(String socialId, String socialEmail) {
+    return createToken(socialId, socialEmail, accessTokenExpirationTime);
+  }
+
   public String createAccessToken(String refreshToken) {
     String socialId = getSocialIdFromToken(refreshToken);
     String socailEmail = getSocialEmailFromToken(refreshToken);
@@ -93,6 +97,10 @@ public class JwtTokenProvider {
    */
   public String createRefreshToken(Authentication authentication) {
     return createToken(authentication, refreshTokenExpirationTime);
+  }
+
+  public String createRefreshToken(String socialId, String socialEmail) {
+    return createToken(socialId, socialEmail, refreshTokenExpirationTime);
   }
 
   /**
