@@ -53,7 +53,8 @@ public class SecurityConfig {
                 "/test/**",
                 "/admin/**",
                 "/api/v1/auth/social",
-                "/api/v1/univs/**"
+                "/api/v1/univs/**",
+                "/api/v1/majors/**"
             ).permitAll()
             .anyRequest().authenticated())
         .exceptionHandling(e -> e

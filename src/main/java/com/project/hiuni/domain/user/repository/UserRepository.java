@@ -1,15 +1,13 @@
 package com.project.hiuni.domain.user.repository;
 
 import com.project.hiuni.domain.user.entity.User;
-import com.project.hiuni.domain.user.v1.service.SocialProvider;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
   Optional<User> findBySocialEmail(String socialEmail);
-
-	boolean existsUserBySocialEmailAndSocialProvider(String socialEmail, SocialProvider socialProvider);
+	Optional<User> findBySocialId(String socialId);
 
 	boolean existsUserByNickname(String nickname);
 }

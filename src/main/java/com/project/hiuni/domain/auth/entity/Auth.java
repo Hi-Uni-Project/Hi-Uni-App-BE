@@ -24,27 +24,24 @@ public class Auth extends BaseEntity {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @OneToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "user_id")
-  private User user;
-
   @Column(nullable = false, length = 255)
   private String refreshToken;
 
-
   @Builder
-  private Auth(Long id, User user, String refreshToken) {
+  private Auth(Long id, String refreshToken) {
     this.id = id;
-    this.user = user;
     this.refreshToken = refreshToken;
   }
 
-  public static Auth of(Long id, User user, String refreshToken) {
+  public static Auth from(String refreshToken) {
     return Auth.builder()
-        .id(id)
-        .user(user)
+        .id(null)
         .refreshToken(refreshToken)
         .build();
+  }
+
+  public void updateRefreshToken(String refreshToken) {
+    this.refreshToken = refreshToken;
   }
 
 }

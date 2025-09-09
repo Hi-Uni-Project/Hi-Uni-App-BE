@@ -38,7 +38,7 @@ public class UnivV1Controller implements UnivV1Docs {
    * 대학교 이름으로 검색합니다.
    * @param keyword 대학교 이름 검색어
    * @return List<School> 검색된 대학교 목록
-   * @throws ValidationException 검색어가 비어있거나 2글자 미만인 경우 / '대학', '대학교', '학교' 가 포함되어 있으면 예외처리
+   * @throws ValidationException 검색어가 비어있거나 2글자 미만인 경우 / '대학', '대학교', '학교' 가 만 검색했으면 예외처리
    */
   @Override
   @GetMapping("/search")

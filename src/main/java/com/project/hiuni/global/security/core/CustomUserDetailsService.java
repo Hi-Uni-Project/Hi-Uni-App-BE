@@ -29,7 +29,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 		User user = userRepository.findBySocialEmail(SocialEmail).orElseThrow(
 			() -> new CustomUserNotFoundException(ErrorCode.USER_NOT_FOUND));
 
-		checkWithDrawn(user.getStatus());
+		checkWithDrawn(user.getUserStatus());
 
 		return new CustomUserDetails(user);
 	}
@@ -37,12 +37,12 @@ public class CustomUserDetailsService implements UserDetailsService {
 	/**
 	 * 사용자 ID로 사용자 인증 객체를 생성하는 메서드입니다.
 	 *
-	 * @param id 사용자 ID
+	 * @param socialId 사용자 소셜로그인 식별자인 socialId 값이 들어갑니다.
 	 * @return CustomUserDetails 객체
 	 * @throws CustomUserNotFoundException 사용자를 찾을 수 없는 경우
 	 */
-	public UserDetails loadUserById(Long id) throws CustomUserNotFoundException {
-		User user = userRepository.findById(id).orElseThrow(
+	public UserDetails loadUserById(String socialId) throws CustomUserNotFoundException {
+		User user = userRepository.findBySocialId(socialId).orElseThrow(
 			() -> new CustomUserNotFoundException(ErrorCode.USER_NOT_FOUND));
 		return new CustomUserDetails(user);
 	}
