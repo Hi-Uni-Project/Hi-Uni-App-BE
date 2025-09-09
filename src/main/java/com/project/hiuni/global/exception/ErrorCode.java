@@ -15,7 +15,7 @@ public enum ErrorCode {
 
     // 400 Bad Request 검색 관련
     INVALID_SEARCH_KEYWORD_LENGTH(HttpStatus.BAD_REQUEST, "INVALID_SEARCH_KEYWORD_LENGTH", "검색어는 2자 이상 입력해주세요."),
-    INVALID_SEARCH_KEYWORD(HttpStatus.BAD_REQUEST, "INVALID_SEARCH_KEYWORD", "검색어에 '대학', '대학교', '학교'는 포함될 수 없습니다."),
+    INVALID_SEARCH_KEYWORD(HttpStatus.BAD_REQUEST, "INVALID_SEARCH_KEYWORD", "검색어에 '대학', '대학교', '학교'는 단독으로 사용할 수 없습니다."),
 
     // 400 Bad Request 파일 관련 에러코드
     UNSUPPORTED_FILE_FORMAT(HttpStatus.BAD_REQUEST, "UNSUPPORTED_FILE_FORMAT", "지원하지 않는 파일 형식입니다."),
@@ -47,6 +47,10 @@ public enum ErrorCode {
     UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "UNAUTHORIZED", "인증이 필요합니다."),
     TOKEN_EXPIRED(HttpStatus.UNAUTHORIZED, "TOKEN_EXPIRED", "토큰이 만료되었습니다."),
     TOKEN_INVALID(HttpStatus.UNAUTHORIZED, "TOKEN_INVALID", "유효하지 않은 토큰입니다."),
+    TOKEN_EXTRACTION_FAILED(HttpStatus.UNAUTHORIZED, "TOKEN_EXTRACTION_FAILED", "토큰 추출에 실패했습니다."),
+
+    // 401 social login
+    GOOGLE_INVALID_TOKEN(HttpStatus.UNAUTHORIZED, "GOOGLE_INVALID_TOKEN", "유효하지 않은 ID 토큰입니다."),
 
     // 403 Forbidden
     SELF_ACCESS_ONLY(HttpStatus.FORBIDDEN, "SELF_ACCESS_ONLY", "본인의 정보만 조회할 수 있습니다."),

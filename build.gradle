@@ -40,6 +40,7 @@ dependencies {
 
 	// 구글 소셜 로그인 처리를 위한 라이브러리
 	implementation 'com.google.api-client:google-api-client:2.4.0'
+	implementation 'com.google.api-client:google-api-client-gson:2.4.0'
 
 
 	testImplementation 'org.springframework.security:spring-security-test'

@@ -127,10 +127,10 @@ public class JwtTokenFilter extends OncePerRequestFilter {
   private UsernamePasswordAuthenticationToken getAuthentication(String token) {
 
     //토큰에서 사용자 ID를 추출합니다.
-    Long userId = jwtTokenProvider.getUserIdFromToken(token);
+    String socialId = jwtTokenProvider.getSocialIdFromToken(token);
 
     //사용자 ID로 사용자 인증 정보를 생성합니다.
-    UserDetails userDetails = customUserDetailsService.loadUserById(userId);
+    UserDetails userDetails = customUserDetailsService.loadUserById(socialId);
 
     return new UsernamePasswordAuthenticationToken(
         userDetails,

@@ -1,6 +1,8 @@
 package com.project.hiuni.global.security.jwt;
 
 import com.project.hiuni.global.common.threadlocal.TraceIdHolder;
+import com.project.hiuni.global.exception.ErrorCode;
+import com.project.hiuni.global.exception.TokenExtractionException;
 import com.project.hiuni.global.security.core.CustomUserDetails;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
@@ -8,6 +10,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.SignatureException;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.Date;
 import javax.crypto.SecretKey;
 import lombok.RequiredArgsConstructor;
@@ -45,12 +48,25 @@ public class JwtTokenProvider {
 
     return Jwts.builder()
         .subject(customUserDetails.getUsername())
-        .claim("userId", customUserDetails.getId())
+        .claim("socialId", customUserDetails.getId())
         .issuedAt(new Date())
         .expiration(expiryDate)
         .signWith(secretKey, SignatureAlgorithm.HS512)
         .compact();
   }
+
+  public String createToken(String socialId, String socialEmail, Long expirationMillis) {
+    Date expiryDate = new Date(new Date().getTime() + expirationMillis);
+
+    return Jwts.builder()
+        .subject(socialEmail)
+        .claim("socialId", socialId)
+        .issuedAt(new Date())
+        .expiration(expiryDate)
+        .signWith(secretKey, SignatureAlgorithm.HS512)
+        .compact();
+  }
+
 
   /**
    * 액세스 토큰을 생성하는 메서드입니다.
@@ -60,6 +76,17 @@ public class JwtTokenProvider {
    */
   public String createAccessToken(Authentication authentication) {
     return createToken(authentication, accessTokenExpirationTime);
+  }
+
+  public String createAccessToken(String socialId, String socialEmail) {
+    return createToken(socialId, socialEmail, accessTokenExpirationTime);
+  }
+
+  public String createAccessToken(String refreshToken) {
+    String socialId = getSocialIdFromToken(refreshToken);
+    String socailEmail = getSocialEmailFromToken(refreshToken);
+
+    return createToken(socialId, socailEmail, accessTokenExpirationTime);
   }
 
   /**
@@ -72,22 +99,9 @@ public class JwtTokenProvider {
     return createToken(authentication, refreshTokenExpirationTime);
   }
 
-  /**
-   * JWT 토큰에서 사용자 ID를 추출하는 메서드입니다.
-   *
-   * @param token JWT 토큰
-   * @return 사용자 ID
-   */
-  public Long getUserIdFromToken(String token) {
-    return Jwts
-        .parser()
-        .verifyWith(secretKey)
-        .build()
-        .parseSignedClaims(token)
-        .getPayload()
-        .get("userId", Long.class);
+  public String createRefreshToken(String socialId, String socialEmail) {
+    return createToken(socialId, socialEmail, refreshTokenExpirationTime);
   }
-
 
   /**
    * JWT 토큰의 유효성을 검증하는 메서드입니다.
@@ -129,6 +143,59 @@ public class JwtTokenProvider {
       return false;
     }
 
+  }
+
+  /**
+   * HTTP 요청 헤더에서 JWT 토큰을 추출하는 메서드입니다.
+   *
+   * @param request HTTP 요청
+   * @return 추출된 JWT 토큰
+   */
+  public String extractToken(HttpServletRequest request) {
+    String authHeader = request.getHeader("Authorization");
+
+    // Authorization 헤더가 없거나 "Bearer "로 시작하지 않는 경우 예외 처리
+    if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+      log.error("Authorization 헤더가 없거나 Bearer 로 시작하지 않습니다.");
+      throw new TokenExtractionException(ErrorCode.TOKEN_EXTRACTION_FAILED);
+    }
+
+    String token = authHeader.substring(7);
+
+    return token;
+  }
+
+
+  /**
+   * JWT 토큰에서 사용자 SocialId를 추출하는 메서드입니다.
+   *
+   * @param token JWT 토큰
+   * @return 사용자 소셜 아이디
+   */
+  public String getSocialIdFromToken(String token) {
+    return Jwts
+        .parser()
+        .verifyWith(secretKey)
+        .build()
+        .parseSignedClaims(token)
+        .getPayload()
+        .get("socialId", String.class);
+  }
+
+  /**
+   * JWT 토큰에서 사용자 soscial email을 추출하는 메서드입니다.
+   *
+   * @param token JWT 토큰
+   * @return 사용자 소셜 이메일
+   */
+  public String getSocialEmailFromToken(String token) {
+    return Jwts
+        .parser()
+        .verifyWith(secretKey)
+        .build()
+        .parseSignedClaims(token)
+        .getPayload()
+        .getSubject();
   }
 
 }
