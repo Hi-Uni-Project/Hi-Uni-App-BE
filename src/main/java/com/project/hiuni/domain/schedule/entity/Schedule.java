@@ -29,7 +29,7 @@ public class Schedule extends BaseEntity {
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    private ScheduleType scheduleType;
+    private Type type;
 
     private String title;
 
@@ -38,7 +38,7 @@ public class Schedule extends BaseEntity {
     private LocalDateTime endDate;
 
     @Enumerated(EnumType.STRING)
-    private ColorType colorType;
+    private Color color;
 
     private String memo;
 
@@ -47,18 +47,18 @@ public class Schedule extends BaseEntity {
     private User user;
 
     @Builder
-    public Schedule(ScheduleType scheduleType,
+    public Schedule(Type type,
                     String title,
                     LocalDateTime startDate,
                     LocalDateTime endDate,
-                    ColorType colorType,
+                    Color color,
                     String memo,
                     User user) {
-        this.scheduleType = scheduleType;
+        this.type = type;
         this.title = title;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.colorType = colorType;
+        this.color = color;
         this.memo = memo;
         this.user = user;
     }
