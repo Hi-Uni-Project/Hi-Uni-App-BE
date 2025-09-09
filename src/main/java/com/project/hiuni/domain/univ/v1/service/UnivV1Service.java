@@ -2,7 +2,6 @@ package com.project.hiuni.domain.univ.v1.service;
 
 import com.project.hiuni.domain.univ.dto.UnivDataDto;
 import com.project.hiuni.domain.univ.dto.UnivDataDto.School;
-import com.project.hiuni.domain.univ.dto.MajorDataDto;
 import com.project.hiuni.global.exception.ErrorCode;
 import com.project.hiuni.global.exception.InternalServerException;
 import java.util.List;
@@ -16,7 +15,6 @@ import org.springframework.stereotype.Service;
 public class UnivV1Service {
 
   private final UnivDataDto univDataDto;
-  private final MajorDataDto majorDataDto;
 
   /**
    * 전체 대학교 목록을 조회합니다.
