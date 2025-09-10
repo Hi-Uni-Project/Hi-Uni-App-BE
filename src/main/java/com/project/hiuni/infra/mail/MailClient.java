@@ -1,11 +1,14 @@
 package com.project.hiuni.infra.mail;
 
 import com.project.hiuni.domain.mail.dto.MailAuthentication;
+import com.project.hiuni.domain.mail.exception.EmailSendException;
+import com.project.hiuni.global.exception.ErrorCode;
 import jakarta.mail.internet.MimeMessage;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
@@ -13,6 +16,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Getter
+@Slf4j
 @RequiredArgsConstructor
 public class MailClient {
 
@@ -23,10 +27,18 @@ public class MailClient {
   private final JavaMailSender mailSender;
 
   @Async
-  public void sendMail(String[] to, String mailTitle, String mailContent) throws MessagingException {
-    MimeMessage message = mailSender.createMimeMessage();
-    MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
-
+  public void sendMail(String[] to, String mailTitle, String mailContent) {
+    try {
+      MimeMessage message = mailSender.createMimeMessage();
+      MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+      helper.setFrom("Hi-Uni <hiuniv.official@gmail.com>");
+      helper.setTo(to);
+      helper.setSubject(mailTitle);
+      helper.setText(mailContent, true);
+    } catch (Exception e) {
+      log.error(e.getMessage(), e);
+      throw new EmailSendException(ErrorCode.EMAIL_SEND_FAILED);
+    }
   }
 
   public void addRecipient(String email) {
