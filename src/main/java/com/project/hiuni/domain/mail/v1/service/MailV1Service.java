@@ -31,10 +31,12 @@ public class MailV1Service {
     String token = jwtTokenProvider.extractToken(httpServletRequest);
     String socialId = jwtTokenProvider.getSocialIdFromToken(token);
 
+    // 해당 socialId를 가진 사용자가 존재하는지 확인
     if(userRepository.findBySocialId(socialId).isEmpty()) {
       throw new NotFoundInfoException(ErrorCode.USER_NOT_FOUND);
     }
 
+    //메일 인증객체 입니다.
     MailAuthentication mailAuthentication = MailAuthentication.from(socialId);
 
     mailClient.deleteMailAuthenticationList(socialId);

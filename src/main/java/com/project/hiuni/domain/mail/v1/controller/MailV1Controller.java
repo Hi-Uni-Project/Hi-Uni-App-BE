@@ -1,6 +1,7 @@
 package com.project.hiuni.domain.mail.v1.controller;
 
 import com.project.hiuni.domain.mail.dto.request.MailRequest;
+import com.project.hiuni.domain.mail.dto.response.MailResponse;
 import com.project.hiuni.domain.mail.v1.service.MailV1Service;
 import com.project.hiuni.global.exception.ErrorCode;
 import com.project.hiuni.global.exception.ValidationException;
@@ -23,7 +24,7 @@ public class MailV1Controller {
   private final MailV1Service mailV1Service;
 
   @PostMapping("/send")
-  public Map<String, Object> sendMail(@RequestBody @Valid MailRequest mailRequest,
+  public MailResponse sendMail(@RequestBody @Valid MailRequest mailRequest,
       BindingResult bindingResult, HttpServletRequest httpServletRequest) {
 
     if(bindingResult.hasErrors()) {
@@ -31,8 +32,10 @@ public class MailV1Controller {
     }
 
     mailV1Service.sendMail(mailRequest, httpServletRequest);
-    return Map.of("message", "메일을 전송에 성공하였습니다.");
-
+    return MailResponse
+        .builder()
+        .message("인증 메일이 전송되었습니다.")
+        .build();
   }
 
 
