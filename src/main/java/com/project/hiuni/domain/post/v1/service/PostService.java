@@ -15,6 +15,12 @@ import com.project.hiuni.domain.user.entity.User;
 import com.project.hiuni.domain.user.exception.CustomUserNotFoundException;
 import com.project.hiuni.domain.user.repository.UserRepository;
 import com.project.hiuni.global.exception.ErrorCode;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -103,4 +109,16 @@ public class PostService {
             case EDUCATION, CLUB -> Category.EXTERNALACTIVITIES;
         };
     }
+
+    @Transactional
+    public List<Post> getWeeklyHotPosts(){
+        ZoneId zone = ZoneId.of("Asia/Seoul");
+        LocalDate today = LocalDate.now(zone);
+
+        LocalDate thisSunday =  today.with(DayOfWeek.SUNDAY);
+        LocalDate lastSunday = thisSunday.minusWeeks(1);
+
+        return postRepository.findWeeklyHot(lastSunday, thisSunday);
+    }
+
 }
