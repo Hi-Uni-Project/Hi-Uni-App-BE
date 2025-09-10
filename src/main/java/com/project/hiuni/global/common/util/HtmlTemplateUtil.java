@@ -7,6 +7,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class HtmlTemplateUtil {
 
+  /**
+   * HTML 이메일 템플릿 생성
+   * @param authCode 인증 코드
+   * @param socialEmail 소셜 이메일
+   * @return HTML 문자열
+   */
   public static String createHtmlEmailTemplate(String authCode, String socialEmail) {
     return "<!DOCTYPE html>\n" +
         "<html>\n" +

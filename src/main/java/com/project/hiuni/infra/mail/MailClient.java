@@ -27,7 +27,7 @@ public class MailClient {
   private final JavaMailSender mailSender;
 
   @Async
-  public void sendMail(String[] to, String mailTitle, String mailContent) {
+  public void sendEmail(String[] to, String mailTitle, String mailContent) {
     try {
       MimeMessage message = mailSender.createMimeMessage();
       MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
@@ -35,6 +35,8 @@ public class MailClient {
       helper.setTo(to);
       helper.setSubject(mailTitle);
       helper.setText(mailContent, true);
+
+      mailSender.send(message);
     } catch (Exception e) {
       log.error(e.getMessage(), e);
       throw new EmailSendException(ErrorCode.EMAIL_SEND_FAILED);
