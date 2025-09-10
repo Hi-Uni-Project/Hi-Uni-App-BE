@@ -50,6 +50,7 @@ public enum ErrorCode {
     TOKEN_EXPIRED(HttpStatus.UNAUTHORIZED, "TOKEN_EXPIRED", "토큰이 만료되었습니다."),
     TOKEN_INVALID(HttpStatus.UNAUTHORIZED, "TOKEN_INVALID", "유효하지 않은 토큰입니다."),
     TOKEN_EXTRACTION_FAILED(HttpStatus.UNAUTHORIZED, "TOKEN_EXTRACTION_FAILED", "토큰 추출에 실패했습니다."),
+    INVALID_EMAIL_CODE(HttpStatus.UNAUTHORIZED, "INVALID_EMAIL_CODE", "코드가 유효하지 않습니다. 다시 시도해주세요."),
 
     // 401 social login
     GOOGLE_INVALID_TOKEN(HttpStatus.UNAUTHORIZED, "GOOGLE_INVALID_TOKEN", "유효하지 않은 ID 토큰입니다."),

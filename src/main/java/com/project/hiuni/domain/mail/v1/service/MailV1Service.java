@@ -1,9 +1,8 @@
 package com.project.hiuni.domain.mail.v1.service;
 
 import com.project.hiuni.domain.mail.dto.MailAuthentication;
+import com.project.hiuni.domain.mail.dto.request.CodeRequest;
 import com.project.hiuni.domain.mail.dto.request.MailRequest;
-import com.project.hiuni.domain.mail.exception.EmailSendException;
-import com.project.hiuni.domain.user.entity.User;
 import com.project.hiuni.domain.user.repository.UserRepository;
 import com.project.hiuni.global.common.util.HtmlTemplateUtil;
 import com.project.hiuni.global.exception.ErrorCode;
@@ -11,7 +10,6 @@ import com.project.hiuni.global.exception.NotFoundInfoException;
 import com.project.hiuni.global.security.jwt.JwtTokenProvider;
 import com.project.hiuni.infra.mail.MailClient;
 import jakarta.servlet.http.HttpServletRequest;
-import java.util.StringTokenizer;
 import java.util.regex.Pattern;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -63,6 +61,21 @@ public class MailV1Service {
       }
 
       return email.toLowerCase().endsWith("ac.kr");
+  }
+
+  public boolean validateCode(CodeRequest codeRequest, HttpServletRequest httpServletRequest) {
+    String token = jwtTokenProvider.extractToken(httpServletRequest);
+    String socialId = jwtTokenProvider.getSocialIdFromToken(token);
+
+    String targetAuthCode = codeRequest.getAuthCode();
+    String userAuthCode = mailClient.getUserAuthenticationCode(socialId);
+
+    if(targetAuthCode.equals(userAuthCode)) {
+      return true;
+    } else {
+      return false;
+    }
+
   }
 
 }

@@ -1,6 +1,8 @@
 package com.project.hiuni.domain.mail.v1.controller;
 
+import com.project.hiuni.domain.mail.dto.request.CodeRequest;
 import com.project.hiuni.domain.mail.dto.request.MailRequest;
+import com.project.hiuni.domain.mail.dto.response.CodeResponse;
 import com.project.hiuni.domain.mail.dto.response.MailResponse;
 import com.project.hiuni.domain.mail.exception.InvalidEmailFormatException;
 import com.project.hiuni.domain.mail.v1.service.MailV1Service;
@@ -57,6 +59,22 @@ public class MailV1Controller {
         .builder()
         .message("유효한 이메일 형식입니다.")
         .build();
+  }
+
+  @PostMapping("/validate-code")
+  public CodeResponse validateCode(@RequestBody @Valid CodeRequest codeRequest,
+      HttpServletRequest httpServletRequest, BindingResult bindingResult) {
+
+    if(bindingResult.hasErrors()) {
+      throw new ValidationException(ErrorCode.INVALID_INPUT_VALUE);
+    }
+
+    if(!mailV1Service.validateCode(codeRequest, httpServletRequest)) {
+
+    }
+
+
+
   }
 
 
