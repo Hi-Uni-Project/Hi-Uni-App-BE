@@ -1,5 +1,6 @@
 package com.project.hiuni.domain.post.dto.request;
 
+import com.project.hiuni.domain.post.entity.Category;
 import com.project.hiuni.domain.post.entity.Type;
 import java.time.LocalDateTime;
 
@@ -10,6 +11,7 @@ public record PostUpdateRequest(
         LocalDateTime startDate,
         LocalDateTime endDate,
         Type type,
+        Category category,
         String userPosition,
         String whatLearn,
         String feelings,

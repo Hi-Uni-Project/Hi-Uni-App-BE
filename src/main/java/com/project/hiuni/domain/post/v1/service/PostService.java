@@ -5,7 +5,9 @@ import com.project.hiuni.domain.post.dto.request.PostUpdateRequest;
 import com.project.hiuni.domain.post.dto.response.PostCreateResponse;
 import com.project.hiuni.domain.post.dto.response.PostDetailResponse;
 import com.project.hiuni.domain.post.dto.response.PostUpdateResponse;
+import com.project.hiuni.domain.post.entity.Category;
 import com.project.hiuni.domain.post.entity.Post;
+import com.project.hiuni.domain.post.entity.Type;
 import com.project.hiuni.domain.post.exception.CustomForbiddenException;
 import com.project.hiuni.domain.post.exception.CustomPostNotFoundException;
 import com.project.hiuni.domain.post.repository.PostRepository;
@@ -28,6 +30,8 @@ public class PostService {
     public PostCreateResponse createPost(PostCreateRequest request, Long userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new CustomUserNotFoundException(ErrorCode.USER_NOT_FOUND));
 
+        Category category = getCategory(request.type());
+
         Post post = Post.builder()
                 .title(request.title())
                 .content(request.content())
@@ -35,7 +39,7 @@ public class PostService {
                 .startDate(request.startDate())
                 .endDate(request.endDate())
                 .type(request.type())
-                .type(request.type())
+                .category(category)
                 .userPosition(request.userPosition())
                 .whatLearn(request.whatLearn())
                 .feelings(request.feelings())
@@ -62,6 +66,8 @@ public class PostService {
             throw new CustomForbiddenException(ErrorCode.FORBIDDEN);
         }
 
+        Category category = getCategory(request.type());
+
         post.updatePost(
                 request.title(),
                 request.content(),
@@ -69,6 +75,7 @@ public class PostService {
                 request.startDate(),
                 request.endDate(),
                 request.type(),
+                category,
                 request.userPosition(),
                 request.whatLearn(),
                 request.feelings(),
@@ -88,5 +95,12 @@ public class PostService {
         }
 
         postRepository.delete(post);
+    }
+
+    private static Category getCategory(Type type) {
+        return switch (type) {
+            case JOB, INTERNSHIP, INTERVIEW, EXPERIENCE, LICENSE -> Category.JOBINFORMATION;
+            case EDUCATION, CLUB -> Category.EXTERNALACTIVITIES;
+        };
     }
 }
