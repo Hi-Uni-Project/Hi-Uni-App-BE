@@ -12,6 +12,7 @@ import com.project.hiuni.global.security.jwt.JwtTokenProvider;
 import com.project.hiuni.infra.mail.MailClient;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.StringTokenizer;
+import java.util.regex.Pattern;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -50,6 +51,18 @@ public class MailV1Service {
     String mailContent = HtmlTemplateUtil.createHtmlEmailTemplate(mailAuthCode, email);
 
     mailClient.sendEmail(mailClient.getRecipients(), "Hi-Uni 인증번호를 확인해주세요!", mailContent);
+  }
+
+
+  public boolean validateEmail(String email) {
+      String regex = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$";
+      Pattern pattern = Pattern.compile(regex);
+
+      if (email == null || !pattern.matcher(email).matches()) {
+        return false;
+      }
+
+      return email.toLowerCase().endsWith("ac.kr");
   }
 
 }

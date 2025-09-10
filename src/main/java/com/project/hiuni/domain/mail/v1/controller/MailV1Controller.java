@@ -2,6 +2,7 @@ package com.project.hiuni.domain.mail.v1.controller;
 
 import com.project.hiuni.domain.mail.dto.request.MailRequest;
 import com.project.hiuni.domain.mail.dto.response.MailResponse;
+import com.project.hiuni.domain.mail.exception.InvalidEmailFormatException;
 import com.project.hiuni.domain.mail.v1.service.MailV1Service;
 import com.project.hiuni.global.exception.ErrorCode;
 import com.project.hiuni.global.exception.ValidationException;
@@ -35,6 +36,26 @@ public class MailV1Controller {
     return MailResponse
         .builder()
         .message("인증 메일이 전송되었습니다.")
+        .build();
+  }
+
+  @PostMapping("/validate-email")
+  public MailResponse validateEmail(@RequestBody @Valid MailRequest mailRequest,
+  BindingResult bindingResult) {
+
+    if(bindingResult.hasErrors()) {
+      throw new ValidationException(ErrorCode.INVALID_INPUT_VALUE);
+    }
+
+    boolean emailIsValid = mailV1Service.validateEmail(mailRequest.getEmail());
+
+    if(!emailIsValid) {
+      throw new InvalidEmailFormatException(ErrorCode.INVALID_EMAIL_FORMAT);
+    }
+
+    return MailResponse
+        .builder()
+        .message("유효한 이메일 형식입니다.")
         .build();
   }
 

@@ -41,6 +41,8 @@ public enum ErrorCode {
     PASSWORD_EMOJI_NOT_ALLOWED(HttpStatus.BAD_REQUEST, "PASSWORD_EMOJI_NOT_ALLOWED", "이모티콘은 사용할 수 없습니다."),
     PASSWORD_KOREAN_NOT_ALLOWED(HttpStatus.BAD_REQUEST, "PASSWORD_KOREAN_NOT_ALLOWED", "한글은 포함될 수 없습니다."),
 
+    // 400 Bad Request 이메일 관련 에러코드
+    INVALID_EMAIL_FORMAT(HttpStatus.BAD_REQUEST, "INVALID_EMAIL_FORMAT", "이메일 형식이 올바르지 않습니다."),
 
     // 401 Unauthorized
     INVALID_CREDENTIALS(HttpStatus.UNAUTHORIZED, "INVALID_CREDENTIALS", "아이디 또는 비밀번호가 올바르지 않습니다."),
