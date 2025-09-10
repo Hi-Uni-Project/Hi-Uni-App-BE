@@ -70,11 +70,13 @@ public class MailV1Controller {
     }
 
     if(!mailV1Service.validateCode(codeRequest, httpServletRequest)) {
-
+      throw new InvalidEmailFormatException(ErrorCode.INVALID_EMAIL_CODE);
     }
 
-
-
+    return CodeResponse
+        .builder()
+        .message("인증번호가 일치합니다.")
+        .build();
   }
 
 
