@@ -3,9 +3,9 @@ package com.project.hiuni.domain.mail.exception;
 import com.project.hiuni.global.exception.CustomException;
 import com.project.hiuni.global.exception.ErrorCode;
 
-public class InvalidEmailCode extends CustomException {
+public class InvalidEmailCodeException extends CustomException {
 
-  public InvalidEmailCode(ErrorCode errorCode) {
+  public InvalidEmailCodeException(ErrorCode errorCode) {
     super(errorCode);
   }
 }
