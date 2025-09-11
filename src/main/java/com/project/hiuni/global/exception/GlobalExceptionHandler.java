@@ -3,6 +3,9 @@ package com.project.hiuni.global.exception;
 
 import com.project.hiuni.domain.auth.exception.GoogleInvalidTokenException;
 import com.project.hiuni.domain.auth.exception.ProviderNotFoundException;
+import com.project.hiuni.domain.mail.exception.InvalidEmailCodeException;
+import com.project.hiuni.domain.mail.exception.InvalidEmailFormatException;
+import com.project.hiuni.domain.tos.exception.RequiredTermsNotAgreedException;
 import com.project.hiuni.global.common.dto.response.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -34,6 +37,24 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
   @ExceptionHandler(GoogleInvalidTokenException.class)
   public ResponseEntity<ErrorResponse> GoogleInvalidTokenException(GoogleInvalidTokenException e) {
+    return ResponseEntity.status(e.getErrorCode().getHttpStatus())
+        .body(ErrorResponse.of(e.getErrorCode()));
+  }
+
+  @ExceptionHandler(InvalidEmailFormatException.class)
+  public ResponseEntity<ErrorResponse> InvalidEmailFormatException(InvalidEmailFormatException e) {
+    return ResponseEntity.status(e.getErrorCode().getHttpStatus())
+        .body(ErrorResponse.of(e.getErrorCode()));
+  }
+
+  @ExceptionHandler(InvalidEmailCodeException.class)
+  public ResponseEntity<ErrorResponse> InvalidEmailCodeException(InvalidEmailCodeException e) {
+    return ResponseEntity.status(e.getErrorCode().getHttpStatus())
+        .body(ErrorResponse.of(e.getErrorCode()));
+  }
+
+  @ExceptionHandler(RequiredTermsNotAgreedException.class)
+  public ResponseEntity<ErrorResponse> RequiredTermsNotAgreedException(RequiredTermsNotAgreedException e) {
     return ResponseEntity.status(e.getErrorCode().getHttpStatus())
         .body(ErrorResponse.of(e.getErrorCode()));
   }

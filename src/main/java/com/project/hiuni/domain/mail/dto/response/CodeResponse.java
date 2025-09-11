@@ -1,13 +1,13 @@
 package com.project.hiuni.domain.mail.dto.response;
 
-import groovy.transform.Sealed;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
-@Sealed
+@Setter
 @Builder
-public class MailResponse {
+public class CodeResponse {
 
   private String message;
 

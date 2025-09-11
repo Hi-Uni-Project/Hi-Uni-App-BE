@@ -54,7 +54,9 @@ public class SecurityConfig {
                 "/admin/**",
                 "/api/v1/auth/social",
                 "/api/v1/univs/**",
-                "/api/v1/majors/**"
+                "/api/v1/majors/**",
+                "/api/v1/mail/validate-email",
+                "/api/v1/user/token-test"
             ).permitAll()
             .anyRequest().authenticated())
         .exceptionHandling(e -> e
