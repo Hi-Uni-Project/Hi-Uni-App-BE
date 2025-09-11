@@ -35,6 +35,7 @@ public class MailV1Service {
       throw new NotFoundInfoException(ErrorCode.USER_NOT_FOUND);
     }
 
+
     //메일 인증객체 입니다.
     MailAuthentication mailAuthentication = MailAuthentication.from(socialId);
 

@@ -44,4 +44,11 @@ public class ServiceTosHistory extends BaseEntity {
         .build();
   }
 
+  public static ServiceTosHistory createTemp(User user) {
+    return ServiceTosHistory.builder()
+        .user(user)
+        .serviceTos(null)
+        .build();
+  }
+
 }

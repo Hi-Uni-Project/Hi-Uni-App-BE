@@ -37,10 +37,17 @@ public class PersonalInfoTosHistory extends BaseEntity {
     this.personalInfoTos = personalInfoTos;
   }
 
-  public static PersonalInfoTosHistory create(User user, PersonalInfoTos personalInfoTos) {
+  public static PersonalInfoTosHistory of(User user, PersonalInfoTos personalInfoTos) {
     return PersonalInfoTosHistory.builder()
         .user(user)
         .personalInfoTos(personalInfoTos)
+        .build();
+  }
+
+  public static PersonalInfoTosHistory createTemp(User user) {
+    return PersonalInfoTosHistory.builder()
+        .user(user)
+        .personalInfoTos(null)
         .build();
   }
 }

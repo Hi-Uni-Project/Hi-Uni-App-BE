@@ -43,4 +43,11 @@ public class MarketingTosHistory extends BaseEntity {
         .marketingTos(marketingTos)
         .build();
   }
+
+  public static MarketingTosHistory createTemp(User user) {
+    return MarketingTosHistory.builder()
+        .user(user)
+        .marketingTos(null)
+        .build();
+  }
 }

@@ -44,4 +44,11 @@ public class InPersonTosHistory extends BaseEntity {
         .inPersonTos(inPersonTos)
         .build();
   }
+
+  public static InPersonTosHistory createTemp(User user) {
+    return InPersonTosHistory.builder()
+        .user(user)
+        .inPersonTos(null)
+        .build();
+  }
 }
