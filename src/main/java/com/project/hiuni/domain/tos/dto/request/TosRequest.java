@@ -3,25 +3,24 @@ package com.project.hiuni.domain.tos.dto.request;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.stereotype.Service;
 
 @Getter
 @Setter
 public class TosRequest {
 
   @NotNull
-  boolean serviceTosIsAgreed;
+  private Boolean serviceTosIsAgreed;
 
   @NotNull
-  boolean personalInfoTosIsAgreed;
+  private Boolean personalInfoTosIsAgreed;
 
   @NotNull
-  boolean marketingTosIsAgreed;
+  private Boolean marketingTosIsAgreed;
 
   @NotNull
-  boolean serviceImprovementTosIsAgreed;
+  private Boolean serviceImprovementTosIsAgreed;
 
   @NotNull
-  boolean inPersonTosIsAgreed;
+  private Boolean inPersonTosIsAgreed;
 
 }
