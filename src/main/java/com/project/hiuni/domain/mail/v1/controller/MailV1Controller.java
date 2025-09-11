@@ -10,8 +10,6 @@ import com.project.hiuni.global.exception.ErrorCode;
 import com.project.hiuni.global.exception.ValidationException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
-import java.net.http.HttpRequest;
-import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,6 +30,12 @@ public class MailV1Controller {
 
     if(bindingResult.hasErrors()) {
       throw new ValidationException(ErrorCode.INVALID_INPUT_VALUE);
+    }
+
+    boolean emailIsValid = mailV1Service.validateEmail(mailRequest.getEmail());
+
+    if(!emailIsValid) {
+      throw new InvalidEmailFormatException(ErrorCode.INVALID_EMAIL_FORMAT);
     }
 
     mailV1Service.sendMail(mailRequest, httpServletRequest);
