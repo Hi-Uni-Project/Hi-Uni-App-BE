@@ -1,7 +1,7 @@
 package com.project.hiuni.domain.post.repository;
 
 import com.project.hiuni.domain.post.entity.Post;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -16,6 +16,6 @@ public interface PostRepository extends JpaRepository <Post, Long> {
         order by p.likeCount desc
 """
     )
-    List<Post> findWeeklyHot(@Param("startDate")LocalDate startDate, @Param("endDate") LocalDate endDate);
+    List<Post> findWeeklyHot(@Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate);
 
 }

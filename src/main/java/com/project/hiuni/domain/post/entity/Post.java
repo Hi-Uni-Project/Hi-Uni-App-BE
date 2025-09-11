@@ -61,6 +61,8 @@ public class Post extends BaseEntity {
 
     private int viewCount=0;
 
+    private int commentCount=0;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_id", nullable = false)
     private User user;

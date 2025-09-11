@@ -5,6 +5,7 @@ import com.project.hiuni.domain.post.dto.request.PostUpdateRequest;
 import com.project.hiuni.domain.post.dto.response.PostCreateResponse;
 import com.project.hiuni.domain.post.dto.response.PostDetailResponse;
 import com.project.hiuni.domain.post.dto.response.PostUpdateResponse;
+import com.project.hiuni.domain.post.dto.response.WeeklyHotPost;
 import com.project.hiuni.domain.post.entity.Category;
 import com.project.hiuni.domain.post.entity.Post;
 import com.project.hiuni.domain.post.entity.Type;
@@ -19,7 +20,6 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -56,10 +56,12 @@ public class PostService {
         return PostCreateResponse.from(postRepository.save(post));
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public PostDetailResponse searchPost(Long postId) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(()-> new CustomPostNotFoundException(ErrorCode.NOT_FOUND));
+
+        post.incrementViewCount();
 
         return PostDetailResponse.from(post);
     }
@@ -86,7 +88,6 @@ public class PostService {
                 request.whatLearn(),
                 request.feelings(),
                 request.imageUrl()
-
         );
 
         return PostUpdateResponse.from(post);
@@ -111,14 +112,17 @@ public class PostService {
     }
 
     @Transactional
-    public List<Post> getWeeklyHotPosts(){
+    public List<WeeklyHotPost> getWeeklyHotPosts(){
         ZoneId zone = ZoneId.of("Asia/Seoul");
         LocalDate today = LocalDate.now(zone);
 
-        LocalDate thisSunday =  today.with(DayOfWeek.SUNDAY);
-        LocalDate lastSunday = thisSunday.minusWeeks(1);
+        LocalDateTime end   = today.with(DayOfWeek.SUNDAY).atStartOfDay();
+        LocalDateTime start = end.minusWeeks(1);
 
-        return postRepository.findWeeklyHot(lastSunday, thisSunday);
+        return postRepository.
+                findWeeklyHot(start, end).stream()
+                .map(WeeklyHotPost::from)
+                .toList();
     }
 
 }

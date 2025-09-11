@@ -24,6 +24,8 @@ public record PostCreateResponse (
     String whatLearn,
     String feelings,
     String imageUrl,
+    int likeCount,
+    int viewCount,
     LocalDateTime createdAt
 ){
     public static PostCreateResponse from(Post post) {
@@ -47,6 +49,8 @@ public record PostCreateResponse (
                 post.getWhatLearn(),
                 post.getFeelings(),
                 post.getImageUrl(),
+                post.getLikeCount(),
+                post.getViewCount(),
                 post.getCreatedAt()
         );
     }
