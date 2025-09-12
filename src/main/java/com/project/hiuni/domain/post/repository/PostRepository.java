@@ -35,5 +35,31 @@ public interface PostRepository extends JpaRepository <Post, Long> {
                              @Param("endDate") LocalDateTime endDate,
                              String univName);
 
+    @Query("""
+    select p
+    from Post p
+    join p.user u
+    where u.univName = :univName
+    order by p.likeCount desc
+    """)
+    List<Post> sortPostByLike(@Param("univName") String univName);
 
+    @Query("""
+    select p
+    from Post p
+    join p.user u
+    where u.univName = :univName
+    order by p.createdAt desc
+    """)
+    List<Post> sortPostByDate(@Param("univName") String univName);
+
+    @Query("""
+    select p
+    from Post p
+    join p.user u
+    where u.univName = :univName
+    order by p.commentCount desc
+    """)
+    List<Post> sortPostByComment(@Param("univName") String univName);
+    
 }
