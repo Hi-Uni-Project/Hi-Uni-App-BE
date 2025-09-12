@@ -81,8 +81,8 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         }
       } else {
         // 토큰이 없으면 그냥 로그만 남기고 계속 진행
-        log.info("[" + TraceIdHolder.get() + "][" + request.getRemoteAddr() + "]:"
-            + "[" + method + ":" + url + "](no token)");
+//        log.info("[" + TraceIdHolder.get() + "][" + request.getRemoteAddr() + "]:"
+//            + "[" + method + ":" + url + "](no token)");
       }
 
       filterChain.doFilter(request, response);
