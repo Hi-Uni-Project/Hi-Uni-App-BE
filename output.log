@@ -1,0 +1,291 @@
+The operation couldn’t be completed. Unable to locate a Java Runtime.
+Please visit http://www.java.com for information on installing Java.
+
+codebox@codeboxui-MacBookAir Hi-Uni-App-BE % docker ps
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+codebox@codeboxui-MacBookAir Hi-Uni-App-BE % docker run -d -p 3306:3306 -e MYSQL_ROOT_PASSWROD=1234 -e MYSQL_DATABASE=hiuni mysql
+e14b8995399b73d40b50d9c25a3905e9dc07b67db66034d8f5354f6f61ba5324
+codebox@codeboxui-MacBookAir Hi-Uni-App-BE % docker ps
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+codebox@codeboxui-MacBookAir Hi-Uni-App-BE % docker ps
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+codebox@codeboxui-MacBookAir Hi-Uni-App-BE % docker ps -a
+CONTAINER ID   IMAGE     COMMAND                  CREATED          STATUS                        PORTS                               NAMES
+e14b8995399b   mysql     "docker-entrypoint.s…"   13 seconds ago   Exited (1) 11 seconds ago                                         sharp_booth
+bab7f903bad9   mysql     "docker-entrypoint.s…"   2 days ago       Exited (255) 29 minutes ago   0.0.0.0:3306->3306/tcp, 33060/tcp   magical_lalande
+958ff0f0b3ee   redis     "docker-entrypoint.s…"   4 days ago       Exited (255) 29 minutes ago   0.0.0.0:6379->6379/tcp              nifty_wright
+codebox@codeboxui-MacBookAir Hi-Uni-App-BE % docker rm -f e14 bab
+e14
+bab
+codebox@codeboxui-MacBookAir Hi-Uni-App-BE % docker run -d -p 3306:3306 -e MYSQL_ROOT_PASSWROD=1234 -e MYSQL_DATABASE=hiuni mysql
+80d6595d93dcf3180a72e457babd8c63af9ee52dcb0e2f98208f73b84b1605ce
+codebox@codeboxui-MacBookAir Hi-Uni-App-BE % docker ps
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+codebox@codeboxui-MacBookAir Hi-Uni-App-BE % docker ps -a
+CONTAINER ID   IMAGE     COMMAND                  CREATED         STATUS                        PORTS                    NAMES
+80d6595d93dc   mysql     "docker-entrypoint.s…"   8 seconds ago   Exited (1) 6 seconds ago                               dreamy_aryabhata
+958ff0f0b3ee   redis     "docker-entrypoint.s…"   4 days ago      Exited (255) 30 minutes ago   0.0.0.0:6379->6379/tcp   nifty_wright
+codebox@codeboxui-MacBookAir Hi-Uni-App-BE % docke rm -f 80
+zsh: command not found: docke
+codebox@codeboxui-MacBookAir Hi-Uni-App-BE % docker rm -f 80
+80
+codebox@codeboxui-MacBookAir Hi-Uni-App-BE % docker run -d -p 3306:3306 -e MYSQL_ROOT_PASSWORD=1234 -e MYSQL_DATABASE=hiuni mysql
+981b0c62c4eed241d144a58e118bdeb906606282ca82897e89ccb7ad7765d2d6
+codebox@codeboxui-MacBookAir Hi-Uni-App-BE % docker ps
+CONTAINER ID   IMAGE     COMMAND                  CREATED         STATUS        PORTS                               NAMES
+981b0c62c4ee   mysql     "docker-entrypoint.s…"   2 seconds ago   Up 1 second   0.0.0.0:3306->3306/tcp, 33060/tcp   peaceful_chatelet
+codebox@codeboxui-MacBookAir Hi-Uni-App-BE % docker ps
+CONTAINER ID   IMAGE     COMMAND                  CREATED          STATUS          PORTS                               NAMES
+981b0c62c4ee   mysql     "docker-entrypoint.s…"   48 minutes ago   Up 48 minutes   0.0.0.0:3306->3306/tcp, 33060/tcp   peaceful_chatelet
+codebox@codeboxui-MacBookAir Hi-Uni-App-BE % git checkout -b feat/#41
+새로 만든 'feat/#41' 브랜치로 전환합니다
+codebox@codeboxui-MacBookAir Hi-Uni-App-BE % git push origin feat/#41
+Total 0 (delta 0), reused 0 (delta 0), pack-reused 0 (from 0)
+remote:
+remote: Create a pull request for 'feat/#41' on GitHub by visiting:
+remote:      https://github.com/Hi-Uni-Project/Hi-Uni-App-BE/pull/new/feat/%2341
+remote:
+To https://github.com/Hi-Uni-Project/Hi-Uni-App-BE.git
+ * [new branch]      feat/#41 -> feat/#41
+codebox@codeboxui-MacBookAir Hi-Uni-App-BE % git add ,
+fatal: ',' 경로명세가 어떤 파일과도 일치하지 않습니다
+codebox@codeboxui-MacBookAir Hi-Uni-App-BE % git add .
+codebox@codeboxui-MacBookAir Hi-Uni-App-BE % git status
+현재 브랜치 feat/#41
+커밋할 변경 사항:
+  (use "git restore --staged <file>..." to unstage)
+        수정함:        src/main/java/com/project/hiuni/domain/auth/docs/AuthApiDocumentation.java
+        수정함:        src/main/java/com/project/hiuni/domain/auth/v1/controller/AuthController.java
+        수정함:        src/main/java/com/project/hiuni/domain/auth/v1/service/AuthService.java
+        수정함:        src/main/java/com/project/hiuni/domain/tos/controller/TosController.java
+        삭제함:        src/main/java/com/project/hiuni/domain/tos/dto/response/TosResponse.java
+        수정함:        src/main/java/com/project/hiuni/domain/univ/v1/controller/MajorV1Controller.java
+        수정함:        src/main/java/com/project/hiuni/domain/univ/v1/controller/UnivV1Controller.java
+        수정함:        src/main/java/com/project/hiuni/domain/univ/v1/docs/UnivV1Docs.java
+        수정함:        src/main/java/com/project/hiuni/domain/user/v1/controller/UserV1Controller.java
+        새 파일:       src/main/java/com/project/hiuni/global/common/dto/response/ResponseDTO.java
+        수정함:        src/main/java/com/project/hiuni/global/exception/CustomException.java
+        수정함:        src/main/java/com/project/hiuni/global/exception/ErrorCode.java
+        수정함:        src/main/java/com/project/hiuni/global/exception/GlobalExceptionHandler.java
+        수정함:        src/main/java/com/project/hiuni/global/security/config/SecurityConfig.java
+        수정함:        src/main/java/com/project/hiuni/global/security/jwt/JwtTokenFilter.java
+        수정함:        src/main/java/com/project/hiuni/global/security/jwt/JwtTokenProvider.java
+
+codebox@codeboxui-MacBookAir Hi-Uni-App-BE % git add .
+codebox@codeboxui-MacBookAir Hi-Uni-App-BE % git commit -m "refactor: 응답객체 통일
+dquote> - ErrorResponse 는 더이상 사용하지 않습니다! 에러/성공 응답은 ResponseDTO 로 통일합니다"
+[feat/#41 97ff1a1] refactor: 응답객체 통일 - ErrorResponse 는 더이상 사용하지 않습니다! 에러/성공 응답은 ResponseDTO 로 통일합니다
+ 16 files changed, 260 insertions(+), 151 deletions(-)
+ delete mode 100644 src/main/java/com/project/hiuni/domain/tos/dto/response/TosResponse.java
+ create mode 100644 src/main/java/com/project/hiuni/global/common/dto/response/ResponseDTO.java
+codebox@codeboxui-MacBookAir Hi-Uni-App-BE % git push origin feat/#41
+오브젝트 나열하는 중: 88, 완료.
+오브젝트 개수 세는 중: 100% (88/88), 완료.
+Delta compression using up to 8 threads
+오브젝트 압축하는 중: 100% (36/36), 완료.
+오브젝트 쓰는 중: 100% (47/47), 7.17 KiB | 7.17 MiB/s, 완료.
+Total 47 (delta 18), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (18/18), completed with 16 local objects.
+To https://github.com/Hi-Uni-Project/Hi-Uni-App-BE.git
+   c423f7c..97ff1a1  feat/#41 -> feat/#41
+codebox@codeboxui-MacBookAir Hi-Uni-App-BE % git checkout develop
+'develop' 브랜치로 전환합니다
+codebox@codeboxui-MacBookAir Hi-Uni-App-BE % git pull origin develop
+remote: Enumerating objects: 2, done.
+remote: Counting objects: 100% (2/2), done.
+remote: Compressing objects: 100% (2/2), done.
+remote: Total 2 (delta 0), reused 0 (delta 0), pack-reused 0 (from 0)
+오브젝트 묶음 푸는 중: 100% (2/2), 1.79 KiB | 1.79 MiB/s, 완료.
+https://github.com/Hi-Uni-Project/Hi-Uni-App-BE URL에서
+ * branch            develop    -> FETCH_HEAD
+   67dc755..15ad02e  develop    -> origin/develop
+업데이트 중 67dc755..15ad02e
+Fast-forward
+ src/main/java/com/project/hiuni/domain/auth/docs/AuthApiDocumentation.java                        |   3 +-
+ src/main/java/com/project/hiuni/domain/auth/v1/controller/AuthController.java                     |   7 +++--
+ src/main/java/com/project/hiuni/domain/auth/v1/service/AuthService.java                           |   2 +-
+ src/main/java/com/project/hiuni/domain/mail/v1/controller/MailV1Controller.java                   |   8 +++--
+ src/main/java/com/project/hiuni/domain/mail/v1/service/MailV1Service.java                         |   1 +
+ src/main/java/com/project/hiuni/domain/tos/controller/TosController.java                          |  40 +++++++++++++++++++++++++
+ src/main/java/com/project/hiuni/domain/tos/dto/request/TosRequest.java                            |  26 ++++++++++++++++
+ src/main/java/com/project/hiuni/domain/tos/entity/InPersonTos.java                                |  37 +++++++++++++++++++++++
+ src/main/java/com/project/hiuni/domain/tos/entity/InPersonTosHistory.java                         |  54 +++++++++++++++++++++++++++++++++
+ src/main/java/com/project/hiuni/domain/tos/entity/MarketingTos.java                               |  39 ++++++++++++++++++++++++
+ src/main/java/com/project/hiuni/domain/tos/entity/MarketingTosHistory.java                        |  53 +++++++++++++++++++++++++++++++++
+ src/main/java/com/project/hiuni/domain/tos/entity/PersonalInfoTos.java                            |  38 ++++++++++++++++++++++++
+ src/main/java/com/project/hiuni/domain/tos/entity/PersonalInfoTosHistory.java                     |  53 +++++++++++++++++++++++++++++++++
+ src/main/java/com/project/hiuni/domain/tos/entity/ServiceImprovementTos.java                      |  40 +++++++++++++++++++++++++
+ src/main/java/com/project/hiuni/domain/tos/entity/ServiceImprovementTosHistory.java               |  53 +++++++++++++++++++++++++++++++++
+ src/main/java/com/project/hiuni/domain/tos/entity/ServiceTos.java                                 |  38 ++++++++++++++++++++++++
+ src/main/java/com/project/hiuni/domain/tos/entity/ServiceTosHistory.java                          |  54 +++++++++++++++++++++++++++++++++
+ src/main/java/com/project/hiuni/domain/tos/exception/RequiredTermsNotAgreedException.java         |  11 +++++++
+ src/main/java/com/project/hiuni/domain/tos/repository/InPersonTosHistoryRepository.java           |   8 +++++
+ src/main/java/com/project/hiuni/domain/tos/repository/InPersonTosRepository.java                  |   8 +++++
+ src/main/java/com/project/hiuni/domain/tos/repository/MarketingTosHistoryRepository.java          |   8 +++++
+ src/main/java/com/project/hiuni/domain/tos/repository/MarketingTosRepository.java                 |   8 +++++
+ src/main/java/com/project/hiuni/domain/tos/repository/PersonalInfoTosHistoryRepository.java       |   8 +++++
+ src/main/java/com/project/hiuni/domain/tos/repository/PersonalInfoTosRepository.java              |   8 +++++
+ src/main/java/com/project/hiuni/domain/tos/repository/ServiceImprovementTosHistoryRepository.java |   8 +++++
+ src/main/java/com/project/hiuni/domain/tos/repository/ServiceImprovementTosRepository.java        |   8 +++++
+ src/main/java/com/project/hiuni/domain/tos/repository/ServiceTosHistoryRepository.java            |   8 +++++
+ src/main/java/com/project/hiuni/domain/tos/repository/ServiceTosRepository.java                   |   8 +++++
+ src/main/java/com/project/hiuni/domain/tos/service/TosService.java                                |  77 +++++++++++++++++++++++++++++++++++++++++++++++
+ src/main/java/com/project/hiuni/domain/univ/v1/controller/MajorV1Controller.java                  |   7 +++--
+ src/main/java/com/project/hiuni/domain/univ/v1/controller/UnivV1Controller.java                   |  18 ++++++-----
+ src/main/java/com/project/hiuni/domain/univ/v1/docs/UnivV1Docs.java                               |   5 ++--
+ src/main/java/com/project/hiuni/domain/user/v1/controller/UserV1Controller.java                   |  16 ++++++++++
+ src/main/java/com/project/hiuni/global/common/dto/response/ResponseDTO.java                       |  65 ++++++++++++++++++++++++++++++++++++++++
+ src/main/java/com/project/hiuni/global/exception/CustomException.java                             |   2 +-
+ src/main/java/com/project/hiuni/global/exception/ErrorCode.java                                   | 105 ++++++++++++++++++++++++++++++++++-------------------------------
+ src/main/java/com/project/hiuni/global/exception/GlobalExceptionHandler.java                      |  44 ++++++++++++++++-----------
+ src/main/java/com/project/hiuni/global/security/config/SecurityConfig.java                        |  12 ++++----
+ src/main/java/com/project/hiuni/global/security/jwt/JwtTokenFilter.java                           |  80 +++++++++++++++++++++++++++++--------------------
+ src/main/java/com/project/hiuni/global/security/jwt/JwtTokenProvider.java                         |  37 +++++++++++++++++++++--
+ 40 files changed, 978 insertions(+), 127 deletions(-)
+ create mode 100644 src/main/java/com/project/hiuni/domain/tos/controller/TosController.java
+ create mode 100644 src/main/java/com/project/hiuni/domain/tos/dto/request/TosRequest.java
+ create mode 100644 src/main/java/com/project/hiuni/domain/tos/entity/InPersonTos.java
+ create mode 100644 src/main/java/com/project/hiuni/domain/tos/entity/InPersonTosHistory.java
+ create mode 100644 src/main/java/com/project/hiuni/domain/tos/entity/MarketingTos.java
+ create mode 100644 src/main/java/com/project/hiuni/domain/tos/entity/MarketingTosHistory.java
+ create mode 100644 src/main/java/com/project/hiuni/domain/tos/entity/PersonalInfoTos.java
+ create mode 100644 src/main/java/com/project/hiuni/domain/tos/entity/PersonalInfoTosHistory.java
+ create mode 100644 src/main/java/com/project/hiuni/domain/tos/entity/ServiceImprovementTos.java
+ create mode 100644 src/main/java/com/project/hiuni/domain/tos/entity/ServiceImprovementTosHistory.java
+ create mode 100644 src/main/java/com/project/hiuni/domain/tos/entity/ServiceTos.java
+ create mode 100644 src/main/java/com/project/hiuni/domain/tos/entity/ServiceTosHistory.java
+ create mode 100644 src/main/java/com/project/hiuni/domain/tos/exception/RequiredTermsNotAgreedException.java
+ create mode 100644 src/main/java/com/project/hiuni/domain/tos/repository/InPersonTosHistoryRepository.java
+ create mode 100644 src/main/java/com/project/hiuni/domain/tos/repository/InPersonTosRepository.java
+ create mode 100644 src/main/java/com/project/hiuni/domain/tos/repository/MarketingTosHistoryRepository.java
+ create mode 100644 src/main/java/com/project/hiuni/domain/tos/repository/MarketingTosRepository.java
+ create mode 100644 src/main/java/com/project/hiuni/domain/tos/repository/PersonalInfoTosHistoryRepository.java
+ create mode 100644 src/main/java/com/project/hiuni/domain/tos/repository/PersonalInfoTosRepository.java
+ create mode 100644 src/main/java/com/project/hiuni/domain/tos/repository/ServiceImprovementTosHistoryRepository.java
+ create mode 100644 src/main/java/com/project/hiuni/domain/tos/repository/ServiceImprovementTosRepository.java
+ create mode 100644 src/main/java/com/project/hiuni/domain/tos/repository/ServiceTosHistoryRepository.java
+ create mode 100644 src/main/java/com/project/hiuni/domain/tos/repository/ServiceTosRepository.java
+ create mode 100644 src/main/java/com/project/hiuni/domain/tos/service/TosService.java
+ create mode 100644 src/main/java/com/project/hiuni/global/common/dto/response/ResponseDTO.java
+codebox@codeboxui-MacBookAir Hi-Uni-App-BE % git add .
+codebox@codeboxui-MacBookAir Hi-Uni-App-BE % git commit -m "chore: CustomPostNotFoundException, CustomForbiddenException 글로벌 익셉션 핸들러에 추가"
+[develop 0577cbf] chore: CustomPostNotFoundException, CustomForbiddenException 글로벌 익셉션 핸들러에 추가
+ 2 files changed, 18 insertions(+)
+ create mode 100644 src/main/java/com/project/hiuni/domain/auth/dto/response/TokenRefreshResponse.java
+codebox@codeboxui-MacBookAir Hi-Uni-App-BE % git checkout -b feat/#43/token
+새로 만든 'feat/#43/token' 브랜치로 전환합니다
+codebox@codeboxui-MacBookAir Hi-Uni-App-BE % git add .
+codebox@codeboxui-MacBookAir Hi-Uni-App-BE % git commit -m "faet: 엑세스 토큰 갱신 api 추가"
+[feat/#43/token c4f939d] faet: 엑세스 토큰 갱신 api 추가
+ 5 files changed, 53 insertions(+), 2 deletions(-)
+codebox@codeboxui-MacBookAir Hi-Uni-App-BE % git push origin feat/#43/token
+오브젝트 나열하는 중: 65, 완료.
+오브젝트 개수 세는 중: 100% (65/65), 완료.
+Delta compression using up to 8 threads
+오브젝트 압축하는 중: 100% (30/30), 완료.
+오브젝트 쓰는 중: 100% (40/40), 3.79 KiB | 3.79 MiB/s, 완료.
+Total 40 (delta 18), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (18/18), completed with 11 local objects.
+remote:
+remote: Create a pull request for 'feat/#43/token' on GitHub by visiting:
+remote:      https://github.com/Hi-Uni-Project/Hi-Uni-App-BE/pull/new/feat/%2343/token
+remote:
+To https://github.com/Hi-Uni-Project/Hi-Uni-App-BE.git
+ * [new branch]      feat/#43/token -> feat/#43/token
+codebox@codeboxui-MacBookAir Hi-Uni-App-BE % git add .
+codebox@codeboxui-MacBookAir Hi-Uni-App-BE % git commit -m "refactor: mail 관련 api ResponseDTO 로 응답하도록 변경"
+[feat/#43/token 6eb24b5] refactor: mail 관련 api ResponseDTO 로 응답하도록 변경
+ 1 file changed, 6 insertions(+), 15 deletions(-)
+codebox@codeboxui-MacBookAir Hi-Uni-App-BE % git add .
+codebox@codeboxui-MacBookAir Hi-Uni-App-BE % git commit -m "chore: 공통 응답객체 필드명 변경 및 기타 작업"
+[feat/#43/token cf9d05e] chore: 공통 응답객체 필드명 변경 및 기타 작업
+ 4 files changed, 18 insertions(+), 17 deletions(-)
+codebox@codeboxui-MacBookAir Hi-Uni-App-BE % git push origin feat/#43/token
+오브젝트 나열하는 중: 58, 완료.
+오브젝트 개수 세는 중: 100% (58/58), 완료.
+Delta compression using up to 8 threads
+오브젝트 압축하는 중: 100% (26/26), 완료.
+오브젝트 쓰는 중: 100% (36/36), 2.96 KiB | 2.96 MiB/s, 완료.
+Total 36 (delta 13), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (13/13), completed with 9 local objects.
+To https://github.com/Hi-Uni-Project/Hi-Uni-App-BE.git
+   c4f939d..cf9d05e  feat/#43/token -> feat/#43/token
+codebox@codeboxui-MacBookAir Hi-Uni-App-BE % git checkout develop
+'develop' 브랜치로 전환합니다
+codebox@codeboxui-MacBookAir Hi-Uni-App-BE % git pull origin develop
+remote: Enumerating objects: 2, done.
+remote: Counting objects: 100% (1/1), done.
+remote: Total 2 (delta 0), reused 0 (delta 0), pack-reused 1 (from 1)
+오브젝트 묶음 푸는 중: 100% (2/2), 1.81 KiB | 926.00 KiB/s, 완료.
+https://github.com/Hi-Uni-Project/Hi-Uni-App-BE URL에서
+ * branch            develop    -> FETCH_HEAD
+   15ad02e..5e5c223  develop    -> origin/develop
+업데이트 중 0577cbf..5e5c223
+Fast-forward
+ src/main/java/com/project/hiuni/domain/auth/dto/response/TokenRefreshResponse.java | 10 ++++++++++
+ src/main/java/com/project/hiuni/domain/auth/v1/controller/AuthController.java      | 14 +++++++++++++-
+ src/main/java/com/project/hiuni/domain/auth/v1/service/AuthService.java            | 14 ++++++++++++++
+ src/main/java/com/project/hiuni/domain/mail/dto/request/CodeRequest.java           |  3 ++-
+ src/main/java/com/project/hiuni/domain/mail/v1/controller/MailV1Controller.java    | 31 ++++++++++---------------------
+ src/main/java/com/project/hiuni/domain/mail/v1/service/MailV1Service.java          |  2 ++
+ src/main/java/com/project/hiuni/domain/user/repository/UserRepository.java         |  1 +
+ src/main/java/com/project/hiuni/domain/user/v1/controller/UserV1Controller.java    | 16 +++++++++++++++-
+ src/main/java/com/project/hiuni/global/common/dto/response/ResponseDTO.java        | 20 ++++++++++----------
+ 9 files changed, 77 insertions(+), 34 deletions(-)
+codebox@codeboxui-MacBookAir Hi-Uni-App-BE % git checkout -b feat/log
+새로 만든 'feat/log' 브랜치로 전환합니다
+codebox@codeboxui-MacBookAir Hi-Uni-App-BE %
+df
+2025-09-12 23:53:46.224 [http-nio-8080-exec-7] [INFO] c.p.h.g.s.j.JwtTokenFilter - [52d96626][0:0:0:0:0:0:0:1]:[GET:/api/admin/logs](no token)
+2025-09-12 23:53:47.223 [http-nio-8080-exec-1] [INFO] c.p.h.g.s.j.JwtTokenFilter - [a84ecf0f][0:0:0:0:0:0:0:1]:[GET:/api/admin/logs](no token)
+2025-09-12 23:53:48.225 [http-nio-8080-exec-8] [INFO] c.p.h.g.s.j.JwtTokenFilter - [cc556e77][0:0:0:0:0:0:0:1]:[GET:/api/admin/logs](no token)
+2025-09-12 23:53:49.226 [http-nio-8080-exec-5] [INFO] c.p.h.g.s.j.JwtTokenFilter - [2c71b214][0:0:0:0:0:0:0:1]:[GET:/api/admin/logs](no token)
+2025-09-12 23:53:50.224 [http-nio-8080-exec-4] [INFO] c.p.h.g.s.j.JwtTokenFilter - [02b99626][0:0:0:0:0:0:0:1]:[GET:/api/admin/logs](no token)
+2025-09-12 23:53:51.224 [http-nio-8080-exec-3] [INFO] c.p.h.g.s.j.JwtTokenFilter - [f342b768][0:0:0:0:0:0:0:1]:[GET:/api/admin/logs](no token)
+2025-09-12 23:53:52.226 [http-nio-8080-exec-6] [INFO] c.p.h.g.s.j.JwtTokenFilter - [365b4878][0:0:0:0:0:0:0:1]:[GET:/api/admin/logs](no token)
+2025-09-12 23:53:53.224 [http-nio-8080-exec-9] [INFO] c.p.h.g.s.j.JwtTokenFilter - [7728cea2][0:0:0:0:0:0:0:1]:[GET:/api/admin/logs](no token)
+2025-09-12 23:53:54.226 [http-nio-8080-exec-7] [INFO] c.p.h.g.s.j.JwtTokenFilter - [54e64f91][0:0:0:0:0:0:0:1]:[GET:/api/admin/logs](no token)
+2025-09-12 23:53:55.223 [http-nio-8080-exec-2] [INFO] c.p.h.g.s.j.JwtTokenFilter - [8dcbdb4d][0:0:0:0:0:0:0:1]:[GET:/api/admin/logs](no token)
+2025-09-12 23:53:56.227 [http-nio-8080-exec-1] [INFO] c.p.h.g.s.j.JwtTokenFilter - [1faf1cd5][0:0:0:0:0:0:0:1]:[GET:/api/admin/logs](no token)
+2025-09-12 23:53:57.229 [http-nio-8080-exec-5] [INFO] c.p.h.g.s.j.JwtTokenFilter - [d5986dad][0:0:0:0:0:0:0:1]:[GET:/api/admin/logs](no token)
+2025-09-12 23:53:58.227 [http-nio-8080-exec-4] [INFO] c.p.h.g.s.j.JwtTokenFilter - [547e55fc][0:0:0:0:0:0:0:1]:[GET:/api/admin/logs](no token)
+2025-09-12 23:53:59.226 [http-nio-8080-exec-3] [INFO] c.p.h.g.s.j.JwtTokenFilter - [87fe8de9][0:0:0:0:0:0:0:1]:[GET:/api/admin/logs](no token)
+2025-09-12 23:54:00.226 [http-nio-8080-exec-10] [INFO] c.p.h.g.s.j.JwtTokenFilter - [b5a743e2][0:0:0:0:0:0:0:1]:[GET:/api/admin/logs](no token)
+2025-09-12 23:54:01.225 [http-nio-8080-exec-6] [INFO] c.p.h.g.s.j.JwtTokenFilter - [058e852e][0:0:0:0:0:0:0:1]:[GET:/api/admin/logs](no token)
+2025-09-12 23:54:02.227 [http-nio-8080-exec-7] [INFO] c.p.h.g.s.j.JwtTokenFilter - [be0dbc82][0:0:0:0:0:0:0:1]:[GET:/api/admin/logs](no token)
+2025-09-12 23:54:03.226 [http-nio-8080-exec-2] [INFO] c.p.h.g.s.j.JwtTokenFilter - [c3966986][0:0:0:0:0:0:0:1]:[GET:/api/admin/logs](no token)
+2025-09-12 23:54:04.225 [http-nio-8080-exec-1] [INFO] c.p.h.g.s.j.JwtTokenFilter - [dc1955f5][0:0:0:0:0:0:0:1]:[GET:/api/admin/logs](no token)
+2025-09-12 23:54:05.225 [http-nio-8080-exec-8] [INFO] c.p.h.g.s.j.JwtTokenFilter - [4d555df1][0:0:0:0:0:0:0:1]:[GET:/api/admin/logs](no token)
+2025-09-12 23:54:06.226 [http-nio-8080-exec-5] [INFO] c.p.h.g.s.j.JwtTokenFilter - [74931e08][0:0:0:0:0:0:0:1]:[GET:/api/admin/logs](no token)
+2025-09-12 23:54:07.226 [http-nio-8080-exec-3] [INFO] c.p.h.g.s.j.JwtTokenFilter - [df683a73][0:0:0:0:0:0:0:1]:[GET:/api/admin/logs](no token)
+2025-09-12 23:54:08.227 [http-nio-8080-exec-10] [INFO] c.p.h.g.s.j.JwtTokenFilter - [84db4580][0:0:0:0:0:0:0:1]:[GET:/api/admin/logs](no token)
+2025-09-12 23:54:09.226 [http-nio-8080-exec-6] [INFO] c.p.h.g.s.j.JwtTokenFilter - [15c0c079][0:0:0:0:0:0:0:1]:[GET:/api/admin/logs](no token)
+2025-09-12 23:54:10.226 [http-nio-8080-exec-9] [INFO] c.p.h.g.s.j.JwtTokenFilter - [1a5a02bd][0:0:0:0:0:0:0:1]:[GET:/api/admin/logs](no token)
+2025-09-12 23:54:11.226 [http-nio-8080-exec-7] [INFO] c.p.h.g.s.j.JwtTokenFilter - [9502abf8][0:0:0:0:0:0:0:1]:[GET:/api/admin/logs](no token)
+2025-09-12 23:54:12.226 [http-nio-8080-exec-1] [INFO] c.p.h.g.s.j.JwtTokenFilter - [4d0b7b21][0:0:0:0:0:0:0:1]:[GET:/api/admin/logs](no token)
+2025-09-12 23:54:13.226 [http-nio-8080-exec-8] [INFO] c.p.h.g.s.j.JwtTokenFilter - [81787eb5][0:0:0:0:0:0:0:1]:[GET:/api/admin/logs](no token)
+2025-09-12 23:54:14.226 [http-nio-8080-exec-5] [INFO] c.p.h.g.s.j.JwtTokenFilter - [cc15b0b8][0:0:0:0:0:0:0:1]:[GET:/api/admin/logs](no token)
+2025-09-12 23:54:15.225 [http-nio-8080-exec-4] [INFO] c.p.h.g.s.j.JwtTokenFilter - [ac26775a][0:0:0:0:0:0:0:1]:[GET:/api/admin/logs](no token)
+2025-09-12 23:54:16.225 [http-nio-8080-exec-3] [INFO] c.p.h.g.s.j.JwtTokenFilter - [3bbe3c8b][0:0:0:0:0:0:0:1]:[GET:/api/admin/logs](no token)
+2025-09-12 23:54:17.226 [http-nio-8080-exec-6] [INFO] c.p.h.g.s.j.JwtTokenFilter - [65004959][0:0:0:0:0:0:0:1]:[GET:/api/admin/logs](no token)
+2025-09-12 23:54:18.226 [http-nio-8080-exec-9] [INFO] c.p.h.g.s.j.JwtTokenFilter - [d1f748c0][0:0:0:0:0:0:0:1]:[GET:/api/admin/logs](no token)
+2025-09-12 23:54:19.226 [http-nio-8080-exec-7] [INFO] c.p.h.g.s.j.JwtTokenFilter - [73a27408][0:0:0:0:0:0:0:1]:[GET:/api/admin/logs](no token)
+2025-09-12 23:54:20.225 [http-nio-8080-exec-2] [INFO] c.p.h.g.s.j.JwtTokenFilter - [bb417ebc][0:0:0:0:0:0:0:1]:[GET:/api/admin/logs](no token)
+2025-09-12 23:54:21.225 [http-nio-8080-exec-1] [INFO] c.p.h.g.s.j.JwtTokenFilter - [5624e972][0:0:0:0:0:0:0:1]:[GET:/api/admin/logs](no token)
+2025-09-12 23:54:22.226 [http-nio-8080-exec-5] [INFO] c.p.h.g.s.j.JwtTokenFilter - [506b936c][0:0:0:0:0:0:0:1]:[GET:/api/admin/logs](no token)
+2025-09-12 23:54:23.225 [http-nio-8080-exec-4] [INFO] c.p.h.g.s.j.JwtTokenFilter - [26cdbfe4][0:0:0:0:0:0:0:1]:[GET:/api/admin/logs](no token)
+2025-09-12 23:54:24.224 [http-nio-8080-exec-3] [INFO] c.p.h.g.s.j.JwtTokenFilter - [f46ecaf9][0:0:0:0:0:0:0:1]:[GET:/api/admin/logs](no token)
+2025-09-12 23:54:25.224 [http-nio-8080-exec-10] [INFO] c.p.h.g.s.j.JwtTokenFilter - [ca1c82d1][0:0:0:0:0:0:0:1]:[GET:/api/admin/logs](no token)
+2025-09-12 23:54:26.225 [http-nio-8080-exec-6] [INFO] c.p.h.g.s.j.JwtTokenFilter - [6b746f35][0:0:0:0:0:0:0:1]:[GET:/api/admin/logs](no token)
+2025-09-12 23:54:27.226 [http-nio-8080-exec-7] [INFO] c.p.h.g.s.j.JwtTokenFilter - [d8311ffa][0:0:0:0:0:0:0:1]:[GET:/api/admin/logs](no token)
+2025-09-12 23:54:28.224 [http-nio-8080-exec-2] [INFO] c.p.h.g.s.j.JwtTokenFilter - [7bcf2e35][0:0:0:0:0:0:0:1]:[GET:/api/admin/logs](no token)
+2025-09-12 23:54:29.230 [http-nio-8080-exec-1] [INFO] c.p.h.g.s.j.JwtTokenFilter - [6084626d][0:0:0:0:0:0:0:1]:[GET:/api/admin/logs](no token)
+2025-09-12 23:54:30.224 [http-nio-8080-exec-8] [INFO] c.p.h.g.s.j.JwtTokenFilter - [a38bae13][0:0:0:0:0:0:0:1]:[GET:/api/admin/logs](no token)
+2025-09-12 23:54:31.225 [http-nio-8080-exec-5] [INFO] c.p.h.g.s.j.JwtTokenFilter - [851e8e1b][0:0:0:0:0:0:0:1]:[GET:/api/admin/logs](no token)
+2025-09-12 23:54:32.226 [http-nio-8080-exec-3] [INFO] c.p.h.g.s.j.JwtTokenFilter - [ecb37af7][0:0:0:0:0:0:0:1]:[GET:/api/admin/logs](no token)
+2025-09-12 23:54:33.226 [http-nio-8080-exec-10] [INFO] c.p.h.g.s.j.JwtTokenFilter - [b1312228][0:0:0:0:0:0:0:1]:[GET:/api/admin/logs](no token)
+2025-09-12 23:54:34.224 [http-nio-8080-exec-6] [INFO] c.p.h.g.s.j.JwtTokenFilter - [dda733b3][0:0:0:0:0:0:0:1]:[GET:/api/admin/logs](no token)
+2025-09-12 23:54:35.224 [http-nio-8080-exec-9] [INFO] c.p.h.g.s.j.JwtTokenFilter - [9ced9b71][0:0:0:0:0:0:0:1]:[GET:/api/admin/logs](no token)
+2025-09-12 23:54:36.224 [http-nio-8080-exec-7] [INFO] c.p.h.g.s.j.JwtTokenFilter - [b9f23533][0:0:0:0:0:0:0:1]:[GET:/api/admin/logs](no token)
+2025-09-12 23:54:37.226 [http-nio-8080-exec-1] [INFO] c.p.h.g.s.j.JwtTokenFilter - [b57c88d6][0:0:0:0:0:0:0:1]:[GET:/api/admin/logs](no token)
+2025-09-12 23:54:38.227 [http-nio-8080-exec-8] [INFO] c.p.h.g.s.j.JwtTokenFilter - [1978b567][0:0:0:0:0:0:0:1]:[GET:/api/admin/logs](no token)
