@@ -12,6 +12,7 @@ public record PostUpdateRequest(
         LocalDateTime endDate,
         Type type,
         String userPosition,
+        String userWork,
         String whatLearn,
         String feelings,
         String imageUrl

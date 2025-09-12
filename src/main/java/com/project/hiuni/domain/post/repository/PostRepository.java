@@ -61,5 +61,5 @@ public interface PostRepository extends JpaRepository <Post, Long> {
     order by p.commentCount desc
     """)
     List<Post> sortPostByComment(@Param("univName") String univName);
-    
+
 }

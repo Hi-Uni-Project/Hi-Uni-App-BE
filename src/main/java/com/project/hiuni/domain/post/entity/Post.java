@@ -49,6 +49,8 @@ public class Post extends BaseEntity {
 
     private String userPosition;
 
+    private String userWork;
+
     private String whatLearn;
 
     private String feelings;
@@ -76,6 +78,7 @@ public class Post extends BaseEntity {
                 Type type,
                 Category category,
                 String userPosition,
+                String userWork,
                 String whatLearn,
                 String feelings,
                 String imageUrl,
@@ -88,6 +91,7 @@ public class Post extends BaseEntity {
         this.type = type;
         this.category = category;
         this.userPosition = userPosition;
+        this.userWork = userWork;
         this.whatLearn = whatLearn;
         this.feelings = feelings;
         this.imageUrl = imageUrl;
