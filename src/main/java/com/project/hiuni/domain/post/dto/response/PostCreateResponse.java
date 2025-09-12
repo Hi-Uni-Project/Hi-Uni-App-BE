@@ -25,6 +25,8 @@ public record PostCreateResponse (
         String feelings,
         String imageUrl,
         int likeCount,
+        int commentCount,
+        int bookmarkCount,
         int viewCount,
         LocalDateTime createdAt
 ){
@@ -51,6 +53,8 @@ public record PostCreateResponse (
                 post.getFeelings(),
                 post.getImageUrl(),
                 post.getLikeCount(),
+                post.getCommentCount(),
+                post.getBookmarkCount(),
                 post.getViewCount(),
                 post.getCreatedAt()
         );

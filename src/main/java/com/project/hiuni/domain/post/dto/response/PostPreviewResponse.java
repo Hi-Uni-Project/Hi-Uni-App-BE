@@ -13,10 +13,12 @@ public record PostPreviewResponse(
         String userImageUrl,
         Long id,
         String title,
+        String content,
         Type type,
         Category category,
         int likeCount,
         int commentCount,
+        int bookmarkCount,
         LocalDateTime createdAt
 
 ) {
@@ -31,10 +33,12 @@ public record PostPreviewResponse(
                 user.getImageUrl(),
                 post.getId(),
                 post.getTitle(),
+                post.getContent(),
                 post.getType(),
                 post.getCategory(),
                 post.getLikeCount(),
                 post.getCommentCount(),
+                post.getBookmarkCount(),
                 post.getCreatedAt()
         );
     }

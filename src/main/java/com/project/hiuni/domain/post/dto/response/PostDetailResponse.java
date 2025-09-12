@@ -24,6 +24,10 @@ public record PostDetailResponse(
         String whatLearn,
         String feelings,
         String imageUrl,
+        int likeCount,
+        int commentCount,
+        int bookmarkCount,
+        int viewCount,
         LocalDateTime createdAt
 ) {
     public static PostDetailResponse from(Post post) {
@@ -48,6 +52,10 @@ public record PostDetailResponse(
                 post.getWhatLearn(),
                 post.getFeelings(),
                 post.getImageUrl(),
+                post.getLikeCount(),
+                post.getCommentCount(),
+                post.getBookmarkCount(),
+                post.getViewCount(),
                 post.getCreatedAt()
         );
     }
