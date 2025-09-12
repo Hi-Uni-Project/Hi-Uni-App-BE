@@ -45,7 +45,7 @@ public class MailV1Controller {
   }
 
   @PostMapping("/validate-email")
-  public MailResponse validateEmail(@RequestBody @Valid MailRequest mailRequest,
+  public ResponseDTO<String> validateEmail(@RequestBody @Valid MailRequest mailRequest,
   BindingResult bindingResult) {
 
     if(bindingResult.hasErrors()) {
@@ -58,15 +58,13 @@ public class MailV1Controller {
       throw new InvalidEmailFormatException(ErrorCode.INVALID_EMAIL_FORMAT);
     }
 
-    return MailResponse
-        .builder()
-        .message("유효한 이메일 형식입니다.")
-        .build();
+
+    return ResponseDTO.of("유효한 이메일 형식입니다.");
   }
 
   @PostMapping("/validate-code")
   public ResponseDTO<String> validateCode(@RequestBody @Valid CodeRequest codeRequest,
-      HttpServletRequest httpServletRequest, BindingResult bindingResult) {
+      BindingResult bindingResult, HttpServletRequest httpServletRequest) {
 
     if(bindingResult.hasErrors()) {
       throw new ValidationException(ErrorCode.INVALID_INPUT_VALUE);
