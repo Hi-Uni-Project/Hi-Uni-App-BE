@@ -71,6 +71,8 @@ public class MailV1Service {
     String targetAuthCode = codeRequest.getAuthCode();
     String userAuthCode = mailClient.getUserAuthenticationCode(socialId);
 
+    log.info("targetAuthCode: {}, userAuthCode: {}", targetAuthCode, userAuthCode);
+
     if(targetAuthCode.equals(userAuthCode)) {
       return true;
     } else {

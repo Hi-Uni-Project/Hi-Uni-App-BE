@@ -16,8 +16,8 @@ import lombok.Setter;
 public class ResponseDTO<T> {
 
   private LocalDateTime localDateTime;
-  private int statusCode;
-  private String code;
+  private int responseCode;
+  private String statusCode;
   private String message;
 
   T data;
@@ -25,8 +25,8 @@ public class ResponseDTO<T> {
   public static <T> ResponseDTO<T> of(ErrorCode errorCode, T data) {
     return ResponseDTO.<T>builder()
         .localDateTime(LocalDateTime.now(ZoneId.of("Asia/Seoul")))
-        .code(errorCode.getCode())
-        .statusCode(errorCode.getActualStatusCode())
+        .statusCode(errorCode.getCode())
+        .responseCode(errorCode.getActualStatusCode())
         .data(data)
         .message(errorCode.getMessage())
         .build();
@@ -35,8 +35,8 @@ public class ResponseDTO<T> {
   public static <T> ResponseDTO<T> of(ErrorCode errorCode) {
     return ResponseDTO.<T>builder()
         .localDateTime(LocalDateTime.now(ZoneId.of("Asia/Seoul")))
-        .code(errorCode.getCode())
-        .statusCode(errorCode.getActualStatusCode())
+        .statusCode(errorCode.getCode())
+        .responseCode(errorCode.getActualStatusCode())
         .message(errorCode.getMessage())
         .data(null)
         .build();
@@ -45,8 +45,8 @@ public class ResponseDTO<T> {
   public static <T> ResponseDTO<T> of(T data, String message) {
     return ResponseDTO.<T>builder()
         .localDateTime(LocalDateTime.now(ZoneId.of("Asia/Seoul")))
-        .code("SUCCESS")
-        .statusCode(200)
+        .statusCode("SUCCESS")
+        .responseCode(200)
         .message(message)
         .data(data)
         .build();
@@ -55,8 +55,8 @@ public class ResponseDTO<T> {
   public static <T> ResponseDTO<T> of(String message) {
     return ResponseDTO.<T>builder()
         .localDateTime(LocalDateTime.now(ZoneId.of("Asia/Seoul")))
-        .code("SUCCESS")
-        .statusCode(200)
+        .statusCode("SUCCESS")
+        .responseCode(200)
         .message(message)
         .data(null)
         .build();
