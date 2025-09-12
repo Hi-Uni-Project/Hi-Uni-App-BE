@@ -7,6 +7,7 @@ import com.project.hiuni.domain.mail.exception.InvalidEmailCodeException;
 import com.project.hiuni.domain.mail.exception.InvalidEmailFormatException;
 import com.project.hiuni.domain.tos.exception.RequiredTermsNotAgreedException;
 import com.project.hiuni.global.common.dto.response.ErrorResponse;
+import com.project.hiuni.global.common.dto.response.ResponseDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -18,45 +19,45 @@ import org.springframework.web.reactive.result.method.annotation.ResponseEntityE
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
   @ExceptionHandler(ProviderNotFoundException.class)
-  public ResponseEntity<ErrorResponse> providerNotFoundException(ProviderNotFoundException e) {
-    return ResponseEntity.status(e.getErrorCode().getHttpStatus())
-        .body(ErrorResponse.of(e.getErrorCode()));
+  public ResponseEntity<ResponseDTO> providerNotFoundException(ProviderNotFoundException e) {
+    return ResponseEntity.status(e.getErrorCode().getActualStatusCode())
+        .body(ResponseDTO.of(e.getErrorCode()));
   }
 
   @ExceptionHandler(ValidationException.class)
-  public ResponseEntity<ErrorResponse> providerNotFoundException(ValidationException e) {
-    return ResponseEntity.status(e.getErrorCode().getHttpStatus())
-        .body(ErrorResponse.of(e.getErrorCode()));
+  public ResponseEntity<ResponseDTO> providerNotFoundException(ValidationException e) {
+    return ResponseEntity.status(e.getErrorCode().getActualStatusCode())
+        .body(ResponseDTO.of(e.getErrorCode()));
   }
 
   @ExceptionHandler(InternalServerException.class)
-  public ResponseEntity<ErrorResponse> internalServerException(InternalServerException e) {
-    return ResponseEntity.status(e.getErrorCode().getHttpStatus())
-        .body(ErrorResponse.of(e.getErrorCode()));
+  public ResponseEntity<ResponseDTO> internalServerException(InternalServerException e) {
+    return ResponseEntity.status(e.getErrorCode().getActualStatusCode())
+        .body(ResponseDTO.of(e.getErrorCode()));
   }
 
   @ExceptionHandler(GoogleInvalidTokenException.class)
-  public ResponseEntity<ErrorResponse> GoogleInvalidTokenException(GoogleInvalidTokenException e) {
-    return ResponseEntity.status(e.getErrorCode().getHttpStatus())
-        .body(ErrorResponse.of(e.getErrorCode()));
+  public ResponseEntity<ResponseDTO> GoogleInvalidTokenException(GoogleInvalidTokenException e) {
+    return ResponseEntity.status(e.getErrorCode().getActualStatusCode())
+        .body(ResponseDTO.of(e.getErrorCode()));
   }
 
   @ExceptionHandler(InvalidEmailFormatException.class)
-  public ResponseEntity<ErrorResponse> InvalidEmailFormatException(InvalidEmailFormatException e) {
-    return ResponseEntity.status(e.getErrorCode().getHttpStatus())
-        .body(ErrorResponse.of(e.getErrorCode()));
+  public ResponseEntity<ResponseDTO> InvalidEmailFormatException(InvalidEmailFormatException e) {
+    return ResponseEntity.status(e.getErrorCode().getActualStatusCode())
+        .body(ResponseDTO.of(e.getErrorCode()));
   }
 
   @ExceptionHandler(InvalidEmailCodeException.class)
-  public ResponseEntity<ErrorResponse> InvalidEmailCodeException(InvalidEmailCodeException e) {
-    return ResponseEntity.status(e.getErrorCode().getHttpStatus())
-        .body(ErrorResponse.of(e.getErrorCode()));
+  public ResponseEntity<ResponseDTO> InvalidEmailCodeException(InvalidEmailCodeException e) {
+    return ResponseEntity.status(e.getErrorCode().getActualStatusCode())
+        .body(ResponseDTO.of(e.getErrorCode()));
   }
 
   @ExceptionHandler(RequiredTermsNotAgreedException.class)
-  public ResponseEntity<ErrorResponse> RequiredTermsNotAgreedException(RequiredTermsNotAgreedException e) {
-    return ResponseEntity.status(e.getErrorCode().getHttpStatus())
-        .body(ErrorResponse.of(e.getErrorCode()));
+  public ResponseEntity<ResponseDTO> RequiredTermsNotAgreedException(RequiredTermsNotAgreedException e) {
+    return ResponseEntity.status(e.getErrorCode().getActualStatusCode())
+        .body(ResponseDTO.of(e.getErrorCode()));
   }
 
 

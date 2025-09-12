@@ -6,6 +6,7 @@ import com.project.hiuni.domain.auth.docs.AuthApiDocumentation;
 import com.project.hiuni.domain.auth.dto.request.AuthSocialRequest;
 import com.project.hiuni.domain.auth.dto.response.AuthSocialResponse;
 import com.project.hiuni.domain.auth.v1.service.AuthService;
+import com.project.hiuni.global.common.dto.response.ResponseDTO;
 import com.project.hiuni.global.exception.ErrorCode;
 import com.project.hiuni.global.exception.ValidationException;
 import jakarta.validation.Valid;
@@ -38,7 +39,7 @@ public class AuthController implements AuthApiDocumentation {
    * @return AuthSocialResponse 소셜 로그인 응답 정보(accessToken, refreshToken, isSignUp 여부 반환)
    */
   @PostMapping("/social")
-  public AuthSocialResponse authSocial(
+  public ResponseDTO<AuthSocialResponse> authSocial(
       @RequestBody @Valid AuthSocialRequest authSocialRequest, BindingResult bindingResult) {
 
     if(bindingResult.hasErrors()) {
@@ -47,8 +48,8 @@ public class AuthController implements AuthApiDocumentation {
     }
 
     //소셜 로그인 완료 후 accessToken, refreshToken, isSignUp 여부를 반환합니다
-    AuthSocialResponse authSocialResponse = authService.socialLogin(authSocialRequest);
-    return authSocialResponse;
+    AuthSocialResponse response = authService.socialLogin(authSocialRequest);
+    return ResponseDTO.of(response, "소셜 로그인/회원가입에 성공하였습니다.");
 
   }
 

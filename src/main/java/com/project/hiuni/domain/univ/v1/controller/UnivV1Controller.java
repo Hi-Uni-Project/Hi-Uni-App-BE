@@ -3,6 +3,7 @@ package com.project.hiuni.domain.univ.v1.controller;
 import com.project.hiuni.domain.univ.dto.UnivDataDto.School;
 import com.project.hiuni.domain.univ.v1.docs.UnivV1Docs;
 import com.project.hiuni.domain.univ.v1.service.UnivV1Service;
+import com.project.hiuni.global.common.dto.response.ResponseDTO;
 import com.project.hiuni.global.exception.ErrorCode;
 import com.project.hiuni.global.exception.ValidationException;
 import java.util.List;
@@ -29,8 +30,11 @@ public class UnivV1Controller implements UnivV1Docs {
    */
   @Override
   @GetMapping
-  public List<School> findAllSchools() {
-    return univV1Service.findAllSchools();
+  public ResponseDTO<List<School>> findAllSchools() {
+
+    List<School> response = univV1Service.findAllSchools();
+
+    return ResponseDTO.of(response, "전체 대학교 목록 조회에 성공하였습니다.");
   }
 
 
@@ -42,7 +46,7 @@ public class UnivV1Controller implements UnivV1Docs {
    */
   @Override
   @GetMapping("/search")
-  public List<School> findSchoolsByUnivName(@RequestParam("keyword") String keyword) {
+  public ResponseDTO<List<School>> findSchoolsByUnivName(@RequestParam("keyword") String keyword) {
 
     // 1. 검색어가 비어있거나 2글자 미만인 경우 예외 처리
     if(keyword.isBlank() || keyword.length() < 2) {
@@ -54,10 +58,8 @@ public class UnivV1Controller implements UnivV1Docs {
       throw new ValidationException(ErrorCode.INVALID_SEARCH_KEYWORD);
     }
 
-    return univV1Service.findSchoolsByUnivName(keyword);
+    List<School> response = univV1Service.findSchoolsByUnivName(keyword);
+
+    return ResponseDTO.of(response, "대학교 검색에 성공하였습니다.");
   }
-
-
-
-
 }

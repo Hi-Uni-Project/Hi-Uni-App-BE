@@ -1,8 +1,8 @@
 package com.project.hiuni.domain.tos.controller;
 
 import com.project.hiuni.domain.tos.dto.request.TosRequest;
-import com.project.hiuni.domain.tos.dto.response.TosResponse;
 import com.project.hiuni.domain.tos.service.TosService;
+import com.project.hiuni.global.common.dto.response.ResponseDTO;
 import com.project.hiuni.global.exception.ErrorCode;
 import com.project.hiuni.global.exception.ValidationException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,7 +22,7 @@ public class TosController {
   private final TosService tosService;
 
   @PostMapping("/agree")
-  public TosResponse agreeTos(@RequestBody @Valid TosRequest tosRequest,
+  public ResponseDTO<?> agreeTos(@RequestBody @Valid TosRequest tosRequest,
       BindingResult bindingResult, HttpServletRequest httpServletRequest) {
 
     if(bindingResult.hasErrors()) {
@@ -31,10 +31,7 @@ public class TosController {
 
     tosService.agreeTos(tosRequest, httpServletRequest);
 
-    return TosResponse
-        .builder()
-        .message("약관에 동의하였습니다.")
-        .build();
+    return ResponseDTO.of("약관 동의에 성공하였습니다.");
 
   }
 
