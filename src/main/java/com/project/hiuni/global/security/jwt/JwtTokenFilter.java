@@ -6,6 +6,9 @@ import com.project.hiuni.global.common.dto.response.ErrorResponse;
 import com.project.hiuni.global.common.threadlocal.TraceIdHolder;
 import com.project.hiuni.global.exception.ErrorCode;
 import com.project.hiuni.global.security.core.CustomUserDetailsService;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.security.SignatureException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -53,52 +56,41 @@ public class JwtTokenFilter extends OncePerRequestFilter {
   ) throws ServletException, IOException {
 
     try {
-      //TraceID 발급 및 설정
       TraceIdHolder.set(UUID.randomUUID().toString().substring(0, 8));
 
-      //요청 헤더에서 JWT 토큰을 추출합니다.
       String accessToken = this.getTokenFromRequest(request);
-
-      //로깅을 위해 요청 URL을 가져옵니다.
       String url = request.getRequestURI().toString();
-
-      //로깅을 위해 요청 메서드를 가져옵니다.
       String method = request.getMethod();
 
-      //토큰이 존재하고 유효한 경우를 확인합니다.
-      if (jwtTokenProvider.validateToken(accessToken) && accessToken != null) {
-        log.info(
-            "[" + TraceIdHolder.get() + "]" + "[" + request.getRemoteAddr() + "]:" + "[" + method
-                + ":" + url + "]" + "(allowed)");
+      // 토큰이 존재하면 유효성 검사를 수행합니다.
+      if (accessToken != null) {
+        try {
+          jwtTokenProvider.validateToken(accessToken);
+          log.info("[" + TraceIdHolder.get() + "][" + request.getRemoteAddr() + "]:"
+              + "[" + method + ":" + url + "](allowed)");
 
-        //토큰에서 사용자 조회 후 인증 객체를 생성합니다.(유저가 존재하지 않을 경우 CustomUserNotFoundException 발생)
-        UsernamePasswordAuthenticationToken authenticationToken = getAuthentication(accessToken);
+          UsernamePasswordAuthenticationToken authenticationToken = getAuthentication(accessToken);
+          SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 
-        //인증된 사용자 객체를 시큐리티 컨텍스트에 설정합니다.
-        SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+        } catch (ExpiredJwtException e) {
+          handleTokenExpired(response);
+          return; // 필터 체인 중단
+        } catch (SignatureException e) {
+          handleTokenInvalid(response);
+          return; // 필터 체인 중단
+        }
       } else {
-        log.info(
-            "[" + TraceIdHolder.get() + "]" + "[" + request.getRemoteAddr() + "]:" + "[" + method
-                + ":" + url + "]" + "(denied)");
+        // 토큰이 없으면 그냥 로그만 남기고 계속 진행
+        log.info("[" + TraceIdHolder.get() + "][" + request.getRemoteAddr() + "]:"
+            + "[" + method + ":" + url + "](no token)");
       }
 
       filterChain.doFilter(request, response);
 
     } catch (CustomUserNotFoundException e) {
-      log.info(
-          "[" + TraceIdHolder.get() + "]" + "(해당 사용자를 찾을 수 없습니다.)");
-
-      // 유저가 존재하지 않을 경우 반환되는 json 응답.
-      String userNotFoundExceptionResponse = objectMapper
-          .writeValueAsString(ErrorResponse.of(ErrorCode.USER_NOT_FOUND));
-      response.setStatus(ErrorCode.USER_NOT_FOUND.getHttpStatus().value());
-      response.setContentType("application/json");
-      response.getWriter().write(userNotFoundExceptionResponse);
-      
+      handleUserNotFound(response);
     } finally {
-      // 요청이 끝난 후 TraceIdHolder를 정리합니다.
       TraceIdHolder.clear();
-
     }
   }
 
@@ -137,6 +129,30 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         null,
         userDetails.getAuthorities()
     );
+  }
+
+
+
+
+  private void handleTokenExpired(HttpServletResponse response) throws IOException {
+    String errorResponse = objectMapper.writeValueAsString(ErrorResponse.of(ErrorCode.TOKEN_EXPIRED));
+    response.setStatus(ErrorCode.TOKEN_EXPIRED.getActualStatusCode());
+    response.setContentType("application/json");
+    response.getWriter().write(errorResponse);
+  }
+
+  private void handleTokenInvalid(HttpServletResponse response) throws IOException {
+    String errorResponse = objectMapper.writeValueAsString(ErrorResponse.of(ErrorCode.TOKEN_INVALID));
+    response.setStatus(ErrorCode.TOKEN_INVALID.getActualStatusCode());
+    response.setContentType("application/json");
+    response.getWriter().write(errorResponse);
+  }
+
+  private void handleUserNotFound(HttpServletResponse response) throws IOException {
+    String errorResponse = objectMapper.writeValueAsString(ErrorResponse.of(ErrorCode.USER_NOT_FOUND));
+    response.setStatus(ErrorCode.USER_NOT_FOUND.getActualStatusCode());
+    response.setContentType("application/json");
+    response.getWriter().write(errorResponse);
   }
 
 }

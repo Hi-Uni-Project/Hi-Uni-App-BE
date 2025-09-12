@@ -1,6 +1,7 @@
 package com.project.hiuni.domain.univ.v1.docs;
 
 import com.project.hiuni.domain.univ.dto.UnivDataDto.School;
+import com.project.hiuni.global.common.dto.response.ResponseDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
@@ -56,7 +57,7 @@ public interface UnivV1Docs {
       )
   )
   @Operation(summary = "대학교를 모두 조회합니다.", description = "리스트 형태로 반환됩니다.")
-  List<School> findAllSchools();
+  ResponseDTO<List<School>> findAllSchools();
 
 
   @ApiResponse(
@@ -118,6 +119,6 @@ public interface UnivV1Docs {
       )
   )
   @Operation(summary = "대학교 이름으로 조회합니다.", description = "부분 일치 검색 방식이며 리스트 형태로 반환됩니다.")
-  List<School> findSchoolsByUnivName(String keyword);
+  ResponseDTO<List<School>> findSchoolsByUnivName(String keyword);
 
 }

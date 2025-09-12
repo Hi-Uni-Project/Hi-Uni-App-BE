@@ -13,8 +13,10 @@ import com.project.hiuni.domain.user.entity.User;
 import com.project.hiuni.domain.user.repository.UserRepository;
 import com.project.hiuni.global.exception.ErrorCode;
 import com.project.hiuni.global.exception.InternalServerException;
+import com.project.hiuni.global.exception.NotFoundInfoException;
 import com.project.hiuni.global.security.jwt.JwtTokenProvider;
 import com.project.hiuni.infra.google.GoogleApiClient;
+import jakarta.servlet.http.HttpServletRequest;
 import java.beans.Transient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -60,7 +62,7 @@ public class AuthService {
         String olderRefreshToken = auth.getRefreshToken();
 
         // 기존 회원인데 발급해놓은 리프레시 토큰이 유효하지 않은 경우 (보통은 만료된 경우) 토큰 재발급
-        if(!jwtTokenProvider.validateToken(olderRefreshToken)) {
+        if(!jwtTokenProvider.isValidateToken(olderRefreshToken)) {
           String newRefreshToken = jwtTokenProvider.createRefreshToken(socialId, socialEmail);
           auth.updateRefreshToken(newRefreshToken);
         }
@@ -110,6 +112,18 @@ public class AuthService {
     }
 
     throw new ProviderNotFoundException(ErrorCode.PROVIDER_NOT_FOUND);
+  }
+
+  @Transactional
+  public String refreshToken(HttpServletRequest httpServletRequest) {
+    String refreshToken = jwtTokenProvider.extractToken(httpServletRequest);
+    String socialId = jwtTokenProvider.getSocialIdFromToken(refreshToken);
+
+    User user = userRepository.findBySocialId(socialId)
+        .orElseThrow(() -> new NotFoundInfoException(ErrorCode.USER_NOT_FOUND));
+
+    String newAccessToken = jwtTokenProvider.createAccessToken(refreshToken);
+    return newAccessToken;
   }
 
 }

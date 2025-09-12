@@ -13,7 +13,7 @@ public abstract class CustomException extends RuntimeException {
     }
 
     public int getStatusCode() {
-        return errorCode.getHttpStatus().value();
+        return errorCode.getActualStatusCode();
     }
 
     @Override

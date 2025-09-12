@@ -109,14 +109,47 @@ public class JwtTokenProvider {
    * @param token JWT 토큰
    * @return 유효성 검사 결과 (true: 유효, false: 무효)
    */
-  public Boolean validateToken(String token) {
+  public void validateToken(String token) {
+    try {
+      Jwts.parser()
+          .verifyWith(secretKey)
+          .build()
+          .parseSignedClaims(token);
+    } catch (MalformedJwtException e) {
+      //토큰 형식이 잘못됨
+      log.error("[" + TraceIdHolder.get() + "]:(토큰 형식이 잘못됨)");
+      throw new MalformedJwtException("토큰 형식이 잘못됨");
+
+    } catch (ExpiredJwtException e) {
+      //토큰이 만료됨
+      log.error("[" + TraceIdHolder.get() + "]:(토큰이 만료됨)");
+      throw new ExpiredJwtException(e.getHeader(), e.getClaims(), "토큰이 만료됨");
+
+    } catch (IllegalArgumentException e) {
+      //토큰이 비어있거나 잘못된 형식
+      log.error("[" + TraceIdHolder.get() + "]:(토큰이 비어있거나 잘못된 형식)");
+      throw new IllegalArgumentException("토큰이 비어있거나 잘못된 형식");
+
+    } catch (SignatureException e) {
+      //시그니처 검증 실패
+      log.error("[" + TraceIdHolder.get() + "]:(시그니처 검증 실패)");
+      throw new SignatureException("시그니처 검증 실패");
+
+    } catch (JwtException e) {
+      //기타 JWT 관련 예외
+      log.error("[" + TraceIdHolder.get() + "]:(기타 JWT 예외 발생)");
+      throw new JwtException("기타 JWT 예외 발생");
+    }
+
+  }
+
+  public boolean isValidateToken(String token) {
     try {
       Jwts.parser()
           .verifyWith(secretKey)
           .build()
           .parseSignedClaims(token);
       return true;
-
     } catch (MalformedJwtException e) {
       //토큰 형식이 잘못됨
       log.error("[" + TraceIdHolder.get() + "]:(토큰 형식이 잘못됨)");
