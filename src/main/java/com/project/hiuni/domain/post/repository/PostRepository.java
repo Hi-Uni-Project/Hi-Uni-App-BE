@@ -10,12 +10,30 @@ import org.springframework.data.repository.query.Param;
 public interface PostRepository extends JpaRepository <Post, Long> {
 
     @Query("""
-        select p from Post p
-        where p.createdAt >= :startDate
-            and p.createdAt < :endDate
+        select p
+        from Post p
+        join p.user u
+        where p.createdAt >= :start
+          and p.createdAt < :end
+          and u.univName = :univName
         order by p.likeCount desc
-"""
-    )
-    List<Post> findWeeklyHot(@Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate);
+    """)
+    List<Post> findWeeklyHot(@Param("startDate") LocalDateTime startDate,
+                             @Param("endDate") LocalDateTime endDate,
+                             String univName);
+
+
+    @Query("""
+        select p
+        from Post p
+        join p.user u
+        where p.createdAt >= :start
+          and p.createdAt < :end
+          and u.univName = :univName
+    """)
+    List<Post> findWeekly(@Param("startDate") LocalDateTime startDate,
+                             @Param("endDate") LocalDateTime endDate,
+                             String univName);
+
 
 }

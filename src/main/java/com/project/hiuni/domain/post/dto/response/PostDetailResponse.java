@@ -7,7 +7,6 @@ import com.project.hiuni.domain.user.entity.User;
 import java.time.LocalDateTime;
 
 public record PostDetailResponse(
-
         String nickname,
         String univName,
         String majorName,

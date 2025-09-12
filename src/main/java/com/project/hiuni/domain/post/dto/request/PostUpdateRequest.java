@@ -11,7 +11,6 @@ public record PostUpdateRequest(
         LocalDateTime startDate,
         LocalDateTime endDate,
         Type type,
-        Category category,
         String userPosition,
         String whatLearn,
         String feelings,

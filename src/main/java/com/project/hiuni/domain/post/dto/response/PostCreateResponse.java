@@ -7,26 +7,25 @@ import com.project.hiuni.domain.user.entity.User;
 import java.time.LocalDateTime;
 
 public record PostCreateResponse (
-
-    String nickname,
-    String univName,
-    String majorName,
-    String userImageUrl,
-    Long id,
-    String title,
-    String content,
-    String companyName,
-    LocalDateTime startDate,
-    LocalDateTime endDate,
-    Type type,
-    Category category,
-    String userPosition,
-    String whatLearn,
-    String feelings,
-    String imageUrl,
-    int likeCount,
-    int viewCount,
-    LocalDateTime createdAt
+        String nickname,
+        String univName,
+        String majorName,
+        String usrImageUrl,
+        Long id,
+        String title,
+        String content,
+        String companyName,
+        LocalDateTime startDate,
+        LocalDateTime endDate,
+        Type type,
+        Category category,
+        String userPosition,
+        String whatLearn,
+        String feelings,
+        String imageUrl,
+        int likeCount,
+        int viewCount,
+        LocalDateTime createdAt
 ){
     public static PostCreateResponse from(Post post) {
 

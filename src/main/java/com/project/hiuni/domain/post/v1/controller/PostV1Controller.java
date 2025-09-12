@@ -5,9 +5,9 @@ import com.project.hiuni.domain.post.dto.request.PostUpdateRequest;
 import com.project.hiuni.domain.post.dto.response.PostCreateResponse;
 import com.project.hiuni.domain.post.dto.response.PostDetailResponse;
 import com.project.hiuni.domain.post.dto.response.PostUpdateResponse;
-import com.project.hiuni.domain.post.dto.response.WeeklyHotPost;
-import com.project.hiuni.domain.post.entity.Post;
+import com.project.hiuni.domain.post.dto.response.PostPreviewResponse;
 import com.project.hiuni.domain.post.v1.service.PostService;
+import com.project.hiuni.global.common.dto.response.ResponseDTO;
 import com.project.hiuni.global.security.core.CustomUserDetails;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -30,36 +30,53 @@ public class PostV1Controller {
     private final PostService postService;
 
     @PostMapping
-    public PostCreateResponse createPost(@AuthenticationPrincipal CustomUserDetails userDetails,
-                                        @RequestBody @Valid PostCreateRequest postCreateRequest) {
-        return postService.createPost(postCreateRequest, userDetails.getId());
+    public ResponseDTO<PostCreateResponse> createPost(@AuthenticationPrincipal CustomUserDetails userDetails,
+                                                     @RequestBody @Valid PostCreateRequest postCreateRequest) {
+
+        PostCreateResponse postCreateResponse = postService.createPost(postCreateRequest, userDetails.getId());
+
+        return ResponseDTO.of(postCreateResponse,"게시글 생성에 성공하였습니다.");
     }
 
     @GetMapping("/{id}")
-    public PostDetailResponse searchPost(@AuthenticationPrincipal CustomUserDetails userDetails,
+    public ResponseDTO<PostDetailResponse> searchPost(@AuthenticationPrincipal CustomUserDetails userDetails,
                                          @PathVariable Long id) {
 
-        return postService.searchPost(id);
+        PostDetailResponse postDetailResponse = postService.searchPost(id);
+        return ResponseDTO.of(postDetailResponse, "게시글 조회에 성공하였습니다.");
     }
 
     @PutMapping("/{id}")
-    public PostUpdateResponse updatePost(@PathVariable Long id,
+    public ResponseDTO<PostUpdateResponse> updatePost(@PathVariable Long id,
                                          @AuthenticationPrincipal CustomUserDetails userDetails,
                                          @RequestBody @Valid PostUpdateRequest postUpdateRequest){
-        return postService.updatePost(postUpdateRequest, id, userDetails.getId());
+
+        PostUpdateResponse postUpdateResponse = postService.updatePost(postUpdateRequest, id, userDetails.getId());
+
+        return ResponseDTO.of(postUpdateResponse, "게시글 수정에 성공하였습니다.");
     }
 
     @DeleteMapping("/{id}")
-    public void deletePost(@PathVariable Long id,
+    public ResponseDTO<Void> deletePost(@PathVariable Long id,
                            @AuthenticationPrincipal CustomUserDetails userDetails) {
         postService.deletePost(id, userDetails.getId());
+
+        return ResponseDTO.of("게시글 삭제에 성공하였습니다.");
     }
 
-    @GetMapping()
-    public List<WeeklyHotPost> searchWeeklyHotPosts(@AuthenticationPrincipal CustomUserDetails userDetails) {
-        return postService.getWeeklyHotPosts();
+    @GetMapping
+    public ResponseDTO<List<PostPreviewResponse>> searchWeeklyPosts(@AuthenticationPrincipal CustomUserDetails userDetails) {
+
+        List<PostPreviewResponse> postPreviewResponses = postService.getWeeklyPosts(userDetails.getId());
+
+        return ResponseDTO.of(postPreviewResponses,"게시글 목록 조회에 성공하였습니다.");
     }
 
+    @GetMapping("/weekly-hot")
+    public ResponseDTO<List<PostPreviewResponse>> searchWeeklyHotPosts(@AuthenticationPrincipal CustomUserDetails userDetails) {
 
+        List<PostPreviewResponse> postPreviewResponses = postService.getWeeklyHotPosts(userDetails.getId());
 
+        return ResponseDTO.of(postPreviewResponses,"게시글 목록 조회에 성공하였습니다.");
+    }
 }

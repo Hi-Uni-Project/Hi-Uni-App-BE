@@ -5,7 +5,7 @@ import com.project.hiuni.domain.post.dto.request.PostUpdateRequest;
 import com.project.hiuni.domain.post.dto.response.PostCreateResponse;
 import com.project.hiuni.domain.post.dto.response.PostDetailResponse;
 import com.project.hiuni.domain.post.dto.response.PostUpdateResponse;
-import com.project.hiuni.domain.post.dto.response.WeeklyHotPost;
+import com.project.hiuni.domain.post.dto.response.PostPreviewResponse;
 import com.project.hiuni.domain.post.entity.Category;
 import com.project.hiuni.domain.post.entity.Post;
 import com.project.hiuni.domain.post.entity.Type;
@@ -62,12 +62,11 @@ public class PostService {
                 .orElseThrow(()-> new CustomPostNotFoundException(ErrorCode.NOT_FOUND));
 
         post.incrementViewCount();
-
         return PostDetailResponse.from(post);
     }
 
     @Transactional
-    public PostUpdateResponse updatePost(PostUpdateRequest request, Long postId, Long userId ){
+    public PostUpdateResponse updatePost(PostUpdateRequest request, Long postId, Long userId){
         Post post = postRepository.findById(postId).orElseThrow(()-> new CustomPostNotFoundException(ErrorCode.NOT_FOUND));
 
         if (!post.getUser().getId().equals(userId)) {
@@ -104,15 +103,10 @@ public class PostService {
         postRepository.delete(post);
     }
 
-    private static Category getCategory(Type type) {
-        return switch (type) {
-            case JOB, INTERNSHIP, INTERVIEW, EXPERIENCE, LICENSE -> Category.JOBINFORMATION;
-            case EDUCATION, CLUB -> Category.EXTERNALACTIVITIES;
-        };
-    }
-
     @Transactional
-    public List<WeeklyHotPost> getWeeklyHotPosts(){
+    public List<PostPreviewResponse> getWeeklyHotPosts(Long userId){
+        User user = userRepository.findById(userId).orElseThrow(() -> new CustomUserNotFoundException(ErrorCode.USER_NOT_FOUND));
+
         ZoneId zone = ZoneId.of("Asia/Seoul");
         LocalDate today = LocalDate.now(zone);
 
@@ -120,9 +114,32 @@ public class PostService {
         LocalDateTime start = end.minusWeeks(1);
 
         return postRepository.
-                findWeeklyHot(start, end).stream()
-                .map(WeeklyHotPost::from)
+                findWeeklyHot(start, end,user.getUnivName()).stream()
+                .map(PostPreviewResponse::from)
                 .toList();
+    }
+
+    @Transactional
+    public List<PostPreviewResponse> getWeeklyPosts(Long userId){
+        User user = userRepository.findById(userId).orElseThrow(() -> new CustomUserNotFoundException(ErrorCode.USER_NOT_FOUND));
+
+        ZoneId zone = ZoneId.of("Asia/Seoul");
+        LocalDate today = LocalDate.now(zone);
+
+        LocalDateTime end   = today.with(DayOfWeek.SUNDAY).atStartOfDay();
+        LocalDateTime start = end.minusWeeks(1);
+
+        return postRepository.
+                findWeekly(start, end,user.getUnivName()).stream()
+                .map(PostPreviewResponse::from)
+                .toList();
+    }
+
+    private static Category getCategory(Type type) {
+        return switch (type) {
+            case JOB, INTERNSHIP, INTERVIEW, EXPERIENCE, LICENSE -> Category.JOBINFORMATION;
+            case EDUCATION, CLUB -> Category.EXTERNALACTIVITIES;
+        };
     }
 
 }
