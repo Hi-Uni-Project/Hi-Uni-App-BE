@@ -6,6 +6,7 @@ import com.project.hiuni.domain.mail.dto.response.CodeResponse;
 import com.project.hiuni.domain.mail.dto.response.MailResponse;
 import com.project.hiuni.domain.mail.exception.InvalidEmailFormatException;
 import com.project.hiuni.domain.mail.v1.service.MailV1Service;
+import com.project.hiuni.global.common.dto.response.ResponseDTO;
 import com.project.hiuni.global.exception.ErrorCode;
 import com.project.hiuni.global.exception.ValidationException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -25,7 +26,7 @@ public class MailV1Controller {
   private final MailV1Service mailV1Service;
 
   @PostMapping("/send")
-  public MailResponse sendMail(@RequestBody @Valid MailRequest mailRequest,
+  public ResponseDTO<String> sendMail(@RequestBody @Valid MailRequest mailRequest,
       BindingResult bindingResult, HttpServletRequest httpServletRequest) {
 
     if(bindingResult.hasErrors()) {
@@ -39,10 +40,8 @@ public class MailV1Controller {
     }
 
     mailV1Service.sendMail(mailRequest, httpServletRequest);
-    return MailResponse
-        .builder()
-        .message("인증 메일이 전송되었습니다.")
-        .build();
+
+    return ResponseDTO.of("인증 메일이 전송되었습니다.");
   }
 
   @PostMapping("/validate-email")
@@ -66,7 +65,7 @@ public class MailV1Controller {
   }
 
   @PostMapping("/validate-code")
-  public CodeResponse validateCode(@RequestBody @Valid CodeRequest codeRequest,
+  public ResponseDTO<String> validateCode(@RequestBody @Valid CodeRequest codeRequest,
       HttpServletRequest httpServletRequest, BindingResult bindingResult) {
 
     if(bindingResult.hasErrors()) {
@@ -77,14 +76,6 @@ public class MailV1Controller {
       throw new InvalidEmailFormatException(ErrorCode.INVALID_EMAIL_CODE);
     }
 
-    return CodeResponse
-        .builder()
-        .message("인증번호가 일치합니다.")
-        .build();
+    return ResponseDTO.of("이메일 인증에 성공하였습니다.");
   }
-
-
-
-
-
 }
