@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>서버 로그 관리자</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Courier New', 'Consolas', 'Monaco', monospace;
+      background: #1e1e1e;
+      color: #d4d4d4;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* 로그인 화면 */
+    .login-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background: linear-gradient(135deg, #2d2d2d, #1a1a1a);
+      padding: 1rem;
+    }
+
+    .login-box {
+      background: #333;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+      min-width: 300px;
+      text-align: center;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .login-title {
+      font-size: 1.5rem;
+      margin-bottom: 2rem;
+      color: #4fc3f7;
+    }
+
+    .input-group {
+      position: relative;
+      margin-bottom: 1.5rem;
+    }
+
+    .password-input {
+      width: 100%;
+      padding: 12px 40px 12px 12px;
+      background: #2d2d2d;
+      border: 1px solid #555;
+      border-radius: 4px;
+      color: #d4d4d4;
+      font-size: 1rem;
+      font-family: inherit;
+    }
+
+    .password-input:focus {
+      outline: none;
+      border-color: #4fc3f7;
+      box-shadow: 0 0 0 2px rgba(79, 195, 247, 0.2);
+    }
+
+    .login-btn {
+      position: absolute;
+      right: 4px;
+      top: 4px;
+      bottom: 4px;
+      width: 32px;
+      background: #4fc3f7;
+      border: none;
+      border-radius: 2px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+
+    .login-btn:hover {
+      background: #29b6f6;
+    }
+
+    .login-btn::after {
+      content: '→';
+      color: white;
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+
+    .error-msg {
+      color: #f44336;
+      margin-top: 1rem;
+      font-size: 0.9rem;
+    }
+
+    /* 메인 화면 */
+    .main-container {
+      display: none;
+      flex-direction: column;
+      height: 100vh;
+      position: relative;
+    }
+
+    .header {
+      background: #252526;
+      padding: 1rem;
+      border-bottom: 1px solid #3e3e42;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .title {
+      font-size: 1.2rem;
+      color: #4fc3f7;
+      font-weight: normal;
+    }
+
+    .search-container {
+      position: relative;
+      flex: 1;
+      min-width: 200px;
+      max-width: 400px;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 8px 12px;
+      background: #3c3c3c;
+      border: 1px solid #555;
+      border-radius: 4px;
+      color: #d4d4d4;
+      font-size: 0.9rem;
+      font-family: inherit;
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: #4fc3f7;
+    }
+
+    .refresh-btn {
+      background: #4fc3f7;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background 0.2s;
+    }
+
+    .refresh-btn:hover {
+      background: #29b6f6;
+    }
+
+    .log-container {
+      flex: 1;
+      padding: 1rem;
+      overflow-y: auto;
+      background: #1e1e1e;
+      line-height: 1.4;
+      font-size: var(--log-font-size, 0.85rem);
+      transition: font-size 0.2s ease;
+    }
+
+    .log-line {
+      margin-bottom: 0;
+      white-space: pre-wrap;
+      word-break: break-word;
+      padding: 1px 0;
+      min-height: 1.2em;
+    }
+
+    .log-line.highlight {
+      background: rgba(255, 235, 59, 0.2);
+      border-left: 3px solid #ffeb3b;
+      padding-left: 8px;
+    }
+
+    .loading {
+      text-align: center;
+      color: #888;
+      font-style: italic;
+      margin-top: 2rem;
+    }
+
+    .status-indicator {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #4caf50;
+      margin-right: 8px;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { opacity: 1; }
+      50% { opacity: 0.5; }
+      100% { opacity: 1; }
+    }
+
+    /* 맨 아래로 이동 버튼 */
+    .scroll-to-bottom {
+      position: fixed;
+      bottom: 80px;
+      right: 50%;
+      transform: translateX(50%);
+      background: #4fc3f7;
+      border: none;
+      border-radius: 20px;
+      color: white;
+      padding: 8px 16px;
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.9rem;
+      font-family: inherit;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+      z-index: 999;
+      transition: all 0.2s ease;
+    }
+
+    .scroll-to-bottom:hover {
+      background: #29b6f6;
+      transform: translateX(50%) translateY(-2px);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+    }
+
+    .scroll-to-bottom svg {
+      width: 16px;
+      height: 16px;
+      fill: currentColor;
+    }
+
+    /* 폰트 크기 조절 버튼 */
+    .font-controls {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      display: none;
+      flex-direction: column;
+      gap: 8px;
+      z-index: 1000;
+    }
+
+    .font-btn {
+      width: 44px;
+      height: 44px;
+      background: #4fc3f7;
+      border: none;
+      border-radius: 50%;
+      color: white;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      font-weight: bold;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+
+    .font-btn:hover {
+      background: #29b6f6;
+      transform: scale(1.05);
+    }
+
+    .font-btn:active {
+      transform: scale(0.95);
+    }
+
+    .font-btn svg {
+      width: 20px;
+      height: 20px;
+      fill: currentColor;
+    }
+
+    /* 모바일 최적화 */
+    @media (max-width: 768px) {
+      .login-container {
+        padding: 0;
+      }
+
+      .login-box {
+        background: transparent;
+        box-shadow: none;
+        border-radius: 0;
+        padding: 2rem 1rem;
+        min-width: auto;
+        max-width: none;
+        width: 100%;
+      }
+
+      .header {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 0.75rem;
+      }
+
+      .title {
+        text-align: center;
+        margin-bottom: 0.5rem;
+        font-size: 1.1rem;
+      }
+
+      .search-container {
+        max-width: none;
+        margin-bottom: 0.5rem;
+      }
+
+      .log-container {
+        padding: 0.5rem;
+        font-size: var(--log-font-size, 0.8rem);
+        padding-bottom: 80px; /* 폰트 조절 버튼 공간 확보 */
+      }
+
+      .font-controls {
+        bottom: 15px;
+        right: 15px;
+      }
+
+      .font-btn {
+        width: 40px;
+        height: 40px;
+      }
+
+      .scroll-to-bottom {
+        bottom: 70px;
+        font-size: 0.85rem;
+        padding: 6px 12px;
+      }
+    }
+
+    /* 스크롤바 스타일 */
+    .log-container::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .log-container::-webkit-scrollbar-track {
+      background: #2d2d2d;
+    }
+
+    .log-container::-webkit-scrollbar-thumb {
+      background: #555;
+      border-radius: 4px;
+    }
+
+    .log-container::-webkit-scrollbar-thumb:hover {
+      background: #666;
+    }
+  </style>
+</head>
+<body>
+<!-- 로그인 화면 -->
+<div id="loginContainer" class="login-container">
+  <div class="login-box">
+    <div class="login-title">하이유니 로그뷰어</div>
+    <div class="input-group">
+      <input type="password" id="passwordInput" class="password-input" placeholder="관리자 비밀번호 입력" autocomplete="off">
+      <button id="loginBtn" class="login-btn" type="button"></button>
+    </div>
+    <div id="errorMsg" class="error-msg"></div>
+  </div>
+</div>
+
+<!-- 메인 화면 -->
+<div id="mainContainer" class="main-container">
+  <div class="header">
+    <div class="title">
+      <span class="status-indicator"></span>
+      하이유니 로그 뷰어
+    </div>
+    <div class="search-container">
+      <input type="text" id="searchInput" class="search-input" placeholder="검색어 입력...">
+    </div>
+  </div>
+  <div id="logContainer" class="log-container">
+    <div class="loading">로그를 불러오는 중...</div>
+  </div>
+
+  <!-- 맨 아래로 이동 버튼 -->
+  <button id="scrollToBottomBtn" class="scroll-to-bottom">
+    <svg viewBox="0 0 24 24">
+      <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
+    </svg>
+    맨 아래로
+  </button>
+
+  <!-- 폰트 크기 조절 버튼 -->
+  <div id="fontControls" class="font-controls">
+    <button id="fontIncrease" class="font-btn" title="글자 크기 증가">
+      <svg viewBox="0 0 24 24">
+        <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+      </svg>
+    </button>
+    <button id="fontDecrease" class="font-btn" title="글자 크기 감소">
+      <svg viewBox="0 0 24 24">
+        <path d="M19 13H5v-2h14v2z"/>
+      </svg>
+    </button>
+  </div>
+</div>
+
+<script>
+  let adminPassword = '';
+  let logData = '';
+  let searchResults = [];
+  let currentSearchIndex = -1;
+  let pollingInterval = null;
+  let isAutoScrolling = true;
+  let currentFontSize = 0.85; // 기본 폰트 크기 (rem)
+
+  // DOM 요소들
+  const loginContainer = document.getElementById('loginContainer');
+  const mainContainer = document.getElementById('mainContainer');
+  const passwordInput = document.getElementById('passwordInput');
+  const loginBtn = document.getElementById('loginBtn');
+  const errorMsg = document.getElementById('errorMsg');
+  const searchInput = document.getElementById('searchInput');
+  const logContainer = document.getElementById('logContainer');
+  const fontControls = document.getElementById('fontControls');
+  const fontIncreaseBtn = document.getElementById('fontIncrease');
+  const fontDecreaseBtn = document.getElementById('fontDecrease');
+  const scrollToBottomBtn = document.getElementById('scrollToBottomBtn');
+
+  // 이벤트 리스너
+  loginBtn.addEventListener('click', handleLogin);
+  passwordInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') handleLogin();
+  });
+  searchInput.addEventListener('input', handleSearch);
+  fontIncreaseBtn.addEventListener('click', increaseFontSize);
+  fontDecreaseBtn.addEventListener('click', decreaseFontSize);
+  scrollToBottomBtn.addEventListener('click', () => {
+    scrollToBottom();
+    isAutoScrolling = true;
+  });
+
+  // 자동 로그인 시도
+  async function tryAutoLogin() {
+    try {
+      const savedPassword = localStorage.getItem('adminPassword');
+      if (savedPassword) {
+        console.log('저장된 비밀번호로 자동 로그인 시도...');
+
+        const response = await fetch('/api/admin/logs', {
+          method: 'GET',
+          headers: {
+            'AuthorizationAdmin': savedPassword
+          }
+        });
+
+        if (response.ok) {
+          adminPassword = savedPassword;
+          const responseData = await response.json();
+          logData = responseData.logs || '';
+          showMainScreen();
+          displayLogs();
+          startPolling();
+          console.log('자동 로그인 성공');
+          return true;
+        } else {
+          // 저장된 비밀번호가 유효하지 않으면 제거
+          localStorage.removeItem('adminPassword');
+          console.log('저장된 비밀번호가 유효하지 않음, 제거됨');
+        }
+      }
+    } catch (error) {
+      console.error('자동 로그인 실패:', error);
+      localStorage.removeItem('adminPassword');
+    }
+    return false;
+  }
+
+  // 로그인 처리
+  async function handleLogin() {
+    const password = passwordInput.value.trim();
+    if (!password) {
+      showError('비밀번호를 입력해주세요.');
+      return;
+    }
+
+    try {
+      const response = await fetch('/api/admin/logs', {
+        method: 'GET',
+        headers: {
+          'AuthorizationAdmin': password
+        }
+      });
+
+      if (response.ok) {
+        adminPassword = password;
+        const responseData = await response.json();
+        logData = responseData.logs || '';
+
+        // 로그인 성공 시 비밀번호 저장
+        try {
+          localStorage.setItem('adminPassword', password);
+          console.log('비밀번호가 localStorage에 저장됨');
+        } catch (e) {
+          console.warn('비밀번호 저장 실패:', e);
+        }
+
+        showMainScreen();
+        displayLogs();
+        startPolling();
+      } else {
+        showError('접근 권한이 없습니다.');
+        passwordInput.value = '';
+      }
+    } catch (error) {
+      showError('서버 연결에 실패했습니다.');
+      console.error('Login error:', error);
+    }
+  }
+
+  // 폰트 크기 조절 함수들
+  function increaseFontSize() {
+    if (currentFontSize < 1.5) {
+      currentFontSize += 0.05;
+      updateFontSize();
+    }
+  }
+
+  function decreaseFontSize() {
+    if (currentFontSize > 0.5) {
+      currentFontSize -= 0.05;
+      updateFontSize();
+    }
+  }
+
+  function updateFontSize() {
+    // 현재 스크롤 위치를 픽셀 단위로 저장
+    const currentScrollTop = logContainer.scrollTop;
+
+    // 폰트 크기 변경
+    const oldFontSize = parseFloat(getComputedStyle(logContainer).fontSize);
+    document.documentElement.style.setProperty('--log-font-size', `${currentFontSize}rem`);
+
+    // 새로운 폰트 크기 계산
+    const newFontSize = currentFontSize * 16; // rem to px (보통 1rem = 16px)
+    const fontSizeRatio = newFontSize / oldFontSize;
+
+    // DOM 업데이트를 기다린 후 스크롤 위치 조정
+    setTimeout(() => {
+      logContainer.scrollTop = currentScrollTop * fontSizeRatio;
+    }, 0);
+
+    // 로컬 스토리지에 폰트 크기 저장
+    try {
+      localStorage.setItem('logFontSize', currentFontSize.toString());
+    } catch (e) {
+      // 로컬 스토리지 사용 불가한 환경에서는 무시
+    }
+  }
+
+  // 저장된 폰트 크기 불러오기
+  function loadFontSize() {
+    try {
+      const saved = localStorage.getItem('logFontSize');
+      if (saved) {
+        currentFontSize = parseFloat(saved);
+        document.documentElement.style.setProperty('--log-font-size', `${currentFontSize}rem`);
+      }
+    } catch (e) {
+      // 로컬 스토리지 사용 불가한 환경에서는 기본값 사용
+    }
+  }
+
+  // 맨 아래로 버튼 표시/숨김 업데이트
+  function updateScrollToBottomButton() {
+    const isAtBottom = isScrolledToBottom();
+    scrollToBottomBtn.style.display = isAtBottom ? 'none' : 'flex';
+  }
+
+  // 로그 로딩
+  async function loadLogs() {
+    try {
+      const response = await fetch('/api/admin/logs', {
+        method: 'GET',
+        headers: {
+          'AuthorizationAdmin': adminPassword
+        }
+      });
+
+      if (response.ok) {
+        const responseData = await response.json();
+        const newLogData = responseData.logs || '';
+        const wasAtBottom = isScrolledToBottom();
+
+        if (newLogData !== logData) {
+          logData = newLogData;
+          displayLogs();
+
+          // 자동 스크롤
+          if (isAutoScrolling && wasAtBottom) {
+            setTimeout(() => {
+              scrollToBottom();
+              updateScrollToBottomButton();
+            }, 100);
+          }
+        }
+      } else if (response.status === 401 || response.status === 403) {
+        stopPolling();
+        showLoginScreen();
+      } else {
+        console.error('Failed to load logs:', response.status);
+      }
+    } catch (error) {
+      console.error('Load logs error:', error);
+    }
+  }
+
+  // 로그 표시
+  function displayLogs() {
+    if (!logData) {
+      logContainer.innerHTML = '<div class="loading">로그 데이터가 없습니다.</div>';
+      return;
+    }
+
+    // 개행문자로 분리 (빈 줄도 포함)
+    const lines = logData.split('\n');
+
+    logContainer.innerHTML = lines.map((line, index) => {
+      // HTML 이스케이프 처리
+      const escapedLine = escapeHtml(line);
+      // 빈 줄은 공백 문자로 높이 유지
+      const content = line.length === 0 ? '&nbsp;' : escapedLine;
+      return `<div class="log-line" data-line="${index}">${content}</div>`;
+    }).join('');
+
+    console.log('로그 표시됨:', lines.length, '줄');
+
+    // 로그 표시 후 맨 아래로 스크롤
+    setTimeout(() => {
+      scrollToBottom();
+      updateScrollToBottomButton();
+    }, 50);
+  }
+
+  // 폴링 시작
+  function startPolling() {
+    if (pollingInterval) {
+      clearInterval(pollingInterval);
+    }
+    pollingInterval = setInterval(loadLogs, 1000);
+    console.log('폴링 시작됨: 1초 간격');
+  }
+
+  // 폴링 중단
+  function stopPolling() {
+    if (pollingInterval) {
+      clearInterval(pollingInterval);
+      pollingInterval = null;
+      console.log('폴링 중단됨');
+    }
+  }
+
+  // 검색 기능
+  function handleSearch() {
+    const searchTerm = searchInput.value.trim().toLowerCase();
+    clearSearchHighlights();
+
+    if (!searchTerm) return;
+
+    const logLines = Array.from(logContainer.querySelectorAll('.log-line'));
+    searchResults = [];
+
+    logLines.forEach((line, index) => {
+      if (line.textContent.toLowerCase().includes(searchTerm)) {
+        line.classList.add('highlight');
+        searchResults.push({ element: line, index });
+      }
+    });
+
+    if (searchResults.length > 0) {
+      currentSearchIndex = 0;
+      scrollToSearchResult(0);
+    }
+  }
+
+  function clearSearchHighlights() {
+    const highlighted = logContainer.querySelectorAll('.log-line.highlight');
+    highlighted.forEach(line => line.classList.remove('highlight'));
+    searchResults = [];
+    currentSearchIndex = -1;
+  }
+
+  function scrollToSearchResult(index) {
+    if (index >= 0 && index < searchResults.length) {
+      const element = searchResults[index].element;
+      element.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center'
+      });
+    }
+  }
+
+  // 스크롤 관련 함수들
+  function isScrolledToBottom() {
+    const threshold = 50;
+    return (logContainer.scrollTop + logContainer.clientHeight) >=
+        (logContainer.scrollHeight - threshold);
+  }
+
+  function scrollToBottom() {
+    logContainer.scrollTop = logContainer.scrollHeight;
+  }
+
+  // UI 함수들
+  function showError(message) {
+    errorMsg.textContent = message;
+    setTimeout(() => {
+      errorMsg.textContent = '';
+    }, 3000);
+  }
+
+  function showMainScreen() {
+    loginContainer.style.display = 'none';
+    mainContainer.style.display = 'flex';
+    fontControls.style.display = 'flex';
+    loadFontSize(); // 저장된 폰트 크기 적용
+    updateScrollToBottomButton(); // 버튼 상태 업데이트
+  }
+
+  function showLoginScreen() {
+    mainContainer.style.display = 'none';
+    fontControls.style.display = 'none';
+    scrollToBottomBtn.style.display = 'none';
+    loginContainer.style.display = 'flex';
+    passwordInput.value = '';
+    adminPassword = '';
+    // 세션 만료 시에만 localStorage 제거하고 메시지 표시
+    localStorage.removeItem('adminPassword');
+    showError('세션이 만료되었습니다. 다시 로그인해주세요.');
+  }
+
+  function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+  }
+
+  // 스크롤 이벤트 (자동 스크롤 제어 및 버튼 표시)
+  logContainer.addEventListener('scroll', () => {
+    if (!isScrolledToBottom()) {
+      isAutoScrolling = false;
+    } else {
+      isAutoScrolling = true;
+    }
+    updateScrollToBottomButton();
+  });
+
+  // 페이지 종료시 폴링 중단
+  window.addEventListener('beforeunload', () => {
+    stopPolling();
+  });
+
+  // 키보드 단축키
+  document.addEventListener('keydown', (e) => {
+    if (mainContainer.style.display === 'flex') {
+      if (e.key === 'F5' || (e.ctrlKey && e.key === 'r')) {
+        e.preventDefault();
+        loadLogs();
+      }
+      if (e.ctrlKey && e.key === 'f') {
+        e.preventDefault();
+        searchInput.focus();
+      }
+      // 폰트 크기 조절 단축키
+      if (e.ctrlKey && e.key === '=') {
+        e.preventDefault();
+        increaseFontSize();
+      }
+      if (e.ctrlKey && e.key === '-') {
+        e.preventDefault();
+        decreaseFontSize();
+      }
+    }
+  });
+
+  // 터치 제스처를 위한 이벤트 (모바일)
+  let touchStartY = 0;
+  let isTwoFingerTouch = false;
+
+  logContainer.addEventListener('touchstart', (e) => {
+    if (e.touches.length === 2) {
+      isTwoFingerTouch = true;
+      touchStartY = e.touches[0].clientY + e.touches[1].clientY;
+    } else {
+      isTwoFingerTouch = false;
+    }
+  });
+
+  logContainer.addEventListener('touchmove', (e) => {
+    if (isTwoFingerTouch && e.touches.length === 2) {
+      e.preventDefault();
+      const currentY = e.touches[0].clientY + e.touches[1].clientY;
+      const deltaY = currentY - touchStartY;
+
+      if (Math.abs(deltaY) > 20) {
+        if (deltaY > 0) {
+          increaseFontSize();
+        } else {
+          decreaseFontSize();
+        }
+        touchStartY = currentY;
+      }
+    }
+  });
+
+  // 초기화 및 자동 로그인
+  loadFontSize();
+
+  // 페이지 로드 완료 후 자동 로그인 시도
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', tryAutoLogin);
+  } else {
+    tryAutoLogin();
+  }
+</script>
+</body>
+</html>

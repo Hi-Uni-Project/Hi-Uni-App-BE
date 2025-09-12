@@ -1,7 +1,6 @@
 package com.project.hiuni.global.security.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.project.hiuni.global.common.dto.response.ErrorResponse;
 import com.project.hiuni.global.common.dto.response.ResponseDTO;
 import com.project.hiuni.global.exception.ErrorCode;
 import com.project.hiuni.global.security.jwt.JwtTokenFilter;
@@ -57,7 +56,8 @@ public class SecurityConfig {
                 "/api/v1/univs/**",
                 "/api/v1/majors/**",
                 "/api/v1/mail/validate-email",
-                "/api/v1/user/token-test"
+                "/api/v1/user/token-test",
+                "/api/admin/logs/**"
             ).permitAll()
             .anyRequest().authenticated())
         .exceptionHandling(e -> e
