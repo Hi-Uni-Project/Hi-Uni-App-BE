@@ -2,6 +2,7 @@ package com.project.hiuni.domain.auth.docs;
 
 import com.project.hiuni.domain.auth.dto.request.AuthSocialRequest;
 import com.project.hiuni.domain.auth.dto.response.AuthSocialResponse;
+import com.project.hiuni.global.common.dto.response.ResponseDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.validation.BindingResult;
@@ -11,5 +12,5 @@ import org.springframework.validation.BindingResult;
 public interface AuthApiDocumentation {
 
   @Operation(summary = "소셜 로그인/회원가입 API", description = "소셜 로그인을 통해 회원가입 또는 로그인을 처리합니다.")
-  AuthSocialResponse authSocial(AuthSocialRequest authSocialRequest, BindingResult bindingResult);
+  ResponseDTO<AuthSocialResponse> authSocial(AuthSocialRequest authSocialRequest, BindingResult bindingResult);
 }
