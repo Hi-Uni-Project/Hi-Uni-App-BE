@@ -2,6 +2,7 @@ package com.project.hiuni.global.security.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.hiuni.global.common.dto.response.ErrorResponse;
+import com.project.hiuni.global.common.dto.response.ResponseDTO;
 import com.project.hiuni.global.exception.ErrorCode;
 import com.project.hiuni.global.security.jwt.JwtTokenFilter;
 import lombok.RequiredArgsConstructor;
@@ -36,11 +37,11 @@ public class SecurityConfig {
 
     // 인증 실패 시 반환할 JSON 응답
     String invalidAuthenticationResponse = objectMapper
-        .writeValueAsString(ErrorResponse.of(ErrorCode.TOKEN_INVALID));
+        .writeValueAsString(ResponseDTO.of(ErrorCode.TOKEN_INVALID));
 
     // 인가 실패 시 반환할 JSON 응답
     String invalidAuthorizationResponse = objectMapper
-        .writeValueAsString(ErrorResponse.of(ErrorCode.ACCESS_DENIED));
+        .writeValueAsString(ResponseDTO.of(ErrorCode.ACCESS_DENIED));
 
     http
         .csrf(csrf -> csrf.disable())
@@ -54,20 +55,22 @@ public class SecurityConfig {
                 "/admin/**",
                 "/api/v1/auth/social",
                 "/api/v1/univs/**",
-                "/api/v1/majors/**"
+                "/api/v1/majors/**",
+                "/api/v1/mail/validate-email",
+                "/api/v1/user/token-test"
             ).permitAll()
             .anyRequest().authenticated())
         .exceptionHandling(e -> e
             //인증 실패 시 응답 핸들링
             .authenticationEntryPoint(((request, response, authException) -> {
-              response.setStatus(ErrorCode.TOKEN_INVALID.getHttpStatus().value());
+              response.setStatus(ErrorCode.TOKEN_INVALID.getActualStatusCode());
               response.setContentType("application/json");
               response.getWriter().write(invalidAuthenticationResponse);
             }
             ))
             //인가 실패 시 응답 핸들링
             .accessDeniedHandler((request, response, authException) -> {
-              response.setStatus(ErrorCode.TOKEN_INVALID.getHttpStatus().value());
+              response.setStatus(ErrorCode.TOKEN_INVALID.getActualStatusCode());
               response.setContentType("application/json");
               response.getWriter().write(invalidAuthorizationResponse);
             }))

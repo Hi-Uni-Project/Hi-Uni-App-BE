@@ -1,14 +1,16 @@
 package com.project.hiuni.domain.mail.dto.request;
 
 import jakarta.validation.constraints.NotNull;
+import lombok.Builder;
 import lombok.Getter;
-import org.springframework.stereotype.Service;
+import lombok.Setter;
 
 @Getter
-@Service
-public class MailRequest {
+@Setter
+@Builder
+public class CodeRequest {
 
   @NotNull
-  private String email;
+  private String authCode;
 
 }

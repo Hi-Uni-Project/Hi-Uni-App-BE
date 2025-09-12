@@ -60,7 +60,7 @@ public class AuthService {
         String olderRefreshToken = auth.getRefreshToken();
 
         // 기존 회원인데 발급해놓은 리프레시 토큰이 유효하지 않은 경우 (보통은 만료된 경우) 토큰 재발급
-        if(!jwtTokenProvider.validateToken(olderRefreshToken)) {
+        if(!jwtTokenProvider.isValidateToken(olderRefreshToken)) {
           String newRefreshToken = jwtTokenProvider.createRefreshToken(socialId, socialEmail);
           auth.updateRefreshToken(newRefreshToken);
         }
