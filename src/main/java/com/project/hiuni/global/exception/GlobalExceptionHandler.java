@@ -5,6 +5,8 @@ import com.project.hiuni.domain.auth.exception.GoogleInvalidTokenException;
 import com.project.hiuni.domain.auth.exception.ProviderNotFoundException;
 import com.project.hiuni.domain.mail.exception.InvalidEmailCodeException;
 import com.project.hiuni.domain.mail.exception.InvalidEmailFormatException;
+import com.project.hiuni.domain.post.exception.CustomForbiddenException;
+import com.project.hiuni.domain.post.exception.CustomPostNotFoundException;
 import com.project.hiuni.domain.tos.exception.RequiredTermsNotAgreedException;
 import com.project.hiuni.global.common.dto.response.ErrorResponse;
 import com.project.hiuni.global.common.dto.response.ResponseDTO;
@@ -56,6 +58,18 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
   @ExceptionHandler(RequiredTermsNotAgreedException.class)
   public ResponseEntity<ResponseDTO> RequiredTermsNotAgreedException(RequiredTermsNotAgreedException e) {
+    return ResponseEntity.status(e.getErrorCode().getActualStatusCode())
+        .body(ResponseDTO.of(e.getErrorCode()));
+  }
+
+  @ExceptionHandler(CustomPostNotFoundException.class)
+  public ResponseEntity<ResponseDTO> CustomPostNotFoundException(CustomPostNotFoundException e) {
+    return ResponseEntity.status(e.getErrorCode().getActualStatusCode())
+        .body(ResponseDTO.of(e.getErrorCode()));
+  }
+
+  @ExceptionHandler(CustomForbiddenException.class)
+  public ResponseEntity<ResponseDTO> CustomForbiddenException(CustomForbiddenException e) {
     return ResponseEntity.status(e.getErrorCode().getActualStatusCode())
         .body(ResponseDTO.of(e.getErrorCode()));
   }
