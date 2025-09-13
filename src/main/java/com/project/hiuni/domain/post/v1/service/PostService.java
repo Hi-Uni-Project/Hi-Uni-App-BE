@@ -20,8 +20,10 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.Comparator;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -131,6 +133,23 @@ public class PostService {
 
         return postRepository.
                 findWeekly(start, end,user.getUnivName()).stream()
+                .map(PostPreviewResponse::from)
+                .toList();
+    }
+
+    @Transactional(readOnly = true)
+    public List<PostPreviewResponse> getKeywordPosts(String sort, String keyword, Long userId){
+        User user = userRepository.findById(userId).orElseThrow(() -> new CustomUserNotFoundException(ErrorCode.USER_NOT_FOUND));
+        String univName = user.getUnivName();
+
+        Sort sortedPost = switch (sort){
+            case "like" -> Sort.by(Sort.Order.desc("likeCount"));
+            case "comment" -> Sort.by(Sort.Order.desc("commentCount"));
+            default        -> Sort.by(Sort.Order.desc("createdAt"));
+        };
+
+        return postRepository.searchByKeywordAndUniv(keyword, univName, sortedPost)
+                .stream()
                 .map(PostPreviewResponse::from)
                 .toList();
     }
