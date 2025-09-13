@@ -44,7 +44,12 @@ public class Post extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Type type;
 
+    @Enumerated(EnumType.STRING)
+    private Category category;
+
     private String userPosition;
+
+    private String userWork;
 
     private String whatLearn;
 
@@ -58,14 +63,22 @@ public class Post extends BaseEntity {
 
     private int viewCount=0;
 
+    private int commentCount=0;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_id", nullable = false)
     private User user;
 
     @Builder
-    public Post(String title, String content, String companyName,
-                LocalDateTime startDate, LocalDateTime endDate,
-                Type type, String userPosition,
+    public Post(String title,
+                String content,
+                String companyName,
+                LocalDateTime startDate,
+                LocalDateTime endDate,
+                Type type,
+                Category category,
+                String userPosition,
+                String userWork,
                 String whatLearn,
                 String feelings,
                 String imageUrl,
@@ -76,7 +89,9 @@ public class Post extends BaseEntity {
         this.startDate = startDate;
         this.endDate = endDate;
         this.type = type;
+        this.category = category;
         this.userPosition = userPosition;
+        this.userWork = userWork;
         this.whatLearn = whatLearn;
         this.feelings = feelings;
         this.imageUrl = imageUrl;
@@ -103,16 +118,24 @@ public class Post extends BaseEntity {
         viewCount++;
     }
 
-    public void updatePost(String title, String content, String companyName,
-                           LocalDateTime startDate, LocalDateTime endDate,
-                           Type type, String userPosition,
-                           String whatLearn, String feelings, String imageUrl) {
+    public void updatePost(String title,
+                           String content,
+                           String companyName,
+                           LocalDateTime startDate,
+                           LocalDateTime endDate,
+                           Type type,
+                           Category category,
+                           String userPosition,
+                           String whatLearn,
+                           String feelings,
+                           String imageUrl) {
         this.title = title;
         this.content = content;
         this.companyName = companyName;
         this.startDate = startDate;
         this.endDate = endDate;
         this.type = type;
+        this.category = category;
         this.userPosition = userPosition;
         this.whatLearn = whatLearn;
         this.feelings = feelings;

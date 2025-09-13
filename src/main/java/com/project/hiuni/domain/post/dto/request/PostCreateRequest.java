@@ -11,6 +11,7 @@ public record PostCreateRequest(
         LocalDateTime endDate,
         Type type,
         String userPosition,
+        String userWork,
         String whatLearn,
         String feelings,
         String imageUrl
