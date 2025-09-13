@@ -93,4 +93,5 @@ public class PostV1Controller {
 
         return ResponseDTO.of(postPreviewResponses, "게시글 목록 조회에 성공하였습니다.");
     }
+
 }

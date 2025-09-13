@@ -71,6 +71,7 @@ public enum ErrorCode {
     USER_NOT_FOUND(404, "USER_NOT_FOUND", "해당 사용자를 찾을 수 없습니다."),
     USER_WITHDRAWN(404, "USER_WITHDRAWN", "탈퇴한 회원입니다."),
     PROVIDER_NOT_FOUND(404, "PROVIDER_NOT_FOUND", "소셜 provider를 찾을 수 없습니다."),
+    SEARCH_LOG_NOT_FOUND(404, "SEARCH_LOG_NOT_FOUND", "최근 검색어가 존재하지 않습니다."),
 
     // 405 Method Not Allowed
     METHOD_NOT_ALLOWED(405, "METHOD_NOT_ALLOWED", "허용되지 않은 HTTP 메서드입니다."),
