@@ -22,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestClient;
 
 @Service
 @Slf4j
@@ -33,6 +34,8 @@ public class AuthService {
   private final UserRepository userRepository;
   private final AuthRepository authRepository;
 
+  private final RestClient restClient;
+
 
   @Transactional
   public AuthSocialResponse socialLogin(AuthSocialRequest authSocialRequest) {
@@ -41,7 +44,7 @@ public class AuthService {
     // 소셜 플랫폼이 구글일 경우
     if(userProvider == SocialProvider.GOOGLE) {
 
-      OAuthUserInfo userInfo = googleApiClient.getUserInfo(authSocialRequest.getIdToken());
+      OAuthUserInfo userInfo = googleApiClient.getUserInfo(authSocialRequest.getAuthToken());
 
       String socialId = userInfo.getSocialId();
       String name = userInfo.getName();
@@ -98,6 +101,8 @@ public class AuthService {
 
     // 소셜 플랫폼이 카카오일 경우
     if(userProvider == SocialProvider.KAKAO) {
+
+
 
     }
 
