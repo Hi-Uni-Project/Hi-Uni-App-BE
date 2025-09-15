@@ -3,6 +3,9 @@ package com.project.hiuni.infra.kakao;
 
 import com.project.hiuni.domain.auth.dto.DefaultOAuthUserInfo;
 import com.project.hiuni.domain.auth.dto.OAuthUserInfo;
+import com.project.hiuni.domain.auth.exception.GoogleInvalidTokenException;
+import com.project.hiuni.domain.auth.exception.KakaoInvalidTokenException;
+import com.project.hiuni.global.exception.ErrorCode;
 import com.project.hiuni.infra.kakao.dto.KakaoResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.Value;
@@ -42,7 +45,8 @@ public class KakaoApiClient {
           .build();
 
     } catch (Exception e) {
-
+      log.error("서버 오류로 id 토큰 검증 실패: " + e.getMessage());
+      throw new KakaoInvalidTokenException(ErrorCode.KAKAO_INVALID_TOKEN);
     }
   }
 

@@ -59,6 +59,8 @@ public enum ErrorCode {
 
     // 401 social login
     GOOGLE_INVALID_TOKEN(401, "GOOGLE_INVALID_TOKEN", "유효하지 않은 ID 토큰입니다."),
+    KAKAO_INVALID_TOKEN(401, "KAKAO_INVALID_TOKEN", "유효하지 않은 엑세스 토큰입니다."),
+
 
     // 403 Forbidden
     SELF_ACCESS_ONLY(403, "SELF_ACCESS_ONLY", "본인의 정보만 조회할 수 있습니다."),
