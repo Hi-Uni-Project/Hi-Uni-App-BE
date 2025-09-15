@@ -2,6 +2,8 @@ package com.project.hiuni.global.security.jwt;
 
 import com.project.hiuni.global.common.threadlocal.TraceIdHolder;
 import com.project.hiuni.global.exception.ErrorCode;
+import com.project.hiuni.global.exception.InvalidAccessJwtException;
+import com.project.hiuni.global.exception.InvalidRefrashJwtException;
 import com.project.hiuni.global.exception.TokenExtractionException;
 import com.project.hiuni.global.security.core.CustomUserDetails;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -120,27 +122,54 @@ public class JwtTokenProvider {
     } catch (MalformedJwtException e) {
       //토큰 형식이 잘못됨
       log.error("[" + TraceIdHolder.get() + "]:(토큰 형식이 잘못됨)");
-      throw new MalformedJwtException("토큰 형식이 잘못됨");
+
+      if(getTypeFromToken(token).equals("access")) {
+        throw new InvalidAccessJwtException(ErrorCode.ACCESS_TOKEN_INVALID);
+      } else {
+        throw new InvalidRefrashJwtException(ErrorCode.ACCESS_TOKEN_INVALID);
+      }
+
 
     } catch (ExpiredJwtException e) {
       //토큰이 만료됨
       log.error("[" + TraceIdHolder.get() + "]:(토큰이 만료됨)");
-      throw new ExpiredJwtException(e.getHeader(), e.getClaims(), "토큰이 만료됨");
+
+      if(getTypeFromToken(token).equals("access")) {
+        throw new InvalidAccessJwtException(ErrorCode.ACCESS_TOKEN_INVALID);
+      } else {
+        throw new InvalidRefrashJwtException(ErrorCode.ACCESS_TOKEN_INVALID);
+      }
 
     } catch (IllegalArgumentException e) {
       //토큰이 비어있거나 잘못된 형식
       log.error("[" + TraceIdHolder.get() + "]:(토큰이 비어있거나 잘못된 형식)");
-      throw new IllegalArgumentException("토큰이 비어있거나 잘못된 형식");
+
+      if(getTypeFromToken(token).equals("access")) {
+        throw new InvalidAccessJwtException(ErrorCode.ACCESS_TOKEN_INVALID);
+      } else {
+        throw new InvalidRefrashJwtException(ErrorCode.ACCESS_TOKEN_INVALID);
+      }
 
     } catch (SignatureException e) {
       //시그니처 검증 실패
       log.error("[" + TraceIdHolder.get() + "]:(시그니처 검증 실패)");
-      throw new SignatureException("시그니처 검증 실패");
+
+      if(getTypeFromToken(token).equals("access")) {
+        throw new InvalidAccessJwtException(ErrorCode.ACCESS_TOKEN_INVALID);
+      } else {
+        throw new InvalidRefrashJwtException(ErrorCode.ACCESS_TOKEN_INVALID);
+      }
 
     } catch (JwtException e) {
       //기타 JWT 관련 예외
       log.error("[" + TraceIdHolder.get() + "]:(기타 JWT 예외 발생)");
-      throw new JwtException("기타 JWT 예외 발생");
+
+      if(getTypeFromToken(token).equals("access")) {
+        throw new InvalidAccessJwtException(ErrorCode.ACCESS_TOKEN_INVALID);
+      } else {
+        throw new InvalidRefrashJwtException(ErrorCode.ACCESS_TOKEN_INVALID);
+      }
+
     }
 
   }
@@ -231,6 +260,21 @@ public class JwtTokenProvider {
         .parseSignedClaims(token)
         .getPayload()
         .getSubject();
+  }
+
+
+  /** JWT 토큰에서 토큰 타입을 추출하는 메서드입니다.
+   * @param token JWT 토큰
+   * @return 토큰 타입 (예: access, refresh)
+   */
+  public String getTypeFromToken(String token) {
+    return Jwts
+        .parser()
+        .verifyWith(secretKey)
+        .build()
+        .parseSignedClaims(token)
+        .getPayload()
+        .get("type", String.class);
   }
 
 }

@@ -53,9 +53,11 @@ public enum ErrorCode {
     UNAUTHORIZED(401, "UNAUTHORIZED", "인증이 필요합니다."),
     TOKEN_EXTRACTION_FAILED(401, "TOKEN_EXTRACTION_FAILED", "토큰 추출에 실패했습니다."),
 
-    // 498-499 Custom Token Errors
-    TOKEN_EXPIRED(498, "TOKEN_EXPIRED", "토큰이 만료되었습니다."),
-    TOKEN_INVALID(499, "TOKEN_INVALID", "유효하지 않은 토큰입니다."),
+    // 1000~1003 Custom Token Errors
+
+    TOKEN_INVALID(1000, "TOKEN_INVALID", "토큰이 유효하지 않습니다."),
+    ACCESS_TOKEN_INVALID(1001, "TOKEN_INVALID", "엑세스 토큰이 유효하지 않습니다."),
+    REFRASH_TOKEN_INVALID(1002, "TOKEN_INVALID", "리프레시 토큰이 유효하지 않습니다."),
 
     // 401 social login
     GOOGLE_INVALID_TOKEN(401, "GOOGLE_INVALID_TOKEN", "유효하지 않은 ID 토큰입니다."),

@@ -5,6 +5,8 @@ import com.project.hiuni.domain.user.exception.CustomUserNotFoundException;
 import com.project.hiuni.global.common.dto.response.ErrorResponse;
 import com.project.hiuni.global.common.threadlocal.TraceIdHolder;
 import com.project.hiuni.global.exception.ErrorCode;
+import com.project.hiuni.global.exception.InvalidAccessJwtException;
+import com.project.hiuni.global.exception.InvalidRefrashJwtException;
 import com.project.hiuni.global.security.core.CustomUserDetailsService;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
@@ -72,11 +74,11 @@ public class JwtTokenFilter extends OncePerRequestFilter {
           UsernamePasswordAuthenticationToken authenticationToken = getAuthentication(accessToken);
           SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 
-        } catch (ExpiredJwtException e) {
-          handleTokenExpired(response);
+        } catch (InvalidAccessJwtException e) {
+          handleAccessTokenInvalid(response);
           return; // 필터 체인 중단
-        } catch (SignatureException e) {
-          handleTokenInvalid(response);
+        } catch (InvalidRefrashJwtException e) {
+          handleRefreshTokenInvalid(response);
           return; // 필터 체인 중단
         }
       } else {
@@ -132,18 +134,16 @@ public class JwtTokenFilter extends OncePerRequestFilter {
   }
 
 
-
-
-  private void handleTokenExpired(HttpServletResponse response) throws IOException {
-    String errorResponse = objectMapper.writeValueAsString(ErrorResponse.of(ErrorCode.TOKEN_EXPIRED));
-    response.setStatus(ErrorCode.TOKEN_EXPIRED.getActualStatusCode());
+  private void handleAccessTokenInvalid(HttpServletResponse response) throws IOException {
+    String errorResponse = objectMapper.writeValueAsString(ErrorResponse.of(ErrorCode.ACCESS_TOKEN_INVALID));
+    response.setStatus(ErrorCode.ACCESS_TOKEN_INVALID.getActualStatusCode());
     response.setContentType("application/json");
     response.getWriter().write(errorResponse);
   }
 
-  private void handleTokenInvalid(HttpServletResponse response) throws IOException {
-    String errorResponse = objectMapper.writeValueAsString(ErrorResponse.of(ErrorCode.TOKEN_INVALID));
-    response.setStatus(ErrorCode.TOKEN_INVALID.getActualStatusCode());
+  private void handleRefreshTokenInvalid(HttpServletResponse response) throws IOException {
+    String errorResponse = objectMapper.writeValueAsString(ErrorResponse.of(ErrorCode.REFRASH_TOKEN_INVALID));
+    response.setStatus(ErrorCode.REFRASH_TOKEN_INVALID.getActualStatusCode());
     response.setContentType("application/json");
     response.getWriter().write(errorResponse);
   }
