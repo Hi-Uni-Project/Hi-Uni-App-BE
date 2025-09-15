@@ -42,25 +42,27 @@ public class JwtTokenProvider {
    * @param expirationMillis 토큰 만료 시간 (밀리초 단위)
    * @return 생성된 JWT 토큰
    */
-  public String createToken(Authentication authentication, Long expirationMillis) {
+  public String createToken(Authentication authentication, Long expirationMillis, String type) {
     CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
     Date expiryDate = new Date(new Date().getTime() + expirationMillis);
 
     return Jwts.builder()
         .subject(customUserDetails.getUsername())
         .claim("socialId", customUserDetails.getId())
+        .claim("type", type)
         .issuedAt(new Date())
         .expiration(expiryDate)
         .signWith(secretKey, SignatureAlgorithm.HS512)
         .compact();
   }
 
-  public String createToken(String socialId, String socialEmail, Long expirationMillis) {
+  public String createToken(String socialId, String socialEmail, Long expirationMillis, String type) {
     Date expiryDate = new Date(new Date().getTime() + expirationMillis);
 
     return Jwts.builder()
         .subject(socialEmail)
         .claim("socialId", socialId)
+        .claim("type", type)
         .issuedAt(new Date())
         .expiration(expiryDate)
         .signWith(secretKey, SignatureAlgorithm.HS512)
@@ -75,18 +77,18 @@ public class JwtTokenProvider {
    * @return 생성된 JWT 토큰
    */
   public String createAccessToken(Authentication authentication) {
-    return createToken(authentication, accessTokenExpirationTime);
+    return createToken(authentication, accessTokenExpirationTime, "access");
   }
 
   public String createAccessToken(String socialId, String socialEmail) {
-    return createToken(socialId, socialEmail, accessTokenExpirationTime);
+    return createToken(socialId, socialEmail, accessTokenExpirationTime, "access");
   }
 
   public String createAccessToken(String refreshToken) {
     String socialId = getSocialIdFromToken(refreshToken);
     String socailEmail = getSocialEmailFromToken(refreshToken);
 
-    return createToken(socialId, socailEmail, accessTokenExpirationTime);
+    return createToken(socialId, socailEmail, accessTokenExpirationTime, "access");
   }
 
   /**
@@ -96,11 +98,11 @@ public class JwtTokenProvider {
    * @return 생성된 JWT 토큰
    */
   public String createRefreshToken(Authentication authentication) {
-    return createToken(authentication, refreshTokenExpirationTime);
+    return createToken(authentication, refreshTokenExpirationTime, "refresh");
   }
 
   public String createRefreshToken(String socialId, String socialEmail) {
-    return createToken(socialId, socialEmail, refreshTokenExpirationTime);
+    return createToken(socialId, socialEmail, refreshTokenExpirationTime, "refresh");
   }
 
   /**
