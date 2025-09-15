@@ -16,6 +16,7 @@ import com.project.hiuni.global.exception.InternalServerException;
 import com.project.hiuni.global.exception.NotFoundInfoException;
 import com.project.hiuni.global.security.jwt.JwtTokenProvider;
 import com.project.hiuni.infra.google.GoogleApiClient;
+import com.project.hiuni.infra.kakao.KakaoApiClient;
 import com.project.hiuni.infra.kakao.dto.KakaoResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import java.beans.Transient;
@@ -33,7 +34,11 @@ import org.springframework.web.client.RestClient;
 public class AuthService {
 
   private final JwtTokenProvider jwtTokenProvider;
+
   private final GoogleApiClient googleApiClient;
+  private final KakaoApiClient kakaoApiClient;
+
+
   private final UserRepository userRepository;
   private final AuthRepository authRepository;
 
@@ -44,7 +49,7 @@ public class AuthService {
     SocialProvider userProvider = authSocialRequest.getProvider();
 
     // 소셜 플랫폼이 구글일 경우
-    if(userProvider == SocialProvider.GOOGLE) {
+    if (userProvider == SocialProvider.GOOGLE) {
 
       OAuthUserInfo userInfo = googleApiClient.getUserInfo(authSocialRequest.getAuthToken());
 
@@ -53,13 +58,13 @@ public class AuthService {
       String socialEmail = userInfo.getEmail();
 
       // 이미 가입된 유저인 경우 로그인 처리
-      if(userRepository.findBySocialId(socialId).isPresent()) {
+      if (userRepository.findBySocialId(socialId).isPresent()) {
         User user = userRepository.findBySocialId(socialId).orElse(null);
 
         Auth auth = user.getAuth();
 
         // 기존 회원인데 auth 정보가 없는 경우
-        if(auth == null) {
+        if (auth == null) {
           log.error("로그인된 유저의 Auth 정보가 없습니다.");
           throw new InternalServerException(ErrorCode.INTERNAL_SERVER_ERROR);
         }
@@ -67,7 +72,7 @@ public class AuthService {
         String olderRefreshToken = auth.getRefreshToken();
 
         // 기존 회원인데 발급해놓은 리프레시 토큰이 유효하지 않은 경우 (보통은 만료된 경우) 토큰 재발급
-        if(!jwtTokenProvider.isValidateToken(olderRefreshToken)) {
+        if (!jwtTokenProvider.isValidateToken(olderRefreshToken)) {
           String newRefreshToken = jwtTokenProvider.createRefreshToken(socialId, socialEmail);
           auth.updateRefreshToken(newRefreshToken);
         }
@@ -90,7 +95,8 @@ public class AuthService {
 
       Auth auth = authRepository.save(Auth.from(refreshToken));
 
-      User user = User.createStandardUserForSocial(socialId, auth, socialEmail, SocialProvider.GOOGLE);
+      User user = User.createStandardUserForSocial(socialId, auth, socialEmail,
+          SocialProvider.GOOGLE);
       userRepository.save(user);
 
       return AuthSocialResponse
@@ -101,32 +107,92 @@ public class AuthService {
           .build();
     }
 
+
+
+
+
     // 소셜 플랫폼이 카카오일 경우
-    if(userProvider == SocialProvider.KAKAO) {
-      KakaoResponse response = restClient.get()
-          .uri("https://kapi.kakao.com/v2/user/me")
-          .header("Authorization", "Bearer " + authSocialRequest.getAuthToken())
-          .retrieve()
-          .body(KakaoResponse.class);
+      if (userProvider == SocialProvider.KAKAO) {
 
-      System.out.println(response.getKakaoAccount().getEmail());
-    }
+        OAuthUserInfo userInfo = kakaoApiClient.getUserInfo(authSocialRequest.getAuthToken());
 
-    // 소셜 플랫폼이 네이버일 경우
-    if(userProvider == SocialProvider.NAVER) {
+        String socialId = userInfo.getSocialId();
+        String name = userInfo.getName();
+        String socialEmail = userInfo.getEmail();
 
-    }
+        // 이미 가입된 유저인 경우 로그인 처리
+        if (userRepository.findBySocialId(socialId).isPresent()) {
+          User user = userRepository.findBySocialId(socialId).orElse(null);
 
-    // 소셜 플랫폼이 애플일 경우
-    if (userProvider == SocialProvider.APPLE) {
+          Auth auth = user.getAuth();
 
-    }
+          // 기존 회원인데 auth 정보가 없는 경우
+          if (auth == null) {
+            log.error("로그인된 유저의 Auth 정보가 없습니다.");
+            throw new InternalServerException(ErrorCode.INTERNAL_SERVER_ERROR);
+          }
+
+          String olderRefreshToken = auth.getRefreshToken();
+
+          // 기존 회원인데 발급해놓은 리프레시 토큰이 유효하지 않은 경우 (보통은 만료된 경우) 토큰 재발급
+          if (!jwtTokenProvider.isValidateToken(olderRefreshToken)) {
+            String newRefreshToken = jwtTokenProvider.createRefreshToken(socialId, socialEmail);
+            auth.updateRefreshToken(newRefreshToken);
+          }
+
+          String newRefreshToken = auth.getRefreshToken();
+          String accessToken = jwtTokenProvider.createAccessToken(newRefreshToken);
+
+          return AuthSocialResponse
+              .builder()
+              .accessToken(accessToken)
+              .refreshToken(newRefreshToken)
+              .isSignUp(false)
+              .build();
+        }
+
+        // 가입된 유저가 아닌 경우 회원가입 처리
+
+        String accessToken = jwtTokenProvider.createAccessToken(socialId, socialEmail);
+        String refreshToken = jwtTokenProvider.createRefreshToken(socialId, socialEmail);
+
+        Auth auth = authRepository.save(Auth.from(refreshToken));
+
+        User user = User.createStandardUserForSocial(socialId, auth, socialEmail,
+            SocialProvider.KAKAO);
+        userRepository.save(user);
+
+        return AuthSocialResponse
+            .builder()
+            .accessToken(accessToken)
+            .refreshToken(refreshToken)
+            .isSignUp(true)
+            .build();
+      }
+
+
+
+
+      // 소셜 플랫폼이 네이버일 경우
+      if (userProvider == SocialProvider.NAVER) {
+
+      }
+
+
+
+
+
+      // 소셜 플랫폼이 애플일 경우
+      if (userProvider == SocialProvider.APPLE) {
+
+      }
 
     throw new ProviderNotFoundException(ErrorCode.PROVIDER_NOT_FOUND);
   }
 
+
   @Transactional
-  public String refreshToken(HttpServletRequest httpServletRequest) {
+  public String refreshToken (HttpServletRequest httpServletRequest){
     String refreshToken = jwtTokenProvider.extractToken(httpServletRequest);
     String socialId = jwtTokenProvider.getSocialIdFromToken(refreshToken);
 

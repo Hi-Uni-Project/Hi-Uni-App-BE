@@ -52,7 +52,6 @@ public class AuthController implements AuthApiDocumentation {
     //소셜 로그인 완료 후 accessToken, refreshToken, isSignUp 여부를 반환합니다
     AuthSocialResponse response = authService.socialLogin(authSocialRequest);
     return ResponseDTO.of(response, "소셜 로그인/회원가입에 성공하였습니다.");
-
   }
 
   @PostMapping("/refresh")
