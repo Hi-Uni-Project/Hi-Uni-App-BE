@@ -1,7 +1,5 @@
 package com.project.hiuni.global.exception;
 
-import org.springframework.http.HttpStatus;
-
 public enum ErrorCode {
 
     // 400 Bad Request
@@ -57,8 +55,8 @@ public enum ErrorCode {
 
     TOKEN_INVALID_TYPE(999, "TOKEN_INVALID_TYPE", "토큰 타입이 올바르지 않습니다."),
     TOKEN_INVALID(1000, "TOKEN_INVALID", "토큰이 유효하지 않습니다."),
-    ACCESS_TOKEN_INVALID(1001, "TOKEN_INVALID", "엑세스 토큰이 유효하지 않습니다."),
-    REFRASH_TOKEN_INVALID(1002, "TOKEN_INVALID", "리프레시 토큰이 유효하지 않습니다."),
+    ACCESS_TOKEN_INVALID(1001, "ACCESS_TOKEN_INVALID", "엑세스 토큰이 유효하지 않습니다."),
+    REFRESH_TOKEN_INVALID(1002, "REFRESH_TOKEN_INVALID", "리프레시 토큰이 유효하지 않습니다."),
 
     // 401 social login
     GOOGLE_INVALID_TOKEN(401, "GOOGLE_INVALID_TOKEN", "유효하지 않은 ID 토큰입니다."),
