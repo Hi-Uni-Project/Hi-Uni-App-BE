@@ -3,12 +3,10 @@ package com.project.hiuni.infra.kakao;
 
 import com.project.hiuni.domain.auth.dto.DefaultOAuthUserInfo;
 import com.project.hiuni.domain.auth.dto.OAuthUserInfo;
-import com.project.hiuni.domain.auth.exception.GoogleInvalidTokenException;
 import com.project.hiuni.domain.auth.exception.KakaoInvalidTokenException;
 import com.project.hiuni.global.exception.ErrorCode;
 import com.project.hiuni.infra.kakao.dto.KakaoResponse;
 import lombok.RequiredArgsConstructor;
-import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 import org.springdoc.webmvc.core.service.RequestService;
 import org.springframework.stereotype.Component;
