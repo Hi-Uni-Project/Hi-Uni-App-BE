@@ -35,12 +35,12 @@ public class GoogleApiClient {
         .build();
   }
 
-  public OAuthUserInfo getUserInfo(String idTokenString) {
+  public OAuthUserInfo getUserInfo(String authToken) {
     try {
 
-      log.info("구글 id 토큰 검증 시도 : " + idTokenString);
+      log.info("구글 id 토큰 검증 시도 : " + authToken);
 
-      GoogleIdToken idToken = verifier.verify(idTokenString);
+      GoogleIdToken idToken = verifier.verify(authToken);
 
       if(idToken == null) {
         log.error("구글 id 토큰이 유효하지 않음");

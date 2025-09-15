@@ -16,10 +16,13 @@ import com.project.hiuni.global.exception.InternalServerException;
 import com.project.hiuni.global.exception.NotFoundInfoException;
 import com.project.hiuni.global.security.jwt.JwtTokenProvider;
 import com.project.hiuni.infra.google.GoogleApiClient;
+import com.project.hiuni.infra.kakao.dto.KakaoResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import java.beans.Transient;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.type.descriptor.java.ObjectJavaType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestClient;
@@ -34,7 +37,6 @@ public class AuthService {
   private final UserRepository userRepository;
   private final AuthRepository authRepository;
 
-  private final RestClient restClient;
 
 
   @Transactional
@@ -101,9 +103,13 @@ public class AuthService {
 
     // 소셜 플랫폼이 카카오일 경우
     if(userProvider == SocialProvider.KAKAO) {
+      KakaoResponse response = restClient.get()
+          .uri("https://kapi.kakao.com/v2/user/me")
+          .header("Authorization", "Bearer " + authSocialRequest.getAuthToken())
+          .retrieve()
+          .body(KakaoResponse.class);
 
-
-
+      System.out.println(response.getKakaoAccount().getEmail());
     }
 
     // 소셜 플랫폼이 네이버일 경우

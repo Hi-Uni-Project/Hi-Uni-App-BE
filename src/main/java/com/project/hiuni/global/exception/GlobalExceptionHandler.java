@@ -2,6 +2,7 @@ package com.project.hiuni.global.exception;
 
 
 import com.project.hiuni.domain.auth.exception.GoogleInvalidTokenException;
+import com.project.hiuni.domain.auth.exception.KakaoInvalidTokenException;
 import com.project.hiuni.domain.auth.exception.ProviderNotFoundException;
 import com.project.hiuni.domain.mail.exception.InvalidEmailCodeException;
 import com.project.hiuni.domain.mail.exception.InvalidEmailFormatException;
@@ -70,6 +71,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
   @ExceptionHandler(CustomForbiddenException.class)
   public ResponseEntity<ResponseDTO> CustomForbiddenException(CustomForbiddenException e) {
+    return ResponseEntity.status(e.getErrorCode().getActualStatusCode())
+        .body(ResponseDTO.of(e.getErrorCode()));
+  }
+
+  @ExceptionHandler(KakaoInvalidTokenException.class)
+  public ResponseEntity<ResponseDTO> KakaoInvalidTokenException(KakaoInvalidTokenException e) {
     return ResponseEntity.status(e.getErrorCode().getActualStatusCode())
         .body(ResponseDTO.of(e.getErrorCode()));
   }
