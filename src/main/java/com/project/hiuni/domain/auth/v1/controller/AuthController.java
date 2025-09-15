@@ -9,7 +9,9 @@ import com.project.hiuni.domain.auth.dto.response.TokenRefreshResponse;
 import com.project.hiuni.domain.auth.v1.service.AuthService;
 import com.project.hiuni.global.common.dto.response.ResponseDTO;
 import com.project.hiuni.global.exception.ErrorCode;
+import com.project.hiuni.global.exception.TokenInvalidType;
 import com.project.hiuni.global.exception.ValidationException;
+import com.project.hiuni.global.security.jwt.JwtTokenProvider;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +35,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController implements AuthApiDocumentation {
 
   private final AuthService authService;
+  private final JwtTokenProvider jwtTokenProvider;
 
   /**
    * 소셜 로그인/회원가입 API
@@ -57,6 +60,11 @@ public class AuthController implements AuthApiDocumentation {
   @PostMapping("/refresh")
   public ResponseDTO<TokenRefreshResponse> refreshToken(HttpServletRequest httpServletRequest) {
     String accessToken = authService.refreshToken(httpServletRequest);
+
+    if(!jwtTokenProvider.getTypeFromToken(accessToken).equals("refresh")) {
+      throw new TokenInvalidType(ErrorCode.TOKEN_INVALID_TYPE);
+    }
+
     TokenRefreshResponse response = TokenRefreshResponse.
         builder()
         .accessToken(accessToken)

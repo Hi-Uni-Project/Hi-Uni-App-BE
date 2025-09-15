@@ -55,6 +55,7 @@ public enum ErrorCode {
 
     // 1000~1003 Custom Token Errors
 
+    TOKEN_INVALID_TYPE(999, "TOKEN_INVALID_TYPE", "토큰 타입이 올바르지 않습니다."),
     TOKEN_INVALID(1000, "TOKEN_INVALID", "토큰이 유효하지 않습니다."),
     ACCESS_TOKEN_INVALID(1001, "TOKEN_INVALID", "엑세스 토큰이 유효하지 않습니다."),
     REFRASH_TOKEN_INVALID(1002, "TOKEN_INVALID", "리프레시 토큰이 유효하지 않습니다."),

@@ -81,5 +81,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         .body(ResponseDTO.of(e.getErrorCode()));
   }
 
+  @ExceptionHandler(TokenInvalidType.class)
+  public ResponseEntity<ResponseDTO> TokenInvalidType(TokenInvalidType e) {
+    return ResponseEntity.status(e.getErrorCode().getActualStatusCode())
+        .body(ResponseDTO.of(e.getErrorCode()));
+  }
+
 
 }
