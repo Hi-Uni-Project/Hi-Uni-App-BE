@@ -1,11 +1,10 @@
-package com.project.hiuni.infra.kakao;
-
+package com.project.hiuni.infra.naver;
 
 import com.project.hiuni.domain.auth.dto.DefaultOAuthUserInfo;
 import com.project.hiuni.domain.auth.dto.OAuthUserInfo;
-import com.project.hiuni.domain.auth.exception.KakaoInvalidTokenException;
+import com.project.hiuni.domain.auth.exception.NaverInvalidTokenException;
 import com.project.hiuni.global.exception.ErrorCode;
-import com.project.hiuni.infra.kakao.dto.KakaoResponse;
+import com.project.hiuni.infra.naver.dto.NaverResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -14,24 +13,23 @@ import org.springframework.web.client.RestClient;
 @Component
 @Slf4j
 @RequiredArgsConstructor
-public class KakaoApiClient {
+public class NaverApiClient {
 
   private final RestClient restClient;
 
   public OAuthUserInfo getUserInfo(String authToken) {
     try {
-      log.info("카카오 엑세스 토큰 검증 시도 : " + authToken);
+      log.info("네이버 엑세스 토큰 검증 시도 : " + authToken);
 
-      KakaoResponse response = restClient.get()
-          .uri("https://kapi.kakao.com/v2/user/me")
+      NaverResponse response = restClient.get()
+          .uri("https://openapi.naver.com/v1/nid/me")
           .header("Authorization", "Bearer " + authToken)
           .retrieve()
-          .body(KakaoResponse.class);
+          .body(NaverResponse.class);
 
-      String socialId = response.getId().toString();
-      String email = response.getKakaoAccount().getEmail();
-      String name = response.getKakaoAccount().getProfile().getNickname();
-
+      String socialId = response.getResponse().getId();
+      String email = response.getResponse().getEmail();
+      String name = response.getResponse().getEmail();
 
       return DefaultOAuthUserInfo
           .builder()
@@ -42,10 +40,8 @@ public class KakaoApiClient {
 
     } catch (Exception e) {
       log.error("서버 오류로 id 토큰 검증 실패: " + e.getMessage());
-      throw new KakaoInvalidTokenException(ErrorCode.KAKAO_INVALID_TOKEN);
+      throw new NaverInvalidTokenException(ErrorCode.NAVER_INVALID_TOKEN);
     }
   }
-
-
 
 }

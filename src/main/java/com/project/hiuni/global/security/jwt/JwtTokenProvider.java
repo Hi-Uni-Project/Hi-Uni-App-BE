@@ -1,5 +1,7 @@
 package com.project.hiuni.global.security.jwt;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.hiuni.global.common.threadlocal.TraceIdHolder;
 import com.project.hiuni.global.exception.ErrorCode;
 import com.project.hiuni.global.exception.InvalidAccessJwtException;
@@ -13,6 +15,7 @@ import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.SignatureException;
 import jakarta.servlet.http.HttpServletRequest;
+import java.util.Base64;
 import java.util.Date;
 import javax.crypto.SecretKey;
 import lombok.RequiredArgsConstructor;
@@ -268,13 +271,19 @@ public class JwtTokenProvider {
    * @return 토큰 타입 (예: access, refresh)
    */
   public String getTypeFromToken(String token) {
-    return Jwts
-        .parser()
-        .verifyWith(secretKey)
-        .build()
-        .parseSignedClaims(token)
-        .getPayload()
-        .get("type", String.class);
+    try {
+      // 시그니처 검증 없이 클레임만 파싱
+      String[] chunks = token.split("\\.");
+      Base64.Decoder decoder = Base64.getUrlDecoder();
+
+      String payload = new String(decoder.decode(chunks[1]));
+      ObjectMapper mapper = new ObjectMapper();
+      JsonNode payloadJson = mapper.readTree(payload);
+
+      return payloadJson.get("type").asText();
+    } catch (Exception e) {
+      return "unknown"; // 기본값
+    }
   }
 
 }

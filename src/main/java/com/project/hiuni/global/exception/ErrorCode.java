@@ -63,6 +63,7 @@ public enum ErrorCode {
     // 401 social login
     GOOGLE_INVALID_TOKEN(401, "GOOGLE_INVALID_TOKEN", "유효하지 않은 ID 토큰입니다."),
     KAKAO_INVALID_TOKEN(401, "KAKAO_INVALID_TOKEN", "유효하지 않은 엑세스 토큰입니다."),
+    NAVER_INVALID_TOKEN(401, "NAVER_INVALID_TOKEN", "유효하지 않은 엑세스 토큰입니다."),
 
 
     // 403 Forbidden
