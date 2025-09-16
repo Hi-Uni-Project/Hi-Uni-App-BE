@@ -10,7 +10,7 @@ public record PostCreateReviewResponse (
         String nickname,
         String univName,
         String majorName,
-        String usrImageUrl,
+        String userImageUrl,
         Long id,
         String title,
         String content,

@@ -2,11 +2,11 @@ package com.project.hiuni.domain.post.v1.service;
 
 import com.project.hiuni.domain.post.dto.request.PostCreateNoReviewRequest;
 import com.project.hiuni.domain.post.dto.request.PostCreateReviewRequest;
-import com.project.hiuni.domain.post.dto.request.PostUpdateRequest;
+import com.project.hiuni.domain.post.dto.request.PostUpdateReviewRequest;
 import com.project.hiuni.domain.post.dto.response.PostCreateNoReviewResponse;
 import com.project.hiuni.domain.post.dto.response.PostCreateReviewResponse;
 import com.project.hiuni.domain.post.dto.response.PostDetailResponse;
-import com.project.hiuni.domain.post.dto.response.PostUpdateResponse;
+import com.project.hiuni.domain.post.dto.response.PostUpdateReviewResponse;
 import com.project.hiuni.domain.post.dto.response.PostPreviewResponse;
 import com.project.hiuni.domain.post.entity.Category;
 import com.project.hiuni.domain.post.entity.Post;
@@ -36,7 +36,7 @@ public class PostService {
     private final UserRepository userRepository;
 
     @Transactional
-    public PostCreateNoReviewResponse createNoReviewRequest(PostCreateNoReviewRequest request, Long userId) {
+    public PostCreateNoReviewResponse createNoReviewPost(PostCreateNoReviewRequest request, Long userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new CustomUserNotFoundException(ErrorCode.USER_NOT_FOUND));
 
         Category category = getCategory(request.type());
@@ -87,7 +87,7 @@ public class PostService {
     }
 
     @Transactional
-    public PostUpdateResponse updatePost(PostUpdateRequest request, Long postId, Long userId){
+    public PostUpdateReviewResponse updateReviewPost(PostUpdateReviewRequest request, Long postId, Long userId){
         Post post = postRepository.findById(postId).orElseThrow(()-> new CustomPostNotFoundException(ErrorCode.NOT_FOUND));
 
         if (!post.getUser().getId().equals(userId)) {
@@ -110,7 +110,7 @@ public class PostService {
                 request.imageUrl()
         );
 
-        return PostUpdateResponse.from(post);
+        return PostUpdateReviewResponse.from(post);
     }
 
     @Transactional
