@@ -27,14 +27,10 @@ public interface PostRepository extends JpaRepository <Post, Long> {
     @Query("""
         select p
         from Post p
-        join p.user u
-        where p.createdAt >= :start
-          and p.createdAt < :end
-          and u.univName = :univName
+        join p.user u on u.univName = :univName
     """)
-    List<Post> findWeekly(@Param("startDate") LocalDateTime startDate,
-                             @Param("endDate") LocalDateTime endDate,
-                             String univName);
+    List<Post> findAllPosts(@Param("univName") String univName,
+                            Sort sort);
 
     @Query("""
         select p

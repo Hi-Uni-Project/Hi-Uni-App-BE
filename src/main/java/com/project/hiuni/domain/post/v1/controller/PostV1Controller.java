@@ -65,8 +65,9 @@ public class PostV1Controller {
     }
 
     @GetMapping
-    public ResponseDTO<List<PostPreviewResponse>> searchWeeklyPosts(@AuthenticationPrincipal CustomUserDetails userDetails) {
-        List<PostPreviewResponse> postPreviewResponses = postService.getWeeklyPosts(userDetails.getId());
+    public ResponseDTO<List<PostPreviewResponse>> searchAllPosts(@AuthenticationPrincipal CustomUserDetails userDetails,
+                                                                    @RequestParam String sort) {
+        List<PostPreviewResponse> postPreviewResponses = postService.getAllPosts(sort,userDetails.getId());
 
         return ResponseDTO.of(postPreviewResponses,"게시글 목록 조회에 성공하였습니다.");
     }

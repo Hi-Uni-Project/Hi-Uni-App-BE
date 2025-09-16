@@ -20,7 +20,6 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.Comparator;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
@@ -121,18 +120,21 @@ public class PostService {
                 .toList();
     }
 
-    @Transactional
-    public List<PostPreviewResponse> getWeeklyPosts(Long userId){
+    @Transactional(readOnly = true)
+    public List<PostPreviewResponse> getAllPosts(String sort, Long userId){
         User user = userRepository.findById(userId).orElseThrow(() -> new CustomUserNotFoundException(ErrorCode.USER_NOT_FOUND));
 
-        ZoneId zone = ZoneId.of("Asia/Seoul");
-        LocalDate today = LocalDate.now(zone);
+        String univName = user.getUnivName();
 
-        LocalDateTime end   = today.with(DayOfWeek.SUNDAY).atStartOfDay();
-        LocalDateTime start = end.minusWeeks(1);
+        Sort sortedPost = switch (sort){
+            case "like" -> Sort.by(Sort.Order.desc("likeCount"));
+            case "comment" -> Sort.by(Sort.Order.desc("commentCount"));
+            default        -> Sort.by(Sort.Order.desc("createdAt"));
+        };
 
         return postRepository.
-                findWeekly(start, end,user.getUnivName()).stream()
+                findAllPosts(univName, sortedPost)
+                .stream()
                 .map(PostPreviewResponse::from)
                 .toList();
     }
