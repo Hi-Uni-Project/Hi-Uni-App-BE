@@ -1,8 +1,10 @@
 package com.project.hiuni.domain.post.v1.controller;
 
-import com.project.hiuni.domain.post.dto.request.PostCreateRequest;
+import com.project.hiuni.domain.post.dto.request.PostCreateNoReviewRequest;
+import com.project.hiuni.domain.post.dto.request.PostCreateReviewRequest;
 import com.project.hiuni.domain.post.dto.request.PostUpdateRequest;
-import com.project.hiuni.domain.post.dto.response.PostCreateResponse;
+import com.project.hiuni.domain.post.dto.response.PostCreateNoReviewResponse;
+import com.project.hiuni.domain.post.dto.response.PostCreateReviewResponse;
 import com.project.hiuni.domain.post.dto.response.PostDetailResponse;
 import com.project.hiuni.domain.post.dto.response.PostUpdateResponse;
 import com.project.hiuni.domain.post.dto.response.PostPreviewResponse;
@@ -32,12 +34,20 @@ public class PostV1Controller {
 
     private final PostService postService;
 
-    @PostMapping
-    public ResponseDTO<PostCreateResponse> createPost(@AuthenticationPrincipal CustomUserDetails userDetails,
-                                                     @RequestBody @Valid PostCreateRequest postCreateRequest) {
-        PostCreateResponse postCreateResponse = postService.createPost(postCreateRequest, userDetails.getId());
+    @PostMapping("/no-review")
+    public ResponseDTO<PostCreateNoReviewResponse> createNoReviewPost(@AuthenticationPrincipal CustomUserDetails userDetails,
+                                                                      @RequestBody @Valid PostCreateNoReviewRequest request) {
+        PostCreateNoReviewResponse postCreateNoReviewRequest = postService.createNoReviewRequest(request, userDetails.getId());
 
-        return ResponseDTO.of(postCreateResponse,"게시글 생성에 성공하였습니다.");
+        return ResponseDTO.of(postCreateNoReviewRequest, "게시글 생성에 성공하였습니다.");
+    }
+
+    @PostMapping("/review")
+    public ResponseDTO<PostCreateReviewResponse> createReviewPost(@AuthenticationPrincipal CustomUserDetails userDetails,
+                                                            @RequestBody @Valid PostCreateReviewRequest request) {
+        PostCreateReviewResponse postCreateReviewResponse = postService.createReviewPost(request, userDetails.getId());
+
+        return ResponseDTO.of(postCreateReviewResponse,"게시글 생성에 성공하였습니다.");
     }
 
     @GetMapping("/{id}")

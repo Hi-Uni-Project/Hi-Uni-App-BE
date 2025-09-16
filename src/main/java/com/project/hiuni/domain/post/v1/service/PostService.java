@@ -1,8 +1,10 @@
 package com.project.hiuni.domain.post.v1.service;
 
-import com.project.hiuni.domain.post.dto.request.PostCreateRequest;
+import com.project.hiuni.domain.post.dto.request.PostCreateNoReviewRequest;
+import com.project.hiuni.domain.post.dto.request.PostCreateReviewRequest;
 import com.project.hiuni.domain.post.dto.request.PostUpdateRequest;
-import com.project.hiuni.domain.post.dto.response.PostCreateResponse;
+import com.project.hiuni.domain.post.dto.response.PostCreateNoReviewResponse;
+import com.project.hiuni.domain.post.dto.response.PostCreateReviewResponse;
 import com.project.hiuni.domain.post.dto.response.PostDetailResponse;
 import com.project.hiuni.domain.post.dto.response.PostUpdateResponse;
 import com.project.hiuni.domain.post.dto.response.PostPreviewResponse;
@@ -34,7 +36,25 @@ public class PostService {
     private final UserRepository userRepository;
 
     @Transactional
-    public PostCreateResponse createPost(PostCreateRequest request, Long userId) {
+    public PostCreateNoReviewResponse createNoReviewRequest(PostCreateNoReviewRequest request, Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new CustomUserNotFoundException(ErrorCode.USER_NOT_FOUND));
+
+        Category category = getCategory(request.type());
+
+        Post post = Post.builder()
+                .title(request.title())
+                .content(request.content())
+                .type(request.type())
+                .category(category)
+                .imageUrl(request.imageUrl())
+                .user(user)
+                .build();
+
+        return PostCreateNoReviewResponse.from(postRepository.save(post));
+    }
+
+    @Transactional
+    public PostCreateReviewResponse createReviewPost(PostCreateReviewRequest request, Long userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new CustomUserNotFoundException(ErrorCode.USER_NOT_FOUND));
 
         Category category = getCategory(request.type());
@@ -54,7 +74,7 @@ public class PostService {
                 .user(user)
                 .build();
 
-        return PostCreateResponse.from(postRepository.save(post));
+        return PostCreateReviewResponse.from(postRepository.save(post));
     }
 
     @Transactional
@@ -162,5 +182,4 @@ public class PostService {
             case EDUCATION, CLUB -> Category.EXTERNALACTIVITIES;
         };
     }
-
 }
