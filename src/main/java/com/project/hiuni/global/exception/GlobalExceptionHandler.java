@@ -2,6 +2,8 @@ package com.project.hiuni.global.exception;
 
 
 import com.project.hiuni.domain.auth.exception.GoogleInvalidTokenException;
+import com.project.hiuni.domain.auth.exception.KakaoInvalidTokenException;
+import com.project.hiuni.domain.auth.exception.NaverInvalidTokenException;
 import com.project.hiuni.domain.auth.exception.ProviderNotFoundException;
 import com.project.hiuni.domain.mail.exception.InvalidEmailCodeException;
 import com.project.hiuni.domain.mail.exception.InvalidEmailFormatException;
@@ -74,5 +76,22 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         .body(ResponseDTO.of(e.getErrorCode()));
   }
 
+  @ExceptionHandler(KakaoInvalidTokenException.class)
+  public ResponseEntity<ResponseDTO> KakaoInvalidTokenException(KakaoInvalidTokenException e) {
+    return ResponseEntity.status(e.getErrorCode().getActualStatusCode())
+        .body(ResponseDTO.of(e.getErrorCode()));
+  }
+
+  @ExceptionHandler(NaverInvalidTokenException.class)
+  public ResponseEntity<ResponseDTO> NaverInvalidTokenException(NaverInvalidTokenException e) {
+    return ResponseEntity.status(e.getErrorCode().getActualStatusCode())
+        .body(ResponseDTO.of(e.getErrorCode()));
+  }
+
+  @ExceptionHandler(TokenInvalidType.class)
+  public ResponseEntity<ResponseDTO> TokenInvalidType(TokenInvalidType e) {
+    return ResponseEntity.status(e.getErrorCode().getActualStatusCode())
+        .body(ResponseDTO.of(e.getErrorCode()));
+  }
 
 }

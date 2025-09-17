@@ -11,8 +11,8 @@ import lombok.Setter;
 @Builder
 public class AuthSocialRequest {
 
-  @NotNull(message = "ID 토큰은 필수입니다.")
-  private String idToken;
+  @NotNull(message = "토큰은 필수입니다.")
+  private String authToken;
 
   @NotNull(message = "소셜 provider는 필수입니다.")
   private SocialProvider provider;

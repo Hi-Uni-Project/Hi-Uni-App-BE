@@ -1,7 +1,5 @@
 package com.project.hiuni.domain.auth.v1.controller;
 
-import static com.project.hiuni.global.exception.ErrorCode.VALIDATION_FAILED;
-
 import com.project.hiuni.domain.auth.docs.AuthApiDocumentation;
 import com.project.hiuni.domain.auth.dto.request.AuthSocialRequest;
 import com.project.hiuni.domain.auth.dto.response.AuthSocialResponse;
@@ -10,12 +8,11 @@ import com.project.hiuni.domain.auth.v1.service.AuthService;
 import com.project.hiuni.global.common.dto.response.ResponseDTO;
 import com.project.hiuni.global.exception.ErrorCode;
 import com.project.hiuni.global.exception.ValidationException;
+import com.project.hiuni.global.security.jwt.JwtTokenProvider;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,6 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController implements AuthApiDocumentation {
 
   private final AuthService authService;
+  private final JwtTokenProvider jwtTokenProvider;
 
   /**
    * 소셜 로그인/회원가입 API
@@ -46,18 +44,18 @@ public class AuthController implements AuthApiDocumentation {
 
     if(bindingResult.hasErrors()) {
       log.error("AuthSocialRequest validation failed :: {}", bindingResult.getAllErrors());
-      throw new ValidationException(ErrorCode.VALIDATION_FAILED);
+      throw new ValidationException(ErrorCode.INVALID_INPUT_VALUE);
     }
 
     //소셜 로그인 완료 후 accessToken, refreshToken, isSignUp 여부를 반환합니다
     AuthSocialResponse response = authService.socialLogin(authSocialRequest);
     return ResponseDTO.of(response, "소셜 로그인/회원가입에 성공하였습니다.");
-
   }
 
   @PostMapping("/refresh")
   public ResponseDTO<TokenRefreshResponse> refreshToken(HttpServletRequest httpServletRequest) {
     String accessToken = authService.refreshToken(httpServletRequest);
+
     TokenRefreshResponse response = TokenRefreshResponse.
         builder()
         .accessToken(accessToken)
