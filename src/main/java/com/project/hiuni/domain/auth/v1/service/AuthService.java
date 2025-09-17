@@ -1,7 +1,6 @@
 package com.project.hiuni.domain.auth.v1.service;
 
 
-import com.project.hiuni.domain.auth.dto.DefaultOAuthUserInfo;
 import com.project.hiuni.domain.auth.dto.OAuthUserInfo;
 import com.project.hiuni.domain.auth.dto.request.AuthSocialRequest;
 import com.project.hiuni.domain.auth.dto.response.AuthSocialResponse;
@@ -18,17 +17,12 @@ import com.project.hiuni.global.exception.TokenInvalidType;
 import com.project.hiuni.global.security.jwt.JwtTokenProvider;
 import com.project.hiuni.infra.google.GoogleApiClient;
 import com.project.hiuni.infra.kakao.KakaoApiClient;
-import com.project.hiuni.infra.kakao.dto.KakaoResponse;
 import com.project.hiuni.infra.naver.NaverApiClient;
 import jakarta.servlet.http.HttpServletRequest;
-import java.beans.Transient;
-import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.type.descriptor.java.ObjectJavaType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.client.RestClient;
 
 @Service
 @Slf4j

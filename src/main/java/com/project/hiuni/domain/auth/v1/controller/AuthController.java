@@ -1,7 +1,5 @@
 package com.project.hiuni.domain.auth.v1.controller;
 
-import static com.project.hiuni.global.exception.ErrorCode.VALIDATION_FAILED;
-
 import com.project.hiuni.domain.auth.docs.AuthApiDocumentation;
 import com.project.hiuni.domain.auth.dto.request.AuthSocialRequest;
 import com.project.hiuni.domain.auth.dto.response.AuthSocialResponse;
@@ -9,7 +7,6 @@ import com.project.hiuni.domain.auth.dto.response.TokenRefreshResponse;
 import com.project.hiuni.domain.auth.v1.service.AuthService;
 import com.project.hiuni.global.common.dto.response.ResponseDTO;
 import com.project.hiuni.global.exception.ErrorCode;
-import com.project.hiuni.global.exception.TokenInvalidType;
 import com.project.hiuni.global.exception.ValidationException;
 import com.project.hiuni.global.security.jwt.JwtTokenProvider;
 import jakarta.servlet.http.HttpServletRequest;
