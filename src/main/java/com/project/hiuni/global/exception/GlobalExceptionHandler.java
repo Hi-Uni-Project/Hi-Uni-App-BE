@@ -94,4 +94,10 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         .body(ResponseDTO.of(e.getErrorCode()));
   }
 
+  @ExceptionHandler(NotFoundInfoException.class)
+  public ResponseEntity<ResponseDTO> NotFoundInfoException(NotFoundInfoException e) {
+    return ResponseEntity.status(e.getErrorCode().getActualStatusCode())
+        .body(ResponseDTO.of(e.getErrorCode()));
+  }
+
 }
