@@ -2,10 +2,13 @@ package com.project.hiuni.domain.post.v1.service;
 
 import com.project.hiuni.domain.post.dto.request.PostCreateNoReviewRequest;
 import com.project.hiuni.domain.post.dto.request.PostCreateReviewRequest;
+import com.project.hiuni.domain.post.dto.request.PostUpdateNoReviewRequest;
 import com.project.hiuni.domain.post.dto.request.PostUpdateReviewRequest;
 import com.project.hiuni.domain.post.dto.response.PostCreateNoReviewResponse;
 import com.project.hiuni.domain.post.dto.response.PostCreateReviewResponse;
-import com.project.hiuni.domain.post.dto.response.PostDetailResponse;
+import com.project.hiuni.domain.post.dto.response.PostNoReviewResponse;
+import com.project.hiuni.domain.post.dto.response.PostReviewResponse;
+import com.project.hiuni.domain.post.dto.response.PostUpdateNoReviewResponse;
 import com.project.hiuni.domain.post.dto.response.PostUpdateReviewResponse;
 import com.project.hiuni.domain.post.dto.response.PostPreviewResponse;
 import com.project.hiuni.domain.post.entity.Category;
@@ -78,12 +81,48 @@ public class PostService {
     }
 
     @Transactional
-    public PostDetailResponse searchPost(Long postId) {
+    public PostNoReviewResponse searchNoReviewPost(Long postId) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(()-> new CustomPostNotFoundException(ErrorCode.NOT_FOUND));
 
         post.incrementViewCount();
-        return PostDetailResponse.from(post);
+        return PostNoReviewResponse.from(post);
+    }
+
+    @Transactional
+    public PostReviewResponse searchReviewPost(Long postId) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(()-> new CustomPostNotFoundException(ErrorCode.NOT_FOUND));
+
+        post.incrementViewCount();
+        return PostReviewResponse.from(post);
+    }
+
+    @Transactional
+    public PostUpdateNoReviewResponse updateNoReviewPost(PostUpdateNoReviewRequest request,Long postId, Long userId) {
+        Post post = postRepository.findById(postId).orElseThrow(()-> new CustomPostNotFoundException(ErrorCode.NOT_FOUND));
+
+        if (!post.getUser().getId().equals(userId)) {
+            throw new CustomForbiddenException(ErrorCode.FORBIDDEN);
+        }
+
+        Category category = getCategory(request.type());
+
+        post.updatePost(
+                request.title(),
+                request.content(),
+                post.getCompanyName(),
+                post.getStartDate(),
+                post.getEndDate(),
+                request.type(),
+                category,
+                post.getUserPosition(),
+                post.getWhatLearn(),
+                post.getFeelings(),
+                request.imageUrl()
+        );
+
+        return PostUpdateNoReviewResponse.from(postRepository.save(post));
     }
 
     @Transactional
