@@ -13,6 +13,7 @@ public enum ErrorCode {
 
     // 400 Bad Request 검색 관련
     INVALID_SEARCH_KEYWORD_LENGTH(400, "INVALID_SEARCH_KEYWORD_LENGTH", "검색어는 2자 이상 입력해주세요."),
+    INVALID_SEARCH_KEYWORD_MAXIMUM(400, "INVALID_SEARCH_KEYWORD_MAXIMUM", "검색어는 15자 이하로 입력해주세요."),
     INVALID_SEARCH_KEYWORD(400, "INVALID_SEARCH_KEYWORD", "검색어에 '대학', '대학교', '학교'는 단독으로 사용할 수 없습니다."),
 
     // 400 Bad Request 파일 관련 에러코드
@@ -74,6 +75,7 @@ public enum ErrorCode {
     USER_NOT_FOUND(404, "USER_NOT_FOUND", "해당 사용자를 찾을 수 없습니다."),
     USER_WITHDRAWN(404, "USER_WITHDRAWN", "탈퇴한 회원입니다."),
     PROVIDER_NOT_FOUND(404, "PROVIDER_NOT_FOUND", "소셜 provider를 찾을 수 없습니다."),
+    SEARCH_LOG_NOT_FOUND(404, "SEARCH_LOG_NOT_FOUND", "최근 검색어가 존재하지 않습니다."),
 
     // 405 Method Not Allowed
     METHOD_NOT_ALLOWED(405, "METHOD_NOT_ALLOWED", "허용되지 않은 HTTP 메서드입니다."),
