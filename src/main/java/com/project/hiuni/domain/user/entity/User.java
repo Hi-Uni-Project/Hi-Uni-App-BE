@@ -39,7 +39,7 @@ public class User extends BaseEntity {
 	@Column(unique = true, nullable = false)
 	private String socialId;
 
-	@Column(unique = true)
+	@Column(nullable = false)
 	private String socialEmail;
 
 	@Enumerated(EnumType.STRING)
