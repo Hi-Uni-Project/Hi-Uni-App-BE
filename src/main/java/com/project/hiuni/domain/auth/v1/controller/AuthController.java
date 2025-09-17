@@ -59,10 +59,6 @@ public class AuthController implements AuthApiDocumentation {
   public ResponseDTO<TokenRefreshResponse> refreshToken(HttpServletRequest httpServletRequest) {
     String accessToken = authService.refreshToken(httpServletRequest);
 
-    if(!jwtTokenProvider.getTypeFromToken(accessToken).equals("refresh")) {
-      throw new TokenInvalidType(ErrorCode.TOKEN_INVALID_TYPE);
-    }
-
     TokenRefreshResponse response = TokenRefreshResponse.
         builder()
         .accessToken(accessToken)

@@ -14,6 +14,7 @@ import com.project.hiuni.domain.user.repository.UserRepository;
 import com.project.hiuni.global.exception.ErrorCode;
 import com.project.hiuni.global.exception.InternalServerException;
 import com.project.hiuni.global.exception.NotFoundInfoException;
+import com.project.hiuni.global.exception.TokenInvalidType;
 import com.project.hiuni.global.security.jwt.JwtTokenProvider;
 import com.project.hiuni.infra.google.GoogleApiClient;
 import com.project.hiuni.infra.kakao.KakaoApiClient;
@@ -60,7 +61,7 @@ public class AuthService {
       String socialEmail = userInfo.getEmail();
 
       // 이미 가입된 유저인 경우 로그인 처리
-      if (userRepository.findBySocialId(socialId).isPresent()) {
+      if (userRepository.findBySocialId(socialId).isPresent() ) {
         User user = userRepository.findBySocialId(socialId).orElse(null);
 
         Auth auth = user.getAuth();
@@ -112,65 +113,63 @@ public class AuthService {
 
 
 
-
     // 소셜 플랫폼이 카카오일 경우
-      if (userProvider == SocialProvider.KAKAO) {
+    if (userProvider == SocialProvider.KAKAO) {
+      OAuthUserInfo userInfo = kakaoApiClient.getUserInfo(authSocialRequest.getAuthToken());
 
-        OAuthUserInfo userInfo = kakaoApiClient.getUserInfo(authSocialRequest.getAuthToken());
+      String socialId = userInfo.getSocialId();
+      String name = userInfo.getName();
+      String socialEmail = userInfo.getEmail();
 
-        String socialId = userInfo.getSocialId();
-        String name = userInfo.getName();
-        String socialEmail = userInfo.getEmail();
+      // 이미 가입된 유저인 경우 로그인 처리
+      if (userRepository.findBySocialId(socialId).isPresent()) {
+        User user = userRepository.findBySocialId(socialId).orElse(null);
 
-        // 이미 가입된 유저인 경우 로그인 처리
-        if (userRepository.findBySocialId(socialId).isPresent()) {
-          User user = userRepository.findBySocialId(socialId).orElse(null);
+        Auth auth = user.getAuth();
 
-          Auth auth = user.getAuth();
-
-          // 기존 회원인데 auth 정보가 없는 경우
-          if (auth == null) {
-            log.error("로그인된 유저의 Auth 정보가 없습니다.");
-            throw new InternalServerException(ErrorCode.INTERNAL_SERVER_ERROR);
-          }
-
-          String olderRefreshToken = auth.getRefreshToken();
-
-          // 기존 회원인데 발급해놓은 리프레시 토큰이 유효하지 않은 경우 (보통은 만료된 경우) 토큰 재발급
-          if (!jwtTokenProvider.isValidateToken(olderRefreshToken)) {
-            String newRefreshToken = jwtTokenProvider.createRefreshToken(socialId, socialEmail);
-            auth.updateRefreshToken(newRefreshToken);
-          }
-
-          String newRefreshToken = auth.getRefreshToken();
-          String accessToken = jwtTokenProvider.createAccessToken(newRefreshToken);
-
-          return AuthSocialResponse
-              .builder()
-              .accessToken(accessToken)
-              .refreshToken(newRefreshToken)
-              .isSignUp(false)
-              .build();
+        // 기존 회원인데 auth 정보가 없는 경우
+        if (auth == null) {
+          log.error("로그인된 유저의 Auth 정보가 없습니다.");
+          throw new InternalServerException(ErrorCode.INTERNAL_SERVER_ERROR);
         }
 
-        // 가입된 유저가 아닌 경우 회원가입 처리
+        String olderRefreshToken = auth.getRefreshToken();
 
-        String accessToken = jwtTokenProvider.createAccessToken(socialId, socialEmail);
-        String refreshToken = jwtTokenProvider.createRefreshToken(socialId, socialEmail);
+        // 기존 회원인데 발급해놓은 리프레시 토큰이 유효하지 않은 경우 (보통은 만료된 경우) 토큰 재발급
+        if (!jwtTokenProvider.isValidateToken(olderRefreshToken)) {
+          String newRefreshToken = jwtTokenProvider.createRefreshToken(socialId, socialEmail);
+          auth.updateRefreshToken(newRefreshToken);
+        }
 
-        Auth auth = authRepository.save(Auth.from(refreshToken));
-
-        User user = User.createStandardUserForSocial(socialId, auth, socialEmail,
-            SocialProvider.KAKAO);
-        userRepository.save(user);
+        String newRefreshToken = auth.getRefreshToken();
+        String accessToken = jwtTokenProvider.createAccessToken(newRefreshToken);
 
         return AuthSocialResponse
             .builder()
             .accessToken(accessToken)
-            .refreshToken(refreshToken)
-            .isSignUp(true)
+            .refreshToken(newRefreshToken)
+            .isSignUp(false)
             .build();
       }
+
+      // 가입된 유저가 아닌 경우 회원가입 처리
+
+      String accessToken = jwtTokenProvider.createAccessToken(socialId, socialEmail);
+      String refreshToken = jwtTokenProvider.createRefreshToken(socialId, socialEmail);
+
+      Auth auth = authRepository.save(Auth.from(refreshToken));
+
+      User user = User.createStandardUserForSocial(socialId, auth, socialEmail,
+          SocialProvider.KAKAO);
+      userRepository.save(user);
+
+      return AuthSocialResponse
+          .builder()
+          .accessToken(accessToken)
+          .refreshToken(refreshToken)
+          .isSignUp(true)
+          .build();
+    }
 
 
 
@@ -248,6 +247,11 @@ public class AuthService {
   public String refreshToken (HttpServletRequest httpServletRequest){
     String refreshToken = jwtTokenProvider.extractToken(httpServletRequest);
     String socialId = jwtTokenProvider.getSocialIdFromToken(refreshToken);
+
+
+    if(!jwtTokenProvider.getTypeFromToken(refreshToken).equals("refresh")) {
+      throw new TokenInvalidType(ErrorCode.TOKEN_INVALID_TYPE);
+    }
 
     User user = userRepository.findBySocialId(socialId)
         .orElseThrow(() -> new NotFoundInfoException(ErrorCode.USER_NOT_FOUND));

@@ -30,13 +30,13 @@ public class KakaoApiClient {
 
       String socialId = response.getId().toString();
       String email = response.getKakaoAccount().getEmail();
-      String name = response.getKakaoAccount().getProfile().getNickname();
+      //String name = response.getKakaoAccount().getProfile().getNickname();
 
 
       return DefaultOAuthUserInfo
           .builder()
           .socialId(socialId)
-          .name(name)
+          .name(null)
           .email(email)
           .build();
 
