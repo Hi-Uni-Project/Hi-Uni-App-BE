@@ -2,6 +2,7 @@ package com.project.hiuni.domain.comment.entity;
 
 import com.project.hiuni.admin.common.BaseEntity;
 import com.project.hiuni.domain.post.entity.Post;
+import com.project.hiuni.domain.user.entity.User;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -28,8 +29,21 @@ public class Comment extends BaseEntity {
 
     private String content;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY.LAZY)
     @JoinColumn(name="post_id", nullable = false)
     private Post post;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    public void increaseLikeCount() {
+        this.likeCount++;
+    }
+
+    public void decreaseLikeCount() {
+        if(this.likeCount > 0) {
+            this.likeCount--;
+        }
+    }
 }
