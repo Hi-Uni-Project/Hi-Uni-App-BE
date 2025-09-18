@@ -1,7 +1,5 @@
 package com.project.hiuni.global.exception;
 
-import org.springframework.http.HttpStatus;
-
 public enum ErrorCode {
 
     // 400 Bad Request
@@ -54,12 +52,18 @@ public enum ErrorCode {
     UNAUTHORIZED(401, "UNAUTHORIZED", "인증이 필요합니다."),
     TOKEN_EXTRACTION_FAILED(401, "TOKEN_EXTRACTION_FAILED", "토큰 추출에 실패했습니다."),
 
-    // 498-499 Custom Token Errors
-    TOKEN_EXPIRED(498, "TOKEN_EXPIRED", "토큰이 만료되었습니다."),
-    TOKEN_INVALID(499, "TOKEN_INVALID", "유효하지 않은 토큰입니다."),
+    // 1000~1003 Custom Token Errors
+
+    TOKEN_INVALID_TYPE(999, "TOKEN_INVALID_TYPE", "토큰 타입이 올바르지 않습니다."),
+    TOKEN_INVALID(1000, "TOKEN_INVALID", "토큰이 유효하지 않습니다."),
+    ACCESS_TOKEN_INVALID(1001, "ACCESS_TOKEN_INVALID", "엑세스 토큰이 유효하지 않습니다."),
+    REFRESH_TOKEN_INVALID(1002, "REFRESH_TOKEN_INVALID", "리프레시 토큰이 유효하지 않습니다."),
 
     // 401 social login
     GOOGLE_INVALID_TOKEN(401, "GOOGLE_INVALID_TOKEN", "유효하지 않은 ID 토큰입니다."),
+    KAKAO_INVALID_TOKEN(401, "KAKAO_INVALID_TOKEN", "유효하지 않은 엑세스 토큰입니다."),
+    NAVER_INVALID_TOKEN(401, "NAVER_INVALID_TOKEN", "유효하지 않은 엑세스 토큰입니다."),
+
 
     // 403 Forbidden
     SELF_ACCESS_ONLY(403, "SELF_ACCESS_ONLY", "본인의 정보만 조회할 수 있습니다."),
@@ -71,6 +75,7 @@ public enum ErrorCode {
     USER_NOT_FOUND(404, "USER_NOT_FOUND", "해당 사용자를 찾을 수 없습니다."),
     USER_WITHDRAWN(404, "USER_WITHDRAWN", "탈퇴한 회원입니다."),
     PROVIDER_NOT_FOUND(404, "PROVIDER_NOT_FOUND", "소셜 provider를 찾을 수 없습니다."),
+    SEARCH_LOG_NOT_FOUND(404, "SEARCH_LOG_NOT_FOUND", "최근 검색어가 존재하지 않습니다."),
 
     // 405 Method Not Allowed
     METHOD_NOT_ALLOWED(405, "METHOD_NOT_ALLOWED", "허용되지 않은 HTTP 메서드입니다."),

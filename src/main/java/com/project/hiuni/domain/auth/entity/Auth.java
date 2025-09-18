@@ -24,7 +24,7 @@ public class Auth extends BaseEntity {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Column(nullable = false, length = 255)
+  @Column(nullable = false, length = 10000)
   private String refreshToken;
 
   @Builder

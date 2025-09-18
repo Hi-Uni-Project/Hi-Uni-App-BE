@@ -1,7 +1,11 @@
 package com.project.hiuni.global.security.jwt;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.hiuni.global.common.threadlocal.TraceIdHolder;
 import com.project.hiuni.global.exception.ErrorCode;
+import com.project.hiuni.global.exception.InvalidAccessJwtException;
+import com.project.hiuni.global.exception.InvalidRefrashJwtException;
 import com.project.hiuni.global.exception.TokenExtractionException;
 import com.project.hiuni.global.security.core.CustomUserDetails;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -11,6 +15,7 @@ import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.SignatureException;
 import jakarta.servlet.http.HttpServletRequest;
+import java.util.Base64;
 import java.util.Date;
 import javax.crypto.SecretKey;
 import lombok.RequiredArgsConstructor;
@@ -42,25 +47,27 @@ public class JwtTokenProvider {
    * @param expirationMillis 토큰 만료 시간 (밀리초 단위)
    * @return 생성된 JWT 토큰
    */
-  public String createToken(Authentication authentication, Long expirationMillis) {
+  public String createToken(Authentication authentication, Long expirationMillis, String type) {
     CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
     Date expiryDate = new Date(new Date().getTime() + expirationMillis);
 
     return Jwts.builder()
         .subject(customUserDetails.getUsername())
         .claim("socialId", customUserDetails.getId())
+        .claim("type", type)
         .issuedAt(new Date())
         .expiration(expiryDate)
         .signWith(secretKey, SignatureAlgorithm.HS512)
         .compact();
   }
 
-  public String createToken(String socialId, String socialEmail, Long expirationMillis) {
+  public String createToken(String socialId, String socialEmail, Long expirationMillis, String type) {
     Date expiryDate = new Date(new Date().getTime() + expirationMillis);
 
     return Jwts.builder()
         .subject(socialEmail)
         .claim("socialId", socialId)
+        .claim("type", type)
         .issuedAt(new Date())
         .expiration(expiryDate)
         .signWith(secretKey, SignatureAlgorithm.HS512)
@@ -75,18 +82,18 @@ public class JwtTokenProvider {
    * @return 생성된 JWT 토큰
    */
   public String createAccessToken(Authentication authentication) {
-    return createToken(authentication, accessTokenExpirationTime);
+    return createToken(authentication, accessTokenExpirationTime, "access");
   }
 
   public String createAccessToken(String socialId, String socialEmail) {
-    return createToken(socialId, socialEmail, accessTokenExpirationTime);
+    return createToken(socialId, socialEmail, accessTokenExpirationTime, "access");
   }
 
   public String createAccessToken(String refreshToken) {
     String socialId = getSocialIdFromToken(refreshToken);
     String socailEmail = getSocialEmailFromToken(refreshToken);
 
-    return createToken(socialId, socailEmail, accessTokenExpirationTime);
+    return createToken(socialId, socailEmail, accessTokenExpirationTime, "access");
   }
 
   /**
@@ -96,11 +103,11 @@ public class JwtTokenProvider {
    * @return 생성된 JWT 토큰
    */
   public String createRefreshToken(Authentication authentication) {
-    return createToken(authentication, refreshTokenExpirationTime);
+    return createToken(authentication, refreshTokenExpirationTime, "refresh");
   }
 
   public String createRefreshToken(String socialId, String socialEmail) {
-    return createToken(socialId, socialEmail, refreshTokenExpirationTime);
+    return createToken(socialId, socialEmail, refreshTokenExpirationTime, "refresh");
   }
 
   /**
@@ -118,27 +125,54 @@ public class JwtTokenProvider {
     } catch (MalformedJwtException e) {
       //토큰 형식이 잘못됨
       log.error("[" + TraceIdHolder.get() + "]:(토큰 형식이 잘못됨)");
-      throw new MalformedJwtException("토큰 형식이 잘못됨");
+
+      if(getTypeFromToken(token).equals("access")) {
+        throw new InvalidAccessJwtException(ErrorCode.ACCESS_TOKEN_INVALID);
+      } else {
+        throw new InvalidRefrashJwtException(ErrorCode.ACCESS_TOKEN_INVALID);
+      }
+
 
     } catch (ExpiredJwtException e) {
       //토큰이 만료됨
       log.error("[" + TraceIdHolder.get() + "]:(토큰이 만료됨)");
-      throw new ExpiredJwtException(e.getHeader(), e.getClaims(), "토큰이 만료됨");
+
+      if(getTypeFromToken(token).equals("access")) {
+        throw new InvalidAccessJwtException(ErrorCode.ACCESS_TOKEN_INVALID);
+      } else {
+        throw new InvalidRefrashJwtException(ErrorCode.ACCESS_TOKEN_INVALID);
+      }
 
     } catch (IllegalArgumentException e) {
       //토큰이 비어있거나 잘못된 형식
       log.error("[" + TraceIdHolder.get() + "]:(토큰이 비어있거나 잘못된 형식)");
-      throw new IllegalArgumentException("토큰이 비어있거나 잘못된 형식");
+
+      if(getTypeFromToken(token).equals("access")) {
+        throw new InvalidAccessJwtException(ErrorCode.ACCESS_TOKEN_INVALID);
+      } else {
+        throw new InvalidRefrashJwtException(ErrorCode.ACCESS_TOKEN_INVALID);
+      }
 
     } catch (SignatureException e) {
       //시그니처 검증 실패
       log.error("[" + TraceIdHolder.get() + "]:(시그니처 검증 실패)");
-      throw new SignatureException("시그니처 검증 실패");
+
+      if(getTypeFromToken(token).equals("access")) {
+        throw new InvalidAccessJwtException(ErrorCode.ACCESS_TOKEN_INVALID);
+      } else {
+        throw new InvalidRefrashJwtException(ErrorCode.ACCESS_TOKEN_INVALID);
+      }
 
     } catch (JwtException e) {
       //기타 JWT 관련 예외
       log.error("[" + TraceIdHolder.get() + "]:(기타 JWT 예외 발생)");
-      throw new JwtException("기타 JWT 예외 발생");
+
+      if(getTypeFromToken(token).equals("access")) {
+        throw new InvalidAccessJwtException(ErrorCode.ACCESS_TOKEN_INVALID);
+      } else {
+        throw new InvalidRefrashJwtException(ErrorCode.ACCESS_TOKEN_INVALID);
+      }
+
     }
 
   }
@@ -229,6 +263,27 @@ public class JwtTokenProvider {
         .parseSignedClaims(token)
         .getPayload()
         .getSubject();
+  }
+
+
+  /** JWT 토큰에서 토큰 타입을 추출하는 메서드입니다.
+   * @param token JWT 토큰
+   * @return 토큰 타입 (예: access, refresh)
+   */
+  public String getTypeFromToken(String token) {
+    try {
+      // 시그니처 검증 없이 클레임만 파싱
+      String[] chunks = token.split("\\.");
+      Base64.Decoder decoder = Base64.getUrlDecoder();
+
+      String payload = new String(decoder.decode(chunks[1]));
+      ObjectMapper mapper = new ObjectMapper();
+      JsonNode payloadJson = mapper.readTree(payload);
+
+      return payloadJson.get("type").asText();
+    } catch (Exception e) {
+      return "unknown"; // 기본값
+    }
   }
 
 }
