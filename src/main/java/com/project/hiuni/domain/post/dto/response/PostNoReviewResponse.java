@@ -6,7 +6,7 @@ import com.project.hiuni.domain.post.entity.Type;
 import com.project.hiuni.domain.user.entity.User;
 import java.time.LocalDateTime;
 
-public record PostUpdateResponse(
+public record PostNoReviewResponse(
         String nickname,
         String univName,
         String majorName,
@@ -14,26 +14,20 @@ public record PostUpdateResponse(
         Long id,
         String title,
         String content,
-        String companyName,
-        LocalDateTime startDate,
-        LocalDateTime endDate,
         Type type,
         Category category,
-        String userPosition,
-        String userWork,
-        String whatLearn,
-        String feelings,
         String imageUrl,
         int likeCount,
         int commentCount,
         int bookmarkCount,
+        int viewCount,
         LocalDateTime createdAt
 ) {
-    public static PostUpdateResponse from(Post post) {
+    public static PostNoReviewResponse from(Post post) {
 
         User user = post.getUser();
 
-        return new PostUpdateResponse(
+        return new PostNoReviewResponse(
                 user.getNickname(),
                 user.getUnivName(),
                 user.getMajorName(),
@@ -41,19 +35,13 @@ public record PostUpdateResponse(
                 post.getId(),
                 post.getTitle(),
                 post.getContent(),
-                post.getCompanyName(),
-                post.getStartDate(),
-                post.getEndDate(),
                 post.getType(),
                 post.getCategory(),
-                post.getUserPosition(),
-                post.getUserWork(),
-                post.getWhatLearn(),
-                post.getFeelings(),
                 post.getImageUrl(),
                 post.getLikeCount(),
                 post.getCommentCount(),
                 post.getBookmarkCount(),
+                post.getViewCount(),
                 post.getCreatedAt()
         );
     }

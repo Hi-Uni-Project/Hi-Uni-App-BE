@@ -1,10 +1,15 @@
 package com.project.hiuni.domain.post.v1.service;
 
-import com.project.hiuni.domain.post.dto.request.PostCreateRequest;
-import com.project.hiuni.domain.post.dto.request.PostUpdateRequest;
-import com.project.hiuni.domain.post.dto.response.PostCreateResponse;
-import com.project.hiuni.domain.post.dto.response.PostDetailResponse;
-import com.project.hiuni.domain.post.dto.response.PostUpdateResponse;
+import com.project.hiuni.domain.post.dto.request.PostCreateNoReviewRequest;
+import com.project.hiuni.domain.post.dto.request.PostCreateReviewRequest;
+import com.project.hiuni.domain.post.dto.request.PostUpdateNoReviewRequest;
+import com.project.hiuni.domain.post.dto.request.PostUpdateReviewRequest;
+import com.project.hiuni.domain.post.dto.response.PostCreateNoReviewResponse;
+import com.project.hiuni.domain.post.dto.response.PostCreateReviewResponse;
+import com.project.hiuni.domain.post.dto.response.PostNoReviewResponse;
+import com.project.hiuni.domain.post.dto.response.PostReviewResponse;
+import com.project.hiuni.domain.post.dto.response.PostUpdateNoReviewResponse;
+import com.project.hiuni.domain.post.dto.response.PostUpdateReviewResponse;
 import com.project.hiuni.domain.post.dto.response.PostPreviewResponse;
 import com.project.hiuni.domain.post.entity.Category;
 import com.project.hiuni.domain.post.entity.Post;
@@ -34,7 +39,25 @@ public class PostService {
     private final UserRepository userRepository;
 
     @Transactional
-    public PostCreateResponse createPost(PostCreateRequest request, Long userId) {
+    public PostCreateNoReviewResponse createNoReviewPost(PostCreateNoReviewRequest request, Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new CustomUserNotFoundException(ErrorCode.USER_NOT_FOUND));
+
+        Category category = getCategory(request.type());
+
+        Post post = Post.builder()
+                .title(request.title())
+                .content(request.content())
+                .type(request.type())
+                .category(category)
+                .imageUrl(request.imageUrl())
+                .user(user)
+                .build();
+
+        return PostCreateNoReviewResponse.from(postRepository.save(post));
+    }
+
+    @Transactional
+    public PostCreateReviewResponse createReviewPost(PostCreateReviewRequest request, Long userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new CustomUserNotFoundException(ErrorCode.USER_NOT_FOUND));
 
         Category category = getCategory(request.type());
@@ -54,20 +77,56 @@ public class PostService {
                 .user(user)
                 .build();
 
-        return PostCreateResponse.from(postRepository.save(post));
+        return PostCreateReviewResponse.from(postRepository.save(post));
     }
 
     @Transactional
-    public PostDetailResponse searchPost(Long postId) {
+    public PostNoReviewResponse searchNoReviewPost(Long postId) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(()-> new CustomPostNotFoundException(ErrorCode.NOT_FOUND));
 
         post.incrementViewCount();
-        return PostDetailResponse.from(post);
+        return PostNoReviewResponse.from(post);
     }
 
     @Transactional
-    public PostUpdateResponse updatePost(PostUpdateRequest request, Long postId, Long userId){
+    public PostReviewResponse searchReviewPost(Long postId) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(()-> new CustomPostNotFoundException(ErrorCode.NOT_FOUND));
+
+        post.incrementViewCount();
+        return PostReviewResponse.from(post);
+    }
+
+    @Transactional
+    public PostUpdateNoReviewResponse updateNoReviewPost(PostUpdateNoReviewRequest request,Long postId, Long userId) {
+        Post post = postRepository.findById(postId).orElseThrow(()-> new CustomPostNotFoundException(ErrorCode.NOT_FOUND));
+
+        if (!post.getUser().getId().equals(userId)) {
+            throw new CustomForbiddenException(ErrorCode.FORBIDDEN);
+        }
+
+        Category category = getCategory(request.type());
+
+        post.updatePost(
+                request.title(),
+                request.content(),
+                post.getCompanyName(),
+                post.getStartDate(),
+                post.getEndDate(),
+                request.type(),
+                category,
+                post.getUserPosition(),
+                post.getWhatLearn(),
+                post.getFeelings(),
+                request.imageUrl()
+        );
+
+        return PostUpdateNoReviewResponse.from(postRepository.save(post));
+    }
+
+    @Transactional
+    public PostUpdateReviewResponse updateReviewPost(PostUpdateReviewRequest request, Long postId, Long userId){
         Post post = postRepository.findById(postId).orElseThrow(()-> new CustomPostNotFoundException(ErrorCode.NOT_FOUND));
 
         if (!post.getUser().getId().equals(userId)) {
@@ -90,7 +149,7 @@ public class PostService {
                 request.imageUrl()
         );
 
-        return PostUpdateResponse.from(post);
+        return PostUpdateReviewResponse.from(post);
     }
 
     @Transactional
@@ -162,5 +221,4 @@ public class PostService {
             case EDUCATION, CLUB -> Category.EXTERNALACTIVITIES;
         };
     }
-
 }

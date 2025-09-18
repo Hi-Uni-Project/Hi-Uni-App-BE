@@ -6,11 +6,11 @@ import com.project.hiuni.domain.post.entity.Type;
 import com.project.hiuni.domain.user.entity.User;
 import java.time.LocalDateTime;
 
-public record PostCreateResponse (
+public record PostCreateReviewResponse (
         String nickname,
         String univName,
         String majorName,
-        String usrImageUrl,
+        String userImageUrl,
         Long id,
         String title,
         String content,
@@ -30,11 +30,11 @@ public record PostCreateResponse (
         int viewCount,
         LocalDateTime createdAt
 ){
-    public static PostCreateResponse from(Post post) {
+    public static PostCreateReviewResponse from(Post post) {
 
         User user = post.getUser();
 
-        return new PostCreateResponse(
+        return new PostCreateReviewResponse(
                 user.getNickname(),
                 user.getUnivName(),
                 user.getMajorName(),

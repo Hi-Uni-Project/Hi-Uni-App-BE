@@ -1,10 +1,15 @@
 package com.project.hiuni.domain.post.v1.controller;
 
-import com.project.hiuni.domain.post.dto.request.PostCreateRequest;
-import com.project.hiuni.domain.post.dto.request.PostUpdateRequest;
-import com.project.hiuni.domain.post.dto.response.PostCreateResponse;
-import com.project.hiuni.domain.post.dto.response.PostDetailResponse;
-import com.project.hiuni.domain.post.dto.response.PostUpdateResponse;
+import com.project.hiuni.domain.post.dto.request.PostCreateNoReviewRequest;
+import com.project.hiuni.domain.post.dto.request.PostCreateReviewRequest;
+import com.project.hiuni.domain.post.dto.request.PostUpdateNoReviewRequest;
+import com.project.hiuni.domain.post.dto.request.PostUpdateReviewRequest;
+import com.project.hiuni.domain.post.dto.response.PostCreateNoReviewResponse;
+import com.project.hiuni.domain.post.dto.response.PostCreateReviewResponse;
+import com.project.hiuni.domain.post.dto.response.PostNoReviewResponse;
+import com.project.hiuni.domain.post.dto.response.PostReviewResponse;
+import com.project.hiuni.domain.post.dto.response.PostUpdateNoReviewResponse;
+import com.project.hiuni.domain.post.dto.response.PostUpdateReviewResponse;
 import com.project.hiuni.domain.post.dto.response.PostPreviewResponse;
 import com.project.hiuni.domain.post.v1.service.PostService;
 import com.project.hiuni.global.common.dto.response.ResponseDTO;
@@ -32,28 +37,52 @@ public class PostV1Controller {
 
     private final PostService postService;
 
-    @PostMapping
-    public ResponseDTO<PostCreateResponse> createPost(@AuthenticationPrincipal CustomUserDetails userDetails,
-                                                     @RequestBody @Valid PostCreateRequest postCreateRequest) {
-        PostCreateResponse postCreateResponse = postService.createPost(postCreateRequest, userDetails.getId());
+    @PostMapping("/no-review")
+    public ResponseDTO<PostCreateNoReviewResponse> createNoReviewPost(@AuthenticationPrincipal CustomUserDetails userDetails,
+                                                                      @RequestBody @Valid PostCreateNoReviewRequest request) {
+        PostCreateNoReviewResponse postCreateNoReviewResponse = postService.createNoReviewPost(request, userDetails.getId());
 
-        return ResponseDTO.of(postCreateResponse,"게시글 생성에 성공하였습니다.");
+        return ResponseDTO.of(postCreateNoReviewResponse, "게시글 생성에 성공하였습니다.");
     }
 
-    @GetMapping("/{id}")
-    public ResponseDTO<PostDetailResponse> searchPost(@AuthenticationPrincipal CustomUserDetails userDetails,
-                                         @PathVariable Long id) {
-        PostDetailResponse postDetailResponse = postService.searchPost(id);
-        return ResponseDTO.of(postDetailResponse, "게시글 조회에 성공하였습니다.");
+    @PostMapping("/review")
+    public ResponseDTO<PostCreateReviewResponse> createReviewPost(@AuthenticationPrincipal CustomUserDetails userDetails,
+                                                            @RequestBody @Valid PostCreateReviewRequest request) {
+        PostCreateReviewResponse postCreateReviewResponse = postService.createReviewPost(request, userDetails.getId());
+
+        return ResponseDTO.of(postCreateReviewResponse,"게시글 생성에 성공하였습니다.");
     }
 
-    @PutMapping("/{id}")
-    public ResponseDTO<PostUpdateResponse> updatePost(@PathVariable Long id,
-                                         @AuthenticationPrincipal CustomUserDetails userDetails,
-                                         @RequestBody @Valid PostUpdateRequest postUpdateRequest){
-        PostUpdateResponse postUpdateResponse = postService.updatePost(postUpdateRequest, id, userDetails.getId());
+    @GetMapping("/no-review/{id}")
+    public ResponseDTO<PostNoReviewResponse> searchNoReviewPost(@AuthenticationPrincipal CustomUserDetails userDetails,
+                                                        @PathVariable Long id) {
+        PostNoReviewResponse postNoReviewResponse = postService.searchNoReviewPost(id);
+        return ResponseDTO.of(postNoReviewResponse, "게시글 조회에 성공하였습니다.");
+    }
 
-        return ResponseDTO.of(postUpdateResponse, "게시글 수정에 성공하였습니다.");
+    @GetMapping("/review/{id}")
+    public ResponseDTO<PostReviewResponse> searchReviewPost(@AuthenticationPrincipal CustomUserDetails userDetails,
+                                                              @PathVariable Long id) {
+        PostReviewResponse postReviewResponse = postService.searchReviewPost(id);
+        return ResponseDTO.of(postReviewResponse, "게시글 조회에 성공하였습니다.");
+    }
+
+    @PutMapping("/review/{id}")
+    public ResponseDTO<PostUpdateReviewResponse> updateReviewPost(@PathVariable Long id,
+                                                            @AuthenticationPrincipal CustomUserDetails userDetails,
+                                                            @RequestBody @Valid PostUpdateReviewRequest request) {
+        PostUpdateReviewResponse postUpdateReviewResponse = postService.updateReviewPost(request, id, userDetails.getId());
+
+        return ResponseDTO.of(postUpdateReviewResponse, "게시글 수정에 성공하였습니다.");
+    }
+
+    @PutMapping("/no-review/{id}")
+    public ResponseDTO<PostUpdateNoReviewResponse> updateNoReviewPost(@PathVariable Long id,
+                                                                      @AuthenticationPrincipal CustomUserDetails userDetails,
+                                                                      @RequestBody @Valid PostUpdateNoReviewRequest request) {
+        PostUpdateNoReviewResponse postUpdateNoReviewResponse = postService.updateNoReviewPost(request, id, userDetails.getId());
+
+        return ResponseDTO.of(postUpdateNoReviewResponse, "게시글 수정에 성공하였습니다.");
     }
 
     @DeleteMapping("/{id}")
