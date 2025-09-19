@@ -2,6 +2,7 @@ package com.project.hiuni.domain.comment.v1.service;
 
 import com.project.hiuni.domain.comment.CustomCommentNotFoundException;
 import com.project.hiuni.domain.comment.dto.request.CommentUpdateRequest;
+import com.project.hiuni.domain.comment.dto.response.CommentResponse;
 import com.project.hiuni.domain.comment.dto.response.CommentUpdateResponse;
 import com.project.hiuni.domain.comment.entity.Comment;
 import com.project.hiuni.domain.comment.repository.CommentRepository;
@@ -43,12 +44,13 @@ public class CommentService {
         return commentRepository.save(comment);
     }
 
-    @Transactional
-    public List<Comment> getAllComments(Long postId) {
-        Post post = postRepository.findById(postId)
-                .orElseThrow(()-> new CustomPostNotFoundException(ErrorCode.POST_NOT_FOUND));
+    @Transactional(readOnly = true)
+    public List<CommentResponse> getAllComments(Long postId) {
 
-        return commentRepository.findByPost(post);
+        return commentRepository.findAllByPostIdOrderByCreatedAtAsc(postId)
+                .stream()
+                .map(CommentResponse::from)
+                .toList();
     }
 
     @Transactional
