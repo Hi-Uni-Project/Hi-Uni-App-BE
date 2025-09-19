@@ -70,11 +70,13 @@ public enum ErrorCode {
     FORBIDDEN(403, "FORBIDDEN", "접근 권한이 없습니다."),
     ACCESS_DENIED(403, "ACCESS_DENIED", "이 기능에 접근할 수 없습니다."),
 
+
     // 404 Not Found
     NOT_FOUND(404, "NOT_FOUND", "요청한 자원이 존재하지 않습니다."),
     USER_NOT_FOUND(404, "USER_NOT_FOUND", "해당 사용자를 찾을 수 없습니다."),
     USER_WITHDRAWN(404, "USER_WITHDRAWN", "탈퇴한 회원입니다."),
     POST_NOT_FOUND(404, "POST_NOT_FOUND", "해당 게시글을 찾을 수 없습니다."),
+    COMMENT_NOT_FOUND(404, "COMMENT_NOT_FOUND", "해당 게시글을 찾을 수 없습니다."),
     PROVIDER_NOT_FOUND(404, "PROVIDER_NOT_FOUND", "소셜 provider를 찾을 수 없습니다."),
     SEARCH_LOG_NOT_FOUND(404, "SEARCH_LOG_NOT_FOUND", "최근 검색어가 존재하지 않습니다."),
 
