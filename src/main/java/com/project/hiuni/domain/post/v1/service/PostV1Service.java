@@ -33,7 +33,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class PostService {
+public class PostV1Service {
 
     private final PostRepository postRepository;
     private final UserRepository userRepository;
