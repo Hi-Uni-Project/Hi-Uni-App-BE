@@ -12,6 +12,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -29,13 +30,21 @@ public class Comment extends BaseEntity {
 
     private String content;
 
-    @ManyToOne(fetch = FetchType.LAZY.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="post_id", nullable = false)
     private Post post;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    @Builder
+    public Comment(String content, Post post, User user) {
+        this.content = content;
+        this.post = post;
+        this.user = user;
+        this.likeCount = 0;
+    }
 
     public void increaseLikeCount() {
         this.likeCount++;
@@ -45,5 +54,9 @@ public class Comment extends BaseEntity {
         if(this.likeCount > 0) {
             this.likeCount--;
         }
+    }
+
+    public void updateComment(String content){
+        this.content = content;
     }
 }

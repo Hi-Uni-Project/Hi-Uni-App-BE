@@ -91,7 +91,6 @@ public class PostService {
         return PostNoReviewResponse.from(post);
     }
 
-    /** 리뷰 본문 조회(+조회수 증가) */
     @Transactional
     public PostReviewResponse searchReviewPost(Long postId) {
         Post post = postRepository.findById(postId)
@@ -101,7 +100,6 @@ public class PostService {
         return PostReviewResponse.from(post);
     }
 
-    /** 노리뷰 글 수정 */
     @Transactional
     public PostUpdateNoReviewResponse updateNoReviewPost(PostUpdateNoReviewRequest request, Long postId, Long userId) {
         Post post = postRepository.findById(postId)
@@ -130,7 +128,6 @@ public class PostService {
         return PostUpdateNoReviewResponse.from(postRepository.save(post));
     }
 
-    /** 리뷰 글 수정 */
     @Transactional
     public PostUpdateReviewResponse updateReviewPost(PostUpdateReviewRequest request, Long postId, Long userId) {
         Post post = postRepository.findById(postId)
@@ -159,7 +156,6 @@ public class PostService {
         return PostUpdateReviewResponse.from(post);
     }
 
-    /** 삭제 */
     @Transactional
     public void deletePost(Long postId, Long userId) {
         Post post = postRepository.findById(postId)
@@ -172,7 +168,6 @@ public class PostService {
         postRepository.delete(post);
     }
 
-    /** 주간 인기글 */
     @Transactional
     public List<PostPreviewResponse> getWeeklyHotPosts(Long userId){
         User user = userRepository.findById(userId)
@@ -190,7 +185,6 @@ public class PostService {
                 .toList();
     }
 
-    /** 전체 목록 */
     @Transactional(readOnly = true)
     public List<PostPreviewResponse> getAllPosts(String sort, Long userId){
         User user = userRepository.findById(userId)
@@ -210,7 +204,6 @@ public class PostService {
                 .toList();
     }
 
-    /** 키워드 검색 */
     @Transactional(readOnly = true)
     public List<PostPreviewResponse> getKeywordPosts(String sort, String keyword, Long userId){
         User user = userRepository.findById(userId)
