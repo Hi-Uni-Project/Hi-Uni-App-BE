@@ -1,13 +1,15 @@
 package com.project.hiuni.domain.schedule.dto.response;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@Builder
 public class CategoryResponse {
 
-  private String categoryId;
+  private Long categoryId;
   private String categoryName;
 
 }
