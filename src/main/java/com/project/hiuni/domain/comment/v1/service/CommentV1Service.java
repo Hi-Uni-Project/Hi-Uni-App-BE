@@ -1,7 +1,9 @@
 package com.project.hiuni.domain.comment.v1.service;
 
 import com.project.hiuni.domain.comment.CustomCommentNotFoundException;
+import com.project.hiuni.domain.comment.dto.request.CommentCreateRequest;
 import com.project.hiuni.domain.comment.dto.request.CommentUpdateRequest;
+import com.project.hiuni.domain.comment.dto.response.CommentCreateResponse;
 import com.project.hiuni.domain.comment.dto.response.CommentResponse;
 import com.project.hiuni.domain.comment.dto.response.CommentUpdateResponse;
 import com.project.hiuni.domain.comment.entity.Comment;
@@ -21,14 +23,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class CommentService {
+public class CommentV1Service {
 
     private final CommentRepository commentRepository;
     private final PostRepository postRepository;
     private final UserRepository userRepository;
 
     @Transactional
-    public Comment addComment(String content, Long postId, Long userId) {
+    public CommentCreateResponse createComment(CommentCreateRequest request, Long postId, Long userId) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(()-> new CustomPostNotFoundException(ErrorCode.POST_NOT_FOUND));
 
@@ -36,12 +38,12 @@ public class CommentService {
                 .orElseThrow(()-> new CustomUserNotFoundException(ErrorCode.USER_NOT_FOUND));
 
         Comment comment = Comment.builder()
-                .content(content)
+                .content(request.content())
                 .post(post)
                 .user(user)
                 .build();
 
-        return commentRepository.save(comment);
+        return CommentCreateResponse.from(commentRepository.save(comment));
     }
 
     @Transactional(readOnly = true)
@@ -54,8 +56,8 @@ public class CommentService {
     }
 
     @Transactional
-    public CommentUpdateResponse updateComment(Long commentId, CommentUpdateRequest request) {
-        Comment comment = commentRepository.findById(commentId)
+    public CommentUpdateResponse updateComment(Long id, CommentUpdateRequest request) {
+        Comment comment = commentRepository.findById(id)
                 .orElseThrow(()-> new CustomCommentNotFoundException(ErrorCode.COMMENT_NOT_FOUND));
 
         comment.updateComment(request.content());
@@ -64,9 +66,9 @@ public class CommentService {
     }
 
     @Transactional
-    public void deleteComment(Long commentId, Long userId) {
+    public void deleteComment(Long id, Long userId) {
 
-        Comment comment =commentRepository.findById(commentId)
+        Comment comment =commentRepository.findById(id)
                 .orElseThrow(()-> new CustomCommentNotFoundException(ErrorCode.COMMENT_NOT_FOUND));
 
         if(!comment.getUser().getId().equals(userId)) {
