@@ -11,8 +11,11 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -28,38 +31,34 @@ public class Schedule extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Enumerated(EnumType.STRING)
-    private Type type;
-
-    private String title;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="user_id", nullable = false)
+    private User user;
 
     private LocalDateTime startDate;
 
     private LocalDateTime endDate;
 
-    @Enumerated(EnumType.STRING)
-    private Color color;
-
-    private String memo;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="user_id", nullable = false)
-    private User user;
+    @OneToMany(mappedBy = "schedule")
+    private List<ScheduleDetail> scheduleDetails;
 
     @Builder
-    public Schedule(Type type,
-                    String title,
-                    LocalDateTime startDate,
+    public Schedule(LocalDateTime startDate,
                     LocalDateTime endDate,
-                    Color color,
-                    String memo,
-                    User user) {
-        this.type = type;
-        this.title = title;
+                    User user,
+                    List<ScheduleDetail> scheduleDetails) {
         this.startDate = startDate;
         this.endDate = endDate;
-        this.color = color;
-        this.memo = memo;
         this.user = user;
+        this.scheduleDetails = scheduleDetails;
+    }
+
+    public static Schedule of(LocalDateTime startDate, LocalDateTime endDate, User user, List<ScheduleDetail> scheduleDetails) {
+        return Schedule.builder()
+            .startDate(startDate)
+            .endDate(endDate)
+            .user(user)
+            .scheduleDetails(scheduleDetails)
+            .build();
     }
 }
