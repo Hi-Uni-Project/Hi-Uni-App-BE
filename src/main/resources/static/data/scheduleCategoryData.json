@@ -1,0 +1,42 @@
+[
+  {
+    "categoryid": 1,
+    "categoryname": "면접",
+    "categorycolor": "#FF6B6B"
+  },
+  {
+    "categoryid": 2,
+    "categoryname": "결과발표",
+    "categorycolor": "#4ECDC4"
+  },
+  {
+    "categoryid": 3,
+    "categoryname": "자격증",
+    "categorycolor": "#45B7D1"
+  },
+  {
+    "categoryid": 4,
+    "categoryname": "스터디",
+    "categorycolor": "#96CEB4"
+  },
+  {
+    "categoryid": 5,
+    "categoryname": "대회/공모전",
+    "categorycolor": "#FFEAA7"
+  },
+  {
+    "categoryid": 6,
+    "categoryname": "취업",
+    "categorycolor": "#DDA0DD"
+  },
+  {
+    "categoryid": 7,
+    "categoryname": "프로젝트",
+    "categorycolor": "#98D8C8"
+  },
+  {
+    "categoryid": 8,
+    "categoryname": "기타",
+    "categorycolor": "#B0B0B0"
+  }
+]

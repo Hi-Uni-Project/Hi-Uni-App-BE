@@ -31,9 +31,7 @@ public class ScheduleDetail {
   @JoinColumn(name = "schedule_id")
   private Schedule schedule;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "category_id")
-  private ScheduleCategory category;
+  private Long categoryId;
 
   @Column(length = 100)
   private String title;
@@ -44,18 +42,18 @@ public class ScheduleDetail {
   private String memo;
 
   @Builder
-  public ScheduleDetail(Schedule schedule, ScheduleCategory category, String title, String color, String memo) {
+  public ScheduleDetail(Schedule schedule, Long categoryId, String title, String color, String memo) {
     this.schedule = schedule;
-    this.category = category;
+    this.categoryId = categoryId;
     this.title = title;
     this.color = color;
     this.memo = memo;
   }
 
-  public static ScheduleDetail of(Schedule schedule, ScheduleCategory category, String title, String color, String memo) {
+  public static ScheduleDetail of(Schedule schedule, Long categoryId, String title, String color, String memo) {
     return ScheduleDetail.builder()
       .schedule(schedule)
-      .category(category)
+      .categoryId(categoryId)
       .title(title)
       .color(color)
       .memo(memo)
