@@ -31,8 +31,9 @@ public class ScheduleDetail {
   @JoinColumn(name = "schedule_id")
   private Schedule schedule;
 
-  @Enumerated(EnumType.STRING)
-  private Category category;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "category_id")
+  private ScheduleCategory category;
 
   @Column(length = 100)
   private String title;
@@ -43,7 +44,7 @@ public class ScheduleDetail {
   private String memo;
 
   @Builder
-  public ScheduleDetail(Schedule schedule, Category category, String title, String color, String memo) {
+  public ScheduleDetail(Schedule schedule, ScheduleCategory category, String title, String color, String memo) {
     this.schedule = schedule;
     this.category = category;
     this.title = title;
@@ -51,7 +52,7 @@ public class ScheduleDetail {
     this.memo = memo;
   }
 
-  public static ScheduleDetail of(Schedule schedule, Category category, String title, String color, String memo) {
+  public static ScheduleDetail of(Schedule schedule, ScheduleCategory category, String title, String color, String memo) {
     return ScheduleDetail.builder()
       .schedule(schedule)
       .category(category)
