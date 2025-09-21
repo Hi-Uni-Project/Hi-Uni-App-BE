@@ -2,6 +2,7 @@ package com.project.hiuni.domain.schedule.controller;
 
 import com.project.hiuni.domain.schedule.dto.CategoryDataDto;
 import com.project.hiuni.domain.schedule.dto.response.CategoryResponse;
+import com.project.hiuni.domain.schedule.repository.CategoryRepository;
 import com.project.hiuni.global.common.dto.response.ResponseDTO;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -16,21 +17,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/schedules")
 public class ScheduleController {
 
-  private final List<CategoryDataDto> categories;
+  private final CategoryRepository categoryRepository;
 
 
   @GetMapping("/categories")
   public ResponseDTO<List<CategoryResponse>> getCategories() {
 
-    List<CategoryResponse> response = categories.stream()
-        .map(category -> {
-          return CategoryResponse
-              .builder()
-              .categoryId(category.getCategoryid())
-              .categoryName(category.getCategoryname())
-              .build();
-        })
-        .toList();
+    List<CategoryResponse> response = categoryRepository.findAll();
 
     return ResponseDTO.of(response, "카테고리 조회 성공");
   }
