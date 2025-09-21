@@ -11,7 +11,7 @@ import com.project.hiuni.domain.post.dto.response.PostReviewResponse;
 import com.project.hiuni.domain.post.dto.response.PostUpdateNoReviewResponse;
 import com.project.hiuni.domain.post.dto.response.PostUpdateReviewResponse;
 import com.project.hiuni.domain.post.dto.response.PostPreviewResponse;
-import com.project.hiuni.domain.post.v1.service.PostService;
+import com.project.hiuni.domain.post.v1.service.PostV1Service;
 import com.project.hiuni.global.common.dto.response.ResponseDTO;
 import com.project.hiuni.global.exception.ErrorCode;
 import com.project.hiuni.global.exception.ValidationException;
@@ -35,52 +35,52 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class PostV1Controller {
 
-    private final PostService postService;
+    private final PostV1Service postV1Service;
 
     @PostMapping("/no-review")
-    public ResponseDTO<PostCreateNoReviewResponse> createNoReviewPost(@AuthenticationPrincipal CustomUserDetails userDetails,
-                                                                      @RequestBody @Valid PostCreateNoReviewRequest request) {
-        PostCreateNoReviewResponse postCreateNoReviewResponse = postService.createNoReviewPost(request, userDetails.getId());
+    public ResponseDTO<PostCreateNoReviewResponse> createNoReviewPost(@RequestBody @Valid PostCreateNoReviewRequest request,
+                                                                      @AuthenticationPrincipal CustomUserDetails userDetails) {
+        PostCreateNoReviewResponse postCreateNoReviewResponse = postV1Service.createNoReviewPost(request, userDetails.getId());
 
         return ResponseDTO.of(postCreateNoReviewResponse, "게시글 생성에 성공하였습니다.");
     }
 
     @PostMapping("/review")
-    public ResponseDTO<PostCreateReviewResponse> createReviewPost(@AuthenticationPrincipal CustomUserDetails userDetails,
-                                                            @RequestBody @Valid PostCreateReviewRequest request) {
-        PostCreateReviewResponse postCreateReviewResponse = postService.createReviewPost(request, userDetails.getId());
+    public ResponseDTO<PostCreateReviewResponse> createReviewPost(@RequestBody @Valid PostCreateReviewRequest request,
+                                                                  @AuthenticationPrincipal CustomUserDetails userDetails) {
+        PostCreateReviewResponse postCreateReviewResponse = postV1Service.createReviewPost(request, userDetails.getId());
 
         return ResponseDTO.of(postCreateReviewResponse,"게시글 생성에 성공하였습니다.");
     }
 
     @GetMapping("/no-review/{id}")
-    public ResponseDTO<PostNoReviewResponse> searchNoReviewPost(@AuthenticationPrincipal CustomUserDetails userDetails,
-                                                        @PathVariable Long id) {
-        PostNoReviewResponse postNoReviewResponse = postService.searchNoReviewPost(id);
+    public ResponseDTO<PostNoReviewResponse> searchNoReviewPost( @PathVariable Long id,
+                                                                 @AuthenticationPrincipal CustomUserDetails userDetails) {
+        PostNoReviewResponse postNoReviewResponse = postV1Service.searchNoReviewPost(id);
         return ResponseDTO.of(postNoReviewResponse, "게시글 조회에 성공하였습니다.");
     }
 
     @GetMapping("/review/{id}")
-    public ResponseDTO<PostReviewResponse> searchReviewPost(@AuthenticationPrincipal CustomUserDetails userDetails,
-                                                              @PathVariable Long id) {
-        PostReviewResponse postReviewResponse = postService.searchReviewPost(id);
+    public ResponseDTO<PostReviewResponse> searchReviewPost(@PathVariable Long id,
+                                                            @AuthenticationPrincipal CustomUserDetails userDetails) {
+        PostReviewResponse postReviewResponse = postV1Service.searchReviewPost(id);
         return ResponseDTO.of(postReviewResponse, "게시글 조회에 성공하였습니다.");
     }
 
     @PutMapping("/review/{id}")
     public ResponseDTO<PostUpdateReviewResponse> updateReviewPost(@PathVariable Long id,
-                                                            @AuthenticationPrincipal CustomUserDetails userDetails,
-                                                            @RequestBody @Valid PostUpdateReviewRequest request) {
-        PostUpdateReviewResponse postUpdateReviewResponse = postService.updateReviewPost(request, id, userDetails.getId());
+                                                                  @RequestBody @Valid PostUpdateReviewRequest request,
+                                                                  @AuthenticationPrincipal CustomUserDetails userDetails) {
+        PostUpdateReviewResponse postUpdateReviewResponse = postV1Service.updateReviewPost(request, id, userDetails.getId());
 
         return ResponseDTO.of(postUpdateReviewResponse, "게시글 수정에 성공하였습니다.");
     }
 
     @PutMapping("/no-review/{id}")
     public ResponseDTO<PostUpdateNoReviewResponse> updateNoReviewPost(@PathVariable Long id,
-                                                                      @AuthenticationPrincipal CustomUserDetails userDetails,
-                                                                      @RequestBody @Valid PostUpdateNoReviewRequest request) {
-        PostUpdateNoReviewResponse postUpdateNoReviewResponse = postService.updateNoReviewPost(request, id, userDetails.getId());
+                                                                      @RequestBody @Valid PostUpdateNoReviewRequest request,
+                                                                      @AuthenticationPrincipal CustomUserDetails userDetails) {
+        PostUpdateNoReviewResponse postUpdateNoReviewResponse = postV1Service.updateNoReviewPost(request, id, userDetails.getId());
 
         return ResponseDTO.of(postUpdateNoReviewResponse, "게시글 수정에 성공하였습니다.");
     }
@@ -88,30 +88,30 @@ public class PostV1Controller {
     @DeleteMapping("/{id}")
     public ResponseDTO<Void> deletePost(@PathVariable Long id,
                            @AuthenticationPrincipal CustomUserDetails userDetails) {
-        postService.deletePost(id, userDetails.getId());
+        postV1Service.deletePost(id, userDetails.getId());
 
         return ResponseDTO.of("게시글 삭제에 성공하였습니다.");
     }
 
     @GetMapping
-    public ResponseDTO<List<PostPreviewResponse>> searchAllPosts(@AuthenticationPrincipal CustomUserDetails userDetails,
-                                                                    @RequestParam String sort) {
-        List<PostPreviewResponse> postPreviewResponses = postService.getAllPosts(sort,userDetails.getId());
+    public ResponseDTO<List<PostPreviewResponse>> searchAllPosts(@RequestParam String sort,
+                                                                 @AuthenticationPrincipal CustomUserDetails userDetails) {
+        List<PostPreviewResponse> postPreviewResponses = postV1Service.getAllPosts(sort,userDetails.getId());
 
         return ResponseDTO.of(postPreviewResponses,"게시글 목록 조회에 성공하였습니다.");
     }
 
     @GetMapping("/weekly-hot")
     public ResponseDTO<List<PostPreviewResponse>> searchWeeklyHotPosts(@AuthenticationPrincipal CustomUserDetails userDetails) {
-        List<PostPreviewResponse> postPreviewResponses = postService.getWeeklyHotPosts(userDetails.getId());
+        List<PostPreviewResponse> postPreviewResponses = postV1Service.getWeeklyHotPosts(userDetails.getId());
 
         return ResponseDTO.of(postPreviewResponses,"게시글 목록 조회에 성공하였습니다.");
     }
 
     @GetMapping("/search")
-    public ResponseDTO<List<PostPreviewResponse>> searchPosts(@AuthenticationPrincipal CustomUserDetails userDetails,
-                                                              @RequestParam String keyword,
-                                                              @RequestParam String sort) {
+    public ResponseDTO<List<PostPreviewResponse>> searchPosts(@RequestParam String keyword,
+                                                              @RequestParam String sort,
+                                                              @AuthenticationPrincipal CustomUserDetails userDetails) {
         if(keyword.isBlank() || keyword.length() < 2) {
             throw new ValidationException(ErrorCode.INVALID_SEARCH_KEYWORD_LENGTH);
         }
@@ -119,7 +119,7 @@ public class PostV1Controller {
             throw new ValidationException(ErrorCode.INVALID_SEARCH_KEYWORD_MAXIMUM);
         }
 
-        List<PostPreviewResponse> postPreviewResponses = postService.getKeywordPosts(sort, keyword, userDetails.getId());
+        List<PostPreviewResponse> postPreviewResponses = postV1Service.getKeywordPosts(sort, keyword, userDetails.getId());
 
         return ResponseDTO.of(postPreviewResponses, "게시글 목록 조회에 성공하였습니다.");
     }
