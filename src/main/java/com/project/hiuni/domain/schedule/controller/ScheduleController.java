@@ -1,6 +1,5 @@
 package com.project.hiuni.domain.schedule.controller;
 
-import com.project.hiuni.domain.schedule.dto.CategoryDataDto;
 import com.project.hiuni.domain.schedule.dto.response.CategoryResponse;
 import com.project.hiuni.domain.schedule.repository.CategoryRepository;
 import com.project.hiuni.global.common.dto.response.ResponseDTO;
@@ -27,5 +26,7 @@ public class ScheduleController {
 
     return ResponseDTO.of(response, "카테고리 조회 성공");
   }
+
+
 
 }
