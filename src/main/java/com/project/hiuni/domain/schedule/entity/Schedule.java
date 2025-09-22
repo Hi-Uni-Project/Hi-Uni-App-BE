@@ -2,20 +2,17 @@ package com.project.hiuni.domain.schedule.entity;
 
 import com.project.hiuni.admin.common.BaseEntity;
 import com.project.hiuni.domain.user.entity.User;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
-import java.util.List;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -35,30 +32,37 @@ public class Schedule extends BaseEntity {
     @JoinColumn(name="user_id", nullable = false)
     private User user;
 
+    private Long categoryId;
+
     private LocalDateTime startDate;
 
     private LocalDateTime endDate;
 
-    @OneToMany(mappedBy = "schedule")
-    private List<ScheduleDetail> scheduleDetails;
+    @Column(length = 100)
+    private String title; // = detail (일정 명)v
+
+    @Lob
+    private String memo;
+
 
     @Builder
-    public Schedule(LocalDateTime startDate,
-                    LocalDateTime endDate,
-                    User user,
-                    List<ScheduleDetail> scheduleDetails) {
+    public Schedule(LocalDateTime startDate, LocalDateTime endDate, User user, Long categoryId, String title, String memo) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.user = user;
-        this.scheduleDetails = scheduleDetails;
+        this.categoryId = categoryId;
+        this.title = title;
+        this.memo = memo;
     }
 
-    public static Schedule of(LocalDateTime startDate, LocalDateTime endDate, User user, List<ScheduleDetail> scheduleDetails) {
+    public static Schedule of(LocalDateTime startDate, LocalDateTime endDate, User user, Long categoryId, String title, String memo) {
         return Schedule.builder()
             .startDate(startDate)
             .endDate(endDate)
             .user(user)
-            .scheduleDetails(scheduleDetails)
+            .categoryId(categoryId)
+            .title(title)
+            .memo(memo)
             .build();
     }
 }

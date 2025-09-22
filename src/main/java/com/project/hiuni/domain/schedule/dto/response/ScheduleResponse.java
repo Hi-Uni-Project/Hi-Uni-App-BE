@@ -9,7 +9,8 @@ import lombok.Setter;
 @Setter
 public class ScheduleResponse {
 
-  private LocalDateTime date;
+  private LocalDateTime startDate;
+  private LocalDateTime endDate;
   private List<Schedule> schedule;
 
 
