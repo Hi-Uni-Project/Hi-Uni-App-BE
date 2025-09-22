@@ -33,14 +33,15 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class PostService {
+public class PostV1Service {
 
     private final PostRepository postRepository;
     private final UserRepository userRepository;
 
     @Transactional
     public PostCreateNoReviewResponse createNoReviewPost(PostCreateNoReviewRequest request, Long userId) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new CustomUserNotFoundException(ErrorCode.USER_NOT_FOUND));
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new CustomUserNotFoundException(ErrorCode.USER_NOT_FOUND));
 
         Category category = getCategory(request.type());
 
@@ -58,7 +59,8 @@ public class PostService {
 
     @Transactional
     public PostCreateReviewResponse createReviewPost(PostCreateReviewRequest request, Long userId) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new CustomUserNotFoundException(ErrorCode.USER_NOT_FOUND));
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new CustomUserNotFoundException(ErrorCode.USER_NOT_FOUND));
 
         Category category = getCategory(request.type());
 
@@ -83,7 +85,7 @@ public class PostService {
     @Transactional
     public PostNoReviewResponse searchNoReviewPost(Long postId) {
         Post post = postRepository.findById(postId)
-                .orElseThrow(()-> new CustomPostNotFoundException(ErrorCode.NOT_FOUND));
+                .orElseThrow(() -> new CustomPostNotFoundException(ErrorCode.POST_NOT_FOUND));
 
         post.incrementViewCount();
         return PostNoReviewResponse.from(post);
@@ -92,15 +94,16 @@ public class PostService {
     @Transactional
     public PostReviewResponse searchReviewPost(Long postId) {
         Post post = postRepository.findById(postId)
-                .orElseThrow(()-> new CustomPostNotFoundException(ErrorCode.NOT_FOUND));
+                .orElseThrow(() -> new CustomPostNotFoundException(ErrorCode.POST_NOT_FOUND));
 
         post.incrementViewCount();
         return PostReviewResponse.from(post);
     }
 
     @Transactional
-    public PostUpdateNoReviewResponse updateNoReviewPost(PostUpdateNoReviewRequest request,Long postId, Long userId) {
-        Post post = postRepository.findById(postId).orElseThrow(()-> new CustomPostNotFoundException(ErrorCode.NOT_FOUND));
+    public PostUpdateNoReviewResponse updateNoReviewPost(PostUpdateNoReviewRequest request, Long postId, Long userId) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new CustomPostNotFoundException(ErrorCode.POST_NOT_FOUND));
 
         if (!post.getUser().getId().equals(userId)) {
             throw new CustomForbiddenException(ErrorCode.FORBIDDEN);
@@ -126,8 +129,9 @@ public class PostService {
     }
 
     @Transactional
-    public PostUpdateReviewResponse updateReviewPost(PostUpdateReviewRequest request, Long postId, Long userId){
-        Post post = postRepository.findById(postId).orElseThrow(()-> new CustomPostNotFoundException(ErrorCode.NOT_FOUND));
+    public PostUpdateReviewResponse updateReviewPost(PostUpdateReviewRequest request, Long postId, Long userId) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new CustomPostNotFoundException(ErrorCode.POST_NOT_FOUND));
 
         if (!post.getUser().getId().equals(userId)) {
             throw new CustomForbiddenException(ErrorCode.FORBIDDEN);
@@ -154,9 +158,10 @@ public class PostService {
 
     @Transactional
     public void deletePost(Long postId, Long userId) {
-        Post post = postRepository.findById(postId).orElseThrow(()-> new CustomPostNotFoundException(ErrorCode.NOT_FOUND));
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new CustomPostNotFoundException(ErrorCode.POST_NOT_FOUND));
 
-        if(!post.getUser().getId().equals(userId)) {
+        if (!post.getUser().getId().equals(userId)) {
             throw new CustomForbiddenException(ErrorCode.FORBIDDEN);
         }
 
@@ -165,7 +170,8 @@ public class PostService {
 
     @Transactional
     public List<PostPreviewResponse> getWeeklyHotPosts(Long userId){
-        User user = userRepository.findById(userId).orElseThrow(() -> new CustomUserNotFoundException(ErrorCode.USER_NOT_FOUND));
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new CustomUserNotFoundException(ErrorCode.USER_NOT_FOUND));
 
         ZoneId zone = ZoneId.of("Asia/Seoul");
         LocalDate today = LocalDate.now(zone);
@@ -173,26 +179,26 @@ public class PostService {
         LocalDateTime end   = today.with(DayOfWeek.SUNDAY).atStartOfDay();
         LocalDateTime start = end.minusWeeks(1);
 
-        return postRepository.
-                findWeeklyHot(start, end,user.getUnivName()).stream()
+        return postRepository.findWeeklyHot(start, end, user.getUnivName())
+                .stream()
                 .map(PostPreviewResponse::from)
                 .toList();
     }
 
     @Transactional(readOnly = true)
     public List<PostPreviewResponse> getAllPosts(String sort, Long userId){
-        User user = userRepository.findById(userId).orElseThrow(() -> new CustomUserNotFoundException(ErrorCode.USER_NOT_FOUND));
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new CustomUserNotFoundException(ErrorCode.USER_NOT_FOUND));
 
         String univName = user.getUnivName();
 
-        Sort sortedPost = switch (sort){
+        Sort sortedPost = switch (sort) {
             case "like" -> Sort.by(Sort.Order.desc("likeCount"));
             case "comment" -> Sort.by(Sort.Order.desc("commentCount"));
-            default        -> Sort.by(Sort.Order.desc("createdAt"));
+            default -> Sort.by(Sort.Order.desc("createdAt"));
         };
 
-        return postRepository.
-                findAllPosts(univName, sortedPost)
+        return postRepository.findAllPosts(univName, sortedPost)
                 .stream()
                 .map(PostPreviewResponse::from)
                 .toList();
@@ -200,13 +206,14 @@ public class PostService {
 
     @Transactional(readOnly = true)
     public List<PostPreviewResponse> getKeywordPosts(String sort, String keyword, Long userId){
-        User user = userRepository.findById(userId).orElseThrow(() -> new CustomUserNotFoundException(ErrorCode.USER_NOT_FOUND));
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new CustomUserNotFoundException(ErrorCode.USER_NOT_FOUND));
         String univName = user.getUnivName();
 
-        Sort sortedPost = switch (sort){
+        Sort sortedPost = switch (sort) {
             case "like" -> Sort.by(Sort.Order.desc("likeCount"));
             case "comment" -> Sort.by(Sort.Order.desc("commentCount"));
-            default        -> Sort.by(Sort.Order.desc("createdAt"));
+            default -> Sort.by(Sort.Order.desc("createdAt"));
         };
 
         return postRepository.searchByKeywordAndUniv(keyword, univName, sortedPost)
