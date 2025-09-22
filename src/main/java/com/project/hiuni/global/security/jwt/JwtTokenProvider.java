@@ -129,7 +129,7 @@ public class JwtTokenProvider {
       if(getTypeFromToken(token).equals("access")) {
         throw new InvalidAccessJwtException(ErrorCode.ACCESS_TOKEN_INVALID);
       } else {
-        throw new InvalidRefrashJwtException(ErrorCode.ACCESS_TOKEN_INVALID);
+        throw new InvalidRefrashJwtException(ErrorCode.REFRESH_TOKEN_INVALID);
       }
 
 
@@ -140,7 +140,7 @@ public class JwtTokenProvider {
       if(getTypeFromToken(token).equals("access")) {
         throw new InvalidAccessJwtException(ErrorCode.ACCESS_TOKEN_INVALID);
       } else {
-        throw new InvalidRefrashJwtException(ErrorCode.ACCESS_TOKEN_INVALID);
+        throw new InvalidRefrashJwtException(ErrorCode.REFRESH_TOKEN_INVALID);
       }
 
     } catch (IllegalArgumentException e) {
@@ -150,7 +150,7 @@ public class JwtTokenProvider {
       if(getTypeFromToken(token).equals("access")) {
         throw new InvalidAccessJwtException(ErrorCode.ACCESS_TOKEN_INVALID);
       } else {
-        throw new InvalidRefrashJwtException(ErrorCode.ACCESS_TOKEN_INVALID);
+        throw new InvalidRefrashJwtException(ErrorCode.REFRESH_TOKEN_INVALID);
       }
 
     } catch (SignatureException e) {
@@ -160,7 +160,7 @@ public class JwtTokenProvider {
       if(getTypeFromToken(token).equals("access")) {
         throw new InvalidAccessJwtException(ErrorCode.ACCESS_TOKEN_INVALID);
       } else {
-        throw new InvalidRefrashJwtException(ErrorCode.ACCESS_TOKEN_INVALID);
+        throw new InvalidRefrashJwtException(ErrorCode.REFRESH_TOKEN_INVALID);
       }
 
     } catch (JwtException e) {
@@ -170,7 +170,7 @@ public class JwtTokenProvider {
       if(getTypeFromToken(token).equals("access")) {
         throw new InvalidAccessJwtException(ErrorCode.ACCESS_TOKEN_INVALID);
       } else {
-        throw new InvalidRefrashJwtException(ErrorCode.ACCESS_TOKEN_INVALID);
+        throw new InvalidRefrashJwtException(ErrorCode.REFRESH_TOKEN_INVALID);
       }
 
     }
