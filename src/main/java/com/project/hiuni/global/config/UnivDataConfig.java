@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -17,17 +18,12 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 
 @Configuration
+@RequiredArgsConstructor
 @Slf4j
 public class UnivDataConfig {
 
   private final ResourceLoader resourceLoader;
   private final ObjectMapper objectMapper;
-
-  @Autowired
-  public UnivDataConfig(ResourceLoader resourceLoader, ObjectMapper objectMapper) {
-    this.resourceLoader = resourceLoader;
-    this.objectMapper = objectMapper;
-  }
 
   @Bean
   public UnivDataDto loadUnivData() {
