@@ -30,7 +30,7 @@ public class ScheduleRequest {
 
 
   @Min(1)
-  @Max(6)
+  @Max(8)
   private Long categoryId;
 
 }
