@@ -67,6 +67,8 @@ public class ScheduleController {
         endDate
     );
 
+    return ResponseDTO.of(response, "스케쥴 조회에 성공하였습니다.");
+
   }
 
 

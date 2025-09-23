@@ -12,8 +12,10 @@ import com.project.hiuni.domain.post.exception.CustomPostNotFoundException;
 import com.project.hiuni.domain.tos.exception.RequiredTermsNotAgreedException;
 import com.project.hiuni.global.common.dto.response.ErrorResponse;
 import com.project.hiuni.global.common.dto.response.ResponseDTO;
+import java.time.format.DateTimeParseException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.reactive.result.method.annotation.ResponseEntityExceptionHandler;
@@ -98,6 +100,24 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
   public ResponseEntity<ResponseDTO> NotFoundInfoException(NotFoundInfoException e) {
     return ResponseEntity.status(e.getErrorCode().getActualStatusCode())
         .body(ResponseDTO.of(e.getErrorCode()));
+  }
+
+  @ExceptionHandler(HttpMessageNotReadableException.class)
+  public ResponseEntity<ResponseDTO> HttpMessageNotReadableException(HttpMessageNotReadableException e) {
+
+    log.error("요청 본문을 파싱할 수 없음. : " + e.getMessage());
+
+    return ResponseEntity.status(ErrorCode.INVALID_INPUT_VALUE.getActualStatusCode())
+        .body(ResponseDTO.of(ErrorCode.INVALID_INPUT_VALUE));
+  }
+
+  @ExceptionHandler(DateTimeParseException.class)
+  public ResponseEntity<ResponseDTO> DateTimeParseException(DateTimeParseException e) {
+
+    log.error("요청 본문을 파싱할 수 없음. / 요청 시간이 포맷에 안맞거나 공백이거나 Null임 : " + e.getMessage());
+
+    return ResponseEntity.status(ErrorCode.INVALID_INPUT_VALUE.getActualStatusCode())
+        .body(ResponseDTO.of(ErrorCode.INVALID_INPUT_VALUE));
   }
 
 }

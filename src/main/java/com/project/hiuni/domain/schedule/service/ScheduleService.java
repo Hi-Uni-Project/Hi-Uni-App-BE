@@ -3,6 +3,7 @@ package com.project.hiuni.domain.schedule.service;
 import com.project.hiuni.domain.schedule.dto.request.ScheduleRequest;
 import com.project.hiuni.domain.schedule.dto.response.ScheduleResponse;
 import com.project.hiuni.domain.schedule.entity.Schedule;
+import com.project.hiuni.domain.schedule.repository.CategoryRepository;
 import com.project.hiuni.domain.schedule.repository.ScheduleRepository;
 import com.project.hiuni.domain.user.entity.User;
 import com.project.hiuni.domain.user.repository.UserRepository;
@@ -10,8 +11,11 @@ import com.project.hiuni.global.exception.ErrorCode;
 import com.project.hiuni.global.exception.NotFoundInfoException;
 import com.project.hiuni.global.security.jwt.JwtTokenProvider;
 import jakarta.servlet.http.HttpServletRequest;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Locale;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -26,6 +30,7 @@ public class ScheduleService {
 
   private final UserRepository userRepository;
   private final ScheduleRepository scheduleRepository;
+  private final CategoryRepository categoryRepository;
 
   @Transactional
   public void createSchedule(ScheduleRequest scheduleRequest, HttpServletRequest httpServletRequest) {
@@ -52,17 +57,49 @@ public class ScheduleService {
   }
 
   @Transactional
-  public List<ScheduleResponse> getSchedulesByDate(HttpServletRequest httpServletRequest, String startDate, String endDate) {
+  public List<ScheduleResponse> getSchedulesByDate(HttpServletRequest httpServletRequest,
+      String startDate, String endDate) {
 
     User user = jwtTokenProvider.getUserFromRequest(httpServletRequest);
+
+    LocalDateTime startDateTime = LocalDate.parse(startDate).atStartOfDay();
+    LocalDateTime endDateTime = LocalDate.parse(endDate).atTime(23, 59, 59, 999999999);
+
     List<Schedule> schedules = scheduleRepository.findAllByUserIdAndDate(
         user.getId(),
-        LocalDateTime.parse(startDate),
-        LocalDateTime.parse(endDate)
+        startDateTime,
+        endDateTime
     );
 
+    List<ScheduleResponse> response = schedules.stream()
+        .map(sc -> {
 
+          String category = categoryRepository.findById(sc.getCategoryId()).getCategoryname();
+          String color = categoryRepository.findById(sc.getCategoryId()).getCategorycolor();
 
+          String StartDateTime = sc.getStartDate().
+              format(DateTimeFormatter.ofPattern("a hh:mm", Locale.ENGLISH));
+          String EndDateTime = sc.getEndDate()
+              .format(DateTimeFormatter.ofPattern("a hh:mm",Locale.ENGLISH));
+
+          String time = StartDateTime + " - " + EndDateTime;
+
+          ScheduleResponse scheduleResponse = ScheduleResponse
+              .builder()
+              .startDate(sc.getStartDate())
+              .endDate(sc.getEndDate())
+              .category(category)
+              .detail(sc.getTitle())
+              .time(time)
+              .color(color)
+              .memo(sc.getMemo())
+              .build();
+
+          return scheduleResponse;
+        })
+        .toList();
+
+    return response;
   }
 
 
