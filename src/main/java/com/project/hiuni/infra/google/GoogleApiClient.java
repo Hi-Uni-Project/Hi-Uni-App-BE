@@ -24,9 +24,10 @@ public class GoogleApiClient {
 
   public GoogleApiClient(
       @Value("${oauth.google.client-id-android}") String clientId1,
-      @Value("${oauth.google.client-id-apple}") String clientId2) {
+      @Value("${oauth.google.client-id-apple}") String clientId2,
+      @Value("${oauth.google.client-id-web}") String clientId3) {
 
-    List<String> clientIds = List.of(clientId1, clientId2);
+    List<String> clientIds = List.of(clientId1, clientId2, clientId3);
 
     this.verifier = new GoogleIdTokenVerifier.Builder(
         new NetHttpTransport(),
@@ -43,7 +44,7 @@ public class GoogleApiClient {
       GoogleIdToken idToken = verifier.verify(authToken);
 
       if(idToken == null) {
-        log.error("구글 id 토큰이 비어있음");
+        log.error("구글 id 토큰이 비어있음 / 검증실패");
         throw new GoogleInvalidTokenException(ErrorCode.GOOGLE_INVALID_TOKEN);
       }
 

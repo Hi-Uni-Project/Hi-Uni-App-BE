@@ -1,6 +1,7 @@
 package com.project.hiuni.domain.user.v1.controller;
 
 import com.project.hiuni.domain.auth.entity.SocialProvider;
+import com.project.hiuni.domain.schedule.repository.ScheduleRepository;
 import com.project.hiuni.domain.user.entity.User;
 import com.project.hiuni.domain.user.repository.UserRepository;
 import com.project.hiuni.global.common.dto.response.ResponseDTO;
@@ -19,6 +20,7 @@ public class UserV1Controller {
 
   private final JwtTokenProvider jwtTokenProvider;
   private final UserRepository userRepository;
+  private ScheduleRepository scheduleRepository;
 
   @GetMapping("/token-test")
   @Transactional
@@ -27,6 +29,10 @@ public class UserV1Controller {
     User user = User.createStandardUserForSocial("social123", null, "social123@social123", SocialProvider.GOOGLE);
 
     if(userRepository.findBySocialId("social123").isPresent()) {
+
+      scheduleRepository.deleteAll();
+      scheduleRepository.flush();
+
       userRepository.deleteBySocialId("social123");
       userRepository.flush();
     }
