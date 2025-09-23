@@ -43,7 +43,7 @@ public class GoogleApiClient {
       GoogleIdToken idToken = verifier.verify(authToken);
 
       if(idToken == null) {
-        log.error("구글 id 토큰이 비어있음");
+        log.error("구글 id 토큰이 비어있음 / 검증실패");
         throw new GoogleInvalidTokenException(ErrorCode.GOOGLE_INVALID_TOKEN);
       }
 

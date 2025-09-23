@@ -2,6 +2,7 @@ package com.project.hiuni.domain.schedule.controller;
 
 import com.project.hiuni.domain.schedule.dto.request.ScheduleRequest;
 import com.project.hiuni.domain.schedule.dto.response.CategoryResponse;
+import com.project.hiuni.domain.schedule.dto.response.ScheduleResponse;
 import com.project.hiuni.domain.schedule.repository.CategoryRepository;
 import com.project.hiuni.domain.schedule.service.ScheduleService;
 import com.project.hiuni.global.common.dto.response.ResponseDTO;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -51,6 +53,20 @@ public class ScheduleController {
     scheduleService.createSchedule(scheduleRequest, httpServletRequest);
 
     return ResponseDTO.of("스케쥴 등록에 성공하였습니다.");
+  }
+
+  @GetMapping
+  public ResponseDTO<List<ScheduleResponse>> getSchedulesByDate(
+      HttpServletRequest httpServletRequest,
+      @RequestParam(required = true) String startDate,
+      @RequestParam(required = true) String endDate) {
+
+    List<ScheduleResponse> response = scheduleService.getSchedulesByDate(
+        httpServletRequest,
+        startDate,
+        endDate
+    );
+
   }
 
 

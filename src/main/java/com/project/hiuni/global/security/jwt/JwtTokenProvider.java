@@ -2,10 +2,13 @@ package com.project.hiuni.global.security.jwt;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.project.hiuni.domain.user.entity.User;
+import com.project.hiuni.domain.user.repository.UserRepository;
 import com.project.hiuni.global.common.threadlocal.TraceIdHolder;
 import com.project.hiuni.global.exception.ErrorCode;
 import com.project.hiuni.global.exception.InvalidAccessJwtException;
 import com.project.hiuni.global.exception.InvalidRefrashJwtException;
+import com.project.hiuni.global.exception.NotFoundInfoException;
 import com.project.hiuni.global.exception.TokenExtractionException;
 import com.project.hiuni.global.security.core.CustomUserDetails;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -33,6 +36,7 @@ import org.springframework.stereotype.Component;
 public class JwtTokenProvider {
 
   private final SecretKey secretKey;
+  private final UserRepository userRepository;
 
   @Value("${jwt.accessTokenExpirationTime}")
   private Long accessTokenExpirationTime;
@@ -284,6 +288,21 @@ public class JwtTokenProvider {
     } catch (Exception e) {
       return "unknown"; // 기본값
     }
+  }
+
+
+  /** Request에서 User 정보 가져오기
+   *
+   * @param httpServletRequest
+   * @return User
+   */
+  public User getUserFromRequest(HttpServletRequest httpServletRequest) {
+    String token = extractToken(httpServletRequest);
+    String socialId = getSocialIdFromToken(token);
+
+    return userRepository.findBySocialId(socialId).orElseThrow(
+        () -> new NotFoundInfoException(ErrorCode.USER_NOT_FOUND)
+    );
   }
 
 }
