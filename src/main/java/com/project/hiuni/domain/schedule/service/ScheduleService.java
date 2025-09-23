@@ -55,6 +55,13 @@ public class ScheduleService {
   public List<ScheduleResponse> getSchedulesByDate(HttpServletRequest httpServletRequest, String startDate, String endDate) {
 
     User user = jwtTokenProvider.getUserFromRequest(httpServletRequest);
+    List<Schedule> schedules = scheduleRepository.findAllByUserIdAndDate(
+        user.getId(),
+        LocalDateTime.parse(startDate),
+        LocalDateTime.parse(endDate)
+    );
+
+
 
   }
 
