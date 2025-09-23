@@ -20,7 +20,7 @@ public class UserV1Controller {
 
   private final JwtTokenProvider jwtTokenProvider;
   private final UserRepository userRepository;
-  private ScheduleRepository scheduleRepository;
+  private final ScheduleRepository scheduleRepository;
 
   @GetMapping("/token-test")
   @Transactional

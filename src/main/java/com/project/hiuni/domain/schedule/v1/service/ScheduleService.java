@@ -1,4 +1,4 @@
-package com.project.hiuni.domain.schedule.service;
+package com.project.hiuni.domain.schedule.v1.service;
 
 import com.project.hiuni.domain.schedule.dto.request.ScheduleRequest;
 import com.project.hiuni.domain.schedule.dto.response.ScheduleResponse;
@@ -7,8 +7,6 @@ import com.project.hiuni.domain.schedule.repository.CategoryRepository;
 import com.project.hiuni.domain.schedule.repository.ScheduleRepository;
 import com.project.hiuni.domain.user.entity.User;
 import com.project.hiuni.domain.user.repository.UserRepository;
-import com.project.hiuni.global.exception.ErrorCode;
-import com.project.hiuni.global.exception.NotFoundInfoException;
 import com.project.hiuni.global.security.jwt.JwtTokenProvider;
 import jakarta.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
