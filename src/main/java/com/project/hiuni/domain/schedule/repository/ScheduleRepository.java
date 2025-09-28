@@ -13,6 +13,7 @@ public interface ScheduleRepository extends JpaRepository <Schedule, Long> {
   @Query("select s from Schedule s "
       + "where s.user.id = :userId "
       + "and s.startDate <= :endDate "
-      + "and s.endDate >= :startDate")
+      + "and s.endDate >= :startDate "
+      + "order by s.startDate asc")
   List<Schedule> findAllByUserIdAndDate(Long userId, LocalDateTime startDate, LocalDateTime endDate);
 }
