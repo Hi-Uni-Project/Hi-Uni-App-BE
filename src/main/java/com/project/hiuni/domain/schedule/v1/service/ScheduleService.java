@@ -1,5 +1,6 @@
 package com.project.hiuni.domain.schedule.v1.service;
 
+import com.project.hiuni.domain.schedule.dto.CategoryDataDto;
 import com.project.hiuni.domain.schedule.dto.request.ScheduleRequest;
 import com.project.hiuni.domain.schedule.dto.response.ScheduleResponse;
 import com.project.hiuni.domain.schedule.entity.Schedule;
@@ -72,8 +73,10 @@ public class ScheduleService {
     List<ScheduleResponse> response = schedules.stream()
         .map(sc -> {
 
-          String category = categoryRepository.findById(sc.getCategoryId()).getCategoryname();
-          String color = categoryRepository.findById(sc.getCategoryId()).getCategorycolor();
+          CategoryDataDto category = categoryRepository.findById(sc.getCategoryId());
+
+          String categoryName = category.getCategoryname();
+          String color = category.getCategorycolor();
 
           String StartDateTime = sc.getStartDate().
               format(DateTimeFormatter.ofPattern("a hh:mm", Locale.ENGLISH));
@@ -86,7 +89,7 @@ public class ScheduleService {
               .builder()
               .startDate(sc.getStartDate())
               .endDate(sc.getEndDate())
-              .category(category)
+              .category(categoryName)
               .detail(sc.getTitle())
               .time(time)
               .color(color)
