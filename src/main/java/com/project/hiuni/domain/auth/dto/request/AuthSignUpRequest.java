@@ -15,6 +15,9 @@ public class AuthSignUpRequest {
   @NotNull
   private Univ univ;
 
+  @NotNull
+  private AuthSocialRequest social;
+
   @Getter
   @Setter
   public static class Tos {
@@ -41,16 +44,6 @@ public class AuthSignUpRequest {
 
     @NotNull(message = "학교 이메일은 필수입니다.")
     private String univEmail;
-  }
-
-  @Getter
-  @Setter
-  public static class Social {
-    @NotNull(message = "토큰은 필수입니다.")
-    private String authToken;
-
-    @NotNull(message = "소셜 provider는 필수입니다.")
-    private SocialProvider provider;
   }
 
 }

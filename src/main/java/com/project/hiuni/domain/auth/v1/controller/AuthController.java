@@ -73,6 +73,8 @@ public class AuthController implements AuthApiDocumentation {
       throw new ValidationException(ErrorCode.INVALID_INPUT_VALUE);
     }
 
+    AuthSignUpResponse authSignUpResponse = authService.authSignUp(authSignUpRequest);
+
     return null;
 
 
