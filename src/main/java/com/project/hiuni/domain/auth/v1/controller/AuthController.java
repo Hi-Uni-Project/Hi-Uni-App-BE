@@ -75,10 +75,7 @@ public class AuthController implements AuthApiDocumentation {
 
     AuthSignUpResponse authSignUpResponse = authService.authSignUp(authSignUpRequest);
 
-    return null;
-
-
-
+    return ResponseDTO.of(authSignUpResponse, "회원가입에 성공하였습니다.");
 
   }
 
