@@ -262,23 +262,29 @@ public class AuthService {
   public AuthSignUpResponse authSignUp(AuthSignUpRequest authSignUpRequest) {
 
     // 1. 소셜로그인 회원가입 처리
+    System.out.println("1. 소셜로그인 회원가입 처리");
     AuthSocialResponse authSocialResponse = socialLogin(authSignUpRequest.getSocial());
 
     // 2. 토큰 추출
+    System.out.println("2. 토큰 추출");
     String token = authSocialResponse.getAccessToken();
 
     // 3. 토큰에서 socialId 추출
+    System.out.println("3. 토큰에서 socialId 추출");
     String socialId = jwtTokenProvider.getSocialIdFromToken(token);
 
     // 4. socialId로 User 조회
+    System.out.println("4. socialId로 User 조회");
     User user = userRepository.findBySocialId(socialId).orElseThrow(
         () -> new NotFoundInfoException(ErrorCode.USER_NOT_FOUND));
 
     // 5. 약관동의 처리
+    System.out.println("5. 약관동의 처리");
     Tos tos = authSignUpRequest.getTos();
     tosService.agreeTos(tos, user);
 
     // 6. 대학교, 학과, 학교 이메일 정보 업데이트
+    System.out.println("6. 대학교, 학과, 학교 이메일 정보 업데이트");
     Univ univ = authSignUpRequest.getUniv();
     user.updateUnivInfo(univ);
 
