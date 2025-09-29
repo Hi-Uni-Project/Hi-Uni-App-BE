@@ -6,6 +6,7 @@ import com.project.hiuni.global.common.dto.response.ResponseDTO;
 import com.project.hiuni.global.exception.ErrorCode;
 import com.project.hiuni.global.exception.ValidationException;
 import java.util.List;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.apache.coyote.Response;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,6 +36,13 @@ public class MajorV1Controller {
 
     List<Major> response = majorV1Service.findMajorsByUnivName(univName, keyword);
 
+    return ResponseDTO.of(response, "학과 검색에 성공하였습니다.");
+  }
+
+  @GetMapping("/{univName}")
+  public ResponseDTO<List<Major>> findAllMajorsByUnivName(@PathVariable String univName) {
+
+    List<Major> response = majorV1Service.findMajorsByUnivName(univName, "");
     return ResponseDTO.of(response, "학과 검색에 성공하였습니다.");
   }
 
