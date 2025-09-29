@@ -4,6 +4,7 @@ package com.project.hiuni.domain.univ.v1.service;
 import com.project.hiuni.domain.univ.dto.MajorDataDto;
 import com.project.hiuni.domain.univ.dto.MajorDataDto.Major;
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,13 @@ public class MajorV1Service {
     List<Major> filteredMajors = majorDataDto.getRecords().stream()
         .filter(major -> major.getUnivName().equals(univName))
         .filter(major -> major.getMajorName().contains(keyword))
+        .collect(Collectors.toMap(
+            Major::getMajorName,
+            major -> major,
+            (existing, replacement) -> existing
+        ))
+        .values()
+        .stream()
         .toList();
 
     return filteredMajors;
