@@ -30,7 +30,7 @@ public class MajorV1Controller {
   public ResponseDTO<List<Major>> findMajorsByUnivName(@RequestParam("keyword") String keyword, @PathVariable String univName) {
 
     // 1. 검색어가 비어있거나 2글자 미만인 경우 예외 처리
-    if(keyword.isBlank() || keyword.length() < 2) {
+    if(keyword.isBlank()) {
       throw new ValidationException(ErrorCode.INVALID_SEARCH_KEYWORD_LENGTH);
     }
 

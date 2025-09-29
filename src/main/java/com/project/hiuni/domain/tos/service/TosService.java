@@ -1,5 +1,6 @@
 package com.project.hiuni.domain.tos.service;
 
+import com.project.hiuni.domain.auth.dto.request.AuthSignUpRequest.Tos;
 import com.project.hiuni.domain.tos.dto.request.TosRequest;
 import com.project.hiuni.domain.tos.entity.InPersonTosHistory;
 import com.project.hiuni.domain.tos.entity.MarketingTosHistory;
@@ -71,6 +72,12 @@ public class TosService {
     if(tosRequest.getInPersonTosIsAgreed()) {
       inPersonTosHistoryRepository.save(InPersonTosHistory.createTemp(user));
     }
+
+  }
+
+  @Transactional
+  public void agreeTos(Tos tos, User user) {
+
 
   }
 

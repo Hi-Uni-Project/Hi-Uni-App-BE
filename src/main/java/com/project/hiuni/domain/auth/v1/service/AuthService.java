@@ -2,12 +2,17 @@ package com.project.hiuni.domain.auth.v1.service;
 
 
 import com.project.hiuni.domain.auth.dto.OAuthUserInfo;
+import com.project.hiuni.domain.auth.dto.request.AuthSignUpRequest;
+import com.project.hiuni.domain.auth.dto.request.AuthSignUpRequest.Tos;
+import com.project.hiuni.domain.auth.dto.request.AuthSignUpRequest.Univ;
 import com.project.hiuni.domain.auth.dto.request.AuthSocialRequest;
+import com.project.hiuni.domain.auth.dto.response.AuthSignUpResponse;
 import com.project.hiuni.domain.auth.dto.response.AuthSocialResponse;
 import com.project.hiuni.domain.auth.entity.Auth;
 import com.project.hiuni.domain.auth.entity.SocialProvider;
 import com.project.hiuni.domain.auth.exception.ProviderNotFoundException;
 import com.project.hiuni.domain.auth.repository.AuthRepository;
+import com.project.hiuni.domain.tos.service.TosService;
 import com.project.hiuni.domain.user.entity.User;
 import com.project.hiuni.domain.user.repository.UserRepository;
 import com.project.hiuni.global.exception.ErrorCode;
@@ -38,6 +43,8 @@ public class AuthService {
 
   private final UserRepository userRepository;
   private final AuthRepository authRepository;
+
+  private final TosService tosService;
 
 
 
@@ -82,11 +89,13 @@ public class AuthService {
         String newRefreshToken = auth.getRefreshToken();
         String accessToken = jwtTokenProvider.createAccessToken(newRefreshToken);
 
+
+
         return AuthSocialResponse
             .builder()
             .accessToken(accessToken)
             .refreshToken(newRefreshToken)
-            .isSignUp(false)
+            .isSignUp(isFinalSignUp(user))
             .build();
       }
 
@@ -152,7 +161,7 @@ public class AuthService {
             .builder()
             .accessToken(accessToken)
             .refreshToken(newRefreshToken)
-            .isSignUp(false)
+            .isSignUp(isFinalSignUp(user))
             .build();
       }
 
@@ -174,8 +183,6 @@ public class AuthService {
           .isSignUp(true)
           .build();
     }
-
-
 
 
       // 소셜 플랫폼이 네이버일 경우
@@ -218,7 +225,7 @@ public class AuthService {
               .builder()
               .accessToken(accessToken)
               .refreshToken(newRefreshToken)
-              .isSignUp(false)
+              .isSignUp(isFinalSignUp(user))
               .build();
         }
 
@@ -251,6 +258,36 @@ public class AuthService {
     throw new ProviderNotFoundException(ErrorCode.PROVIDER_NOT_FOUND);
   }
 
+  @Transactional
+  public AuthSignUpResponse authSignUp(AuthSignUpRequest authSignUpRequest) {
+
+    // 1. 소셜로그인 회원가입 처리
+    AuthSocialResponse authSocialResponse = socialLogin(authSignUpRequest.getSocial());
+
+    // 2. 토큰 추출
+    String token = authSocialResponse.getAccessToken();
+
+    // 3. 토큰에서 socialId 추출
+    String socialId = jwtTokenProvider.getSocialIdFromToken(token);
+
+    // 4. socialId로 User 조회
+    User user = userRepository.findBySocialId(socialId).orElseThrow(
+        () -> new NotFoundInfoException(ErrorCode.USER_NOT_FOUND));
+
+    // 5. 약관동의 처리
+    Tos tos = authSignUpRequest.getTos();
+    tosService.agreeTos(tos, user);
+
+    // 6. 대학교, 학과, 학교 이메일 정보 업데이트
+    Univ univ = authSignUpRequest.getUniv();
+    user.updateUnivInfo(univ);
+
+    return AuthSignUpResponse.builder()
+        .accessToken(authSocialResponse.getAccessToken())
+        .refreshToken(authSocialResponse.getRefreshToken())
+        .build();
+  }
+
 
   @Transactional
   public String refreshToken (HttpServletRequest httpServletRequest){
@@ -267,6 +304,14 @@ public class AuthService {
 
     String newAccessToken = jwtTokenProvider.createAccessToken(refreshToken);
     return newAccessToken;
+  }
+
+  @Transactional(readOnly = true)
+  public boolean isFinalSignUp(User user) {
+    if(user.getUnivEmail() == null || user.getMajorName() == null || user.getUnivName() == null) {
+      return true;
+    }
+    return false;
   }
 
 }

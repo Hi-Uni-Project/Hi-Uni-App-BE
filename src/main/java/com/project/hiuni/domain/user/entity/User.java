@@ -1,6 +1,7 @@
 package com.project.hiuni.domain.user.entity;
 
 import com.project.hiuni.admin.common.BaseEntity;
+import com.project.hiuni.domain.auth.dto.request.AuthSignUpRequest.Univ;
 import com.project.hiuni.domain.auth.entity.Auth;
 import com.project.hiuni.domain.auth.entity.SocialProvider;
 import com.project.hiuni.domain.user.dto.request.UserPostRequest;
@@ -150,6 +151,15 @@ public class User extends BaseEntity {
 			.imageUrl(imageUrl)
 			.role(Role.ROLE_ADMIN)
 			.build();
+	}
+
+	/**
+	 * 학교 관련 정보를 업데이트하는 메서드 입니다.
+	 */
+	public void updateUnivInfo(Univ univ) {
+		this.univName = univ.getUnivName();
+		this.majorName = univ.getMajorName();
+		this.univEmail = univ.getUnivEmail();
 	}
 
 	public void changeNickname(String newNickname) {
