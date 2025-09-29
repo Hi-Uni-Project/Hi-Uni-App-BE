@@ -48,7 +48,7 @@ jobs:
           key: ${{ secrets.EC2_PRIVATE_KEY }}
           script_stop: true
           script: |
-            rm -rf /home/ubuntu/hiuni-project/current
+            sudo rm -rf /home/ubuntu/hiuni-project/current
             mkdir /home/ubuntu/hiuni-project/current
             mv /home/ubuntu/hiuni-project/tobe/hiuni.jar /home/ubuntu/hiuni-project/current/hiuni.jar
             cd /home/ubuntu/hiuni-project/current

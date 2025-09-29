@@ -1,7 +1,9 @@
 package com.project.hiuni.domain.auth.v1.controller;
 
 import com.project.hiuni.domain.auth.docs.AuthApiDocumentation;
+import com.project.hiuni.domain.auth.dto.request.AuthSignUpRequest;
 import com.project.hiuni.domain.auth.dto.request.AuthSocialRequest;
+import com.project.hiuni.domain.auth.dto.response.AuthSignUpResponse;
 import com.project.hiuni.domain.auth.dto.response.AuthSocialResponse;
 import com.project.hiuni.domain.auth.dto.response.TokenRefreshResponse;
 import com.project.hiuni.domain.auth.v1.service.AuthService;
@@ -62,5 +64,21 @@ public class AuthController implements AuthApiDocumentation {
         .build();
     return ResponseDTO.of(response, "토큰 재발급에 성공하였습니다.");
   }
+
+  @PostMapping("/signup")
+  public ResponseDTO<AuthSignUpResponse> authSignUp(@RequestBody @Valid AuthSignUpRequest authSignUpRequest, BindingResult bindingResult) {
+
+    if(bindingResult.hasErrors()) {
+      log.error("AuthSocialRequest validation failed :: {}", bindingResult.getAllErrors());
+      throw new ValidationException(ErrorCode.INVALID_INPUT_VALUE);
+    }
+
+    return null;
+
+
+
+
+  }
+
 
 }
