@@ -114,7 +114,7 @@ public class AuthService {
           .builder()
           .accessToken(accessToken)
           .refreshToken(refreshToken)
-          .isSignUp(true)
+          .isSignUp(false)
           .build();
     }
 
@@ -180,7 +180,7 @@ public class AuthService {
           .builder()
           .accessToken(accessToken)
           .refreshToken(refreshToken)
-          .isSignUp(true)
+          .isSignUp(false)
           .build();
     }
 
@@ -244,7 +244,7 @@ public class AuthService {
             .builder()
             .accessToken(accessToken)
             .refreshToken(refreshToken)
-            .isSignUp(true)
+            .isSignUp(false)
             .build();
       }
 
@@ -309,9 +309,9 @@ public class AuthService {
   @Transactional(readOnly = true)
   public boolean isFinalSignUp(User user) {
     if(user.getUnivEmail() == null || user.getMajorName() == null || user.getUnivName() == null) {
-      return true;
+      return false;
     }
-    return false;
+    return true;
   }
 
 }
