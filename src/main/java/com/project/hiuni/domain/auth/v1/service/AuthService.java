@@ -4,6 +4,7 @@ package com.project.hiuni.domain.auth.v1.service;
 import com.project.hiuni.domain.auth.dto.OAuthUserInfo;
 import com.project.hiuni.domain.auth.dto.request.AuthSignUpRequest;
 import com.project.hiuni.domain.auth.dto.request.AuthSignUpRequest.Tos;
+import com.project.hiuni.domain.auth.dto.request.AuthSignUpRequest.Univ;
 import com.project.hiuni.domain.auth.dto.request.AuthSocialRequest;
 import com.project.hiuni.domain.auth.dto.response.AuthSignUpResponse;
 import com.project.hiuni.domain.auth.dto.response.AuthSocialResponse;
@@ -88,11 +89,13 @@ public class AuthService {
         String newRefreshToken = auth.getRefreshToken();
         String accessToken = jwtTokenProvider.createAccessToken(newRefreshToken);
 
+
+
         return AuthSocialResponse
             .builder()
             .accessToken(accessToken)
             .refreshToken(newRefreshToken)
-            .isSignUp(false)
+            .isSignUp(isFinalSignUp(user))
             .build();
       }
 
@@ -158,7 +161,7 @@ public class AuthService {
             .builder()
             .accessToken(accessToken)
             .refreshToken(newRefreshToken)
-            .isSignUp(false)
+            .isSignUp(isFinalSignUp(user))
             .build();
       }
 
@@ -180,8 +183,6 @@ public class AuthService {
           .isSignUp(true)
           .build();
     }
-
-
 
 
       // 소셜 플랫폼이 네이버일 경우
@@ -224,7 +225,7 @@ public class AuthService {
               .builder()
               .accessToken(accessToken)
               .refreshToken(newRefreshToken)
-              .isSignUp(false)
+              .isSignUp(isFinalSignUp(user))
               .build();
         }
 
@@ -278,11 +279,13 @@ public class AuthService {
     tosService.agreeTos(tos, user);
 
     // 6. 대학교, 학과, 학교 이메일 정보 업데이트
+    Univ univ = authSignUpRequest.getUniv();
+    user.updateUnivInfo(univ);
 
-
-
-
-
+    return AuthSignUpResponse.builder()
+        .accessToken(authSocialResponse.getAccessToken())
+        .refreshToken(authSocialResponse.getRefreshToken())
+        .build();
   }
 
 
@@ -301,6 +304,14 @@ public class AuthService {
 
     String newAccessToken = jwtTokenProvider.createAccessToken(refreshToken);
     return newAccessToken;
+  }
+
+  @Transactional(readOnly = true)
+  public boolean isFinalSignUp(User user) {
+    if(user.getUnivEmail() == null || user.getMajorName() == null || user.getUnivName() == null) {
+      return true;
+    }
+    return false;
   }
 
 }
