@@ -53,6 +53,7 @@ public class SecurityConfig {
                 "/test/**",
                 "/admin/**",
                 "/api/v1/auth/social",
+                "/api/v1/auth/signup",
                 "/api/v1/univs/**",
                 "/api/v1/majors/**",
                 "/api/v1/mail/validate-email",
