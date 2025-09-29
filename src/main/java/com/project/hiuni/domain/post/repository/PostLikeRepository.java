@@ -15,6 +15,7 @@ public interface PostLikeRepository extends JpaRepository<PostLike, Long> {
     boolean existsByPostIdAndUserId(@Param("postId") Long postId,
                                     @Param("userId") Long userId);
 
+    // 특정 유저가 특정 댓글에 누른 좋아요 엔티티 조회 (취소 시 사용)
     @Query("SELECT pl " +
             "FROM PostLike pl " +
             "WHERE pl.post.id = :postId AND pl.user.id = :userId")
