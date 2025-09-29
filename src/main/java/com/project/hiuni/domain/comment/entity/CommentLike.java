@@ -1,4 +1,4 @@
-package com.project.hiuni.domain.post.entity;
+package com.project.hiuni.domain.comment.entity;
 
 import com.project.hiuni.admin.common.BaseEntity;
 import com.project.hiuni.domain.user.entity.User;
@@ -19,30 +19,30 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(
-        name = "post_like",
+        name = "comment_like",
         uniqueConstraints = @UniqueConstraint(
-                name = "unique_postlike_postid_userid",
-                columnNames = {"post_id","user_id"}
+                name = "unique_commentlike_commentid_userid",
+                columnNames = {"comment_id","user_id"}
         )
 )
 @Entity
-public class PostLike extends BaseEntity {
+public class CommentLike extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "post_id", nullable = false)
-    private Post post;
+    @JoinColumn(name = "comment_id", nullable = false)
+    private Comment comment;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @Builder
-    private PostLike(Post post, User user) {
-        this.post = post;
+    public CommentLike(Comment comment, User user) {
+        this.comment = comment;
         this.user = user;
     }
 
