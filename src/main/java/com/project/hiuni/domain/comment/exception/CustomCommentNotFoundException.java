@@ -1,4 +1,4 @@
-package com.project.hiuni.domain.comment;
+package com.project.hiuni.domain.comment.exception;
 
 import com.project.hiuni.global.exception.CustomException;
 import com.project.hiuni.global.exception.ErrorCode;

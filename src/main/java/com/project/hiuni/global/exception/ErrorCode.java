@@ -10,6 +10,7 @@ public enum ErrorCode {
     VALIDATION_FAILED(400, "VALIDATION_FAILED", "요청 데이터가 유효하지 않습니다."),
     DUPLICATED_USER(400, "DUPLICATED_USER", "이미 등록된 사용자입니다."),
     DUPLICATED_NICKNAME(400, "DUPLICATED_NICKNAME", "이미 등록된 닉네임입니다."),
+    DUPLICATED_LIKE(400, "DUPLICATED_LIKE", "이미 좋아요를 누르셨습니다."),
 
     // 400 Bad Request 검색 관련
     INVALID_SEARCH_KEYWORD_LENGTH(400, "INVALID_SEARCH_KEYWORD_LENGTH", "검색어는 2자 이상 입력해주세요."),
