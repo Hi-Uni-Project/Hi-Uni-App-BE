@@ -54,6 +54,11 @@ public class AuthService {
       String name = userInfo.getName();
       String socialEmail = userInfo.getEmail();
 
+      if(socialEmail == null) {
+        log.error("구글 OAuth2 로그인 시 이메일이 제공되지 않았습니다.");
+        socialEmail = socialId + "@google.com";
+      }
+
       // 이미 가입된 유저인 경우 로그인 처리
       if (userRepository.findBySocialId(socialId).isPresent() ) {
         User user = userRepository.findBySocialId(socialId).orElse(null);
@@ -115,6 +120,11 @@ public class AuthService {
       String name = userInfo.getName();
       String socialEmail = userInfo.getEmail();
 
+      if(socialEmail == null) {
+        log.error("카카오 OAuth2 로그인 시 이메일이 제공되지 않았습니다.");
+        socialEmail = socialId + "@kakao.com";
+      }
+
       // 이미 가입된 유저인 경우 로그인 처리
       if (userRepository.findBySocialId(socialId).isPresent()) {
         User user = userRepository.findBySocialId(socialId).orElse(null);
@@ -175,6 +185,11 @@ public class AuthService {
         String socialId = userInfo.getSocialId();
         String name = userInfo.getName();
         String socialEmail = userInfo.getEmail();
+
+        if(socialEmail == null) {
+          log.error("네이버 OAuth2 로그인 시 이메일이 제공되지 않았습니다.");
+          socialEmail = socialId + "@naver.com";
+        }
 
         // 이미 가입된 유저인 경우 로그인 처리
         if (userRepository.findBySocialId(socialId).isPresent()) {
