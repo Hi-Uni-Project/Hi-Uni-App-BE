@@ -44,6 +44,7 @@ public class PostLike extends BaseEntity {
     private PostLike(Long id, Post post, User user) {
         this.id = id;
         this.post = post;
+        this.user = user;
     }
 
 }

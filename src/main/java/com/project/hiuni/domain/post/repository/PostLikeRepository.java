@@ -15,9 +15,15 @@ public interface PostLikeRepository extends JpaRepository<PostLike, Long> {
     boolean existsByPostIdAndUserId(@Param("postId") Long postId,
                                     @Param("userId") Long userId);
 
+    @Query("SELECT pl " +
+            "FROM PostLike pl " +
+            "WHERE pl.post.id = :postId AND pl.user.id = :userId")
+    Optional<PostLike> findByPostIdAndUserId(@Param("postId") Long postId,
+                                             @Param("userId") Long userId);
+
     //정합성 검사용 좋아요 전체 숫자 계산
     @Query("SELECT COUNT(pl) " +
             "FROM PostLike pl " +
             "WHERE pl.post.id = :postId")
-    int countPostLikeByPostId(@Param("postId") Long postId);
+    long countPostLikeByPostId(@Param("postId") Long postId);
 }
