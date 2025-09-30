@@ -48,7 +48,8 @@ public class User extends BaseEntity {
 
 	private String univName;
 
-	private String majorName;
+	private String firstMajorName;
+	private String secondMajorName;
 
 	private String univEmail;
 
@@ -74,7 +75,8 @@ public class User extends BaseEntity {
 		String socialEmail,
 		SocialProvider socialProvider,
 		String univName,
-		String majorName,
+		String firstMajorName,
+		String secondMajorName,
 		String univEmail,
 		String nickname,
 		String imageUrl,
@@ -89,7 +91,8 @@ public class User extends BaseEntity {
 		this.socialEmail = socialEmail;
 		this.socialProvider = socialProvider;
 		this.univName = univName;
-		this.majorName = majorName;
+		this.firstMajorName = firstMajorName;
+		this.secondMajorName = secondMajorName;
 		this.univEmail = univEmail;
 		this.nickname = nickname;
 		this.imageUrl = imageUrl;
@@ -114,7 +117,8 @@ public class User extends BaseEntity {
 				.socialEmail(socialEmail)
 				.socialProvider(socialProvider)
 				.univName(null)
-				.majorName(null)
+				.firstMajorName(null)
+				.secondMajorName(null)
 				.univEmail(null)
 				.nickname(null)
 				.imageUrl(null)
@@ -138,14 +142,15 @@ public class User extends BaseEntity {
 	 * @return 생성된 User 객체
 	 */
 	public static User createAdminUserOf(String socialEmail, SocialProvider socialProvider,
-		String univName, String majorName,
+		String univName, String firstMajorName, String secondMajorName,
 		String univEmail, String nickname, String imageUrl) {
 		return User.builder()
 			.id(null)
 			.socialEmail(socialEmail)
 			.socialProvider(socialProvider)
 			.univName(univName)
-			.majorName(majorName)
+			.firstMajorName(firstMajorName)
+				.secondMajorName(secondMajorName)
 			.univEmail(univEmail)
 			.nickname(nickname)
 			.imageUrl(imageUrl)
@@ -158,7 +163,8 @@ public class User extends BaseEntity {
 	 */
 	public void updateUnivInfo(Univ univ) {
 		this.univName = univ.getUnivName();
-		this.majorName = univ.getMajorName();
+		this.firstMajorName = univ.getFirstMajorName();
+		this.secondMajorName = univ.getSecondMajorName();
 		this.univEmail = univ.getUnivEmail();
 	}
 
