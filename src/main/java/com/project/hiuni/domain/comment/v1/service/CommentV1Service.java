@@ -1,6 +1,6 @@
 package com.project.hiuni.domain.comment.v1.service;
 
-import com.project.hiuni.domain.comment.CustomCommentNotFoundException;
+import com.project.hiuni.domain.comment.exception.CustomCommentNotFoundException;
 import com.project.hiuni.domain.comment.dto.request.CommentCreateRequest;
 import com.project.hiuni.domain.comment.dto.request.CommentUpdateRequest;
 import com.project.hiuni.domain.comment.dto.response.CommentCreateResponse;
