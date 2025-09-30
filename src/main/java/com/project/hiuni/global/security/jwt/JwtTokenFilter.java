@@ -59,8 +59,16 @@ public class JwtTokenFilter extends OncePerRequestFilter {
       TraceIdHolder.set(UUID.randomUUID().toString().substring(0, 8));
 
       String accessToken = this.getTokenFromRequest(request);
-      String url = request.getRequestURI().toString();
+      String url = request.getRequestURI();
       String method = request.getMethod();
+
+      if (isPublicPath(url)) {
+        log.info("[" + TraceIdHolder.get() + "][" + request.getRemoteAddr() + "]:"
+            + "[" + method + ":" + url + "](allowed)");
+
+        filterChain.doFilter(request, response);
+        return;
+      }
 
       // 토큰이 존재하면 유효성 검사를 수행합니다.
       if (accessToken != null) {
@@ -150,6 +158,14 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     response.setStatus(ErrorCode.USER_NOT_FOUND.getActualStatusCode());
     response.setContentType("application/json");
     response.getWriter().write(errorResponse);
+  }
+
+  private boolean isPublicPath(String path) {
+    return path.startsWith("/api/v1/auth/social") ||
+        path.startsWith("/api/v1/auth/signup") ||
+        path.startsWith("/api/v1/univs") ||
+        path.startsWith("/api/v1/majors") ||
+        path.startsWith("/api/v1/schedules/categories");
   }
 
 }
