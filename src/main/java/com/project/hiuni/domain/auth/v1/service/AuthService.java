@@ -314,7 +314,7 @@ public class AuthService {
 
   @Transactional(readOnly = true)
   public boolean isFinalSignUp(User user) {
-    if(user.getUnivEmail() == null || user.getMajorName() == null || user.getUnivName() == null) {
+    if(user.getUnivEmail() == null || user.getUnivName() == null) {
       return false;
     }
     return true;

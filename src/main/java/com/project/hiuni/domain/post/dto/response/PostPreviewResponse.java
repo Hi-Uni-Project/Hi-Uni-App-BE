@@ -9,7 +9,8 @@ import java.time.LocalDateTime;
 public record PostPreviewResponse(
         String nickname,
         String univName,
-        String majorName,
+        String firstMajorName,
+        String secondMajorName,
         String userImageUrl,
         Long id,
         String title,
@@ -29,7 +30,8 @@ public record PostPreviewResponse(
         return new PostPreviewResponse(
                 user.getNickname(),
                 user.getUnivName(),
-                user.getMajorName(),
+                user.getFirstMajorName(),
+                user.getSecondMajorName(),
                 user.getImageUrl(),
                 post.getId(),
                 post.getTitle(),

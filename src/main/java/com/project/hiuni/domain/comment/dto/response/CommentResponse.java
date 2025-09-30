@@ -6,7 +6,8 @@ import com.project.hiuni.domain.user.entity.User;
 public record CommentResponse(
         Long id,
         String nickname,
-        String majorName,
+        String firstMajorName,
+        String secondMajorName,
         String usrImageUrl,
         String content,
         int likeCount
@@ -18,7 +19,8 @@ public record CommentResponse(
         return new CommentResponse(
                 comment.getId(),
                 user.getNickname(),
-                user.getMajorName(),
+                user.getFirstMajorName(),
+                user.getSecondMajorName(),
                 user.getImageUrl(),
                 comment.getContent(),
                 comment.getLikeCount()

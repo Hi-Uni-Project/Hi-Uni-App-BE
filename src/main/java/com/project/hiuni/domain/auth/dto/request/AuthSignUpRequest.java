@@ -39,8 +39,8 @@ public class AuthSignUpRequest {
     @NotNull(message = "대학교 이름은 필수입니다.")
     private String univName;
 
-    @NotNull(message = "학과 이름은 필수입니다.")
-    private String majorName;
+    private String firstMajorName;
+    private String secondMajorName;
 
     @NotNull(message = "학교 이메일은 필수입니다.")
     private String univEmail;

@@ -10,6 +10,8 @@ public enum ErrorCode {
     VALIDATION_FAILED(400, "VALIDATION_FAILED", "요청 데이터가 유효하지 않습니다."),
     DUPLICATED_USER(400, "DUPLICATED_USER", "이미 등록된 사용자입니다."),
     DUPLICATED_NICKNAME(400, "DUPLICATED_NICKNAME", "이미 등록된 닉네임입니다."),
+    DUPLICATED_LIKE(400, "DUPLICATED_LIKE", "이미 좋아요를 누르셨습니다."),
+    NOT_LIKE(400,"NOT_LIKE", "좋아요 상태가 아닙니다."),
 
     // 400 Bad Request 검색 관련
     INVALID_SEARCH_KEYWORD_LENGTH(400, "INVALID_SEARCH_KEYWORD_LENGTH", "검색어는 2자 이상 입력해주세요."),
@@ -76,7 +78,7 @@ public enum ErrorCode {
     USER_NOT_FOUND(404, "USER_NOT_FOUND", "해당 사용자를 찾을 수 없습니다."),
     USER_WITHDRAWN(404, "USER_WITHDRAWN", "탈퇴한 회원입니다."),
     POST_NOT_FOUND(404, "POST_NOT_FOUND", "해당 게시글을 찾을 수 없습니다."),
-    COMMENT_NOT_FOUND(404, "COMMENT_NOT_FOUND", "해당 게시글을 찾을 수 없습니다."),
+    COMMENT_NOT_FOUND(404, "COMMENT_NOT_FOUND", "해당 댓글을 찾을 수 없습니다."),
     PROVIDER_NOT_FOUND(404, "PROVIDER_NOT_FOUND", "소셜 provider를 찾을 수 없습니다."),
     SEARCH_LOG_NOT_FOUND(404, "SEARCH_LOG_NOT_FOUND", "최근 검색어가 존재하지 않습니다."),
 

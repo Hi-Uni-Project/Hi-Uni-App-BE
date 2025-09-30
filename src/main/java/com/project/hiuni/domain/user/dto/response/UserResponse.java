@@ -16,7 +16,8 @@ public class UserResponse {
 
 	private String univName;
 
-	private String majorName;
+	private String firstMajorName;
+	private String secondMajorName;
 
 	private String univEmail;
 
@@ -30,7 +31,8 @@ public class UserResponse {
 		Long userId,
 		String socialEmail,
 		String univName,
-		String majorName,
+		String firstMajorName,
+		String secondMajorName,
 		String univEmail,
 		String nickname,
 		ProfileImage profileImage
@@ -38,7 +40,8 @@ public class UserResponse {
 		this.userId = userId;
 		this.socialEmail = socialEmail;
 		this.univName = univName;
-		this.majorName = majorName;
+		this.firstMajorName = firstMajorName;
+		this.secondMajorName = secondMajorName;
 		this.univEmail = univEmail;
 		this.nickname = nickname;
 		this.profileImage = profileImage;
@@ -49,7 +52,8 @@ public class UserResponse {
 			.userId(user.getId())
 			.socialEmail(user.getSocialEmail())
 			.univName(user.getUnivName())
-			.majorName(user.getMajorName())
+			.firstMajorName(user.getFirstMajorName())
+			.secondMajorName(user.getSecondMajorName())
 			.univEmail(user.getUnivEmail())
 			.nickname(user.getNickname())
 			.profileImage(user.getProfileImage())

@@ -9,7 +9,8 @@ import java.time.LocalDateTime;
 public record PostUpdateReviewResponse(
         String nickname,
         String univName,
-        String majorName,
+        String firstMajorName,
+        String secondMajorName,
         String userImageUrl,
         Long id,
         String title,
@@ -37,7 +38,8 @@ public record PostUpdateReviewResponse(
         return new PostUpdateReviewResponse(
                 user.getNickname(),
                 user.getUnivName(),
-                user.getMajorName(),
+                user.getFirstMajorName(),
+                user.getSecondMajorName(),
                 user.getImageUrl(),
                 post.getId(),
                 post.getTitle(),

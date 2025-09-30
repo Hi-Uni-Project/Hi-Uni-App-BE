@@ -9,7 +9,8 @@ import java.time.LocalDateTime;
 public record PostNoReviewResponse(
         String nickname,
         String univName,
-        String majorName,
+        String firstMajorName,
+        String secondMajorName,
         String userImageUrl,
         Long id,
         String title,
@@ -30,7 +31,8 @@ public record PostNoReviewResponse(
         return new PostNoReviewResponse(
                 user.getNickname(),
                 user.getUnivName(),
-                user.getMajorName(),
+                user.getFirstMajorName(),
+                user.getSecondMajorName(),
                 user.getImageUrl(),
                 post.getId(),
                 post.getTitle(),
