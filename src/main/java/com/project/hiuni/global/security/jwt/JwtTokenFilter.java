@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -141,14 +142,14 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
   private void handleAccessTokenInvalid(HttpServletResponse response) throws IOException {
     String errorResponse = objectMapper.writeValueAsString(ResponseDTO.of(ErrorCode.ACCESS_TOKEN_INVALID));
-    response.setStatus(ErrorCode.ACCESS_TOKEN_INVALID.getActualStatusCode());
+    response.setStatus(HttpStatus.UNAUTHORIZED.value());
     response.setContentType("application/json");
     response.getWriter().write(errorResponse);
   }
 
   private void handleRefreshTokenInvalid(HttpServletResponse response) throws IOException {
     String errorResponse = objectMapper.writeValueAsString(ResponseDTO.of(ErrorCode.REFRESH_TOKEN_INVALID));
-    response.setStatus(ErrorCode.REFRESH_TOKEN_INVALID.getActualStatusCode());
+    response.setStatus(HttpStatus.UNAUTHORIZED.value());
     response.setContentType("application/json");
     response.getWriter().write(errorResponse);
   }
@@ -165,6 +166,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         path.startsWith("/api/v1/auth/signup") ||
         path.startsWith("/api/v1/univs") ||
         path.startsWith("/api/v1/majors") ||
+        path.startsWith("/api/v1/mail") ||
         path.startsWith("/api/v1/schedules/categories");
   }
 

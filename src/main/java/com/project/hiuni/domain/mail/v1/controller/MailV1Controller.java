@@ -11,6 +11,8 @@ import com.project.hiuni.global.exception.ErrorCode;
 import com.project.hiuni.global.exception.ValidationException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import java.util.HashMap;
+import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,7 +28,7 @@ public class MailV1Controller {
   private final MailV1Service mailV1Service;
 
   @PostMapping("/send")
-  public ResponseDTO<String> sendMail(@RequestBody @Valid MailRequest mailRequest,
+  public ResponseDTO<HashMap<String, Object>> sendMail(@RequestBody @Valid MailRequest mailRequest,
       BindingResult bindingResult, HttpServletRequest httpServletRequest) {
 
     if(bindingResult.hasErrors()) {
@@ -39,9 +41,12 @@ public class MailV1Controller {
       throw new InvalidEmailFormatException(ErrorCode.INVALID_EMAIL_FORMAT);
     }
 
-    mailV1Service.sendMail(mailRequest, httpServletRequest);
+    String authMailId = mailV1Service.sendMail(mailRequest);
 
-    return ResponseDTO.of("인증 메일이 전송되었습니다.");
+    HashMap<String, Object> response = new HashMap<>();
+    response.put("authMailId", authMailId);
+
+    return ResponseDTO.of(response, "인증 메일이 전송되었습니다.");
   }
 
   @PostMapping("/validate-email")
@@ -64,13 +69,13 @@ public class MailV1Controller {
 
   @PostMapping("/validate-code")
   public ResponseDTO<String> validateCode(@RequestBody @Valid CodeRequest codeRequest,
-      BindingResult bindingResult, HttpServletRequest httpServletRequest) {
+      BindingResult bindingResult) {
 
     if(bindingResult.hasErrors()) {
       throw new ValidationException(ErrorCode.INVALID_INPUT_VALUE);
     }
 
-    if(!mailV1Service.validateCode(codeRequest, httpServletRequest)) {
+    if(!mailV1Service.validateCode(codeRequest)) {
       throw new InvalidEmailFormatException(ErrorCode.INVALID_EMAIL_CODE);
     }
 

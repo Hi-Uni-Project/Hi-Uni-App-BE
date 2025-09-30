@@ -10,6 +10,7 @@ import com.project.hiuni.global.exception.NotFoundInfoException;
 import com.project.hiuni.global.security.jwt.JwtTokenProvider;
 import com.project.hiuni.infra.mail.MailClient;
 import jakarta.servlet.http.HttpServletRequest;
+import java.util.Random;
 import java.util.regex.Pattern;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,22 +25,16 @@ public class MailV1Service {
   private final JwtTokenProvider jwtTokenProvider;
   private final UserRepository userRepository;
 
-  public void sendMail(MailRequest mailRequest, HttpServletRequest httpServletRequest) {
+  public String sendMail(MailRequest mailRequest) {
     log.info("메일 전송 서비스 실행");
 
-    String token = jwtTokenProvider.extractToken(httpServletRequest);
-    String socialId = jwtTokenProvider.getSocialIdFromToken(token);
-
-    // 해당 socialId를 가진 사용자가 존재하는지 확인
-    if(userRepository.findBySocialId(socialId).isEmpty()) {
-      throw new NotFoundInfoException(ErrorCode.USER_NOT_FOUND);
-    }
-
+    // 메일 인증 코드 생성
+    String authMailId = generateRandomString();
 
     //메일 인증객체 입니다.
-    MailAuthentication mailAuthentication = MailAuthentication.from(socialId);
+    MailAuthentication mailAuthentication = MailAuthentication.from(authMailId);
 
-    mailClient.deleteMailAuthenticationList(socialId);
+    mailClient.deleteMailAuthenticationList(authMailId);
     mailClient.addMailAuthenticationList(mailAuthentication);
 
     String mailAuthCode = mailAuthentication.getAuthCode();
@@ -50,6 +45,8 @@ public class MailV1Service {
     String mailContent = HtmlTemplateUtil.createHtmlEmailTemplate(mailAuthCode, email);
 
     mailClient.sendEmail(mailClient.getRecipients(), "Hi-Uni 인증번호를 확인해주세요!", mailContent);
+
+    return authMailId;
   }
 
 
@@ -64,12 +61,10 @@ public class MailV1Service {
       return email.toLowerCase().endsWith("ac.kr");
   }
 
-  public boolean validateCode(CodeRequest codeRequest, HttpServletRequest httpServletRequest) {
-    String token = jwtTokenProvider.extractToken(httpServletRequest);
-    String socialId = jwtTokenProvider.getSocialIdFromToken(token);
+  public boolean validateCode(CodeRequest codeRequest) {
 
     String targetAuthCode = codeRequest.getAuthCode();
-    String userAuthCode = mailClient.getUserAuthenticationCode(socialId);
+    String userAuthCode = mailClient.getUserAuthenticationCode(codeRequest.getAuthMailId());
 
     log.info("targetAuthCode: {}, userAuthCode: {}", targetAuthCode, userAuthCode);
 
@@ -79,6 +74,19 @@ public class MailV1Service {
       return false;
     }
 
+  }
+
+  private String generateRandomString() {
+    String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    Random random = new Random();
+    StringBuilder result = new StringBuilder(10);
+
+    for (int i = 0; i < 10; i++) {
+      int index = random.nextInt(characters.length());
+      result.append(characters.charAt(index));
+    }
+
+    return result.toString();
   }
 
 }

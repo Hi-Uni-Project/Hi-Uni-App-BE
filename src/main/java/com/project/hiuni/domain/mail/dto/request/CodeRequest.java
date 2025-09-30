@@ -14,4 +14,7 @@ public class CodeRequest {
   @NotEmpty
   private String authCode;
 
+  @NotEmpty
+  private String authMailId;
+
 }
