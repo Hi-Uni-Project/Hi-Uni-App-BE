@@ -39,9 +39,9 @@ public class MailV1Controller {
       throw new InvalidEmailFormatException(ErrorCode.INVALID_EMAIL_FORMAT);
     }
 
-    mailV1Service.sendMail(mailRequest, httpServletRequest);
+    String authMailId = mailV1Service.sendMail(mailRequest);
 
-    return ResponseDTO.of("인증 메일이 전송되었습니다.");
+    return ResponseDTO.of(authMailId, "인증 메일이 전송되었습니다.");
   }
 
   @PostMapping("/validate-email")
@@ -64,13 +64,13 @@ public class MailV1Controller {
 
   @PostMapping("/validate-code")
   public ResponseDTO<String> validateCode(@RequestBody @Valid CodeRequest codeRequest,
-      BindingResult bindingResult, HttpServletRequest httpServletRequest) {
+      BindingResult bindingResult) {
 
     if(bindingResult.hasErrors()) {
       throw new ValidationException(ErrorCode.INVALID_INPUT_VALUE);
     }
 
-    if(!mailV1Service.validateCode(codeRequest, httpServletRequest)) {
+    if(!mailV1Service.validateCode(codeRequest)) {
       throw new InvalidEmailFormatException(ErrorCode.INVALID_EMAIL_CODE);
     }
 

@@ -166,6 +166,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         path.startsWith("/api/v1/auth/signup") ||
         path.startsWith("/api/v1/univs") ||
         path.startsWith("/api/v1/majors") ||
+        path.startsWith("/api/v1/mail") ||
         path.startsWith("/api/v1/schedules/categories");
   }
 
