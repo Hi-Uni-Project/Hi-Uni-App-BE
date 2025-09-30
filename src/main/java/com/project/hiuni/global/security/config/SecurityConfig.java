@@ -59,7 +59,7 @@ public class SecurityConfig {
                 "/api/v1/user/token-test",
                 "/api/admin/logs/**",
                 "/api/v1/schedules/categories",
-                "/api/v1/mail"
+                "/api/v1/mail/**"
 
             ).permitAll()
             .anyRequest().authenticated())
