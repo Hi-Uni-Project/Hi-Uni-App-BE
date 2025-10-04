@@ -1,0 +1,2620 @@
+{
+  "universitiesEmail": [
+    {
+      "univName": "DGIST",
+      "univEmail": [
+        "dgist.ac.kr"
+      ]
+    },
+    {
+      "univName": "GIST",
+      "univEmail": [
+        "gist.ac.kr"
+      ]
+    },
+    {
+      "univName": "KAIST",
+      "univEmail": [
+        "kaist.ac.kr"
+      ]
+    },
+    {
+      "univName": "POSTECH",
+      "univEmail": [
+        "postech.ac.kr"
+      ]
+    },
+    {
+      "univName": "UNIST",
+      "univEmail": [
+        "unist.ac.kr"
+      ]
+    },
+    {
+      "univName": "가야대학교",
+      "univEmail": [
+        "kaya.ac.kr"
+      ]
+    },
+    {
+      "univName": "가천길대학",
+      "univEmail": [
+        "gachon.ac.kr"
+      ]
+    },
+    {
+      "univName": "가천대학교",
+      "univEmail": [
+        "gachon.ac.kr"
+      ]
+    },
+    {
+      "univName": "가천의과학대학교",
+      "univEmail": [
+        "gachon.ac.kr"
+      ]
+    },
+    {
+      "univName": "가톨릭관동대학교",
+      "univEmail": [
+        "cku.ac.kr"
+      ]
+    },
+    {
+      "univName": "가톨릭대학교",
+      "univEmail": [
+        "catholic.ac.kr"
+      ]
+    },
+    {
+      "univName": "가톨릭상지대학교",
+      "univEmail": [
+        "csj.ac.kr"
+      ]
+    },
+    {
+      "univName": "감리교신학대학교",
+      "univEmail": [
+        "mtu.ac.kr"
+      ]
+    },
+    {
+      "univName": "강남대학교",
+      "univEmail": [
+        "kangnam.ac.kr"
+      ]
+    },
+    {
+      "univName": "강동대학교",
+      "univEmail": [
+        "gangdong.ac.kr"
+      ]
+    },
+    {
+      "univName": "강릉영동대학교",
+      "univEmail": [
+        "gyc.ac.kr"
+      ]
+    },
+    {
+      "univName": "강릉원주대학교",
+      "univEmail": [
+        "gwnu.ac.kr"
+      ]
+    },
+    {
+      "univName": "강원관광대학",
+      "univEmail": [
+        "kt.ac.kr"
+      ]
+    },
+    {
+      "univName": "강원대학교",
+      "univEmail": [
+        "kangwon.ac.kr"
+      ]
+    },
+    {
+      "univName": "강원도립대학",
+      "univEmail": [
+        "gw.ac.kr"
+      ]
+    },
+    {
+      "univName": "거제대학교",
+      "univEmail": [
+        "koje.ac.kr"
+      ]
+    },
+    {
+      "univName": "건국대학교",
+      "univEmail": [
+        "konkuk.ac.kr"
+      ]
+    },
+    {
+      "univName": "건국대학교(글로컬)",
+      "univEmail": [
+        "kku.ac.kr"
+      ]
+    },
+    {
+      "univName": "건양대학교",
+      "univEmail": [
+        "konyang.ac.kr"
+      ]
+    },
+    {
+      "univName": "건양사이버대학교",
+      "univEmail": [
+        "kycu.ac.kr"
+      ]
+    },
+    {
+      "univName": "경기과학기술대학교",
+      "univEmail": [
+        "gtec.ac.kr"
+      ]
+    },
+    {
+      "univName": "경기대학교",
+      "univEmail": [
+        "kyonggi.ac.kr"
+      ]
+    },
+    {
+      "univName": "경남과학기술대학교",
+      "univEmail": [
+        "gntech.ac.kr"
+      ]
+    },
+    {
+      "univName": "경남대학교",
+      "univEmail": [
+        "hanma.kr"
+      ]
+    },
+    {
+      "univName": "경남도립거창대학",
+      "univEmail": [
+        "gc.ac.kr"
+      ]
+    },
+    {
+      "univName": "경남도립남해대학",
+      "univEmail": [
+        "namhae.ac.kr"
+      ]
+    },
+    {
+      "univName": "경남정보대학교",
+      "univEmail": [
+        "kit.ac.kr"
+      ]
+    },
+    {
+      "univName": "경동대학교",
+      "univEmail": [
+        "k1.ac.kr"
+      ]
+    },
+    {
+      "univName": "경민대학교",
+      "univEmail": [
+        "kyungmin.ac.kr"
+      ]
+    },
+    {
+      "univName": "경복대학교",
+      "univEmail": [
+        "kbu.ac.kr"
+      ]
+    },
+    {
+      "univName": "경북과학대학교",
+      "univEmail": [
+        "kbsc.ac.kr"
+      ]
+    },
+    {
+      "univName": "경북대학교",
+      "univEmail": [
+        "knu.ac.kr"
+      ]
+    },
+    {
+      "univName": "경북도립대학교",
+      "univEmail": [
+        "gpc.ac.kr"
+      ]
+    },
+    {
+      "univName": "경북외국어대학교",
+      "univEmail": [
+        "kufs.ac.kr"
+      ]
+    },
+    {
+      "univName": "경북전문대학교",
+      "univEmail": [
+        "kbc.ac.kr"
+      ]
+    },
+    {
+      "univName": "경산1대학교",
+      "univEmail": [
+        "gs.ac.kr"
+      ]
+    },
+    {
+      "univName": "경상대학교",
+      "univEmail": [
+        "gnu.ac.kr"
+      ]
+    },
+    {
+      "univName": "경성대학교",
+      "univEmail": [
+        "ks.ac.kr"
+      ]
+    },
+    {
+      "univName": "경운대학교",
+      "univEmail": [
+        "ikw.ac.kr"
+      ]
+    },
+    {
+      "univName": "경운대학교(산업대)",
+      "univEmail": [
+        "ikw.ac.kr"
+      ]
+    },
+    {
+      "univName": "경원전문대학",
+      "univEmail": [
+        "kwc.ac.kr"
+      ]
+    },
+    {
+      "univName": "경인교육대학교",
+      "univEmail": [
+        "ginue.ac.kr"
+      ]
+    },
+    {
+      "univName": "경인여자대학교",
+      "univEmail": [
+        "kic.ac.kr"
+      ]
+    },
+    {
+      "univName": "경일대학교",
+      "univEmail": [
+        "kiu.kr"
+      ]
+    },
+    {
+      "univName": "경주대학교",
+      "univEmail": [
+        "gju.ac.kr"
+      ]
+    },
+    {
+      "univName": "경희대학교",
+      "univEmail": [
+        "khu.ac.kr"
+      ]
+    },
+    {
+      "univName": "경희사이버대학교",
+      "univEmail": [
+        "khcu.ac.kr"
+      ]
+    },
+    {
+      "univName": "계명대학교",
+      "univEmail": [
+        "kmu.ac.kr"
+      ]
+    },
+    {
+      "univName": "계명문화대학교",
+      "univEmail": [
+        "kmcu.ac.kr"
+      ]
+    },
+    {
+      "univName": "계원예술대학교",
+      "univEmail": [
+        "kaywon.ac.kr"
+      ]
+    },
+    {
+      "univName": "고구려대학교",
+      "univEmail": [
+        "kgrc.ac.kr"
+      ]
+    },
+    {
+      "univName": "고려대학교",
+      "univEmail": [
+        "korea.ac.kr"
+      ]
+    },
+    {
+      "univName": "고려대학교(세종)",
+      "univEmail": [
+        "korea.ac.kr"
+      ]
+    },
+    {
+      "univName": "고려사이버대학교",
+      "univEmail": [
+        "cuk.edu"
+      ]
+    },
+    {
+      "univName": "고신대학교",
+      "univEmail": [
+        "kosin.ac.kr"
+      ]
+    },
+    {
+      "univName": "공주교육대학교",
+      "univEmail": [
+        "gjue.ac.kr"
+      ]
+    },
+    {
+      "univName": "공주대학교",
+      "univEmail": [
+        "smail.kongju.ac.kr"
+      ]
+    },
+    {
+      "univName": "광신대학교",
+      "univEmail": [
+        "kwangshin.ac.kr"
+      ]
+    },
+    {
+      "univName": "광양보건대학교",
+      "univEmail": [
+        "kwangyang.ac.kr"
+      ]
+    },
+    {
+      "univName": "광운대학교",
+      "univEmail": [
+        "kw.ac.kr"
+      ]
+    },
+    {
+      "univName": "광주가톨릭대학교",
+      "univEmail": [
+        "kjcatholic.ac.kr"
+      ]
+    },
+    {
+      "univName": "광주교육대학교",
+      "univEmail": [
+        "gnue.ac.kr"
+      ]
+    },
+    {
+      "univName": "광주대학교",
+      "univEmail": [
+        "gwangju.ac.kr"
+      ]
+    },
+    {
+      "univName": "광주대학교(산업대)",
+      "univEmail": [
+        "gwangju.ac.kr"
+      ]
+    },
+    {
+      "univName": "광주보건대학교",
+      "univEmail": [
+        "ghu.ac.kr"
+      ]
+    },
+    {
+      "univName": "광주여자대학교",
+      "univEmail": [
+        "kwu.ac.kr"
+      ]
+    },
+    {
+      "univName": "구미대학교",
+      "univEmail": [
+        "gumi.ac.kr"
+      ]
+    },
+    {
+      "univName": "구세군사관학교",
+      "univEmail": [
+        "saotc.ac.kr"
+      ]
+    },
+    {
+      "univName": "국민대학교",
+      "univEmail": [
+        "kookmin.ac.kr"
+      ]
+    },
+    {
+      "univName": "국제대학교",
+      "univEmail": [
+        "kookje.ac.kr"
+      ]
+    },
+    {
+      "univName": "국제사이버대학교",
+      "univEmail": [
+        "gcu.ac"
+      ]
+    },
+    {
+      "univName": "군산간호대학교",
+      "univEmail": [
+        "kcn.ac.kr"
+      ]
+    },
+    {
+      "univName": "군산대학교",
+      "univEmail": [
+        "kunsan.ac.kr"
+      ]
+    },
+    {
+      "univName": "군장대학교",
+      "univEmail": [
+        "kunjang.ac.kr"
+      ]
+    },
+    {
+      "univName": "그리스도대학교",
+      "univEmail": [
+        "kcu.ac.kr"
+      ]
+    },
+    {
+      "univName": "극동대학교",
+      "univEmail": [
+        "kdu.ac.kr"
+      ]
+    },
+    {
+      "univName": "글로벌사이버대학교",
+      "univEmail": [
+        "global.ac.kr"
+      ]
+    },
+    {
+      "univName": "금강대학교",
+      "univEmail": [
+        "ggu.ac.kr"
+      ]
+    },
+    {
+      "univName": "금오공과대학교",
+      "univEmail": [
+        "kumoh.ac.kr"
+      ]
+    },
+    {
+      "univName": "기독간호대학교",
+      "univEmail": [
+        "ccn.ac.kr"
+      ]
+    },
+    {
+      "univName": "김천과학대학",
+      "univEmail": [
+        "kcs.ac.kr"
+      ]
+    },
+    {
+      "univName": "김천대학",
+      "univEmail": [
+        "gimcheon.ac.kr"
+      ]
+    },
+    {
+      "univName": "김천대학교",
+      "univEmail": [
+        "gimcheon.ac.kr"
+      ]
+    },
+    {
+      "univName": "김포대학교",
+      "univEmail": [
+        "kimpo.ac.kr"
+      ]
+    },
+    {
+      "univName": "김해대학교",
+      "univEmail": [
+        "gimhae.ac.kr"
+      ]
+    },
+    {
+      "univName": "꽃동네대학교",
+      "univEmail": [
+        "kkot.ac.kr"
+      ]
+    },
+    {
+      "univName": "나사렛대학교",
+      "univEmail": [
+        "kornu.ac.kr"
+      ]
+    },
+    {
+      "univName": "남부대학교",
+      "univEmail": [
+        "nambu.ac.kr"
+      ]
+    },
+    {
+      "univName": "남서울대학교",
+      "univEmail": [
+        "nsu.ac.kr"
+      ]
+    },
+    {
+      "univName": "남서울대학교(산업대)",
+      "univEmail": [
+        "nsu.ac.kr"
+      ]
+    },
+    {
+      "univName": "농협대학교",
+      "univEmail": [
+        "nonghyup.ac.kr"
+      ]
+    },
+    {
+      "univName": "단국대학교",
+      "univEmail": [
+        "dankook.ac.kr"
+      ]
+    },
+    {
+      "univName": "대경대학교",
+      "univEmail": [
+        "tk.ac.kr"
+      ]
+    },
+    {
+      "univName": "대구가톨릭대학교",
+      "univEmail": [
+        "cu.ac.kr"
+      ]
+    },
+    {
+      "univName": "대구공업대학교",
+      "univEmail": [
+        "ttc.ac.kr"
+      ]
+    },
+    {
+      "univName": "대구과학대학교",
+      "univEmail": [
+        "tsu.ac.kr"
+      ]
+    },
+    {
+      "univName": "대구교육대학교",
+      "univEmail": [
+        "dnue.ac.kr"
+      ]
+    },
+    {
+      "univName": "대구대학교",
+      "univEmail": [
+        "daegu.ac.kr"
+      ]
+    },
+    {
+      "univName": "대구미래대학교",
+      "univEmail": [
+        "dfc.ac.kr"
+      ]
+    },
+    {
+      "univName": "대구보건대학교",
+      "univEmail": [
+        "dhc.ac.kr"
+      ]
+    },
+    {
+      "univName": "대구사이버대학교",
+      "univEmail": [
+        "dcu.ac.kr"
+      ]
+    },
+    {
+      "univName": "대구예술대학교",
+      "univEmail": [
+        "dgau.ac.kr"
+      ]
+    },
+    {
+      "univName": "대구외국어대학교",
+      "univEmail": [
+        "dufs.ac.kr"
+      ]
+    },
+    {
+      "univName": "대구한의대학교",
+      "univEmail": [
+        "dhu.ac.kr"
+      ]
+    },
+    {
+      "univName": "대덕대학교",
+      "univEmail": [
+        "ddu.ac.kr"
+      ]
+    },
+    {
+      "univName": "대동대학교",
+      "univEmail": [
+        "daedong.ac.kr"
+      ]
+    },
+    {
+      "univName": "대림대학교",
+      "univEmail": [
+        "daelim.ac.kr"
+      ]
+    },
+    {
+      "univName": "대신대학교",
+      "univEmail": [
+        "daeshin.ac.kr"
+      ]
+    },
+    {
+      "univName": "대원대학교",
+      "univEmail": [
+        "daewon.ac.kr"
+      ]
+    },
+    {
+      "univName": "대전가톨릭대학교",
+      "univEmail": [
+        "dcatholic.ac.kr"
+      ]
+    },
+    {
+      "univName": "대전대학교",
+      "univEmail": [
+        "edu.dju.ac.kr"
+      ]
+    },
+    {
+      "univName": "대전보건대학교",
+      "univEmail": [
+        "hit.ac.kr"
+      ]
+    },
+    {
+      "univName": "대전신학교",
+      "univEmail": [
+        "daejeon.ac.kr"
+      ]
+    },
+    {
+      "univName": "대전신학대학교",
+      "univEmail": [
+        "daejeon.ac.kr"
+      ]
+    },
+    {
+      "univName": "대진대학교",
+      "univEmail": [
+        "daejin.ac.kr"
+      ]
+    },
+    {
+      "univName": "덕성여자대학교",
+      "univEmail": [
+        "duksung.ac.kr"
+      ]
+    },
+    {
+      "univName": "동강대학교",
+      "univEmail": [
+        "dkc.ac.kr"
+      ]
+    },
+    {
+      "univName": "동국대학교",
+      "univEmail": [
+        "dongguk.edu"
+      ]
+    },
+    {
+      "univName": "동국대학교(경주)",
+      "univEmail": [
+        "dongguk.ac.kr"
+      ]
+    },
+    {
+      "univName": "동남보건대학교",
+      "univEmail": [
+        "dongnam.ac.kr"
+      ]
+    },
+    {
+      "univName": "동덕여자대학교",
+      "univEmail": [
+        "dongduk.ac.kr"
+      ]
+    },
+    {
+      "univName": "동명대학",
+      "univEmail": [
+        "tu.ac.kr"
+      ]
+    },
+    {
+      "univName": "동명대학교",
+      "univEmail": [
+        "tu.ac.kr"
+      ]
+    },
+    {
+      "univName": "동명정보대학교",
+      "univEmail": [
+        "tu.ac.kr"
+      ]
+    },
+    {
+      "univName": "동부산대학교",
+      "univEmail": [
+        "dpc.ac.kr"
+      ]
+    },
+    {
+      "univName": "동서대학교",
+      "univEmail": [
+        "dongseo.ac.kr"
+      ]
+    },
+    {
+      "univName": "동서울대학교",
+      "univEmail": [
+        "dsc.ac.kr"
+      ]
+    },
+    {
+      "univName": "동신대학교",
+      "univEmail": [
+        "dsu.kr"
+      ]
+    },
+    {
+      "univName": "동아대학교",
+      "univEmail": [
+        "donga.ac.kr"
+      ]
+    },
+    {
+      "univName": "동아방송예술대학교",
+      "univEmail": [
+        "dima.ac.kr"
+      ]
+    },
+    {
+      "univName": "동아인재대학교",
+      "univEmail": [
+        "dongac.ac.kr"
+      ]
+    },
+    {
+      "univName": "동양대학교",
+      "univEmail": [
+        "dyu.ac.kr"
+      ]
+    },
+    {
+      "univName": "동양미래대학교",
+      "univEmail": [
+        "dongyang.ac.kr"
+      ]
+    },
+    {
+      "univName": "동우대학",
+      "univEmail": [
+        "duc.ac.kr"
+      ]
+    },
+    {
+      "univName": "동원과학기술대학교",
+      "univEmail": [
+        "dist.ac.kr"
+      ]
+    },
+    {
+      "univName": "동원대학교",
+      "univEmail": [
+        "tw.ac.kr"
+      ]
+    },
+    {
+      "univName": "동의과학대학교",
+      "univEmail": [
+        "dit.ac.kr"
+      ]
+    },
+    {
+      "univName": "동의대학교",
+      "univEmail": [
+        "deu.ac.kr"
+      ]
+    },
+    {
+      "univName": "동주대학교",
+      "univEmail": [
+        "dongju.ac.kr"
+      ]
+    },
+    {
+      "univName": "두원공과대학교",
+      "univEmail": [
+        "doowon.ac.kr"
+      ]
+    },
+    {
+      "univName": "디지털서울문화예술대학교",
+      "univEmail": [
+        "scau.ac.kr"
+      ]
+    },
+    {
+      "univName": "루터대학교",
+      "univEmail": [
+        "ltu.ac.kr"
+      ]
+    },
+    {
+      "univName": "마산대학교",
+      "univEmail": [
+        "masan.ac.kr"
+      ]
+    },
+    {
+      "univName": "명지대학교",
+      "univEmail": [
+        "mju.ac.kr"
+      ]
+    },
+    {
+      "univName": "명지전문대학",
+      "univEmail": [
+        "mjc.ac.kr"
+      ]
+    },
+    {
+      "univName": "목원대학교",
+      "univEmail": [
+        "mokwon.ac.kr"
+      ]
+    },
+    {
+      "univName": "목포가톨릭대학교",
+      "univEmail": [
+        "mcu.ac.kr"
+      ]
+    },
+    {
+      "univName": "목포과학대학교",
+      "univEmail": [
+        "mokpo-c.ac.kr"
+      ]
+    },
+    {
+      "univName": "목포대학교",
+      "univEmail": [
+        "mokpo.ac.kr"
+      ]
+    },
+    {
+      "univName": "목포해양대학교",
+      "univEmail": [
+        "mmu.ac.kr"
+      ]
+    },
+    {
+      "univName": "문경대학교",
+      "univEmail": [
+        "mkc.ac.kr"
+      ]
+    },
+    {
+      "univName": "배재대학교",
+      "univEmail": [
+        "pcu.ac.kr"
+      ]
+    },
+    {
+      "univName": "배화여자대학교",
+      "univEmail": [
+        "baewha.ac.kr"
+      ]
+    },
+    {
+      "univName": "백석대학교",
+      "univEmail": [
+        "bu.ac.kr"
+      ]
+    },
+    {
+      "univName": "백석문화대학교",
+      "univEmail": [
+        "bscu.ac.kr"
+      ]
+    },
+    {
+      "univName": "백제예술대학교",
+      "univEmail": [
+        "paekche.ac.kr"
+      ]
+    },
+    {
+      "univName": "벽성대학",
+      "univEmail": [
+        "bs.ac.kr"
+      ]
+    },
+    {
+      "univName": "부경대학교",
+      "univEmail": [
+        "pukyong.ac.kr"
+      ]
+    },
+    {
+      "univName": "부산가톨릭대학교",
+      "univEmail": [
+        "cup.ac.kr"
+      ]
+    },
+    {
+      "univName": "부산경상대학교",
+      "univEmail": [
+        "bsks.ac.kr"
+      ]
+    },
+    {
+      "univName": "부산과학기술대학교",
+      "univEmail": [
+        "bist.ac.kr"
+      ]
+    },
+    {
+      "univName": "부산교육대학교",
+      "univEmail": [
+        "bnue.ac.kr"
+      ]
+    },
+    {
+      "univName": "부산대학교",
+      "univEmail": [
+        "pusan.ac.kr"
+      ]
+    },
+    {
+      "univName": "부산디지털대학교",
+      "univEmail": [
+        "bdu.ac.kr"
+      ]
+    },
+    {
+      "univName": "부산여자대학교",
+      "univEmail": [
+        "bwc.ac.kr"
+      ]
+    },
+    {
+      "univName": "부산예술대학교",
+      "univEmail": [
+        "busanarts.ac.kr"
+      ]
+    },
+    {
+      "univName": "부산외국어대학교",
+      "univEmail": [
+        "bufs.ac.kr"
+      ]
+    },
+    {
+      "univName": "부산장신대학교",
+      "univEmail": [
+        "bpu.ac.kr"
+      ]
+    },
+    {
+      "univName": "부천대학교",
+      "univEmail": [
+        "bc.ac.kr"
+      ]
+    },
+    {
+      "univName": "사이버한국외국어대학교",
+      "univEmail": [
+        "cufs.ac.kr"
+      ]
+    },
+    {
+      "univName": "삼육대학교",
+      "univEmail": [
+        "syuin.ac.kr"
+      ]
+    },
+    {
+      "univName": "삼육보건대학",
+      "univEmail": [
+        "shu.ac.kr"
+      ]
+    },
+    {
+      "univName": "삼육의명대학",
+      "univEmail": [
+        "syu.ac.kr"
+      ]
+    },
+    {
+      "univName": "상명대학교",
+      "univEmail": [
+        "sangmyung.kr"
+      ]
+    },
+    {
+      "univName": "상명대학교(천안)",
+      "univEmail": [
+        "sangmyung.kr"
+      ]
+    },
+    {
+      "univName": "상주대학교",
+      "univEmail": [
+        "knu.ac.kr"
+      ]
+    },
+    {
+      "univName": "상지대학교",
+      "univEmail": [
+        "sangji.ac.kr"
+      ]
+    },
+    {
+      "univName": "상지영서대학교",
+      "univEmail": [
+        "sy.ac.kr"
+      ]
+    },
+    {
+      "univName": "서강대학교",
+      "univEmail": [
+        "sogang.ac.kr"
+      ]
+    },
+    {
+      "univName": "서경대학교",
+      "univEmail": [
+        "skuniv.ac.kr"
+      ]
+    },
+    {
+      "univName": "서남대학교",
+      "univEmail": [
+        "seonam.ac.kr"
+      ]
+    },
+    {
+      "univName": "서라벌대학교",
+      "univEmail": [
+        "sorabol.ac.kr"
+      ]
+    },
+    {
+      "univName": "서영대학교",
+      "univEmail": [
+        "seoyeong.ac.kr"
+      ]
+    },
+    {
+      "univName": "서울과학기술대학교",
+      "univEmail": [
+        "seoultech.ac.kr"
+      ]
+    },
+    {
+      "univName": "서울과학기술대학교(산업대)",
+      "univEmail": [
+        "seoultech.ac.kr"
+      ]
+    },
+    {
+      "univName": "서울교육대학교",
+      "univEmail": [
+        "snue.ac.kr"
+      ]
+    },
+    {
+      "univName": "서울기독대학교",
+      "univEmail": [
+        "scu.ac.kr"
+      ]
+    },
+    {
+      "univName": "서울대학교",
+      "univEmail": [
+        "snu.ac.kr"
+      ]
+    },
+    {
+      "univName": "서울디지털대학교",
+      "univEmail": [
+        "sdu.ac.kr"
+      ]
+    },
+    {
+      "univName": "서울보건대학",
+      "univEmail": [
+        "shjc.ac.kr"
+      ]
+    },
+    {
+      "univName": "서울사이버대학교",
+      "univEmail": [
+        "iscu.ac.kr"
+      ]
+    },
+    {
+      "univName": "서울시립대학교",
+      "univEmail": [
+        "uos.ac.kr"
+      ]
+    },
+    {
+      "univName": "서울신학대학교",
+      "univEmail": [
+        "stu.ac.kr"
+      ]
+    },
+    {
+      "univName": "서울여자간호대학교",
+      "univEmail": [
+        "snjc.ac.kr"
+      ]
+    },
+    {
+      "univName": "서울여자대학교",
+      "univEmail": [
+        "swu.ac.kr"
+      ]
+    },
+    {
+      "univName": "서울예술대학교",
+      "univEmail": [
+        "seoularts.ac.kr"
+      ]
+    },
+    {
+      "univName": "서울장신대학교",
+      "univEmail": [
+        "sjs.ac.kr"
+      ]
+    },
+    {
+      "univName": "서원대학교",
+      "univEmail": [
+        "seowon.ac.kr"
+      ]
+    },
+    {
+      "univName": "서일대학교",
+      "univEmail": [
+        "seoil.ac.kr"
+      ]
+    },
+    {
+      "univName": "서정대학교",
+      "univEmail": [
+        "seojeong.ac.kr"
+      ]
+    },
+    {
+      "univName": "서해대학",
+      "univEmail": [
+        "sohae.ac.kr"
+      ]
+    },
+    {
+      "univName": "선린대학교",
+      "univEmail": [
+        "sunlin.ac.kr"
+      ]
+    },
+    {
+      "univName": "선문대학교",
+      "univEmail": [
+        "sunmoon.ac.kr"
+      ]
+    },
+    {
+      "univName": "성결대학교",
+      "univEmail": [
+        "sungkyul.ac.kr"
+      ]
+    },
+    {
+      "univName": "성공회대학교",
+      "univEmail": [
+        "skhu.ac.kr"
+      ]
+    },
+    {
+      "univName": "성균관대학교",
+      "univEmail": [
+        "skku.edu"
+      ]
+    },
+    {
+      "univName": "성덕대학교",
+      "univEmail": [
+        "sdc.ac.kr"
+      ]
+    },
+    {
+      "univName": "성신여자대학교",
+      "univEmail": [
+        "sungshin.ac.kr"
+      ]
+    },
+    {
+      "univName": "성심외국어대학",
+      "univEmail": [
+        "sungsim.ac.kr"
+      ]
+    },
+    {
+      "univName": "세경대학교",
+      "univEmail": [
+        "saekyung.ac.kr"
+      ]
+    },
+    {
+      "univName": "세명대학교",
+      "univEmail": [
+        "semyung.ac.kr"
+      ]
+    },
+    {
+      "univName": "세종대학교",
+      "univEmail": [
+        "sju.ac.kr"
+      ]
+    },
+    {
+      "univName": "세종사이버대학교",
+      "univEmail": [
+        "sjcu.ac.kr"
+      ]
+    },
+    {
+      "univName": "세한대학교",
+      "univEmail": [
+        "sehan.ac.kr"
+      ]
+    },
+    {
+      "univName": "송곡대학교",
+      "univEmail": [
+        "songgok.ac.kr"
+      ]
+    },
+    {
+      "univName": "송원대학",
+      "univEmail": [
+        "songwon.ac.kr"
+      ]
+    },
+    {
+      "univName": "송원대학교",
+      "univEmail": [
+        "songwon.ac.kr"
+      ]
+    },
+    {
+      "univName": "송호대학교",
+      "univEmail": [
+        "songho.ac.kr"
+      ]
+    },
+    {
+      "univName": "수성대학교",
+      "univEmail": [
+        "sc.ac.kr"
+      ]
+    },
+    {
+      "univName": "수원가톨릭대학교",
+      "univEmail": [
+        "suwoncatholic.ac.kr"
+      ]
+    },
+    {
+      "univName": "수원과학대학교",
+      "univEmail": [
+        "ssc.ac.kr"
+      ]
+    },
+    {
+      "univName": "수원대학교",
+      "univEmail": [
+        "suwon.ac.kr"
+      ]
+    },
+    {
+      "univName": "수원여자대학교",
+      "univEmail": [
+        "swc.ac.kr"
+      ]
+    },
+    {
+      "univName": "숙명여자대학교",
+      "univEmail": [
+        "sookmyung.ac.kr"
+      ]
+    },
+    {
+      "univName": "순복음총회신학교",
+      "univEmail": [
+        "kcc.ac.kr"
+      ]
+    },
+    {
+      "univName": "순천대학교",
+      "univEmail": [
+        "scnu.ac.kr"
+      ]
+    },
+    {
+      "univName": "순천제일대학",
+      "univEmail": [
+        "suncheon.ac.kr"
+      ]
+    },
+    {
+      "univName": "순천향대학교",
+      "univEmail": [
+        "sch.ac.kr"
+      ]
+    },
+    {
+      "univName": "숭실대학교",
+      "univEmail": [
+        "soongsil.ac.kr"
+      ]
+    },
+    {
+      "univName": "숭실사이버대학교",
+      "univEmail": [
+        "kcu.ac"
+      ]
+    },
+    {
+      "univName": "숭의여자대학교",
+      "univEmail": [
+        "sewc.ac.kr"
+      ]
+    },
+    {
+      "univName": "신경대학교",
+      "univEmail": [
+        "sgu.ac.kr"
+      ]
+    },
+    {
+      "univName": "신구대학교",
+      "univEmail": [
+        "shingu.ac.kr"
+      ]
+    },
+    {
+      "univName": "신라대학교",
+      "univEmail": [
+        "silla.ac.kr"
+      ]
+    },
+    {
+      "univName": "신성대학교",
+      "univEmail": [
+        "shinsung.ac.kr"
+      ]
+    },
+    {
+      "univName": "신안산대학교",
+      "univEmail": [
+        "sau.ac.kr"
+      ]
+    },
+    {
+      "univName": "신흥대학교",
+      "univEmail": [
+        "shc.ac.kr"
+      ]
+    },
+    {
+      "univName": "아세아연합신학대학교",
+      "univEmail": [
+        "acts.ac.kr"
+      ]
+    },
+    {
+      "univName": "아주대학교",
+      "univEmail": [
+        "ajou.ac.kr"
+      ]
+    },
+    {
+      "univName": "아주자동차대학",
+      "univEmail": [
+        "motor.ac.kr"
+      ]
+    },
+    {
+      "univName": "안동과학대학교",
+      "univEmail": [
+        "asc.ac.kr"
+      ]
+    },
+    {
+      "univName": "안동대학교",
+      "univEmail": [
+        "anu.ac.kr"
+      ]
+    },
+    {
+      "univName": "안산대학교",
+      "univEmail": [
+        "ansan.ac.kr"
+      ]
+    },
+    {
+      "univName": "안양대학교",
+      "univEmail": [
+        "ayum.anyang.ac.kr"
+      ]
+    },
+    {
+      "univName": "여주대학교",
+      "univEmail": [
+        "yit.ac.kr"
+      ]
+    },
+    {
+      "univName": "연성대학교",
+      "univEmail": [
+        "yeonsung.ac.kr"
+      ]
+    },
+    {
+      "univName": "연세대학교",
+      "univEmail": [
+        "yonsei.ac.kr"
+      ]
+    },
+    {
+      "univName": "연세대학교(원주)",
+      "univEmail": [
+        "yonsei.ac.kr"
+      ]
+    },
+    {
+      "univName": "연암공과대학교",
+      "univEmail": [
+        "yc.ac.kr"
+      ]
+    },
+    {
+      "univName": "열린사이버대학교",
+      "univEmail": [
+        "ocu.ac.kr"
+      ]
+    },
+    {
+      "univName": "영남대학교",
+      "univEmail": [
+        "ynu.ac.kr"
+      ]
+    },
+    {
+      "univName": "영남신학대학교",
+      "univEmail": [
+        "ytus.ac.kr"
+      ]
+    },
+    {
+      "univName": "영남외국어대학",
+      "univEmail": [
+        "yflc.ac.kr"
+      ]
+    },
+    {
+      "univName": "영남이공대학교",
+      "univEmail": [
+        "ync.ac.kr"
+      ]
+    },
+    {
+      "univName": "영산대학교",
+      "univEmail": [
+        "ysu.ac.kr"
+      ]
+    },
+    {
+      "univName": "영산대학교(산업대)",
+      "univEmail": [
+        "ysu.ac.kr"
+      ]
+    },
+    {
+      "univName": "영산선학대학교",
+      "univEmail": [
+        "youngsan.ac.kr"
+      ]
+    },
+    {
+      "univName": "영진사이버대학",
+      "univEmail": [
+        "ycc.ac.kr"
+      ]
+    },
+    {
+      "univName": "영진전문대학",
+      "univEmail": [
+        "yjc.ac.kr"
+      ]
+    },
+    {
+      "univName": "예수대학교",
+      "univEmail": [
+        "jesus.ac.kr"
+      ]
+    },
+    {
+      "univName": "예원예술대학교",
+      "univEmail": [
+        "yewon.ac.kr"
+      ]
+    },
+    {
+      "univName": "오산대학교",
+      "univEmail": [
+        "osan.ac.kr"
+      ]
+    },
+    {
+      "univName": "용인대학교",
+      "univEmail": [
+        "yiu.ac.kr"
+      ]
+    },
+    {
+      "univName": "용인송담대학교",
+      "univEmail": [
+        "ysc.ac.kr"
+      ]
+    },
+    {
+      "univName": "우석대학교",
+      "univEmail": [
+        "woosuk.ac.kr"
+      ]
+    },
+    {
+      "univName": "우송공업대학",
+      "univEmail": [
+        "wst.ac.kr"
+      ]
+    },
+    {
+      "univName": "우송대학교",
+      "univEmail": [
+        "wsu.ac.kr"
+      ]
+    },
+    {
+      "univName": "우송대학교(산업대)",
+      "univEmail": [
+        "wsu.ac.kr"
+      ]
+    },
+    {
+      "univName": "우송정보대학",
+      "univEmail": [
+        "wsi.ac.kr"
+      ]
+    },
+    {
+      "univName": "울산과학대학교",
+      "univEmail": [
+        "uc.ac.kr"
+      ]
+    },
+    {
+      "univName": "울산대학교",
+      "univEmail": [
+        "ulsan.ac.kr"
+      ]
+    },
+    {
+      "univName": "웅지세무대학",
+      "univEmail": [
+        "wat.ac.kr"
+      ]
+    },
+    {
+      "univName": "원광대학교",
+      "univEmail": [
+        "wonkwang.ac.kr"
+      ]
+    },
+    {
+      "univName": "원광디지털대학교",
+      "univEmail": [
+        "wdu.ac.kr"
+      ]
+    },
+    {
+      "univName": "원광보건대학교",
+      "univEmail": [
+        "wkhc.ac.kr"
+      ]
+    },
+    {
+      "univName": "원주대학",
+      "univEmail": [
+        "wonju.ac.kr"
+      ]
+    },
+    {
+      "univName": "위덕대학교",
+      "univEmail": [
+        "uu.ac.kr"
+      ]
+    },
+    {
+      "univName": "유원대학교",
+      "univEmail": [
+        "u1.ac.kr"
+      ]
+    },
+    {
+      "univName": "유한대학교",
+      "univEmail": [
+        "yuhan.ac.kr"
+      ]
+    },
+    {
+      "univName": "을지대학교",
+      "univEmail": [
+        "eulji.ac.kr"
+      ]
+    },
+    {
+      "univName": "이화여자대학교",
+      "univEmail": [
+        "ewhain.net"
+      ]
+    },
+    {
+      "univName": "인덕대학교",
+      "univEmail": [
+        "induk.ac.kr"
+      ]
+    },
+    {
+      "univName": "인제대학교",
+      "univEmail": [
+        "inje.ac.kr"
+      ]
+    },
+    {
+      "univName": "인천가톨릭대학교",
+      "univEmail": [
+        "iccu.ac.kr"
+      ]
+    },
+    {
+      "univName": "인천대학교",
+      "univEmail": [
+        "inu.ac.kr"
+      ]
+    },
+    {
+      "univName": "인천재능대학교",
+      "univEmail": [
+        "jeiu.ac.kr"
+      ]
+    },
+    {
+      "univName": "인천전문대학",
+      "univEmail": [
+        "icc.ac.kr"
+      ]
+    },
+    {
+      "univName": "인하공업전문대학",
+      "univEmail": [
+        "itc.ac.kr"
+      ]
+    },
+    {
+      "univName": "인하대학교",
+      "univEmail": [
+        "inha.edu"
+      ]
+    },
+    {
+      "univName": "장로회신학대학교",
+      "univEmail": [
+        "pcts.ac.kr"
+      ]
+    },
+    {
+      "univName": "장안대학교",
+      "univEmail": [
+        "jangan.ac.kr"
+      ]
+    },
+    {
+      "univName": "적십자간호대학",
+      "univEmail": [
+        "cau.ac.kr"
+      ]
+    },
+    {
+      "univName": "전남과학대학교",
+      "univEmail": [
+        "chunnam-c.ac.kr"
+      ]
+    },
+    {
+      "univName": "전남대학교",
+      "univEmail": [
+        "jnu.ac.kr"
+      ]
+    },
+    {
+      "univName": "전남도립대학교",
+      "univEmail": [
+        "dorip.ac.kr"
+      ]
+    },
+    {
+      "univName": "전북과학대학교",
+      "univEmail": [
+        "jbsc.ac.kr"
+      ]
+    },
+    {
+      "univName": "전북대학교",
+      "univEmail": [
+        "jbnu.ac.kr"
+      ]
+    },
+    {
+      "univName": "전주교육대학교",
+      "univEmail": [
+        "jnue.kr"
+      ]
+    },
+    {
+      "univName": "전주기전대학",
+      "univEmail": [
+        "jk.ac.kr"
+      ]
+    },
+    {
+      "univName": "전주대학교",
+      "univEmail": [
+        "jj.ac.kr"
+      ]
+    },
+    {
+      "univName": "전주비전대학교",
+      "univEmail": [
+        "jvision.ac.kr"
+      ]
+    },
+    {
+      "univName": "정석대학",
+      "univEmail": [
+        "jit.ac.kr"
+      ]
+    },
+    {
+      "univName": "제주관광대학교",
+      "univEmail": [
+        "ctc.ac.kr"
+      ]
+    },
+    {
+      "univName": "제주교육대학교",
+      "univEmail": [
+        "jejue.ac.kr"
+      ]
+    },
+    {
+      "univName": "제주국제대학교",
+      "univEmail": [
+        "jeju.ac.kr"
+      ]
+    },
+    {
+      "univName": "제주대학교",
+      "univEmail": [
+        "jejunu.ac.kr"
+      ]
+    },
+    {
+      "univName": "제주산업정보대학",
+      "univEmail": [
+        "jeju.ac.kr"
+      ]
+    },
+    {
+      "univName": "제주한라대학교",
+      "univEmail": [
+        "chu.ac.kr"
+      ]
+    },
+    {
+      "univName": "조선간호대학교",
+      "univEmail": [
+        "cnc.ac.kr"
+      ]
+    },
+    {
+      "univName": "조선대학교",
+      "univEmail": [
+        "chosun.kr"
+      ]
+    },
+    {
+      "univName": "조선이공대학교",
+      "univEmail": [
+        "cst.ac.kr"
+      ]
+    },
+    {
+      "univName": "중부대학교",
+      "univEmail": [
+        "jmail.ac.kr"
+      ]
+    },
+    {
+      "univName": "중앙대학교",
+      "univEmail": [
+        "cau.ac.kr"
+      ]
+    },
+    {
+      "univName": "중앙대학교(안성)",
+      "univEmail": [
+        "cau.ac.kr"
+      ]
+    },
+    {
+      "univName": "중앙승가대학교",
+      "univEmail": [
+        "sangha.ac.kr"
+      ]
+    },
+    {
+      "univName": "중원대학교",
+      "univEmail": [
+        "jwu.ac.kr"
+      ]
+    },
+    {
+      "univName": "진주교육대학교",
+      "univEmail": [
+        "cue.ac.kr"
+      ]
+    },
+    {
+      "univName": "진주보건대학교",
+      "univEmail": [
+        "jhc.ac.kr"
+      ]
+    },
+    {
+      "univName": "진주산업대학교(산업대)",
+      "univEmail": [
+        "gntech.ac.kr"
+      ]
+    },
+    {
+      "univName": "차의과학대학교",
+      "univEmail": [
+        "cha.ac.kr"
+      ]
+    },
+    {
+      "univName": "창신대학",
+      "univEmail": [
+        "csc.ac.kr"
+      ]
+    },
+    {
+      "univName": "창신대학교",
+      "univEmail": [
+        "cs.ac.kr"
+      ]
+    },
+    {
+      "univName": "창원대학교",
+      "univEmail": [
+        "changwon.ac.kr"
+      ]
+    },
+    {
+      "univName": "창원문성대학",
+      "univEmail": [
+        "cmu.ac.kr"
+      ]
+    },
+    {
+      "univName": "천안연암대학",
+      "univEmail": [
+        "yonam.ac.kr"
+      ]
+    },
+    {
+      "univName": "청강문화산업대학교",
+      "univEmail": [
+        "chungkang.academy"
+      ]
+    },
+    {
+      "univName": "청암대학교",
+      "univEmail": [
+        "scjc.ac.kr"
+      ]
+    },
+    {
+      "univName": "청운대학교",
+      "univEmail": [
+        "chungwoon.ac.kr"
+      ]
+    },
+    {
+      "univName": "청주교육대학교",
+      "univEmail": [
+        "cje.ac.kr"
+      ]
+    },
+    {
+      "univName": "청주대학교",
+      "univEmail": [
+        "cju.ac.kr"
+      ]
+    },
+    {
+      "univName": "초당대학교",
+      "univEmail": [
+        "chodang.ac.kr"
+      ]
+    },
+    {
+      "univName": "초당대학교(산업대)",
+      "univEmail": [
+        "chodang.ac.kr"
+      ]
+    },
+    {
+      "univName": "총신대학교",
+      "univEmail": [
+        "chongshin.ac.kr"
+      ]
+    },
+    {
+      "univName": "추계예술대학교",
+      "univEmail": [
+        "chugye.ac.kr"
+      ]
+    },
+    {
+      "univName": "춘천교육대학교",
+      "univEmail": [
+        "cnue.ac.kr"
+      ]
+    },
+    {
+      "univName": "춘해보건대학교",
+      "univEmail": [
+        "ch.ac.kr"
+      ]
+    },
+    {
+      "univName": "충남대학교",
+      "univEmail": [
+        "cnu.ac.kr"
+      ]
+    },
+    {
+      "univName": "충남도립청양대학",
+      "univEmail": [
+        "cyc.ac.kr"
+      ]
+    },
+    {
+      "univName": "충북대학교",
+      "univEmail": [
+        "chungbuk.ac.kr"
+      ]
+    },
+    {
+      "univName": "충북도립대학",
+      "univEmail": [
+        "cpu.ac.kr"
+      ]
+    },
+    {
+      "univName": "충북보건과학대학교",
+      "univEmail": [
+        "chsu.ac.kr"
+      ]
+    },
+    {
+      "univName": "충청대학교",
+      "univEmail": [
+        "ok.ac.kr"
+      ]
+    },
+    {
+      "univName": "침례신학대학교",
+      "univEmail": [
+        "kbtus.ac.kr"
+      ]
+    },
+    {
+      "univName": "칼빈대학교",
+      "univEmail": [
+        "calvin.ac.kr"
+      ]
+    },
+    {
+      "univName": "탐라대학교",
+      "univEmail": [
+        "tnu.ac.kr"
+      ]
+    },
+    {
+      "univName": "평택대학교",
+      "univEmail": [
+        "ptu.ac.kr"
+      ]
+    },
+    {
+      "univName": "포항대학교",
+      "univEmail": [
+        "pohang.ac.kr"
+      ]
+    },
+    {
+      "univName": "한경대학교",
+      "univEmail": [
+        "hknu.ac.kr"
+      ]
+    },
+    {
+      "univName": "한경대학교(산업대)",
+      "univEmail": [
+        "hknu.ac.kr"
+      ]
+    },
+    {
+      "univName": "한국골프대학",
+      "univEmail": [
+        "kg.ac.kr"
+      ]
+    },
+    {
+      "univName": "한국관광대학교",
+      "univEmail": [
+        "ktc.ac.kr"
+      ]
+    },
+    {
+      "univName": "한국교원대학교",
+      "univEmail": [
+        "knue.ac.kr"
+      ]
+    },
+    {
+      "univName": "한국교통대학교",
+      "univEmail": [
+        "ut.ac.kr"
+      ]
+    },
+    {
+      "univName": "한국교통대학교(산업대)",
+      "univEmail": [
+        "ut.ac.kr"
+      ]
+    },
+    {
+      "univName": "한국국제대학교",
+      "univEmail": [
+        "iuk.ac.kr"
+      ]
+    },
+    {
+      "univName": "한국기술교육대학교",
+      "univEmail": [
+        "koreatech.ac.kr"
+      ]
+    },
+    {
+      "univName": "한국농수산대학",
+      "univEmail": [
+        "af.ac.kr"
+      ]
+    },
+    {
+      "univName": "한국방송통신대학교",
+      "univEmail": [
+        "knou.ac.kr"
+      ]
+    },
+    {
+      "univName": "한국복지대학교",
+      "univEmail": [
+        "hanrw.ac.kr"
+      ]
+    },
+    {
+      "univName": "한국복지사이버대학",
+      "univEmail": [
+        "corea.ac.kr"
+      ]
+    },
+    {
+      "univName": "한국산업기술대학교",
+      "univEmail": [
+        "kpu.ac.kr"
+      ]
+    },
+    {
+      "univName": "한국산업기술대학교(산업대)",
+      "univEmail": [
+        "kpu.ac.kr"
+      ]
+    },
+    {
+      "univName": "한국성서대학교",
+      "univEmail": [
+        "bible.ac.kr"
+      ]
+    },
+    {
+      "univName": "한국승강기대학교",
+      "univEmail": [
+        "klc.ac.kr"
+      ]
+    },
+    {
+      "univName": "한국영상대학교",
+      "univEmail": [
+        "pro.ac.kr"
+      ]
+    },
+    {
+      "univName": "한국예술종합학교",
+      "univEmail": [
+        "karts.ac.kr"
+      ]
+    },
+    {
+      "univName": "한국외국어대학교",
+      "univEmail": [
+        "hufs.ac.kr"
+      ]
+    },
+    {
+      "univName": "한국전통문화대학교",
+      "univEmail": [
+        "nuch.ac.kr"
+      ]
+    },
+    {
+      "univName": "한국정보통신기능대학",
+      "univEmail": [
+        "icpc.ac.kr"
+      ]
+    },
+    {
+      "univName": "한국철도대학",
+      "univEmail": [
+        "krc.ac.kr"
+      ]
+    },
+    {
+      "univName": "한국체육대학교",
+      "univEmail": [
+        "knsu.ac.kr"
+      ]
+    },
+    {
+      "univName": "한국폴리텍 I 대학 서울강서캠퍼스",
+      "univEmail": [
+        "kopo.ac.kr"
+      ]
+    },
+    {
+      "univName": "한국폴리텍 I 대학 서울정수캠퍼스",
+      "univEmail": [
+        "kopo.ac.kr"
+      ]
+    },
+    {
+      "univName": "한국폴리텍 I 대학 성남캠퍼스",
+      "univEmail": [
+        "kopo.ac.kr"
+      ]
+    },
+    {
+      "univName": "한국폴리텍 II 대학 남인천캠퍼스",
+      "univEmail": [
+        "kopo.ac.kr"
+      ]
+    },
+    {
+      "univName": "한국폴리텍 II 대학 인천캠퍼스",
+      "univEmail": [
+        "kopo.ac.kr"
+      ]
+    },
+    {
+      "univName": "한국폴리텍 III 대학 강릉캠퍼스",
+      "univEmail": [
+        "kopo.ac.kr"
+      ]
+    },
+    {
+      "univName": "한국폴리텍 III 대학 춘천캠퍼스",
+      "univEmail": [
+        "kopo.ac.kr"
+      ]
+    },
+    {
+      "univName": "한국폴리텍 IV 대학 대전캠퍼스",
+      "univEmail": [
+        "kopo.ac.kr"
+      ]
+    },
+    {
+      "univName": "한국폴리텍 IV 대학 아산캠퍼스",
+      "univEmail": [
+        "kopo.ac.kr"
+      ]
+    },
+    {
+      "univName": "한국폴리텍 IV 대학 청주캠퍼스",
+      "univEmail": [
+        "kopo.ac.kr"
+      ]
+    },
+    {
+      "univName": "한국폴리텍 IV 대학 홍성캠퍼스",
+      "univEmail": [
+        "kopo.ac.kr"
+      ]
+    },
+    {
+      "univName": "한국폴리텍 V 대학 고창캠퍼스",
+      "univEmail": [
+        "kopo.ac.kr"
+      ]
+    },
+    {
+      "univName": "한국폴리텍 V 대학 김제캠퍼스",
+      "univEmail": [
+        "kopo.ac.kr"
+      ]
+    },
+    {
+      "univName": "한국폴리텍 V 대학 목포캠퍼스",
+      "univEmail": [
+        "kopo.ac.kr"
+      ]
+    },
+    {
+      "univName": "한국폴리텍 V 대학 익산캠퍼스",
+      "univEmail": [
+        "kopo.ac.kr"
+      ]
+    },
+    {
+      "univName": "한국폴리텍 VI 대학 대구캠퍼스",
+      "univEmail": [
+        "kopo.ac.kr"
+      ]
+    },
+    {
+      "univName": "한국폴리텍 VII 대학 부산캠퍼스",
+      "univEmail": [
+        "kopo.ac.kr"
+      ]
+    },
+    {
+      "univName": "한국폴리텍 VII 대학 울산캠퍼스",
+      "univEmail": [
+        "kopo.ac.kr"
+      ]
+    },
+    {
+      "univName": "한국폴리텍 VII 대학 창원캠퍼스",
+      "univEmail": [
+        "kopo.ac.kr"
+      ]
+    },
+    {
+      "univName": "한국폴리텍VI대학 구미캠퍼스",
+      "univEmail": [
+        "kopo.ac.kr"
+      ]
+    },
+    {
+      "univName": "한국폴리텍V대학 광주캠퍼스",
+      "univEmail": [
+        "kopo.ac.kr"
+      ]
+    },
+    {
+      "univName": "한국폴리텍대학 바이오캠퍼스",
+      "univEmail": [
+        "kopo.ac.kr"
+      ]
+    },
+    {
+      "univName": "한국폴리텍대학 섬유패션캠퍼스",
+      "univEmail": [
+        "kopo.ac.kr"
+      ]
+    },
+    {
+      "univName": "한국폴리텍대학 안성여자캠퍼스",
+      "univEmail": [
+        "kopo.ac.kr"
+      ]
+    },
+    {
+      "univName": "한국폴리텍대학 항공캠퍼스",
+      "univEmail": [
+        "kopo.ac.kr"
+      ]
+    },
+    {
+      "univName": "한국항공대학교",
+      "univEmail": [
+        "kau.kr"
+      ]
+    },
+    {
+      "univName": "한국해양대학교",
+      "univEmail": [
+        "kmou.ac.kr"
+      ]
+    },
+    {
+      "univName": "한남대학교",
+      "univEmail": [
+        "hannam.ac.kr"
+      ]
+    },
+    {
+      "univName": "한동대학교",
+      "univEmail": [
+        "handong.edu"
+      ]
+    },
+    {
+      "univName": "한라대학교",
+      "univEmail": [
+        "halla.ac.kr"
+      ]
+    },
+    {
+      "univName": "한려대학교",
+      "univEmail": [
+        "hanlyo.ac.kr"
+      ]
+    },
+    {
+      "univName": "한려대학교(산업대)",
+      "univEmail": [
+        "hanlyo.ac.kr"
+      ]
+    },
+    {
+      "univName": "한림대학교",
+      "univEmail": [
+        "hallym.ac.kr"
+      ]
+    },
+    {
+      "univName": "한림성심대학교",
+      "univEmail": [
+        "hsc.ac.kr"
+      ]
+    },
+    {
+      "univName": "한민학교",
+      "univEmail": [
+        "hanmin.ac.kr"
+      ]
+    },
+    {
+      "univName": "한밭대학교",
+      "univEmail": [
+        "hanbat.ac.kr"
+      ]
+    },
+    {
+      "univName": "한밭대학교(산업대)",
+      "univEmail": [
+        "hanbat.ac.kr"
+      ]
+    },
+    {
+      "univName": "한북대학교",
+      "univEmail": [
+        "hanbuk.ac.kr"
+      ]
+    },
+    {
+      "univName": "한서대학교",
+      "univEmail": [
+        "hanseo.ac.kr"
+      ]
+    },
+    {
+      "univName": "한성대학교",
+      "univEmail": [
+        "hansung.ac.kr"
+      ]
+    },
+    {
+      "univName": "한세대학교",
+      "univEmail": [
+        "uohs.ac.kr"
+      ]
+    },
+    {
+      "univName": "한신대학교",
+      "univEmail": [
+        "hs.ac.kr"
+      ]
+    },
+    {
+      "univName": "한양대학교",
+      "univEmail": [
+        "hanyang.ac.kr"
+      ]
+    },
+    {
+      "univName": "한양대학교(ERICA)",
+      "univEmail": [
+        "hanyang.ac.kr"
+      ]
+    },
+    {
+      "univName": "한양사이버대학교",
+      "univEmail": [
+        "hycu.ac.kr"
+      ]
+    },
+    {
+      "univName": "한양여자대학교",
+      "univEmail": [
+        "hywoman.ac.kr"
+      ]
+    },
+    {
+      "univName": "한영대학",
+      "univEmail": [
+        "hanyeong.ac.kr"
+      ]
+    },
+    {
+      "univName": "한영신학대학교",
+      "univEmail": [
+        "hytu.ac.kr"
+      ]
+    },
+    {
+      "univName": "한일장신대학교",
+      "univEmail": [
+        "hanil.ac.kr"
+      ]
+    },
+    {
+      "univName": "한중대학교",
+      "univEmail": [
+        "hanzhong.ac.kr"
+      ]
+    },
+    {
+      "univName": "협성대학교",
+      "univEmail": [
+        "uhs.ac.kr"
+      ]
+    },
+    {
+      "univName": "혜전대학",
+      "univEmail": [
+        "hj.ac.kr"
+      ]
+    },
+    {
+      "univName": "혜천대학교",
+      "univEmail": [
+        "hu.ac.kr"
+      ]
+    },
+    {
+      "univName": "호남대학교",
+      "univEmail": [
+        "honam.ac.kr"
+      ]
+    },
+    {
+      "univName": "호남신학대학교",
+      "univEmail": [
+        "htus.ac.kr"
+      ]
+    },
+    {
+      "univName": "호서대학교",
+      "univEmail": [
+        "hoseo.edu"
+      ]
+    },
+    {
+      "univName": "호원대학교",
+      "univEmail": [
+        "howon.ac.kr"
+      ]
+    },
+    {
+      "univName": "홍익대학교",
+      "univEmail": [
+        "hongik.ac.kr"
+      ]
+    },
+    {
+      "univName": "홍익대학교(세종)",
+      "univEmail": [
+        "hongik.ac.kr"
+      ]
+    },
+    {
+      "univName": "화신사이버대학교",
+      "univEmail": [
+        "hscu.ac.kr"
+      ]
+    }
+  ]
+}
