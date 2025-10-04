@@ -16,7 +16,8 @@ public class ScheduleResponse {
   private String category;
   private String detail;
   private String time;
-  private String color;
+  private String backgroundColor;
+  private String textColor;
   private String memo;
 
 
