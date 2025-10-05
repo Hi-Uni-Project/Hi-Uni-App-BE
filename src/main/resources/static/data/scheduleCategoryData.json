@@ -2,46 +2,55 @@
   {
     "categoryid": 1,
     "categoryname": "면접",
-    "categorycolor": "#007AFF"
+    "backgroundcolor": "#007AFF",
+    "textcolor": "#FFFFFF"
   },
   {
     "categoryid": 2,
     "categoryname": "결과발표",
-    "categorycolor": "#DE3C32"
+    "backgroundcolor": "#DE3C32",
+    "textcolor": "#FFFFFF"
   },
   {
     "categoryid": 3,
     "categoryname": "자격증",
-    "categorycolor": "#2DBC58"
+    "backgroundcolor": "#2DBC58",
+    "textcolor": "#FFFFFF"
   },
   {
     "categoryid": 4,
     "categoryname": "어학",
-    "categorycolor": "#FF9500"
+    "backgroundcolor": "#FF9500",
+    "textcolor": "#111111"
   },
   {
     "categoryid": 5,
     "categoryname": "공모전",
-    "categorycolor": "#FFE700"
+    "backgroundcolor": "#FFE100",
+    "textcolor": "#111111"
   },
   {
     "categoryid": 6,
     "categoryname": "취업",
-    "categorycolor": "#2F48C2"
+    "backgroundcolor": "#2F48C2",
+    "textcolor": "#FFFFFF"
   },
   {
     "categoryid": 7,
     "categoryname": "프로젝트",
-    "categorycolor": "#00C7BE"
+    "backgroundcolor": "#00C7BE",
+    "textcolor": "#FFFFFF"
   },
   {
     "categoryid": 8,
     "categoryname": "스터디/모임",
-    "categorycolor": "#9E0CFF"
+    "backgroundcolor": "#C773FF",
+    "textcolor": "#FFFFFF"
   },
   {
     "categoryid": 9,
     "categoryname": "기타",
-    "categorycolor": "#979797"
+    "backgroundcolor": "#979797",
+    "textcolor": "#FFFFFF"
   }
 ]

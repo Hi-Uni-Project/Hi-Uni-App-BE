@@ -76,7 +76,8 @@ public class ScheduleService {
           CategoryDataDto category = categoryRepository.findById(sc.getCategoryId());
 
           String categoryName = category.getCategoryname();
-          String color = category.getCategorycolor();
+          String backgroundColor = category.getBackgroundcolor();
+          String textColor = category.getTextcolor();
 
           String StartDateTime = sc.getStartDate().
               format(DateTimeFormatter.ofPattern("a hh:mm", Locale.ENGLISH));
@@ -92,7 +93,8 @@ public class ScheduleService {
               .category(categoryName)
               .detail(sc.getTitle())
               .time(time)
-              .color(color)
+              .backgroundColor(backgroundColor)
+              .textColor(textColor)
               .memo(sc.getMemo())
               .build();
 
