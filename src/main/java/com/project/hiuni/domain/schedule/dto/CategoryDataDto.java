@@ -9,6 +9,6 @@ public class CategoryDataDto {
 
   private Long categoryid;
   private String categoryname;
-  private String categorycolor;
-
+  private String backgroundcolor;
+  private String textcolor;
 }
