@@ -35,7 +35,7 @@ public class MailV1Controller {
       throw new ValidationException(ErrorCode.INVALID_INPUT_VALUE);
     }
 
-    boolean emailIsValid = mailV1Service.validateEmail(mailRequest.getEmail());
+    boolean emailIsValid = mailV1Service.validateEmail(mailRequest.getEmail(), mailRequest.getUnivName());
 
     if(!emailIsValid) {
       throw new InvalidEmailFormatException(ErrorCode.INVALID_EMAIL_FORMAT);
@@ -57,7 +57,7 @@ public class MailV1Controller {
       throw new ValidationException(ErrorCode.INVALID_INPUT_VALUE);
     }
 
-    boolean emailIsValid = mailV1Service.validateEmail(mailRequest.getEmail());
+    boolean emailIsValid = mailV1Service.validateEmail(mailRequest.getEmail(), mailRequest.getUnivName());
 
     if(!emailIsValid) {
       throw new InvalidEmailFormatException(ErrorCode.INVALID_EMAIL_FORMAT);

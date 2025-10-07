@@ -3,14 +3,17 @@ package com.project.hiuni.domain.mail.v1.service;
 import com.project.hiuni.domain.mail.dto.MailAuthentication;
 import com.project.hiuni.domain.mail.dto.request.CodeRequest;
 import com.project.hiuni.domain.mail.dto.request.MailRequest;
+import com.project.hiuni.domain.univ.v1.service.UnivV1Service;
 import com.project.hiuni.domain.user.repository.UserRepository;
 import com.project.hiuni.global.common.util.HtmlTemplateUtil;
 import com.project.hiuni.global.exception.ErrorCode;
+import com.project.hiuni.global.exception.InternalServerException;
 import com.project.hiuni.global.exception.NotFoundInfoException;
 import com.project.hiuni.global.security.jwt.JwtTokenProvider;
 import com.project.hiuni.infra.mail.MailClient;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Random;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +27,7 @@ public class MailV1Service {
   private final MailClient mailClient;
   private final JwtTokenProvider jwtTokenProvider;
   private final UserRepository userRepository;
+  private final UnivV1Service univV1Service;
 
   public String sendMail(MailRequest mailRequest) {
     log.info("메일 전송 서비스 실행");
@@ -50,15 +54,36 @@ public class MailV1Service {
   }
 
 
-  public boolean validateEmail(String email) {
-      String regex = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$";
-      Pattern pattern = Pattern.compile(regex);
+  public boolean validateEmail(String email, String univName) {
+      try {
+        String regex = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$";
+        Pattern pattern = Pattern.compile(regex);
 
-      if (email == null || !pattern.matcher(email).matches()) {
-        return false;
+        String targetEmail = univV1Service.findSchoolsByUnivName(univName).get(0).getWebsiteUrl();
+
+        if(targetEmail.isEmpty()) {
+          log.info("존재하지 않는 학교입니다. : " + univName);
+          return false;
+        }
+
+        String targetDomainName = extractDomainName(targetEmail);
+        String domainName = extractDomainName(email);
+
+        if (email == null || !pattern.matcher(email).matches() || domainName == null || targetDomainName == null) {
+          log.info("이메일 형식이 올바르지 않습니다. : " + email);
+          return false;
+        }
+
+        if(domainName.equalsIgnoreCase(targetDomainName)) {
+          return true;
+        } else {
+          log.info("이메일 도메인이 일치하지 않습니다. targetDomainName : " + targetDomainName + " / " + "domainName : " + domainName);
+          return false;
+        }
+      } catch (Exception e) {
+        log.error("메일 전송중 에러 발생 : " + e.getMessage());
+        throw new InternalServerException(ErrorCode.INTERNAL_SERVER_ERROR);
       }
-
-      return email.toLowerCase().endsWith("ac.kr");
   }
 
   public boolean validateCode(CodeRequest codeRequest) {
@@ -69,6 +94,7 @@ public class MailV1Service {
     log.info("targetAuthCode: {}, userAuthCode: {}", targetAuthCode, userAuthCode);
 
     if(targetAuthCode.equals(userAuthCode)) {
+      mailClient.deleteMailAuthenticationList(codeRequest.getAuthMailId());
       return true;
     } else {
       return false;
@@ -87,6 +113,16 @@ public class MailV1Service {
     }
 
     return result.toString();
+  }
+
+  private static String extractDomainName(String email) {
+    Pattern pattern = Pattern.compile("\\.?([a-zA-Z]+)\\.ac\\.kr");
+    Matcher matcher = pattern.matcher(email);
+
+    if (matcher.find()) {
+      return matcher.group(1);
+    }
+    return null;
   }
 
 }

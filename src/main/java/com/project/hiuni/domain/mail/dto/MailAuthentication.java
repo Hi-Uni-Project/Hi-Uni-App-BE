@@ -14,14 +14,14 @@ import lombok.Setter;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class MailAuthentication {
 
-  private String socialId;
+  private String authMailId;
   private String authCode;
 
 
-  public static MailAuthentication from(String socialId) {
+  public static MailAuthentication from(String authMailId) {
     return MailAuthentication
         .builder()
-        .socialId(socialId)
+        .authMailId(authMailId)
         .authCode(createAuthCode())
         .build();
   }

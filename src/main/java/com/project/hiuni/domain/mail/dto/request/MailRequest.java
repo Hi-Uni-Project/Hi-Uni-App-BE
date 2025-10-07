@@ -11,4 +11,7 @@ public class MailRequest {
   @NotNull
   private String email;
 
+  @NotNull
+  private String univName;
+
 }
