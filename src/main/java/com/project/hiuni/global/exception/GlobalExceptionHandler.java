@@ -5,17 +5,20 @@ import com.project.hiuni.domain.auth.exception.GoogleInvalidTokenException;
 import com.project.hiuni.domain.auth.exception.KakaoInvalidTokenException;
 import com.project.hiuni.domain.auth.exception.NaverInvalidTokenException;
 import com.project.hiuni.domain.auth.exception.ProviderNotFoundException;
+import com.project.hiuni.domain.mail.exception.EmailSendException;
 import com.project.hiuni.domain.mail.exception.InvalidEmailCodeException;
 import com.project.hiuni.domain.mail.exception.InvalidEmailFormatException;
 import com.project.hiuni.domain.post.exception.CustomForbiddenException;
 import com.project.hiuni.domain.post.exception.CustomPostNotFoundException;
 import com.project.hiuni.domain.tos.exception.RequiredTermsNotAgreedException;
-import com.project.hiuni.global.common.dto.response.ErrorResponse;
 import com.project.hiuni.global.common.dto.response.ResponseDTO;
+import jakarta.validation.ConstraintViolationException;
 import java.time.format.DateTimeParseException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.reactive.result.method.annotation.ResponseEntityExceptionHandler;
@@ -118,6 +121,31 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     return ResponseEntity.status(ErrorCode.INVALID_INPUT_VALUE.getActualStatusCode())
         .body(ResponseDTO.of(ErrorCode.INVALID_INPUT_VALUE));
+  }
+
+  @ExceptionHandler(MethodArgumentNotValidException.class)
+  public ResponseEntity<ResponseDTO> MethodArgumentNotValidException(MethodArgumentNotValidException e) {
+    String customMessage = e.getBindingResult()
+            .getFieldErrors()
+            .stream()
+            .findFirst()
+            .map(FieldError::getDefaultMessage)
+            .orElse(ErrorCode.INVALID_INPUT_VALUE.getMessage());
+
+    return ResponseEntity.status(ErrorCode.INVALID_INPUT_VALUE.getActualStatusCode())
+            .body(ResponseDTO.error(ErrorCode.INVALID_INPUT_VALUE, customMessage));
+  }
+
+  @ExceptionHandler(ConstraintViolationException.class)
+  public ResponseEntity<ResponseDTO> ConstraintViolationException(ConstraintViolationException e) {
+    String customMessage = e.getConstraintViolations()
+            .stream()
+            .findFirst()
+            .map(v -> v.getMessage())
+            .orElse(ErrorCode.INVALID_INPUT_VALUE.getMessage());
+
+    return ResponseEntity.status(ErrorCode.INVALID_INPUT_VALUE.getActualStatusCode())
+            .body(ResponseDTO.error(ErrorCode.INVALID_INPUT_VALUE, customMessage));
   }
 
 }

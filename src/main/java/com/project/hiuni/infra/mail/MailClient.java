@@ -2,6 +2,7 @@ package com.project.hiuni.infra.mail;
 
 import com.project.hiuni.domain.mail.dto.MailAuthentication;
 import com.project.hiuni.domain.mail.exception.EmailSendException;
+import com.project.hiuni.domain.mail.exception.InvalidEmailCodeException;
 import com.project.hiuni.global.exception.ErrorCode;
 import jakarta.mail.internet.MimeMessage;
 import java.util.ArrayList;
@@ -58,9 +59,9 @@ public class MailClient {
     this.mailAuthenticationList.add(mailAuthentication);
   }
 
-  public void deleteMailAuthenticationList(String socialId) {
+  public void deleteMailAuthenticationList(String authMailId) {
     for(MailAuthentication mailAuthentication : this.mailAuthenticationList) {
-      if(mailAuthentication.getSocialId().equals(socialId)) {
+      if(mailAuthentication.getAuthMailId().equals(authMailId)) {
         this.mailAuthenticationList.remove(mailAuthentication);
         break;
       }
@@ -68,12 +69,16 @@ public class MailClient {
   }
 
   public String getUserAuthenticationCode(String socialId) {
-    for(MailAuthentication mailAuthentication : this.mailAuthenticationList) {
-      if(mailAuthentication.getSocialId().equals(socialId)) {
-        return mailAuthentication.getAuthCode();
+    try {
+      for(MailAuthentication mailAuthentication : this.mailAuthenticationList) {
+        if(mailAuthentication.getAuthMailId().equals(socialId)) {
+          return mailAuthentication.getAuthCode();
+        }
       }
+    } catch (Exception e) {
+      throw new InvalidEmailCodeException(ErrorCode.INVALID_EMAIL_CODE);
     }
-    return null;
+    throw new InvalidEmailCodeException(ErrorCode.INVALID_EMAIL_CODE);
   }
 
 

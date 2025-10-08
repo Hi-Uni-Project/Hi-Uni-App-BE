@@ -78,6 +78,35 @@ public class TosService {
   @Transactional
   public void agreeTos(Tos tos, User user) {
 
+    // 필수 약관 동의 여부 확인
+    if(!tos.getServiceTosIsAgreed() || !tos.getPersonalInfoTosIsAgreed() ||
+        !tos.getInPersonTosIsAgreed()) {
+      throw new RequiredTermsNotAgreedException(ErrorCode.REQUIRED_TERMS_NOT_AGREED);
+    }
+
+    //====== 약관 동의내역 저장 로직 ======//
+
+    if(tos.getServiceTosIsAgreed()) {
+      serviceTosHistoryRepository.save(ServiceTosHistory.createTemp(user));
+    }
+
+    if(tos.getPersonalInfoTosIsAgreed()) {
+      personalInfoTosHistoryRepository.save(PersonalInfoTosHistory.createTemp(user));
+    }
+
+    if(tos.getMarketingTosIsAgreed()) {
+      marketingTosHistoryRepository.save(MarketingTosHistory.createTemp(user));
+    }
+
+    if(tos.getServiceImprovementTosIsAgreed()) {
+      serviceImprovementTosHistoryRepository.save(ServiceImprovementTosHistory.createTemp(user));
+    }
+
+    if(tos.getInPersonTosIsAgreed()) {
+      inPersonTosHistoryRepository.save(InPersonTosHistory.createTemp(user));
+    }
+
+
 
   }
 

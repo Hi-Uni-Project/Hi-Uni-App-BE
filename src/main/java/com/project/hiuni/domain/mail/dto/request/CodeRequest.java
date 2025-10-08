@@ -11,10 +11,10 @@ import lombok.Setter;
 @Builder
 public class CodeRequest {
 
-  @NotEmpty
+  @NotEmpty(message = "인증 코드는 null 일 수 없습니다.")
   private String authCode;
 
-  @NotEmpty
+  @NotEmpty(message = "인증 메일 ID는 null 일 수 없습니다.")
   private String authMailId;
 
 }
