@@ -5,6 +5,7 @@ import com.project.hiuni.domain.auth.exception.GoogleInvalidTokenException;
 import com.project.hiuni.domain.auth.exception.KakaoInvalidTokenException;
 import com.project.hiuni.domain.auth.exception.NaverInvalidTokenException;
 import com.project.hiuni.domain.auth.exception.ProviderNotFoundException;
+import com.project.hiuni.domain.mail.exception.EmailSendException;
 import com.project.hiuni.domain.mail.exception.InvalidEmailCodeException;
 import com.project.hiuni.domain.mail.exception.InvalidEmailFormatException;
 import com.project.hiuni.domain.post.exception.CustomForbiddenException;

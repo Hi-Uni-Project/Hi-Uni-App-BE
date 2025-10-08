@@ -2,19 +2,13 @@ package com.project.hiuni.domain.mail.v1.controller;
 
 import com.project.hiuni.domain.mail.dto.request.CodeRequest;
 import com.project.hiuni.domain.mail.dto.request.MailRequest;
-import com.project.hiuni.domain.mail.dto.response.CodeResponse;
-import com.project.hiuni.domain.mail.dto.response.MailResponse;
 import com.project.hiuni.domain.mail.exception.InvalidEmailFormatException;
 import com.project.hiuni.domain.mail.v1.service.MailV1Service;
 import com.project.hiuni.global.common.dto.response.ResponseDTO;
 import com.project.hiuni.global.exception.ErrorCode;
-import com.project.hiuni.global.exception.ValidationException;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import java.util.HashMap;
-import java.util.Objects;
 import lombok.RequiredArgsConstructor;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,14 +22,9 @@ public class MailV1Controller {
   private final MailV1Service mailV1Service;
 
   @PostMapping("/send")
-  public ResponseDTO<HashMap<String, Object>> sendMail(@RequestBody @Valid MailRequest mailRequest,
-      BindingResult bindingResult, HttpServletRequest httpServletRequest) {
+  public ResponseDTO<HashMap<String, Object>> sendMail(@RequestBody @Valid MailRequest mailRequest) {
 
-    if(bindingResult.hasErrors()) {
-      throw new ValidationException(ErrorCode.INVALID_INPUT_VALUE);
-    }
-
-    boolean emailIsValid = mailV1Service.validateEmail(mailRequest.getEmail());
+    boolean emailIsValid = mailV1Service.validateEmail(mailRequest.getEmail(), mailRequest.getUnivName());
 
     if(!emailIsValid) {
       throw new InvalidEmailFormatException(ErrorCode.INVALID_EMAIL_FORMAT);
@@ -50,14 +39,9 @@ public class MailV1Controller {
   }
 
   @PostMapping("/validate-email")
-  public ResponseDTO<String> validateEmail(@RequestBody @Valid MailRequest mailRequest,
-  BindingResult bindingResult) {
+  public ResponseDTO<String> validateEmail(@RequestBody @Valid MailRequest mailRequest) {
 
-    if(bindingResult.hasErrors()) {
-      throw new ValidationException(ErrorCode.INVALID_INPUT_VALUE);
-    }
-
-    boolean emailIsValid = mailV1Service.validateEmail(mailRequest.getEmail());
+    boolean emailIsValid = mailV1Service.validateEmail(mailRequest.getEmail(), mailRequest.getUnivName());
 
     if(!emailIsValid) {
       throw new InvalidEmailFormatException(ErrorCode.INVALID_EMAIL_FORMAT);
@@ -68,12 +52,7 @@ public class MailV1Controller {
   }
 
   @PostMapping("/validate-code")
-  public ResponseDTO<String> validateCode(@RequestBody @Valid CodeRequest codeRequest,
-      BindingResult bindingResult) {
-
-    if(bindingResult.hasErrors()) {
-      throw new ValidationException(ErrorCode.INVALID_INPUT_VALUE);
-    }
+  public ResponseDTO<String> validateCode(@RequestBody @Valid CodeRequest codeRequest) {
 
     if(!mailV1Service.validateCode(codeRequest)) {
       throw new InvalidEmailFormatException(ErrorCode.INVALID_EMAIL_CODE);
