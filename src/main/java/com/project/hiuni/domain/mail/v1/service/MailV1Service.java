@@ -56,8 +56,21 @@ public class MailV1Service {
 
   public boolean validateEmail(String email, String univName) {
       try {
+
+        // 테스트용 이메일 허용 입니다. 추후 제거돼야합니다.
+        // TODO: 추후 제거
+        if(email.equals("seolbotdae@gmail.com") || email.equals("hjphjp321212@gmail.com")) {
+          return true;
+        }
+
+
         String regex = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$";
         Pattern pattern = Pattern.compile(regex);
+
+        if(email == null || !pattern.matcher(email).matches()) {
+          log.info("이메일 형식이 올바르지 않습니다. : " + email);
+          return false;
+        }
 
         String targetEmail = univV1Service.findSchoolsByUnivName(univName).get(0).getWebsiteUrl();
 
@@ -69,7 +82,7 @@ public class MailV1Service {
         String targetDomainName = extractDomainName(targetEmail);
         String domainName = extractDomainName(email);
 
-        if (email == null || !pattern.matcher(email).matches() || domainName == null || targetDomainName == null) {
+        if (domainName == null || targetDomainName == null) {
           log.info("이메일 형식이 올바르지 않습니다. : " + email);
           return false;
         }
