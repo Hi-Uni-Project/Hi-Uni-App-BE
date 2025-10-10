@@ -225,18 +225,16 @@ public class PostV1Service {
                 .toList();
     }
 
+    @Transactional(readOnly = true)
     public List<PostPreviewResponse> getMyPosts(Long userId){
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomUserNotFoundException(ErrorCode.USER_NOT_FOUND));
 
         List<Post> posts = postRepository.findAllByUserId(user.getId());
 
-        List<PostPreviewResponse> filterPosts = posts.stream()
-               // .filter(post -> post.getLikeCount()>=3)
+        return posts.stream()
                 .map(PostPreviewResponse::from)
                 .collect(Collectors.toList());
-
-        return filterPosts;
     }
 
     private static Category getCategory(Type type) {
