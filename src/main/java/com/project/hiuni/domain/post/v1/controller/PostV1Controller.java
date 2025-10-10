@@ -124,4 +124,11 @@ public class PostV1Controller {
         return ResponseDTO.of(postPreviewResponses, "게시글 목록 조회에 성공하였습니다.");
     }
 
+    @GetMapping("/my-posts")
+    public ResponseDTO<List<PostPreviewResponse>> searchMyPosts(@AuthenticationPrincipal CustomUserDetails userDetails) {
+        List<PostPreviewResponse> postPreviewResponses = postV1Service.getMyPosts(userDetails.getId());
+
+        return ResponseDTO.of(postPreviewResponses, "내가 쓴 게시글 목록 조회에 성공하였습니다.");
+    }
+
 }
