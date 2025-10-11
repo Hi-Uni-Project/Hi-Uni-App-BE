@@ -28,7 +28,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class CommentV1Controller {
 
     private final CommentV1Service commentV1Service;
-    private final PostV1Service postV1Service;
 
     @PostMapping("/{postId}")
     public ResponseDTO<CommentCreateResponse> createComment(@PathVariable Long postId,
