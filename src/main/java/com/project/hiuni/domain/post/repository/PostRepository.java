@@ -46,4 +46,12 @@ public interface PostRepository extends JpaRepository <Post, Long> {
     List<Post> searchByKeywordAndUniv(@Param("keyword") String keyword,
                                       @Param("univName") String univName,
                                       Sort sort);
+    @Query("""
+    select p
+    from Post p
+    join p.user u
+    where u.id = :userId
+    order by p.createdAt desc
+""")
+    List<Post> findAllByUserId(@Param("userId") Long userId);
 }

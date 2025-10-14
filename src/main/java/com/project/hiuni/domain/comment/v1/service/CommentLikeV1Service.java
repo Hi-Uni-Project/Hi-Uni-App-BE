@@ -12,6 +12,7 @@ import com.project.hiuni.domain.user.exception.CustomUserNotFoundException;
 import com.project.hiuni.domain.user.repository.UserRepository;
 import com.project.hiuni.global.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,7 +41,12 @@ public class CommentLikeV1Service {
                 .user(user)
                 .build();
 
-        commentLikeRepository.save(commentLike);
+        try{
+            commentLikeRepository.save(commentLike);
+        } catch (DataIntegrityViolationException e){
+            throw new CustomDuplicatedLikeException(ErrorCode.DUPLICATED_LIKE);
+        }
+
         comment.increaseLikeCount();
     }
 

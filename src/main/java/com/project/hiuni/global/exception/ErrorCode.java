@@ -11,7 +11,9 @@ public enum ErrorCode {
     DUPLICATED_USER(400, "DUPLICATED_USER", "이미 등록된 사용자입니다."),
     DUPLICATED_NICKNAME(400, "DUPLICATED_NICKNAME", "이미 등록된 닉네임입니다."),
     DUPLICATED_LIKE(400, "DUPLICATED_LIKE", "이미 좋아요를 누르셨습니다."),
-    NOT_LIKE(400,"NOT_LIKE", "좋아요 상태가 아닙니다."),
+    DUPLICATED_BOOKMARK(400, "DUPLICATED_BOOKMARK", "이미 북마크 되어있는 게시글입니다."),
+    NOT_LIKE(400,"NOT_LIKE", "좋아요를 누르지 않았습니다."),
+    NOT_BOOKMARK(400,"NOT_BOOKMARK", "북마크 되어있지 않은 게시글입니다."),
 
     // 400 Bad Request 검색 관련
     INVALID_SEARCH_KEYWORD_LENGTH(400, "INVALID_SEARCH_KEYWORD_LENGTH", "검색어는 2자 이상 입력해주세요."),
