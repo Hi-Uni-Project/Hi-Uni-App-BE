@@ -25,9 +25,10 @@ public interface PostRepository extends JpaRepository <Post, Long> {
                              String univName);
 
     @Query("""
-        select p
-        from Post p
-        join fetch p.user u on u.univName = :univName
+    select p
+    from Post p
+    join fetch p.user u
+    where u.univName = :univName
     """)
     List<Post> findAllPosts(@Param("univName") String univName,
                             Sort sort);
