@@ -15,8 +15,8 @@ public interface PostRepository extends JpaRepository <Post, Long> {
         select p
         from Post p
         join p.user u
-        where p.createdAt >= :start
-          and p.createdAt < :end
+        where p.createdAt >= :startDate
+          and p.createdAt < :endDate
           and u.univName = :univName
         order by p.likeCount desc
     """)
@@ -27,7 +27,7 @@ public interface PostRepository extends JpaRepository <Post, Long> {
     @Query("""
         select p
         from Post p
-        join p.user u on u.univName = :univName
+        join fetch p.user u on u.univName = :univName
     """)
     List<Post> findAllPosts(@Param("univName") String univName,
                             Sort sort);
