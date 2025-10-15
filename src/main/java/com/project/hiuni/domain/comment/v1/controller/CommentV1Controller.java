@@ -6,6 +6,7 @@ import com.project.hiuni.domain.comment.dto.response.CommentCreateResponse;
 import com.project.hiuni.domain.comment.dto.response.CommentResponse;
 import com.project.hiuni.domain.comment.dto.response.CommentUpdateResponse;
 import com.project.hiuni.domain.comment.v1.service.CommentV1Service;
+import com.project.hiuni.domain.post.dto.response.PostPreviewResponse;
 import com.project.hiuni.domain.post.v1.service.PostV1Service;
 import com.project.hiuni.global.common.dto.response.ResponseDTO;
 import com.project.hiuni.global.security.core.CustomUserDetails;
@@ -27,7 +28,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class CommentV1Controller {
 
     private final CommentV1Service commentV1Service;
-    private final PostV1Service postV1Service;
 
     @PostMapping("/{postId}")
     public ResponseDTO<CommentCreateResponse> createComment(@PathVariable Long postId,
@@ -65,6 +65,13 @@ public class CommentV1Controller {
         commentV1Service.deleteComment(id,userDetails.getId());
 
         return ResponseDTO.of("댓글 삭제에 성공하였습니다.");
+    }
+
+    @GetMapping("/my-comments")
+    public ResponseDTO<List<PostPreviewResponse>> searchMyCommentsFromPost(@AuthenticationPrincipal CustomUserDetails userDetails) {
+        List<PostPreviewResponse> postPreviewResponses = commentV1Service.getMyCommentsPosts(userDetails.getId());
+
+        return ResponseDTO.of(postPreviewResponses, "내가 쓴 댓글의 게시글 목록 조회에 성공하였습니다.");
     }
 
 }

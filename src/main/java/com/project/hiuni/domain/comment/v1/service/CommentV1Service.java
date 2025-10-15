@@ -8,6 +8,7 @@ import com.project.hiuni.domain.comment.dto.response.CommentResponse;
 import com.project.hiuni.domain.comment.dto.response.CommentUpdateResponse;
 import com.project.hiuni.domain.comment.entity.Comment;
 import com.project.hiuni.domain.comment.repository.CommentRepository;
+import com.project.hiuni.domain.post.dto.response.PostPreviewResponse;
 import com.project.hiuni.domain.post.entity.Post;
 import com.project.hiuni.domain.post.exception.CustomForbiddenException;
 import com.project.hiuni.domain.post.exception.CustomPostNotFoundException;
@@ -16,6 +17,7 @@ import com.project.hiuni.domain.user.entity.User;
 import com.project.hiuni.domain.user.exception.CustomUserNotFoundException;
 import com.project.hiuni.domain.user.repository.UserRepository;
 import com.project.hiuni.global.exception.ErrorCode;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -76,5 +78,17 @@ public class CommentV1Service {
         }
 
         commentRepository.delete(comment);
+    }
+
+    @Transactional(readOnly = true)
+    public List<PostPreviewResponse> getMyCommentsPosts(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new CustomUserNotFoundException(ErrorCode.USER_NOT_FOUND));
+
+        List<Post> posts = commentRepository.findPostsCommentedByUser(user.getId());
+
+        return posts.stream()
+                .map(PostPreviewResponse::from)
+                .toList();
     }
 }

@@ -25,7 +25,9 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -181,6 +183,7 @@ public class PostV1Service {
 
         return postRepository.findWeeklyHot(start, end, user.getUnivName())
                 .stream()
+                // .filter(post -> post.getLikeCount()>=3)
                 .map(PostPreviewResponse::from)
                 .toList();
     }
@@ -220,6 +223,18 @@ public class PostV1Service {
                 .stream()
                 .map(PostPreviewResponse::from)
                 .toList();
+    }
+
+    @Transactional(readOnly = true)
+    public List<PostPreviewResponse> getMyPosts(Long userId){
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new CustomUserNotFoundException(ErrorCode.USER_NOT_FOUND));
+
+        List<Post> posts = postRepository.findAllByUserId(user.getId());
+
+        return posts.stream()
+                .map(PostPreviewResponse::from)
+                .collect(Collectors.toList());
     }
 
     private static Category getCategory(Type type) {
