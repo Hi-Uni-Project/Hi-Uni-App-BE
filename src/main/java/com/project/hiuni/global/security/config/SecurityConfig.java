@@ -7,6 +7,7 @@ import com.project.hiuni.global.security.jwt.JwtTokenFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -66,14 +67,14 @@ public class SecurityConfig {
         .exceptionHandling(e -> e
             //인증 실패 시 응답 핸들링
             .authenticationEntryPoint(((request, response, authException) -> {
-              response.setStatus(ErrorCode.TOKEN_INVALID.getActualStatusCode());
+              response.setStatus(HttpStatus.UNAUTHORIZED.value());
               response.setContentType("application/json");
               response.getWriter().write(invalidAuthenticationResponse);
             }
             ))
             //인가 실패 시 응답 핸들링
             .accessDeniedHandler((request, response, authException) -> {
-              response.setStatus(ErrorCode.TOKEN_INVALID.getActualStatusCode());
+              response.setStatus(HttpStatus.UNAUTHORIZED.value());
               response.setContentType("application/json");
               response.getWriter().write(invalidAuthorizationResponse);
             }))
