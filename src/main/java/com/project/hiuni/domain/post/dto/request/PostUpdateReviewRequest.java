@@ -10,6 +10,7 @@ public record PostUpdateReviewRequest(
         LocalDateTime startDate,
         LocalDateTime endDate,
         Type type,
+        String method,
         String userPosition,
         String userWork,
         String whatLearn,

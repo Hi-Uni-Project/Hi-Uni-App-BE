@@ -25,7 +25,6 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -73,6 +72,7 @@ public class PostV1Service {
                 .startDate(request.startDate())
                 .endDate(request.endDate())
                 .type(request.type())
+                .method(request.method())
                 .category(category)
                 .userPosition(request.userPosition())
                 .whatLearn(request.whatLearn())
@@ -121,6 +121,7 @@ public class PostV1Service {
                 post.getEndDate(),
                 request.type(),
                 category,
+                post.getMethod(),
                 post.getUserPosition(),
                 post.getWhatLearn(),
                 post.getFeelings(),
@@ -149,6 +150,7 @@ public class PostV1Service {
                 request.endDate(),
                 request.type(),
                 category,
+                request.method(),
                 request.userPosition(),
                 request.whatLearn(),
                 request.feelings(),
@@ -207,8 +209,44 @@ public class PostV1Service {
                 .toList();
     }
 
+    public List<PostPreviewResponse> getAllPostsByCategory(Category category, String sort, Long userId){
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new CustomUserNotFoundException(ErrorCode.USER_NOT_FOUND));
+
+        String univName = user.getUnivName();
+
+        Sort sortedPost = switch (sort) {
+            case "like" -> Sort.by(Sort.Order.desc("likeCount"));
+            case "comment" -> Sort.by(Sort.Order.desc("commentCount"));
+            default -> Sort.by(Sort.Order.desc("createdAt"));
+        };
+
+        return postRepository.findAllPostsByCategory(univName,category, sortedPost)
+                .stream()
+                .map(PostPreviewResponse::from)
+                .toList();
+    }
+
+    public List<PostPreviewResponse> getAllPostsByType(Type type, String sort, Long userId){
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new CustomUserNotFoundException(ErrorCode.USER_NOT_FOUND));
+
+        String univName = user.getUnivName();
+
+        Sort sortedPost = switch (sort) {
+            case "like" -> Sort.by(Sort.Order.desc("likeCount"));
+            case "comment" -> Sort.by(Sort.Order.desc("commentCount"));
+            default -> Sort.by(Sort.Order.desc("createdAt"));
+        };
+
+        return postRepository.findAllPostsByType(univName,type,sortedPost)
+                .stream()
+                .map(PostPreviewResponse::from)
+                .toList();
+    }
+
     @Transactional(readOnly = true)
-    public List<PostPreviewResponse> getKeywordPosts(String sort, String keyword, Long userId){
+    public List<PostPreviewResponse> getKeywordPosts(Category category, String sort, String keyword, Long userId){
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomUserNotFoundException(ErrorCode.USER_NOT_FOUND));
         String univName = user.getUnivName();
@@ -219,7 +257,7 @@ public class PostV1Service {
             default -> Sort.by(Sort.Order.desc("createdAt"));
         };
 
-        return postRepository.searchByKeywordAndUniv(keyword, univName, sortedPost)
+        return postRepository.searchByKeywordAndUnivAndCategory(keyword, univName, category, sortedPost)
                 .stream()
                 .map(PostPreviewResponse::from)
                 .toList();
