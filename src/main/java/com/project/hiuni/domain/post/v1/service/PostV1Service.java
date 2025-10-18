@@ -25,7 +25,6 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -202,6 +201,42 @@ public class PostV1Service {
         };
 
         return postRepository.findAllPosts(univName, sortedPost)
+                .stream()
+                .map(PostPreviewResponse::from)
+                .toList();
+    }
+
+    public List<PostPreviewResponse> getAllPostsByCategory(Category category, String sort, Long userId){
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new CustomUserNotFoundException(ErrorCode.USER_NOT_FOUND));
+
+        String univName = user.getUnivName();
+
+        Sort sortedPost = switch (sort) {
+            case "like" -> Sort.by(Sort.Order.desc("likeCount"));
+            case "comment" -> Sort.by(Sort.Order.desc("commentCount"));
+            default -> Sort.by(Sort.Order.desc("createdAt"));
+        };
+
+        return postRepository.findAllPostsByCategory(univName,category, sortedPost)
+                .stream()
+                .map(PostPreviewResponse::from)
+                .toList();
+    }
+
+    public List<PostPreviewResponse> getAllPostsByType(Type type, String sort, Long userId){
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new CustomUserNotFoundException(ErrorCode.USER_NOT_FOUND));
+
+        String univName = user.getUnivName();
+
+        Sort sortedPost = switch (sort) {
+            case "like" -> Sort.by(Sort.Order.desc("likeCount"));
+            case "comment" -> Sort.by(Sort.Order.desc("commentCount"));
+            default -> Sort.by(Sort.Order.desc("createdAt"));
+        };
+
+        return postRepository.findAllPostsByType(univName,type,sortedPost)
                 .stream()
                 .map(PostPreviewResponse::from)
                 .toList();
