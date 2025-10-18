@@ -69,9 +69,11 @@ public interface PostRepository extends JpaRepository <Post, Long> {
                 lower(p.title)   like concat('%', lower(:keyword), '%') or
                 lower(p.content) like concat('%', lower(:keyword), '%')
               )
+              and ( :category is null or p.category = :category )
         """)
     List<Post> searchByKeywordAndUniv(@Param("keyword") String keyword,
                                       @Param("univName") String univName,
+                                      @Param("category") Category category,
                                       Sort sort);
     @Query("""
     select p

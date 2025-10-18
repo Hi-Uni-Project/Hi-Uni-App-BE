@@ -131,7 +131,8 @@ public class PostV1Controller {
     }
 
     @GetMapping("/search")
-    public ResponseDTO<List<PostPreviewResponse>> searchPosts(@RequestParam String keyword,
+    public ResponseDTO<List<PostPreviewResponse>> searchPosts(@RequestParam Category category,
+                                                              @RequestParam String keyword,
                                                               @RequestParam String sort,
                                                               @AuthenticationPrincipal CustomUserDetails userDetails) {
         if(keyword.isBlank() || keyword.length() < 2) {
@@ -141,7 +142,7 @@ public class PostV1Controller {
             throw new ValidationException(ErrorCode.INVALID_SEARCH_KEYWORD_MAXIMUM);
         }
 
-        List<PostPreviewResponse> postPreviewResponses = postV1Service.getKeywordPosts(sort, keyword, userDetails.getId());
+        List<PostPreviewResponse> postPreviewResponses = postV1Service.getKeywordPosts(category, sort, keyword, userDetails.getId());
 
         return ResponseDTO.of(postPreviewResponses, "게시글 목록 조회에 성공하였습니다.");
     }
