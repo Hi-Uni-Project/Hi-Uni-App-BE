@@ -72,6 +72,7 @@ public class PostV1Service {
                 .startDate(request.startDate())
                 .endDate(request.endDate())
                 .type(request.type())
+                .method(request.method())
                 .category(category)
                 .userPosition(request.userPosition())
                 .whatLearn(request.whatLearn())
@@ -120,6 +121,7 @@ public class PostV1Service {
                 post.getEndDate(),
                 request.type(),
                 category,
+                post.getMethod(),
                 post.getUserPosition(),
                 post.getWhatLearn(),
                 post.getFeelings(),
@@ -148,6 +150,7 @@ public class PostV1Service {
                 request.endDate(),
                 request.type(),
                 category,
+                request.method(),
                 request.userPosition(),
                 request.whatLearn(),
                 request.feelings(),
