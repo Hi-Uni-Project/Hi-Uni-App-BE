@@ -71,7 +71,7 @@ public interface PostRepository extends JpaRepository <Post, Long> {
               )
               and ( :category is null or p.category = :category )
         """)
-    List<Post> searchByKeywordAndUniv(@Param("keyword") String keyword,
+    List<Post> searchByKeywordAndUnivAndCategory(@Param("keyword") String keyword,
                                       @Param("univName") String univName,
                                       @Param("category") Category category,
                                       Sort sort);

@@ -254,7 +254,7 @@ public class PostV1Service {
             default -> Sort.by(Sort.Order.desc("createdAt"));
         };
 
-        return postRepository.searchByKeywordAndUniv(keyword, univName, category, sortedPost)
+        return postRepository.searchByKeywordAndUnivAndCategory(keyword, univName, category, sortedPost)
                 .stream()
                 .map(PostPreviewResponse::from)
                 .toList();
