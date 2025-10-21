@@ -34,7 +34,7 @@ public class CommentV1Controller {
                                                             @RequestBody CommentCreateRequest request,
                                                             @AuthenticationPrincipal CustomUserDetails userDetails) {
 
-        CommentCreateResponse commentCreateResponse = commentV1Service.createComment(request,userDetails.getId(), postId);
+        CommentCreateResponse commentCreateResponse = commentV1Service.createComment(request,postId,userDetails.getId());
 
         return ResponseDTO.of(commentCreateResponse, "댓글이 작성되었습니다.");
     }

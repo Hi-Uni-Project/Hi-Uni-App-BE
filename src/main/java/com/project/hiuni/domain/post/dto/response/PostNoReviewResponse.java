@@ -7,11 +7,9 @@ import com.project.hiuni.domain.user.entity.User;
 import java.time.LocalDateTime;
 
 public record PostNoReviewResponse(
-        String nickname,
         String univName,
         String firstMajorName,
         String secondMajorName,
-        String userImageUrl,
         Long id,
         String title,
         String content,
@@ -29,11 +27,9 @@ public record PostNoReviewResponse(
         User user = post.getUser();
 
         return new PostNoReviewResponse(
-                user.getNickname(),
                 user.getUnivName(),
                 user.getFirstMajorName(),
                 user.getSecondMajorName(),
-                user.getImageUrl(),
                 post.getId(),
                 post.getTitle(),
                 post.getContent(),

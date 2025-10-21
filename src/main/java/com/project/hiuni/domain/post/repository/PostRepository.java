@@ -1,7 +1,9 @@
 package com.project.hiuni.domain.post.repository;
 
 import com.project.hiuni.domain.post.dto.response.PostPreviewResponse;
+import com.project.hiuni.domain.post.entity.Category;
 import com.project.hiuni.domain.post.entity.Post;
+import com.project.hiuni.domain.post.entity.Type;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.data.domain.Sort;
@@ -36,6 +38,30 @@ public interface PostRepository extends JpaRepository <Post, Long> {
     @Query("""
         select p
         from Post p
+        join fetch p.user u
+        where u.univName = :univName
+          and (p.category = :category)
+        """)
+    List<Post> findAllPostsByCategory(
+            @Param("univName") String univName,
+            @Param("category") Category category,
+            Sort sort);
+
+    @Query("""
+        select p
+        from Post p
+        join fetch p.user u
+        where u.univName = :univName
+          and (p.type = :type)
+        """)
+    List<Post> findAllPostsByType(
+            @Param("univName") String univName,
+            @Param("type") Type type,
+            Sort sort);
+
+    @Query("""
+        select p
+        from Post p
         join p.user u
         where u.univName = :univName
           and (
@@ -43,9 +69,11 @@ public interface PostRepository extends JpaRepository <Post, Long> {
                 lower(p.title)   like concat('%', lower(:keyword), '%') or
                 lower(p.content) like concat('%', lower(:keyword), '%')
               )
+              and ( :category is null or p.category = :category )
         """)
-    List<Post> searchByKeywordAndUniv(@Param("keyword") String keyword,
+    List<Post> searchByKeywordAndUnivAndCategory(@Param("keyword") String keyword,
                                       @Param("univName") String univName,
+                                      @Param("category") Category category,
                                       Sort sort);
     @Query("""
     select p

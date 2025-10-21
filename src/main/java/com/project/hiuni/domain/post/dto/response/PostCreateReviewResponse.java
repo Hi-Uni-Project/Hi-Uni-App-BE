@@ -7,11 +7,9 @@ import com.project.hiuni.domain.user.entity.User;
 import java.time.LocalDateTime;
 
 public record PostCreateReviewResponse (
-        String nickname,
         String univName,
         String firstMajorName,
         String secondMajorName,
-        String userImageUrl,
         Long id,
         String title,
         String content,
@@ -20,6 +18,7 @@ public record PostCreateReviewResponse (
         LocalDateTime endDate,
         Type type,
         Category category,
+        String method,
         String userPosition,
         String userWork,
         String whatLearn,
@@ -36,11 +35,9 @@ public record PostCreateReviewResponse (
         User user = post.getUser();
 
         return new PostCreateReviewResponse(
-                user.getNickname(),
                 user.getUnivName(),
                 user.getFirstMajorName(),
                 user.getSecondMajorName(),
-                user.getImageUrl(),
                 post.getId(),
                 post.getTitle(),
                 post.getContent(),
@@ -49,6 +46,7 @@ public record PostCreateReviewResponse (
                 post.getEndDate(),
                 post.getType(),
                 post.getCategory(),
+                post.getMethod(),
                 post.getUserPosition(),
                 post.getUserWork(),
                 post.getWhatLearn(),

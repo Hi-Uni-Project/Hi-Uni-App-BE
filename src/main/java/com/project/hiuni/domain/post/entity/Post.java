@@ -47,6 +47,8 @@ public class Post extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Category category;
 
+    private String method;
+
     private String userPosition;
 
     private String userWork;
@@ -77,6 +79,7 @@ public class Post extends BaseEntity {
                 LocalDateTime endDate,
                 Type type,
                 Category category,
+                String method,
                 String userPosition,
                 String userWork,
                 String whatLearn,
@@ -90,6 +93,7 @@ public class Post extends BaseEntity {
         this.endDate = endDate;
         this.type = type;
         this.category = category;
+        this.method = method;
         this.userPosition = userPosition;
         this.userWork = userWork;
         this.whatLearn = whatLearn;
@@ -125,6 +129,7 @@ public class Post extends BaseEntity {
                            LocalDateTime endDate,
                            Type type,
                            Category category,
+                           String method,
                            String userPosition,
                            String whatLearn,
                            String feelings,
@@ -136,6 +141,7 @@ public class Post extends BaseEntity {
         this.endDate = endDate;
         this.type = type;
         this.category = category;
+        this.method = method;
         this.userPosition = userPosition;
         this.whatLearn = whatLearn;
         this.feelings = feelings;
