@@ -62,7 +62,7 @@ public interface PostRepository extends JpaRepository <Post, Long> {
     @Query("""
         select p
         from Post p
-        join p.user u
+        join fetch p.user u
         where u.univName = :univName
           and (
                 :keyword is null or :keyword = '' or
@@ -74,6 +74,21 @@ public interface PostRepository extends JpaRepository <Post, Long> {
     List<Post> searchByKeywordAndUnivAndCategory(@Param("keyword") String keyword,
                                       @Param("univName") String univName,
                                       @Param("category") Category category,
+                                      Sort sort);
+
+    @Query("""
+        select p
+        from Post p
+        join fetch p.user u
+        where u.univName = :univName
+          and (
+                :keyword is null or :keyword = '' or
+                lower(p.title)   like concat('%', lower(:keyword), '%') or
+                lower(p.content) like concat('%', lower(:keyword), '%')
+              )
+        """)
+    List<Post> searchByKeywordAndUniv(@Param("keyword") String keyword,
+                                      @Param("univName") String univName,
                                       Sort sort);
     @Query("""
     select p
