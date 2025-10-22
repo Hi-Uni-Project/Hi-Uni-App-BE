@@ -246,7 +246,7 @@ public class PostV1Service {
     }
 
     @Transactional(readOnly = true)
-    public List<PostPreviewResponse> getKeywordPosts(Category category, String sort, String keyword, Long userId){
+    public List<PostPreviewResponse> getKeywordPostsByCategory(Category category, String sort, String keyword, Long userId){
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomUserNotFoundException(ErrorCode.USER_NOT_FOUND));
         String univName = user.getUnivName();
@@ -258,6 +258,24 @@ public class PostV1Service {
         };
 
         return postRepository.searchByKeywordAndUnivAndCategory(keyword, univName, category, sortedPost)
+                .stream()
+                .map(PostPreviewResponse::from)
+                .toList();
+    }
+
+    @Transactional(readOnly = true)
+    public List<PostPreviewResponse> getKeywordPosts(String sort, String keyword, Long userId){
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new CustomUserNotFoundException(ErrorCode.USER_NOT_FOUND));
+        String univName = user.getUnivName();
+
+        Sort sortedPost = switch (sort) {
+            case "like" -> Sort.by(Sort.Order.desc("likeCount"));
+            case "comment" -> Sort.by(Sort.Order.desc("commentCount"));
+            default -> Sort.by(Sort.Order.desc("createdAt"));
+        };
+
+        return postRepository.searchByKeywordAndUniv(keyword, univName, sortedPost)
                 .stream()
                 .map(PostPreviewResponse::from)
                 .toList();

@@ -130,8 +130,8 @@ public class PostV1Controller {
         return ResponseDTO.of(postPreviewResponses,"게시글 목록 조회에 성공하였습니다.");
     }
 
-    @GetMapping("/search")
-    public ResponseDTO<List<PostPreviewResponse>> searchPosts(@RequestParam Category category,
+    @GetMapping("/search-category")
+    public ResponseDTO<List<PostPreviewResponse>> searchPostsByCategory(@RequestParam Category category,
                                                               @RequestParam String keyword,
                                                               @RequestParam String sort,
                                                               @AuthenticationPrincipal CustomUserDetails userDetails) {
@@ -142,7 +142,22 @@ public class PostV1Controller {
             throw new ValidationException(ErrorCode.INVALID_SEARCH_KEYWORD_MAXIMUM);
         }
 
-        List<PostPreviewResponse> postPreviewResponses = postV1Service.getKeywordPosts(category, sort, keyword, userDetails.getId());
+        List<PostPreviewResponse> postPreviewResponses = postV1Service.getKeywordPostsByCategory(category, sort, keyword, userDetails.getId());
+
+        return ResponseDTO.of(postPreviewResponses, "게시글 목록 조회에 성공하였습니다.");
+    }
+
+    @GetMapping("/search")
+    public ResponseDTO<List<PostPreviewResponse>> searchAllPosts(@RequestParam String keyword,
+                                                                 @RequestParam String sort,
+                                                                 @AuthenticationPrincipal CustomUserDetails userDetails) {
+        if(keyword.isBlank() || keyword.length() < 2) {
+            throw new ValidationException(ErrorCode.INVALID_SEARCH_KEYWORD_LENGTH);
+        }
+        if(keyword.length()>15){
+            throw new ValidationException(ErrorCode.INVALID_SEARCH_KEYWORD_MAXIMUM);
+        }
+        List<PostPreviewResponse> postPreviewResponses = postV1Service.getKeywordPosts(sort, keyword, userDetails.getId());
 
         return ResponseDTO.of(postPreviewResponses, "게시글 목록 조회에 성공하였습니다.");
     }
