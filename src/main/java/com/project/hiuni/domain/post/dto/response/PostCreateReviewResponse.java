@@ -1,62 +1,132 @@
 package com.project.hiuni.domain.post.dto.response;
 
-import com.project.hiuni.domain.post.entity.Category;
-import com.project.hiuni.domain.post.entity.Post;
-import com.project.hiuni.domain.post.entity.Type;
-import com.project.hiuni.domain.user.entity.User;
+import com.project.hiuni.domain.post.entity.*;
 import java.time.LocalDateTime;
 
-public record PostCreateReviewResponse (
-        String univName,
-        String firstMajorName,
-        String secondMajorName,
+public record PostCreateReviewResponse(
         Long id,
         String title,
         String content,
-        String companyName,
-        LocalDateTime startDate,
-        LocalDateTime endDate,
         Type type,
-        Category category,
-        String method,
-        String userPosition,
-        String userWork,
-        String whatLearn,
-        String feelings,
         String imageUrl,
-        int likeCount,
-        int commentCount,
-        int bookmarkCount,
-        int viewCount,
-        LocalDateTime createdAt
-){
+        String firstQuestion,
+        String secondQuestion,
+        String thirdQuestion,
+        String fourthQuestion,
+        String fifthQuestion,
+        String sixthQuestion,
+        String seventhQuestion,
+        String eighthQuestion,
+        LocalDateTime startDate,
+        LocalDateTime endDate
+) {
+
     public static PostCreateReviewResponse from(Post post) {
 
-        User user = post.getUser();
+        if (post instanceof JobPost p) {
+            return new PostCreateReviewResponse(
+                    p.getId(),
+                    p.getTitle(),
+                    p.getContent(),
+                    p.getType(),
+                    p.getImageUrl(),
+                    p.getCompanyName(),
+                    p.getAppliedPosition(),
+                    p.getApplyMethod(),
+                    p.getInterviewQuestions(),
+                    p.getPreparation(),
+                    p.getResult(),
+                    p.getFeelings(),
+                    p.getAdditional(),
+                    null,
+                    null
+            );
 
+        } else if (post instanceof InternshipPost p) {
+            return new PostCreateReviewResponse(
+                    p.getId(),
+                    p.getTitle(),
+                    p.getContent(),
+                    p.getType(),
+                    p.getImageUrl(),
+                    p.getCompanyName(),
+                    p.getDepartment(),
+                    p.getTasks(),
+                    p.getLearned(),
+                    p.getFeelings(),
+                    p.getAdditional(),
+                    null,
+                    null,
+                    p.getStartDate(),
+                    p.getEndDate()
+            );
+
+        } else if (post instanceof InterviewPost p) {
+            return new PostCreateReviewResponse(
+                    p.getId(),
+                    p.getTitle(),
+                    p.getContent(),
+                    p.getType(),
+                    p.getImageUrl(),
+                    p.getCompanyName(),
+                    p.getAppliedPosition(),
+                    p.getInterviewFormat(),
+                    p.getInterviewQuestions(),
+                    p.getPreparation(),
+                    p.getAtmosphere(),
+                    p.getFeelings(),
+                    p.getAdditional(),
+                    null,
+                    null
+            );
+
+        } else if (post instanceof ExperiencePost p) {
+            return new PostCreateReviewResponse(
+                    p.getId(),
+                    p.getTitle(),
+                    p.getContent(),
+                    p.getType(),
+                    p.getImageUrl(),
+                    p.getOrganizationName(),
+                    p.getPosition(),
+                    p.getRank(),
+                    p.getWhatWork(),
+                    p.getRequiredSkills(),
+                    p.getCharacteristics(),
+                    p.getFeelings(),
+                    p.getAdditional(),
+                    p.getStartDate(),
+                    p.getEndDate()
+            );
+
+        } else if (post instanceof LicensePost p) {
+            return new PostCreateReviewResponse(
+                    p.getId(),
+                    p.getTitle(),
+                    p.getContent(),
+                    p.getType(),
+                    p.getImageUrl(),
+                    p.getCertificationName(),
+                    p.getPrepDuration(),
+                    p.getMaterials(),
+                    p.getDifficulty(),
+                    p.getStudyMethod(),
+                    p.getTips(),
+                    p.getFeelings(),
+                    p.getAdditional(),
+                    null,
+                    null
+            );
+        }
+
+        // 기본값 (혹시 모를 null-safe fallback)
         return new PostCreateReviewResponse(
-                user.getUnivName(),
-                user.getFirstMajorName(),
-                user.getSecondMajorName(),
                 post.getId(),
                 post.getTitle(),
                 post.getContent(),
-                post.getCompanyName(),
-                post.getStartDate(),
-                post.getEndDate(),
                 post.getType(),
-                post.getCategory(),
-                post.getMethod(),
-                post.getUserPosition(),
-                post.getUserWork(),
-                post.getWhatLearn(),
-                post.getFeelings(),
                 post.getImageUrl(),
-                post.getLikeCount(),
-                post.getCommentCount(),
-                post.getBookmarkCount(),
-                post.getViewCount(),
-                post.getCreatedAt()
+                null, null, null, null, null, null, null, null, null, null
         );
     }
 }

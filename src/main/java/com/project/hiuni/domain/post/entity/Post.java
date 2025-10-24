@@ -68,4 +68,21 @@ public abstract class Post extends BaseEntity {
         this.imageUrl = imageUrl;
         this.category = category;
     }
+
+    public void incrementLikeCount() { likeCount++;}
+
+    public void decrementLikeCount() { likeCount--;}
+
+    public void incrementBookmarkCount() { bookmarkCount++;}
+
+    public void decrementBookmarkCount() { bookmarkCount--;}
+
+    public void incrementViewCount() { viewCount++; }
+
+    public void decrementViewCount() { viewCount--;}
+
+    public void incrementCommentCount() { commentCount++; }
+
+    public void decrementCommentCount() { commentCount--;}
+
 }
