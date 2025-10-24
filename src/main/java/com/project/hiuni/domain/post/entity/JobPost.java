@@ -14,13 +14,17 @@ public class JobPost extends Post {
     private String appliedPosition;
     private String applyMethod;
 
-    @Lob private String interviewQuestions;
-    @Lob private String preparation;
+    @Lob
+    private String interviewQuestions;
+    @Lob
+    private String preparation;
 
     private String result;
 
-    @Lob private String feelings;
-    @Lob private String additional;
+    @Lob
+    private String feelings;
+    @Lob
+    private String additional;
 
     @Builder
     public JobPost(String title, String content, Category category, String imageUrl, User user,

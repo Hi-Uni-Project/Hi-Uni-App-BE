@@ -16,14 +16,20 @@ public class ExperiencePost extends Post {
     private LocalDateTime endDate;
 
     private String position;
+    @Column(name = "position_rank")
     private String positionRank;
 
-    @Lob private String whatWork;
-    @Lob private String requiredSkills;
-    @Lob private String characteristics;
+    @Lob
+    private String whatWork;
+    @Lob
+    private String requiredSkills;
+    @Lob
+    private String characteristics;
 
-    @Lob private String feelings;
-    @Lob private String additional;
+    @Lob
+    private String feelings;
+    @Lob
+    private String additional;
 
     @Builder
     public ExperiencePost(String title, String content, Category category, String imageUrl, User user,

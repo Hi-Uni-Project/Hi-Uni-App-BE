@@ -14,12 +14,17 @@ public class InterviewPost extends Post {
     private String appliedPosition;
     private String interviewFormat; // 패널/일대다/코딩과제 등
 
-    @Lob private String interviewQuestions;
-    @Lob private String preparation;
-    @Lob private String atmosphere;
+    @Lob
+    private String interviewQuestions;
+    @Lob
+    private String preparation;
+    @Lob
+    private String atmosphere;
 
-    @Lob private String feelings;
-    @Lob private String additional;
+    @Lob
+    private String feelings;
+    @Lob
+    private String additional;
 
     @Builder
     public InterviewPost(String title, String content, Category category, String imageUrl, User user,

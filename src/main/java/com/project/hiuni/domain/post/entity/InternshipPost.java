@@ -13,14 +13,18 @@ public class InternshipPost extends Post {
 
     private String companyName;
     private String department;
-    @Lob private String tasks;
-    @Lob private String learned;
+    @Lob
+    private String tasks;
+    @Lob
+    private String learned;
 
     private LocalDateTime startDate;
     private LocalDateTime endDate;
 
-    @Lob private String feelings;
-    @Lob private String additional;
+    @Lob
+    private String feelings;
+    @Lob
+    private String additional;
 
     @Builder
     public InternshipPost(String title, String content, Category category, String imageUrl, User user,

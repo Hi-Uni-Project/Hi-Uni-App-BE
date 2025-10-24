@@ -13,14 +13,19 @@ public class LicensePost extends Post {
     private String certificationName;
     private String prepDuration;
 
-    @Lob private String materials;
+    @Lob
+    private String materials;
 
     private String difficulty;
 
-    @Lob private String studyMethod;
-    @Lob private String tips;
-    @Lob private String feelings;
-    @Lob private String additional;
+    @Lob
+    private String studyMethod;
+    @Lob
+    private String tips;
+    @Lob
+    private String feelings;
+    @Lob
+    private String additional;
 
     @Builder
     public LicensePost(String title, String content, Category category, String imageUrl, User user,
