@@ -17,8 +17,7 @@ public class JobPost extends Post {
     @Lob private String interviewQuestions;
     @Lob private String preparation;
 
-    @Enumerated(EnumType.STRING)
-    private String result; // PASS/FAIL/ON_HOLD 등
+    private String result;
 
     @Lob private String feelings;
     @Lob private String additional;

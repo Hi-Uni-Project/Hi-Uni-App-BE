@@ -124,7 +124,7 @@ public class PostV1Service {
                             .user(user)
                             .organizationName(null)
                             .position(null)
-                            .rank(null)
+                            .positionRank(null)
                             .whatWork(null)
                             .requiredSkills(null)
                             .characteristics(null)
@@ -228,7 +228,7 @@ public class PostV1Service {
                             .user(user)
                             .organizationName(request.firstQuestion())
                             .position(request.secondQuestion())
-                            .rank(request.thirdQuestion())
+                            .positionRank(request.thirdQuestion())
                             .whatWork(request.fourthQuestion())
                             .requiredSkills(request.fifthQuestion())
                             .characteristics(request.sixthQuestion())
@@ -295,7 +295,7 @@ public class PostV1Service {
                 request.imageUrl(),
                 post.getCategory()
         );
-        return PostUpdateNoReviewResponse.from(postRepository.save(post));
+        return PostUpdateNoReviewResponse.from(post);
     }
 
     @Transactional

@@ -92,7 +92,7 @@ public record PostReviewResponse(
                     p.getImageUrl(),
                     p.getOrganizationName(),
                     p.getPosition(),
-                    p.getRank(),
+                    p.getPositionRank(),
                     p.getWhatWork(),
                     p.getRequiredSkills(),
                     p.getCharacteristics(),
