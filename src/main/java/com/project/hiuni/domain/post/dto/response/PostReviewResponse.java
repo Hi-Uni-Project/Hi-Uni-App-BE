@@ -1,135 +1,192 @@
 package com.project.hiuni.domain.post.dto.response;
 
-import com.project.hiuni.domain.post.entity.Post;
-import java.time.LocalDateTime;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.project.hiuni.domain.post.entity.*;
+import com.project.hiuni.domain.user.entity.User;
 
+import java.time.LocalDateTime;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public record PostReviewResponse(
+        String nickname,
+        String univName,
+        String firstMajorName,
+        String secondMajorName,
+        String userImageUrl,
+
+        // 공통(Post)
         Long id,
         String title,
         String content,
         Type type,
+        Category category,
         String imageUrl,
-        String firstQuestion,
-        String secondQuestion,
-        String thirdQuestion,
-        String fourthQuestion,
-        String fifthQuestion,
-        String sixthQuestion,
-        String seventhQuestion,
-        String eighthQuestion,
+        Integer likeCount,
+        Integer commentCount,
+        Integer bookmarkCount,
+        Integer viewCount,
+        LocalDateTime createdAt,
+
+        String companyName,
+        String appliedPosition,
+        String applyMethod,
+        String interviewQuestions,
+        String preparation,
+        String result,
+        String feelings,
+        String additional,
+
+        // INTERNSHIP
+        String department,
+        String tasks,
+        String learned,
+
+        // INTERVIEW
+        String interviewFormat,
+        String atmosphere,
+
+        // EXPERIENCE
+        String organizationName,
+        String position,
+        String positionRank,
+        String whatWork,
+        String requiredSkills,
+        String characteristics,
+
+        // 기간 (INTERNSHIP / EXPERIENCE)
         LocalDateTime startDate,
-        LocalDateTime endDate
+        LocalDateTime endDate,
+
+        // LICENSE
+        String certificationName,
+        String prepDuration,
+        String materials,
+        String difficulty,
+        String studyMethod,
+        String tips
 ) {
+
     public static PostReviewResponse from(Post post) {
+        String nickname = null;
+        String univName = null;
+        String firstMajorName = null;
+        String secondMajorName = null;
+        String userImageUrl = null;
+
+        User u = post.getUser();
+        if (u != null) {
+            nickname = u.getNickname();
+            univName = u.getUnivName();
+            firstMajorName = u.getFirstMajorName();
+            secondMajorName = u.getSecondMajorName();
+            userImageUrl = u.getImageUrl();
+        }
+
+        Long id = post.getId();
+        String title = post.getTitle();
+        String content = post.getContent();
+        Type type = post.getType();
+        Category category = post.getCategory();
+        String imageUrl = post.getImageUrl();
+        Integer likeCount = post.getLikeCount();
+        Integer commentCount = post.getCommentCount();
+        Integer bookmarkCount = post.getBookmarkCount();
+        Integer viewCount = post.getViewCount();
+        LocalDateTime createdAt = post.getCreatedAt();
+
+        String companyName = null;
+        String appliedPosition = null;
+        String applyMethod = null;
+        String interviewQuestions = null;
+        String preparation = null;
+        String result = null;
+        String feelings = null;
+        String additional = null;
+
+        String department = null;
+        String tasks = null;
+        String learned = null;
+
+        String interviewFormat = null;
+        String atmosphere = null;
+
+        String organizationName = null;
+        String position = null;
+        String positionRank = null;
+        String whatWork = null;
+        String requiredSkills = null;
+        String characteristics = null;
+
+        LocalDateTime startDate = null;
+        LocalDateTime endDate = null;
+
+        String certificationName = null;
+        String prepDuration = null;
+        String materials = null;
+        String difficulty = null;
+        String studyMethod = null;
+        String tips = null;
 
         if (post instanceof JobPost p) {
-            return new PostReviewResponse(
-                    p.getId(),
-                    p.getTitle(),
-                    p.getContent(),
-                    p.getType(),
-                    p.getImageUrl(),
-                    p.getCompanyName(),
-                    p.getAppliedPosition(),
-                    p.getApplyMethod(),
-                    p.getInterviewQuestions(),
-                    p.getPreparation(),
-                    p.getResult(),
-                    p.getFeelings(),
-                    p.getAdditional(),
-                    null,
-                    null
-            );
-        }
-
-        if (post instanceof InternshipPost p) {
-            return new PostReviewResponse(
-                    p.getId(),
-                    p.getTitle(),
-                    p.getContent(),
-                    p.getType(),
-                    p.getImageUrl(),
-                    p.getCompanyName(),
-                    p.getDepartment(),
-                    p.getTasks(),
-                    p.getLearned(),
-                    p.getFeelings(),
-                    p.getAdditional(),
-                    null,
-                    null,
-                    p.getStartDate(),
-                    p.getEndDate()
-            );
-        }
-
-        if (post instanceof InterviewPost p) {
-            return new PostReviewResponse(
-                    p.getId(),
-                    p.getTitle(),
-                    p.getContent(),
-                    p.getType(),
-                    p.getImageUrl(),
-                    p.getCompanyName(),
-                    p.getAppliedPosition(),
-                    p.getInterviewFormat(),
-                    p.getInterviewQuestions(),
-                    p.getPreparation(),
-                    p.getAtmosphere(),
-                    p.getFeelings(),
-                    p.getAdditional(),
-                    null,
-                    null
-            );
-        }
-
-        if (post instanceof ExperiencePost p) {
-            return new PostReviewResponse(
-                    p.getId(),
-                    p.getTitle(),
-                    p.getContent(),
-                    p.getType(),
-                    p.getImageUrl(),
-                    p.getOrganizationName(),
-                    p.getPosition(),
-                    p.getPositionRank(),
-                    p.getWhatWork(),
-                    p.getRequiredSkills(),
-                    p.getCharacteristics(),
-                    p.getFeelings(),
-                    p.getAdditional(),
-                    p.getStartDate(),
-                    p.getEndDate()
-            );
-        }
-
-        if (post instanceof LicensePost p) {
-            return new PostReviewResponse(
-                    p.getId(),
-                    p.getTitle(),
-                    p.getContent(),
-                    p.getType(),
-                    p.getImageUrl(),
-                    p.getCertificationName(),
-                    p.getPrepDuration(),
-                    p.getMaterials(),
-                    p.getDifficulty(),
-                    p.getStudyMethod(),
-                    p.getTips(),
-                    p.getFeelings(),
-                    p.getAdditional(),
-                    null,
-                    null
-            );
+            companyName = p.getCompanyName();
+            appliedPosition = p.getAppliedPosition();
+            applyMethod = p.getApplyMethod();
+            interviewQuestions = p.getInterviewQuestions();
+            preparation = p.getPreparation();
+            result = p.getResult();
+            feelings = p.getFeelings();
+            additional = p.getAdditional();
+        } else if (post instanceof InternshipPost p) {
+            companyName = p.getCompanyName();
+            department = p.getDepartment();
+            tasks = p.getTasks();
+            learned = p.getLearned();
+            startDate = p.getStartDate();
+            endDate = p.getEndDate();
+            feelings = p.getFeelings();
+            additional = p.getAdditional();
+        } else if (post instanceof InterviewPost p) {
+            companyName = p.getCompanyName();
+            appliedPosition = p.getAppliedPosition();
+            interviewFormat = p.getInterviewFormat();
+            interviewQuestions = p.getInterviewQuestions();
+            preparation = p.getPreparation();
+            atmosphere = p.getAtmosphere();
+            feelings = p.getFeelings();
+            additional = p.getAdditional();
+        } else if (post instanceof ExperiencePost p) {
+            organizationName = p.getOrganizationName();
+            startDate = p.getStartDate();
+            endDate = p.getEndDate();
+            position = p.getPosition();
+            positionRank = p.getPositionRank();
+            whatWork = p.getWhatWork();
+            requiredSkills = p.getRequiredSkills();
+            characteristics = p.getCharacteristics();
+            feelings = p.getFeelings();
+            additional = p.getAdditional();
+        } else if (post instanceof LicensePost p) {
+            certificationName = p.getCertificationName();
+            prepDuration = p.getPrepDuration();
+            materials = p.getMaterials();
+            difficulty = p.getDifficulty();
+            studyMethod = p.getStudyMethod();
+            tips = p.getTips();
+            feelings = p.getFeelings();
+            additional = p.getAdditional();
         }
 
         return new PostReviewResponse(
-                post.getId(),
-                post.getTitle(),
-                post.getContent(),
-                post.getType(),
-                post.getImageUrl(),
-                null, null, null, null, null, null, null, null, null, null
+                nickname, univName, firstMajorName, secondMajorName, userImageUrl,
+                id, title, content, type, category, imageUrl,
+                likeCount, commentCount, bookmarkCount, viewCount, createdAt,
+                companyName, appliedPosition, applyMethod, interviewQuestions,
+                preparation, result, feelings, additional,
+                department, tasks, learned,
+                interviewFormat, atmosphere,
+                organizationName, position, positionRank, whatWork, requiredSkills, characteristics,
+                startDate, endDate,
+                certificationName, prepDuration, materials, difficulty, studyMethod, tips
         );
     }
 }
