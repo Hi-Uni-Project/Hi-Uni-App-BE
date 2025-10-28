@@ -12,10 +12,20 @@ import com.project.hiuni.domain.post.dto.response.PostUpdateNoReviewResponse;
 import com.project.hiuni.domain.post.dto.response.PostUpdateReviewResponse;
 import com.project.hiuni.domain.post.dto.response.PostPreviewResponse;
 import com.project.hiuni.domain.post.entity.Category;
+import com.project.hiuni.domain.post.entity.ExperiencePost;
+import com.project.hiuni.domain.post.entity.InternshipPost;
+import com.project.hiuni.domain.post.entity.InterviewPost;
+import com.project.hiuni.domain.post.entity.JobPost;
+import com.project.hiuni.domain.post.entity.LicensePost;
 import com.project.hiuni.domain.post.entity.Post;
 import com.project.hiuni.domain.post.entity.Type;
 import com.project.hiuni.domain.post.exception.CustomForbiddenException;
 import com.project.hiuni.domain.post.exception.CustomPostNotFoundException;
+import com.project.hiuni.domain.post.repository.ExperiencePostRepository;
+import com.project.hiuni.domain.post.repository.InternshipPostRepository;
+import com.project.hiuni.domain.post.repository.InterviewPostRepository;
+import com.project.hiuni.domain.post.repository.JobPostRepository;
+import com.project.hiuni.domain.post.repository.LicensePostRepository;
 import com.project.hiuni.domain.post.repository.PostRepository;
 import com.project.hiuni.domain.user.entity.User;
 import com.project.hiuni.domain.user.exception.CustomUserNotFoundException;
@@ -39,23 +49,111 @@ public class PostV1Service {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
 
+    private final JobPostRepository jobPostRepository;
+    private final InternshipPostRepository internshipPostRepository;
+    private final InterviewPostRepository interviewPostRepository;
+    private final ExperiencePostRepository experiencePostRepository;
+    private final LicensePostRepository licensePostRepository;
+
     @Transactional
     public PostCreateNoReviewResponse createNoReviewPost(PostCreateNoReviewRequest request, Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomUserNotFoundException(ErrorCode.USER_NOT_FOUND));
 
-        Category category = getCategory(request.type());
+        final Category category = getCategory(request.type());
 
-        Post post = Post.builder()
-                .title(request.title())
-                .content(request.content())
-                .type(request.type())
-                .category(category)
-                .imageUrl(request.imageUrl())
-                .user(user)
-                .build();
+        Post saved = switch (request.type()) {
+            case JOB -> jobPostRepository.save(
+                    JobPost.builder()
+                            .title(request.title())
+                            .content(request.content())
+                            .category(category)
+                            .imageUrl(request.imageUrl())
+                            .user(user)
+                            // detail은 전부 null
+                            .companyName(null)
+                            .appliedPosition(null)
+                            .applyMethod(null)
+                            .interviewQuestions(null)
+                            .preparation(null)
+                            .result(null)
+                            .feelings(null)
+                            .additional(null)
+                            .build()
+            );
+            case INTERNSHIP -> internshipPostRepository.save(
+                    InternshipPost.builder()
+                            .title(request.title())
+                            .content(request.content())
+                            .category(category)
+                            .imageUrl(request.imageUrl())
+                            .user(user)
+                            .companyName(null)
+                            .department(null)
+                            .tasks(null)
+                            .learned(null)
+                            .feelings(null)
+                            .additional(null)
+                            .startDate(null)
+                            .endDate(null)
+                            .build()
+            );
+            case INTERVIEW -> interviewPostRepository.save(
+                    InterviewPost.builder()
+                            .title(request.title())
+                            .content(request.content())
+                            .category(category)
+                            .imageUrl(request.imageUrl())
+                            .user(user)
+                            .companyName(null)
+                            .appliedPosition(null)
+                            .interviewFormat(null)
+                            .interviewQuestions(null)
+                            .preparation(null)
+                            .atmosphere(null)
+                            .feelings(null)
+                            .additional(null)
+                            .build()
+            );
+            case EXPERIENCE -> experiencePostRepository.save(
+                    ExperiencePost.builder()
+                            .title(request.title())
+                            .content(request.content())
+                            .category(category)
+                            .imageUrl(request.imageUrl())
+                            .user(user)
+                            .organizationName(null)
+                            .position(null)
+                            .positionRank(null)
+                            .whatWork(null)
+                            .requiredSkills(null)
+                            .characteristics(null)
+                            .feelings(null)
+                            .additional(null)
+                            .startDate(null)
+                            .endDate(null)
+                            .build()
+            );
+            case LICENSE -> licensePostRepository.save(
+                    LicensePost.builder()
+                            .title(request.title())
+                            .content(request.content())
+                            .category(category)
+                            .imageUrl(request.imageUrl())
+                            .user(user)
+                            .certificationName(null)
+                            .prepDuration(null)
+                            .materials(null)
+                            .difficulty(null)
+                            .studyMethod(null)
+                            .tips(null)
+                            .feelings(null)
+                            .additional(null)
+                            .build()
+            );
+        };
 
-        return PostCreateNoReviewResponse.from(postRepository.save(post));
+        return PostCreateNoReviewResponse.from(saved);
     }
 
     @Transactional
@@ -65,23 +163,102 @@ public class PostV1Service {
 
         Category category = getCategory(request.type());
 
-        Post post = Post.builder()
-                .title(request.title())
-                .content(request.content())
-                .companyName(request.companyName())
-                .startDate(request.startDate())
-                .endDate(request.endDate())
-                .type(request.type())
-                .method(request.method())
-                .category(category)
-                .userPosition(request.userPosition())
-                .whatLearn(request.whatLearn())
-                .feelings(request.feelings())
-                .imageUrl(request.imageUrl())
-                .user(user)
-                .build();
+        Post saved = switch (request.type()) {
 
-        return PostCreateReviewResponse.from(postRepository.save(post));
+            case JOB -> jobPostRepository.save(
+                    JobPost.builder()
+                            .title(request.title())
+                            .content(request.content())
+                            .category(category)
+                            .imageUrl(request.imageUrl())
+                            .user(user)
+                            .companyName(request.firstQuestion())
+                            .appliedPosition(request.secondQuestion())
+                            .applyMethod(request.thirdQuestion())
+                            .interviewQuestions(request.fourthQuestion())
+                            .preparation(request.fifthQuestion())
+                            .result(request.sixthQuestion())
+                            .feelings(request.seventhQuestion())
+                            .additional(request.eighthQuestion())
+                            .build()
+            );
+
+            case INTERNSHIP -> internshipPostRepository.save(
+                    InternshipPost.builder()
+                            .title(request.title())
+                            .content(request.content())
+                            .category(category)
+                            .imageUrl(request.imageUrl())
+                            .user(user)
+                            .companyName(request.firstQuestion())
+                            .department(request.secondQuestion())
+                            .tasks(request.thirdQuestion())
+                            .learned(request.fourthQuestion())
+                            .feelings(request.fifthQuestion())
+                            .additional(request.sixthQuestion())
+                            .startDate(request.startDate())
+                            .endDate(request.endDate())
+                            .build()
+            );
+
+            case INTERVIEW -> interviewPostRepository.save(
+                    InterviewPost.builder()
+                            .title(request.title())
+                            .content(request.content())
+                            .category(category)
+                            .imageUrl(request.imageUrl())
+                            .user(user)
+                            .companyName(request.firstQuestion())
+                            .appliedPosition(request.secondQuestion())
+                            .interviewFormat(request.thirdQuestion())
+                            .interviewQuestions(request.fourthQuestion())
+                            .preparation(request.fifthQuestion())
+                            .atmosphere(request.sixthQuestion())
+                            .feelings(request.seventhQuestion())
+                            .additional(request.eighthQuestion())
+                            .build()
+            );
+
+            case EXPERIENCE -> experiencePostRepository.save(
+                    ExperiencePost.builder()
+                            .title(request.title())
+                            .content(request.content())
+                            .category(category)
+                            .imageUrl(request.imageUrl())
+                            .user(user)
+                            .organizationName(request.firstQuestion())
+                            .position(request.secondQuestion())
+                            .positionRank(request.thirdQuestion())
+                            .whatWork(request.fourthQuestion())
+                            .requiredSkills(request.fifthQuestion())
+                            .characteristics(request.sixthQuestion())
+                            .feelings(request.seventhQuestion())
+                            .additional(request.eighthQuestion())
+                            .startDate(request.startDate())
+                            .endDate(request.endDate())
+                            .build()
+            );
+
+            case LICENSE -> licensePostRepository.save(
+                    LicensePost.builder()
+                            .title(request.title())
+                            .content(request.content())
+                            .category(category)
+                            .imageUrl(request.imageUrl())
+                            .user(user)
+                            .certificationName(request.firstQuestion())
+                            .prepDuration(request.secondQuestion())
+                            .materials(request.thirdQuestion())
+                            .difficulty(request.fourthQuestion())
+                            .studyMethod(request.fifthQuestion())
+                            .tips(request.sixthQuestion())
+                            .feelings(request.seventhQuestion())
+                            .additional(request.eighthQuestion())
+                            .build()
+            );
+        };
+
+        return PostCreateReviewResponse.from(saved);
     }
 
     @Transactional
@@ -104,6 +281,7 @@ public class PostV1Service {
 
     @Transactional
     public PostUpdateNoReviewResponse updateNoReviewPost(PostUpdateNoReviewRequest request, Long postId, Long userId) {
+
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new CustomPostNotFoundException(ErrorCode.POST_NOT_FOUND));
 
@@ -111,28 +289,19 @@ public class PostV1Service {
             throw new CustomForbiddenException(ErrorCode.FORBIDDEN);
         }
 
-        Category category = getCategory(request.type());
-
-        post.updatePost(
+        post.updateCommon(
                 request.title(),
                 request.content(),
-                post.getCompanyName(),
-                post.getStartDate(),
-                post.getEndDate(),
-                request.type(),
-                category,
-                post.getMethod(),
-                post.getUserPosition(),
-                post.getWhatLearn(),
-                post.getFeelings(),
-                request.imageUrl()
+                request.imageUrl(),
+                post.getCategory()
         );
-
-        return PostUpdateNoReviewResponse.from(postRepository.save(post));
+        return PostUpdateNoReviewResponse.from(post);
     }
 
     @Transactional
-    public PostUpdateReviewResponse updateReviewPost(PostUpdateReviewRequest request, Long postId, Long userId) {
+    public PostUpdateReviewResponse updateReviewPost(
+            PostUpdateReviewRequest postUpdateReviewRequest, Long postId, Long userId) {
+
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new CustomPostNotFoundException(ErrorCode.POST_NOT_FOUND));
 
@@ -140,22 +309,72 @@ public class PostV1Service {
             throw new CustomForbiddenException(ErrorCode.FORBIDDEN);
         }
 
-        Category category = getCategory(request.type());
-
-        post.updatePost(
-                request.title(),
-                request.content(),
-                request.companyName(),
-                request.startDate(),
-                request.endDate(),
-                request.type(),
-                category,
-                request.method(),
-                request.userPosition(),
-                request.whatLearn(),
-                request.feelings(),
-                request.imageUrl()
+        post.updateCommon(
+                postUpdateReviewRequest.title(),
+                postUpdateReviewRequest.content(),
+                postUpdateReviewRequest.imageUrl(),
+                post.getCategory()
         );
+
+        switch (post.getType()) {
+
+            case JOB -> ((JobPost) post).updateDetail(
+                    postUpdateReviewRequest.firstQuestion(),
+                    postUpdateReviewRequest.secondQuestion(),
+                    postUpdateReviewRequest.thirdQuestion(),
+                    postUpdateReviewRequest.fourthQuestion(),
+                    postUpdateReviewRequest.fifthQuestion(),
+                    postUpdateReviewRequest.sixthQuestion(),
+                    postUpdateReviewRequest.seventhQuestion(),
+                    postUpdateReviewRequest.eighthQuestion()
+            );
+
+            case INTERNSHIP -> ((InternshipPost) post).updateDetail(
+                    postUpdateReviewRequest.firstQuestion(),
+                    postUpdateReviewRequest.secondQuestion(),
+                    postUpdateReviewRequest.thirdQuestion(),
+                    postUpdateReviewRequest.fourthQuestion(),
+                    postUpdateReviewRequest.startDate(),
+                    postUpdateReviewRequest.endDate(),
+                    postUpdateReviewRequest.fifthQuestion(),
+                    postUpdateReviewRequest.sixthQuestion()
+            );
+
+            case INTERVIEW -> ((InterviewPost) post).updateDetail(
+                    postUpdateReviewRequest.firstQuestion(),
+                    postUpdateReviewRequest.secondQuestion(),
+                    postUpdateReviewRequest.thirdQuestion(),
+                    postUpdateReviewRequest.fourthQuestion(),
+                    postUpdateReviewRequest.fifthQuestion(),
+                    postUpdateReviewRequest.sixthQuestion(),
+                    postUpdateReviewRequest.seventhQuestion(),
+                    postUpdateReviewRequest.eighthQuestion()
+            );
+
+            case EXPERIENCE -> ((ExperiencePost) post).updateDetail(
+                    postUpdateReviewRequest.firstQuestion(),
+                    postUpdateReviewRequest.startDate(),
+                    postUpdateReviewRequest.endDate(),
+                    postUpdateReviewRequest.secondQuestion(),
+                    postUpdateReviewRequest.thirdQuestion(),
+                    postUpdateReviewRequest.fourthQuestion(),
+                    postUpdateReviewRequest.fifthQuestion(),
+                    postUpdateReviewRequest.sixthQuestion(),
+                    postUpdateReviewRequest.seventhQuestion(),
+                    postUpdateReviewRequest.eighthQuestion()
+            );
+
+            case LICENSE -> ((LicensePost) post).updateDetail(
+                    postUpdateReviewRequest.firstQuestion(),
+                    postUpdateReviewRequest.secondQuestion(),
+                    postUpdateReviewRequest.thirdQuestion(),
+                    postUpdateReviewRequest.fourthQuestion(),
+                    postUpdateReviewRequest.fifthQuestion(),
+                    postUpdateReviewRequest.sixthQuestion(),
+                    postUpdateReviewRequest.seventhQuestion(),
+                    postUpdateReviewRequest.eighthQuestion()
+            );
+        }
 
         return PostUpdateReviewResponse.from(post);
     }
@@ -296,7 +515,6 @@ public class PostV1Service {
     private static Category getCategory(Type type) {
         return switch (type) {
             case JOB, INTERNSHIP, INTERVIEW, EXPERIENCE, LICENSE -> Category.JOBINFORMATION;
-            case EDUCATION, CLUB -> Category.EXTERNALACTIVITIES;
         };
     }
 }

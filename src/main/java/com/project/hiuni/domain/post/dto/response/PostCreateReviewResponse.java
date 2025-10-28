@@ -1,62 +1,196 @@
 package com.project.hiuni.domain.post.dto.response;
 
-import com.project.hiuni.domain.post.entity.Category;
-import com.project.hiuni.domain.post.entity.Post;
-import com.project.hiuni.domain.post.entity.Type;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.project.hiuni.domain.post.entity.*;
 import com.project.hiuni.domain.user.entity.User;
+
 import java.time.LocalDateTime;
 
-public record PostCreateReviewResponse (
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public record PostCreateReviewResponse(
+
+        String nickname,
         String univName,
         String firstMajorName,
         String secondMajorName,
+        String userImageUrl,
+
+        // 공통(Post)
         Long id,
         String title,
         String content,
-        String companyName,
-        LocalDateTime startDate,
-        LocalDateTime endDate,
         Type type,
         Category category,
-        String method,
-        String userPosition,
-        String userWork,
-        String whatLearn,
-        String feelings,
         String imageUrl,
-        int likeCount,
-        int commentCount,
-        int bookmarkCount,
-        int viewCount,
-        LocalDateTime createdAt
-){
-    public static PostCreateReviewResponse from(Post post) {
+        Integer likeCount,
+        Integer commentCount,
+        Integer bookmarkCount,
+        Integer viewCount,
+        LocalDateTime createdAt,
 
-        User user = post.getUser();
+        // JOB & 일부 공통 사용
+        String companyName,
+        String appliedPosition,
+        String applyMethod,
+        String interviewQuestions,
+        String preparation,
+        String result,
+        String feelings,
+        String additional,
+
+        // INTERNSHIP
+        String department,
+        String tasks,
+        String learned,
+
+        // INTERVIEW
+        String interviewFormat,
+        String atmosphere,
+
+        // EXPERIENCE
+        String organizationName,
+        String position,
+        String positionRank,
+        String whatWork,
+        String requiredSkills,
+        String characteristics,
+
+        // 기간 (INTERNSHIP / EXPERIENCE)
+        LocalDateTime startDate,
+        LocalDateTime endDate,
+
+        // LICENSE
+        String certificationName,
+        String prepDuration,
+        String materials,
+        String difficulty,
+        String studyMethod,
+        String tips
+) {
+
+    public static PostCreateReviewResponse from(Post post) {
+        String nickname = null;
+        String univName = null;
+        String firstMajorName = null;
+        String secondMajorName = null;
+        String userImageUrl = null;
+
+        User u = post.getUser();
+        if (u != null) {
+            nickname = u.getNickname();
+            univName = u.getUnivName();
+            firstMajorName = u.getFirstMajorName();
+            secondMajorName = u.getSecondMajorName();
+            userImageUrl = u.getImageUrl();
+        }
+
+        Long id = post.getId();
+        String title = post.getTitle();
+        String content = post.getContent();
+        Type type = post.getType();
+        Category category = post.getCategory();
+        String imageUrl = post.getImageUrl();
+        Integer likeCount = post.getLikeCount();
+        Integer commentCount = post.getCommentCount();
+        Integer bookmarkCount = post.getBookmarkCount();
+        Integer viewCount = post.getViewCount();
+        LocalDateTime createdAt = post.getCreatedAt();
+
+        // --- 타입별 필드 기본 null 초기화 ---
+        String companyName = null;
+        String appliedPosition = null;
+        String applyMethod = null;
+        String interviewQuestions = null;
+        String preparation = null;
+        String result = null;
+        String feelings = null;
+        String additional = null;
+
+        String department = null;
+        String tasks = null;
+        String learned = null;
+
+        String interviewFormat = null;
+        String atmosphere = null;
+
+        String organizationName = null;
+        String position = null;
+        String positionRank = null;
+        String whatWork = null;
+        String requiredSkills = null;
+        String characteristics = null;
+
+        LocalDateTime startDate = null;
+        LocalDateTime endDate = null;
+
+        String certificationName = null;
+        String prepDuration = null;
+        String materials = null;
+        String difficulty = null;
+        String studyMethod = null;
+        String tips = null;
+
+        // --- 타입별 분기 ---
+        if (post instanceof JobPost p) {
+            companyName = p.getCompanyName();
+            appliedPosition = p.getAppliedPosition();
+            applyMethod = p.getApplyMethod();
+            interviewQuestions = p.getInterviewQuestions();
+            preparation = p.getPreparation();
+            result = p.getResult();
+            feelings = p.getFeelings();
+            additional = p.getAdditional();
+        } else if (post instanceof InternshipPost p) {
+            companyName = p.getCompanyName();
+            department = p.getDepartment();
+            tasks = p.getTasks();
+            learned = p.getLearned();
+            startDate = p.getStartDate();
+            endDate = p.getEndDate();
+            feelings = p.getFeelings();
+            additional = p.getAdditional();
+        } else if (post instanceof InterviewPost p) {
+            companyName = p.getCompanyName();
+            appliedPosition = p.getAppliedPosition();
+            interviewFormat = p.getInterviewFormat();
+            interviewQuestions = p.getInterviewQuestions();
+            preparation = p.getPreparation();
+            atmosphere = p.getAtmosphere();
+            feelings = p.getFeelings();
+            additional = p.getAdditional();
+        } else if (post instanceof ExperiencePost p) {
+            organizationName = p.getOrganizationName();
+            startDate = p.getStartDate();
+            endDate = p.getEndDate();
+            position = p.getPosition();
+            positionRank = p.getPositionRank();
+            whatWork = p.getWhatWork();
+            requiredSkills = p.getRequiredSkills();
+            characteristics = p.getCharacteristics();
+            feelings = p.getFeelings();
+            additional = p.getAdditional();
+        } else if (post instanceof LicensePost p) {
+            certificationName = p.getCertificationName();
+            prepDuration = p.getPrepDuration();
+            materials = p.getMaterials();
+            difficulty = p.getDifficulty();
+            studyMethod = p.getStudyMethod();
+            tips = p.getTips();
+            feelings = p.getFeelings();
+            additional = p.getAdditional();
+        }
 
         return new PostCreateReviewResponse(
-                user.getUnivName(),
-                user.getFirstMajorName(),
-                user.getSecondMajorName(),
-                post.getId(),
-                post.getTitle(),
-                post.getContent(),
-                post.getCompanyName(),
-                post.getStartDate(),
-                post.getEndDate(),
-                post.getType(),
-                post.getCategory(),
-                post.getMethod(),
-                post.getUserPosition(),
-                post.getUserWork(),
-                post.getWhatLearn(),
-                post.getFeelings(),
-                post.getImageUrl(),
-                post.getLikeCount(),
-                post.getCommentCount(),
-                post.getBookmarkCount(),
-                post.getViewCount(),
-                post.getCreatedAt()
+                nickname, univName, firstMajorName, secondMajorName, userImageUrl,
+                id, title, content, type, category, imageUrl,
+                likeCount, commentCount, bookmarkCount, viewCount, createdAt,
+                companyName, appliedPosition, applyMethod,
+                interviewQuestions, preparation, result, feelings, additional,
+                department, tasks, learned,
+                interviewFormat, atmosphere,
+                organizationName, position, positionRank, whatWork, requiredSkills, characteristics,
+                startDate, endDate,
+                certificationName, prepDuration, materials, difficulty, studyMethod, tips
         );
     }
 }

@@ -10,141 +10,79 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import java.time.LocalDateTime;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+
+@Entity
+@Table(name = "post")
+@Inheritance(strategy = InheritanceType.JOINED)
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "post")
-@Entity
-public class Post extends BaseEntity {
+public abstract class Post extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    protected Long id;
 
-    @Column(nullable = false)
-    private String title;
+    protected String title;
 
-    @Column(nullable = false)
-    private String content;
-
-    private String companyName;
-
-    private LocalDateTime startDate;
-
-    private LocalDateTime endDate;
+    @Column(columnDefinition = "TEXT")
+    protected String content;
 
     @Enumerated(EnumType.STRING)
-    private Type type;
+    protected Category category;
 
     @Enumerated(EnumType.STRING)
-    private Category category;
+    protected Type type;
 
-    private String method;
+    protected String imageUrl;
 
-    private String userPosition;
-
-    private String userWork;
-
-    private String whatLearn;
-
-    private String feelings;
-
-    private String imageUrl;
-
-    private int likeCount=0;
-
-    private int bookmarkCount=0;
-
-    private int viewCount=0;
-
-    private int commentCount=0;
+    protected int likeCount = 0;
+    protected int bookmarkCount = 0;
+    protected int viewCount = 0;
+    protected int commentCount = 0;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="user_id", nullable = false)
-    private User user;
+    @JoinColumn(name = "user_id")
+    protected User user;
 
-    @Builder
-    public Post(String title,
-                String content,
-                String companyName,
-                LocalDateTime startDate,
-                LocalDateTime endDate,
-                Type type,
-                Category category,
-                String method,
-                String userPosition,
-                String userWork,
-                String whatLearn,
-                String feelings,
-                String imageUrl,
-                User user) {
+    protected Post(String title, String content, Category category, Type type,
+                   String imageUrl, User user) {
         this.title = title;
         this.content = content;
-        this.companyName = companyName;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.type = type;
         this.category = category;
-        this.method = method;
-        this.userPosition = userPosition;
-        this.userWork = userWork;
-        this.whatLearn = whatLearn;
-        this.feelings = feelings;
+        this.type = type;
         this.imageUrl = imageUrl;
         this.user = user;
     }
 
-    public void incrementLikeCount() {
-        likeCount++;
-    }
-
-    public void decrementLikeCount() {
-        likeCount--;
-    }
-
-    public void incrementBookmarkCount() {
-        bookmarkCount++;
-    }
-
-    public void decrementBookmarkCount() {
-        bookmarkCount--;
-    }
-
-    public void incrementViewCount() {
-        viewCount++;
-    }
-
-    public void updatePost(String title,
-                           String content,
-                           String companyName,
-                           LocalDateTime startDate,
-                           LocalDateTime endDate,
-                           Type type,
-                           Category category,
-                           String method,
-                           String userPosition,
-                           String whatLearn,
-                           String feelings,
-                           String imageUrl) {
+    public void updateCommon(String title, String content, String imageUrl, Category category) {
         this.title = title;
         this.content = content;
-        this.companyName = companyName;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.type = type;
-        this.category = category;
-        this.method = method;
-        this.userPosition = userPosition;
-        this.whatLearn = whatLearn;
-        this.feelings = feelings;
         this.imageUrl = imageUrl;
+        this.category = category;
     }
+
+    public void incrementLikeCount() { likeCount++;}
+
+    public void decrementLikeCount() { likeCount--;}
+
+    public void incrementBookmarkCount() { bookmarkCount++;}
+
+    public void decrementBookmarkCount() { bookmarkCount--;}
+
+    public void incrementViewCount() { viewCount++; }
+
+    public void decrementViewCount() { viewCount--;}
+
+    public void incrementCommentCount() { commentCount++; }
+
+    public void decrementCommentCount() { commentCount--;}
+
 }

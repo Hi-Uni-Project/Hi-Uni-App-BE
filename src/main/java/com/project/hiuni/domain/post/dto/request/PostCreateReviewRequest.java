@@ -6,15 +6,17 @@ import java.time.LocalDateTime;
 public record PostCreateReviewRequest(
         String title,
         String content,
-        String companyName,
-        LocalDateTime startDate,
-        LocalDateTime endDate,
         Type type,
-        String method,
-        String userPosition,
-        String userWork,
-        String whatLearn,
-        String feelings,
-        String imageUrl
+        String imageUrl,
+        String firstQuestion,
+        String secondQuestion,
+        String thirdQuestion,
+        String fourthQuestion,
+        String fifthQuestion,
+        String sixthQuestion,
+        String seventhQuestion,
+        String eighthQuestion,
+        LocalDateTime startDate,
+        LocalDateTime endDate
 ) {
 }
