@@ -24,7 +24,7 @@ public interface PostRepository extends JpaRepository <Post, Long> {
     """)
     List<Post> findWeeklyHot(@Param("startDate") LocalDateTime startDate,
                              @Param("endDate") LocalDateTime endDate,
-                             String univName);
+                             @Param("univName") String univName);
 
     @Query("""
     select p
