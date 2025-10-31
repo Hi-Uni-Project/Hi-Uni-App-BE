@@ -13,7 +13,7 @@ public record PostCreateReviewResponse(
         String univName,
         String firstMajorName,
         String secondMajorName,
-        String userImageUrl,
+        String user,
 
         // 공통(Post)
         Long id,

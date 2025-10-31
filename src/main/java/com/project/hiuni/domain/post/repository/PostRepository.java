@@ -60,17 +60,18 @@ public interface PostRepository extends JpaRepository <Post, Long> {
             Sort sort);
 
     @Query("""
-        select p
-        from Post p
-        join fetch p.user u
-        where u.univName = :univName
-          and (
-                :keyword is null or :keyword = '' or
-                lower(p.title)   like concat('%', lower(:keyword), '%') or
-                lower(p.content) like concat('%', lower(:keyword), '%')
-              )
+            select p
+            from Post p
+            join fetch p.user u
+            where function('replace', lower(trim(u.univName)), ' ', '') =
+                  function('replace', lower(trim(:univName)), ' ', '')
+              and (
+                    :keyword is null or :keyword = '' or
+                    lower(p.title)   like concat('%', lower(:keyword), '%') or
+                    lower(p.content) like concat('%', lower(:keyword), '%')
+                  )
               and ( :category is null or p.category = :category )
-        """)
+            """)
     List<Post> searchByKeywordAndUnivAndCategory(@Param("keyword") String keyword,
                                       @Param("univName") String univName,
                                       @Param("category") Category category,
@@ -80,12 +81,13 @@ public interface PostRepository extends JpaRepository <Post, Long> {
         select p
         from Post p
         join fetch p.user u
-        where u.univName = :univName
+        where function('replace', lower(trim(u.univName)), ' ', '') =
+              function('replace', lower(trim(:univName)), ' ', '')
           and (
-                :keyword is null or :keyword = '' or
-                lower(p.title)   like concat('%', lower(:keyword), '%') or
-                lower(p.content) like concat('%', lower(:keyword), '%')
-              )
+               :keyword is null or :keyword = '' or
+               lower(p.title)   like concat('%', lower(:keyword), '%') or
+               lower(p.content) like concat('%', lower(:keyword), '%')
+          )
         """)
     List<Post> searchByKeywordAndUniv(@Param("keyword") String keyword,
                                       @Param("univName") String univName,

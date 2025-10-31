@@ -8,7 +8,6 @@ public record CommentResponse(
         String nickname,
         String firstMajorName,
         String secondMajorName,
-        String usrImageUrl,
         String content,
         int likeCount
 ) {
@@ -21,7 +20,6 @@ public record CommentResponse(
                 user.getNickname(),
                 user.getFirstMajorName(),
                 user.getSecondMajorName(),
-                user.getImageUrl(),
                 comment.getContent(),
                 comment.getLikeCount()
         );
