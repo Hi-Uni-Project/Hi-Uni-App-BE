@@ -11,6 +11,7 @@ public class CategoryResponse {
 
   private Long categoryId;
   private String categoryName;
-  private String categoryColor;
+  private String backgroundColor;
+  private String textColor;
 
 }
