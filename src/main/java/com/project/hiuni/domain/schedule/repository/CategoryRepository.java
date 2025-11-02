@@ -28,7 +28,8 @@ public class CategoryRepository {
               .builder()
               .categoryId(category.getCategoryid())
               .categoryName(category.getCategoryname())
-              .categoryColor(category.getBackgroundcolor())
+              .backgroundColor(category.getBackgroundcolor())
+              .textColor(category.getTextcolor())
               .build();
         })
         .toList();

@@ -11,14 +11,23 @@ import lombok.Setter;
 @Builder
 public class ScheduleResponse {
 
+  private Long scheduleId;
   private LocalDateTime startDate;
   private LocalDateTime endDate;
-  private String category;
+  private Category category;
   private String detail;
   private String time;
-  private String backgroundColor;
-  private String textColor;
   private String memo;
+
+  @Getter
+  @Setter
+  @Builder
+  public static class Category {
+    private Long categoryId;
+    private String categoryName;
+    private String backgroundColor;
+    private String textColor;
+  }
 
 
 
