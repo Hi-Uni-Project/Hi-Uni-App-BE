@@ -3,6 +3,7 @@ package com.project.hiuni.domain.schedule.v1.service;
 import com.project.hiuni.domain.schedule.dto.CategoryDataDto;
 import com.project.hiuni.domain.schedule.dto.request.ScheduleRequest;
 import com.project.hiuni.domain.schedule.dto.response.ScheduleResponse;
+import com.project.hiuni.domain.schedule.dto.response.ScheduleResponse.Category;
 import com.project.hiuni.domain.schedule.entity.Schedule;
 import com.project.hiuni.domain.schedule.repository.CategoryRepository;
 import com.project.hiuni.domain.schedule.repository.ScheduleRepository;
@@ -86,15 +87,22 @@ public class ScheduleService {
 
           String time = StartDateTime + " - " + EndDateTime;
 
+
           ScheduleResponse scheduleResponse = ScheduleResponse
               .builder()
+              .scheduleId(sc.getId())
               .startDate(sc.getStartDate())
               .endDate(sc.getEndDate())
-              .category(categoryName)
+              .category(
+                  ScheduleResponse.Category.builder()
+                      .categoryId(sc.getCategoryId())
+                      .categoryName(categoryName)
+                      .backgroundColor(backgroundColor)
+                      .textColor(textColor)
+                      .build()
+              )
               .detail(sc.getTitle())
               .time(time)
-              .backgroundColor(backgroundColor)
-              .textColor(textColor)
               .memo(sc.getMemo())
               .build();
 
