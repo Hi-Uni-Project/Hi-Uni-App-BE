@@ -6,6 +6,7 @@ import com.project.hiuni.domain.schedule.dto.request.UpdateScheduleRequest;
 import com.project.hiuni.domain.schedule.dto.response.ScheduleResponse;
 import com.project.hiuni.domain.schedule.dto.response.ScheduleResponse.Category;
 import com.project.hiuni.domain.schedule.entity.Schedule;
+import com.project.hiuni.domain.schedule.exception.CustomScheduleNotFoundException;
 import com.project.hiuni.domain.schedule.repository.CategoryRepository;
 import com.project.hiuni.domain.schedule.repository.ScheduleRepository;
 import com.project.hiuni.domain.user.entity.User;
@@ -66,7 +67,7 @@ public class ScheduleService {
     );
 
     Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(
-        () -> new
+        () -> new CustomScheduleNotFoundException(Err)
     )
 
   }
