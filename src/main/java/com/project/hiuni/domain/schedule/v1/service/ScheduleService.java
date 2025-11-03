@@ -2,13 +2,17 @@ package com.project.hiuni.domain.schedule.v1.service;
 
 import com.project.hiuni.domain.schedule.dto.CategoryDataDto;
 import com.project.hiuni.domain.schedule.dto.request.ScheduleRequest;
+import com.project.hiuni.domain.schedule.dto.request.UpdateScheduleRequest;
 import com.project.hiuni.domain.schedule.dto.response.ScheduleResponse;
 import com.project.hiuni.domain.schedule.dto.response.ScheduleResponse.Category;
 import com.project.hiuni.domain.schedule.entity.Schedule;
+import com.project.hiuni.domain.schedule.exception.CustomScheduleNotFoundException;
 import com.project.hiuni.domain.schedule.repository.CategoryRepository;
 import com.project.hiuni.domain.schedule.repository.ScheduleRepository;
 import com.project.hiuni.domain.user.entity.User;
+import com.project.hiuni.domain.user.exception.CustomUserNotFoundException;
 import com.project.hiuni.domain.user.repository.UserRepository;
+import com.project.hiuni.global.exception.ErrorCode;
 import com.project.hiuni.global.security.jwt.JwtTokenProvider;
 import jakarta.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
@@ -57,6 +61,29 @@ public class ScheduleService {
   }
 
   @Transactional
+  public void updateSchedule(Long scheduleId, Long userId, UpdateScheduleRequest request) {
+    User user = userRepository.findById(userId).orElseThrow(
+        () -> new CustomUserNotFoundException(ErrorCode.USER_NOT_FOUND)
+    );
+
+    Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(
+        () -> new CustomScheduleNotFoundException(ErrorCode.SCHEDULE_NOT_FOUND)
+    );
+
+    CategoryDataDto category = categoryRepository.findById(request.getCategoryId()).orElseThrow(
+        () -> new CustomScheduleNotFoundException(ErrorCode.CATEGORY_NOT_FOUND)
+    );
+
+    schedule.updateSchedule(
+        request.getStartDate(),
+        request.getEndDate(),
+        request.getDetail(),
+        request.getMemo(),
+        category.getCategoryid()
+    );
+  }
+
+  @Transactional
   public List<ScheduleResponse> getSchedulesByDate(HttpServletRequest httpServletRequest,
       String startDate, String endDate) {
 
@@ -74,7 +101,9 @@ public class ScheduleService {
     List<ScheduleResponse> response = schedules.stream()
         .map(sc -> {
 
-          CategoryDataDto category = categoryRepository.findById(sc.getCategoryId());
+          CategoryDataDto category = categoryRepository.findById(sc.getCategoryId()).orElseThrow(
+              () -> new CustomScheduleNotFoundException(ErrorCode.CATEGORY_NOT_FOUND)
+          );
 
           String categoryName = category.getCategoryname();
           String backgroundColor = category.getBackgroundcolor();
