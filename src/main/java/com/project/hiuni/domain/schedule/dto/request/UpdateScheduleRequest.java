@@ -8,14 +8,10 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-/**
- * 일정 생성 및 수정을 위한 요청 DTO
- */
-
 @Getter
 @Setter
 @Builder
-public class ScheduleRequest {
+public class UpdateScheduleRequest {
 
   @NotNull
   private LocalDateTime startDate;
@@ -32,5 +28,4 @@ public class ScheduleRequest {
   @Min(1)
   @Max(9)
   private Long categoryId;
-
 }
