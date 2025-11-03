@@ -71,7 +71,7 @@ public class ScheduleService {
     );
 
     CategoryDataDto category = categoryRepository.findById(request.getCategoryId()).orElseThrow(
-
+        () -> new CustomScheduleNotFoundException(ErrorCode.CATEGORY_NOT_FOUND)
     );
 
 
