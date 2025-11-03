@@ -1,6 +1,8 @@
 package com.project.hiuni.domain.bookmark.repository;
 
 import com.project.hiuni.domain.bookmark.entity.Bookmark;
+import com.project.hiuni.domain.post.entity.Post;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -25,4 +27,11 @@ public interface BookmarkRepository extends JpaRepository<Bookmark, Long> {
            """)
     Optional<Bookmark> findByPostIdAndUserId(@Param("postId") Long postId,
                                          @Param("userId") Long userId);
+
+    @Query("""
+       SELECT b.post
+       FROM Bookmark b
+       WHERE b.user.id = :userId
+       """)
+    List<Post> findMyPostsBookmarked(@Param("userId") Long userId);
 }
