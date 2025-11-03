@@ -55,6 +55,10 @@ public class Schedule extends BaseEntity {
         this.memo = memo;
     }
 
+    public void updateSchedule(LocalDateTime startDate, LocalDateTime endDate, String detail, String memo, Long categoryId) {
+
+    }
+
     public static Schedule of(LocalDateTime startDate, LocalDateTime endDate, User user, Long categoryId, String title, String memo) {
         return Schedule.builder()
             .startDate(startDate)
@@ -65,4 +69,6 @@ public class Schedule extends BaseEntity {
             .memo(memo)
             .build();
     }
+
+
 }

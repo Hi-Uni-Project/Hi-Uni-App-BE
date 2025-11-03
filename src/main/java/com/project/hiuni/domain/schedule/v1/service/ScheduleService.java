@@ -67,8 +67,14 @@ public class ScheduleService {
     );
 
     Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(
-        () -> new CustomScheduleNotFoundException(Err)
-    )
+        () -> new CustomScheduleNotFoundException(ErrorCode.SCHEDULE_NOT_FOUND)
+    );
+
+    CategoryDataDto category = categoryRepository.findById(request.getCategoryId()).orElseThrow(
+
+    );
+
+
 
   }
 
