@@ -74,8 +74,13 @@ public class ScheduleService {
         () -> new CustomScheduleNotFoundException(ErrorCode.CATEGORY_NOT_FOUND)
     );
 
-
-
+    schedule.updateSchedule(
+        request.getStartDate(),
+        request.getEndDate(),
+        request.getDetail(),
+        request.getMemo(),
+        category.getCategoryid()
+    );
   }
 
   @Transactional

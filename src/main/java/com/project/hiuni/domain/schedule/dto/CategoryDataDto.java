@@ -1,6 +1,5 @@
 package com.project.hiuni.domain.schedule.dto;
 
-import java.util.Optional;
 import lombok.Getter;
 import lombok.Setter;
 
