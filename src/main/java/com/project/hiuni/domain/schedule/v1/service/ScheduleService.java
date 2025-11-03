@@ -9,7 +9,9 @@ import com.project.hiuni.domain.schedule.entity.Schedule;
 import com.project.hiuni.domain.schedule.repository.CategoryRepository;
 import com.project.hiuni.domain.schedule.repository.ScheduleRepository;
 import com.project.hiuni.domain.user.entity.User;
+import com.project.hiuni.domain.user.exception.CustomUserNotFoundException;
 import com.project.hiuni.domain.user.repository.UserRepository;
+import com.project.hiuni.global.exception.ErrorCode;
 import com.project.hiuni.global.security.jwt.JwtTokenProvider;
 import jakarta.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
@@ -59,6 +61,13 @@ public class ScheduleService {
 
   @Transactional
   public void updateSchedule(Long scheduleId, Long userId, UpdateScheduleRequest request) {
+    User user = userRepository.findById(userId).orElseThrow(
+        () -> new CustomUserNotFoundException(ErrorCode.USER_NOT_FOUND)
+    );
+
+    Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(
+        () -> new
+    )
 
   }
 
