@@ -101,7 +101,9 @@ public class ScheduleService {
     List<ScheduleResponse> response = schedules.stream()
         .map(sc -> {
 
-          CategoryDataDto category = categoryRepository.findById(sc.getCategoryId());
+          CategoryDataDto category = categoryRepository.findById(sc.getCategoryId()).orElseThrow(
+              () -> new CustomScheduleNotFoundException(ErrorCode.CATEGORY_NOT_FOUND)
+          );
 
           String categoryName = category.getCategoryname();
           String backgroundColor = category.getBackgroundcolor();
