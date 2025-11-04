@@ -4,6 +4,7 @@ import com.project.hiuni.domain.bookmark.entity.Bookmark;
 import com.project.hiuni.domain.bookmark.exception.CustomNotBookmarkException;
 import com.project.hiuni.domain.bookmark.repository.BookmarkRepository;
 import com.project.hiuni.domain.bookmark.exception.CustomDuplicatedBookmarkException;
+import com.project.hiuni.domain.post.dto.response.PostPreviewResponse;
 import com.project.hiuni.domain.post.entity.Post;
 import com.project.hiuni.domain.post.exception.CustomPostNotFoundException;
 import com.project.hiuni.domain.post.repository.PostRepository;
@@ -11,6 +12,7 @@ import com.project.hiuni.domain.user.entity.User;
 import com.project.hiuni.domain.user.exception.CustomUserNotFoundException;
 import com.project.hiuni.domain.user.repository.UserRepository;
 import com.project.hiuni.global.exception.ErrorCode;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -59,6 +61,17 @@ public class BookmarkService {
         Post post = bookmark.getPost();
         bookmarkRepository.delete(bookmark);
         post.decrementBookmarkCount();
+    }
+
+    @Transactional
+    public List<PostPreviewResponse> getMyBookmark(Long userId){
+
+        List<Post> bookmarks = bookmarkRepository.findMyPostsBookmarked(userId);
+
+        return bookmarks.stream()
+                .map(PostPreviewResponse::from)
+                .toList();
+
     }
 
 }
