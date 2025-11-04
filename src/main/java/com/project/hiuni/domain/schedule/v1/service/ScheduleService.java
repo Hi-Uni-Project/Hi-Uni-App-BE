@@ -84,6 +84,19 @@ public class ScheduleService {
   }
 
   @Transactional
+  public void deleteSchedule(Long scheduleId, Long userId) {
+    User user = userRepository.findById(userId).orElseThrow(
+        () -> new CustomUserNotFoundException(ErrorCode.USER_NOT_FOUND)
+    );
+
+    Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(
+        () -> new CustomScheduleNotFoundException(ErrorCode.SCHEDULE_NOT_FOUND)
+    );
+
+    scheduleRepository.delete(schedule);
+  }
+
+  @Transactional
   public List<ScheduleResponse> getSchedulesByDate(HttpServletRequest httpServletRequest,
       String startDate, String endDate) {
 
