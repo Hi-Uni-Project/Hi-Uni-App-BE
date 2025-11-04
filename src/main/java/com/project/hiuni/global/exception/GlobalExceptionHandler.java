@@ -10,7 +10,9 @@ import com.project.hiuni.domain.mail.exception.InvalidEmailCodeException;
 import com.project.hiuni.domain.mail.exception.InvalidEmailFormatException;
 import com.project.hiuni.domain.post.exception.CustomForbiddenException;
 import com.project.hiuni.domain.post.exception.CustomPostNotFoundException;
+import com.project.hiuni.domain.schedule.exception.CustomScheduleNotFoundException;
 import com.project.hiuni.domain.tos.exception.RequiredTermsNotAgreedException;
+import com.project.hiuni.domain.user.exception.CustomUserNotFoundException;
 import com.project.hiuni.global.common.dto.response.ResponseDTO;
 import jakarta.validation.ConstraintViolationException;
 import java.time.format.DateTimeParseException;
@@ -146,6 +148,18 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     return ResponseEntity.status(ErrorCode.INVALID_INPUT_VALUE.getActualStatusCode())
             .body(ResponseDTO.error(ErrorCode.INVALID_INPUT_VALUE, customMessage));
+  }
+
+  @ExceptionHandler(CustomUserNotFoundException.class)
+  public ResponseEntity<ResponseDTO> CustomUserNotFoundException(CustomUserNotFoundException e) {
+    return ResponseEntity.status(e.getErrorCode().getActualStatusCode())
+        .body(ResponseDTO.of(e.getErrorCode()));
+  }
+
+  @ExceptionHandler(CustomScheduleNotFoundException.class)
+  public ResponseEntity<ResponseDTO> CustomScheduleNotFoundException(CustomScheduleNotFoundException e) {
+    return ResponseEntity.status(e.getErrorCode().getActualStatusCode())
+        .body(ResponseDTO.of(e.getErrorCode()));
   }
 
 }
