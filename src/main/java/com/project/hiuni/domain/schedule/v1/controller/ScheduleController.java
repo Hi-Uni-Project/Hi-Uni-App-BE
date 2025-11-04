@@ -17,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -66,6 +67,15 @@ public class ScheduleController {
     scheduleService.updateSchedule(scheduleId, userDetails.getId(), request);
 
     return ResponseDTO.of("스케쥴 수정에 성공하였습니다.");
+  }
+
+  @DeleteMapping("/{scheduleId}")
+  public ResponseDTO<String> deleteSchedule(
+      @PathVariable Long scheduleId,
+      @AuthenticationPrincipal CustomUserDetails userDetails) {
+    scheduleService.deleteSchedule(scheduleId, userDetails.getId());
+
+    return ResponseDTO.of("스케쥴 삭제에 성공하였습니다.");
   }
 
 
