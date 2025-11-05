@@ -550,6 +550,8 @@ public class PostV1Service {
                 .collect(Collectors.toList());
     }
 
+
+
     private static Category getCategory(Type type) {
         return switch (type) {
             case JOB, INTERNSHIP, INTERVIEW, EXPERIENCE, LICENSE -> Category.JOBINFORMATION;
