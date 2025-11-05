@@ -44,6 +44,22 @@ public interface PostRepository extends JpaRepository <Post, Long> {
     @Query("""
     select p
     from Post p
+    join p.user u
+    where p.createdAt >= :startDate
+      and p.createdAt < :endDate
+      and u.univName = :univName
+      and p.category = :category
+    order by p.likeCount desc
+""")
+    List<Post> findWeeklyHotByCategory(@Param("startDate") LocalDateTime startDate,
+                                       @Param("endDate") LocalDateTime endDate,
+                                       @Param("univName") String univName,
+                                       @Param("category") Category category);
+
+
+    @Query("""
+    select p
+    from Post p
     join fetch p.user u
     where u.univName = :univName
     """)

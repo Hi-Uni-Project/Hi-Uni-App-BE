@@ -499,7 +499,25 @@ public class PostV1Service {
                 // .filter(post -> post.getLikeCount()>=3)
                 .map(PostPreviewResponse::from)
                 .toList();
+    }
 
+    @Transactional(readOnly = true)
+    public List<PostPreviewResponse> getWeeklyHotPostByCategory(Category category, Long userId){
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new CustomUserNotFoundException(ErrorCode.USER_NOT_FOUND));
+
+        ZoneId zone = ZoneId.of("Asia/Seoul");
+        LocalDate today = LocalDate.now(zone);
+
+        LocalDateTime end   = today.with(DayOfWeek.SUNDAY).atStartOfDay();
+        LocalDateTime start = end.minusWeeks(1);
+
+        return postRepository.findWeeklyHotByCategory(start, end, user.getUnivName(),category)
+                .stream()
+                // .filter(post -> post.getLikeCount()>=3)
+                .map(PostPreviewResponse::from)
+                .toList();
     }
 
     @Transactional(readOnly = true)

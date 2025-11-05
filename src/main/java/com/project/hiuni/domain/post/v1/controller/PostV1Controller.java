@@ -131,12 +131,21 @@ public class PostV1Controller {
     }
 
     @GetMapping("/weekly-hot-type")
-    public ResponseDTO<List<PostPreviewResponse>> searchWeeklyHotPostsByType(@RequestParam Type type
-                                                                            ,@AuthenticationPrincipal CustomUserDetails userDetails) {
+    public ResponseDTO<List<PostPreviewResponse>> searchWeeklyHotPostsByType(@RequestParam Type type,
+                                                                            @AuthenticationPrincipal CustomUserDetails userDetails) {
 
         List<PostPreviewResponse> postPreviewResponses = postV1Service.getWeeklyHotPostByType(type,userDetails.getId());
 
         return ResponseDTO.of(postPreviewResponses, "타입별 인기 게시글 조회에 성공하였습니다.");
+    }
+
+    @GetMapping("/weekly-hot-category")
+    public ResponseDTO<List<PostPreviewResponse>> searchWeeklyHotPostsByCategory(@RequestParam Category category,
+                                                                                 @AuthenticationPrincipal CustomUserDetails userDetails) {
+
+        List<PostPreviewResponse> postPreviewResponses = postV1Service.getWeeklyHotPostByCategory(category,userDetails.getId());
+
+        return ResponseDTO.of(postPreviewResponses, "카테고리별 인기 게시글 조회에 성공하였습니다.");
     }
 
     @GetMapping("/search-category")
