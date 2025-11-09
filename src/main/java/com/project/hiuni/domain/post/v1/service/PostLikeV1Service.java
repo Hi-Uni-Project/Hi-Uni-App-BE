@@ -1,5 +1,6 @@
 package com.project.hiuni.domain.post.v1.service;
 
+import com.project.hiuni.domain.post.dto.response.PostPreviewResponse;
 import com.project.hiuni.domain.post.entity.Post;
 import com.project.hiuni.domain.post.entity.PostLike;
 import com.project.hiuni.domain.post.exception.CustomDuplicatedLikeException;
@@ -15,6 +16,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -58,6 +61,15 @@ public class PostLikeV1Service {
         Post post = postLike.getPost();
         postLikeRepository.delete(postLike);
         post.decrementLikeCount();
+    }
+
+    @Transactional
+    public List<PostPreviewResponse> getLikedPostsByUserId(Long userId) {
+        List<Post> posts = postLikeRepository.findLikedPostsByUserId(userId);
+
+        return posts.stream()
+                .map(PostPreviewResponse::from)
+                .toList();
     }
 
 }

@@ -483,6 +483,44 @@ public class PostV1Service {
     }
 
     @Transactional(readOnly = true)
+    public List<PostPreviewResponse> getWeeklyHotPostByType(Type type, Long userId){
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new CustomUserNotFoundException(ErrorCode.USER_NOT_FOUND));
+
+        ZoneId zone = ZoneId.of("Asia/Seoul");
+        LocalDate today = LocalDate.now(zone);
+
+        LocalDateTime end   = today.with(DayOfWeek.SUNDAY).atStartOfDay();
+        LocalDateTime start = end.minusWeeks(1);
+
+        return postRepository.findWeeklyHotByType(start, end, user.getUnivName(),type)
+                .stream()
+                // .filter(post -> post.getLikeCount()>=3)
+                .map(PostPreviewResponse::from)
+                .toList();
+    }
+
+    @Transactional(readOnly = true)
+    public List<PostPreviewResponse> getWeeklyHotPostByCategory(Category category, Long userId){
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new CustomUserNotFoundException(ErrorCode.USER_NOT_FOUND));
+
+        ZoneId zone = ZoneId.of("Asia/Seoul");
+        LocalDate today = LocalDate.now(zone);
+
+        LocalDateTime end   = today.with(DayOfWeek.SUNDAY).atStartOfDay();
+        LocalDateTime start = end.minusWeeks(1);
+
+        return postRepository.findWeeklyHotByCategory(start, end, user.getUnivName(),category)
+                .stream()
+                // .filter(post -> post.getLikeCount()>=3)
+                .map(PostPreviewResponse::from)
+                .toList();
+    }
+
+    @Transactional(readOnly = true)
     public List<PostPreviewResponse> getKeywordPosts(String sort, String keyword, Long userId){
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomUserNotFoundException(ErrorCode.USER_NOT_FOUND));
@@ -511,6 +549,8 @@ public class PostV1Service {
                 .map(PostPreviewResponse::from)
                 .collect(Collectors.toList());
     }
+
+
 
     private static Category getCategory(Type type) {
         return switch (type) {

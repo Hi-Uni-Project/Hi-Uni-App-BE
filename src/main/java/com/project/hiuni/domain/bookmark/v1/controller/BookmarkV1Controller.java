@@ -1,11 +1,14 @@
 package com.project.hiuni.domain.bookmark.v1.controller;
 
 import com.project.hiuni.domain.bookmark.v1.service.BookmarkService;
+import com.project.hiuni.domain.post.dto.response.PostPreviewResponse;
 import com.project.hiuni.global.common.dto.response.ResponseDTO;
 import com.project.hiuni.global.security.core.CustomUserDetails;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,5 +35,12 @@ public class BookmarkV1Controller {
         bookmarkService.removeBookmark(id, userDetails.getId());
 
         return ResponseDTO.of("북마크 삭제에 성공하였습니다.");
+    }
+
+    @GetMapping("/my")
+    public ResponseDTO<List<PostPreviewResponse>> searchMyBookmarks(@AuthenticationPrincipal CustomUserDetails userDetails) {
+
+        List<PostPreviewResponse> postPreviewResponses= bookmarkService.getMyBookmark(userDetails.getId());
+        return ResponseDTO.of(postPreviewResponses,"내 북마크 가져오기에 성공하였습니다.");
     }
 }
