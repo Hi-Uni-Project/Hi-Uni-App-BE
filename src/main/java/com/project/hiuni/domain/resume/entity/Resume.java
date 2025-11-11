@@ -1,6 +1,8 @@
 package com.project.hiuni.domain.resume.entity;
 
+import com.project.hiuni.domain.resume.exception.CustomInvalidException;
 import com.project.hiuni.domain.user.entity.User;
+import com.project.hiuni.global.exception.ErrorCode;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -15,9 +17,11 @@ import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Entity
 @Getter
+@Slf4j
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "resume")
 public class Resume {
@@ -51,7 +55,8 @@ public class Resume {
    */
   public void decreaseCnt() {
     if (this.aboutMeCnt < 0) {
-      throw new RuntimeException("잔여 횟수가 존재하지 않지만, 감소를 시도했습니다.");
+      log.info("잔여 횟수가 존재하지 않지만, 감소를 시도했습니다.");
+      throw new CustomInvalidException(ErrorCode.INTERNAL_SERVER_ERROR);
     }
     this.aboutMeCnt -= 1;
   }

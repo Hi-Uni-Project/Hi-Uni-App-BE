@@ -1,7 +1,11 @@
 package com.project.hiuni.domain.resume.exception;
 
-public class CustomInvalidException extends RuntimeException {
-  public CustomInvalidException(String message) {
-    super(message);
+import com.project.hiuni.global.exception.CustomException;
+import com.project.hiuni.global.exception.ErrorCode;
+
+public class CustomInvalidException extends CustomException {
+
+  public CustomInvalidException(ErrorCode errorCode) {
+    super(errorCode);
   }
 }
