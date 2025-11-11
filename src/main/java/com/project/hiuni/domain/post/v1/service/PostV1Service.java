@@ -11,6 +11,7 @@ import com.project.hiuni.domain.post.dto.response.PostReviewResponse;
 import com.project.hiuni.domain.post.dto.response.PostUpdateNoReviewResponse;
 import com.project.hiuni.domain.post.dto.response.PostUpdateReviewResponse;
 import com.project.hiuni.domain.post.dto.response.PostPreviewResponse;
+import com.project.hiuni.domain.post.dto.response.PostWeeklyHotPreviewResponse;
 import com.project.hiuni.domain.post.entity.Category;
 import com.project.hiuni.domain.post.entity.ExperiencePost;
 import com.project.hiuni.domain.post.entity.InternshipPost;
@@ -406,6 +407,24 @@ public class PostV1Service {
                 .stream()
                 // .filter(post -> post.getLikeCount()>=3)
                 .map(PostPreviewResponse::from)
+                .toList();
+    }
+
+    public List<PostWeeklyHotPreviewResponse> getWeeklyHotPreviewTop4Posts(Long userId){
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new CustomUserNotFoundException(ErrorCode.USER_NOT_FOUND));
+
+        ZoneId zone = ZoneId.of("Asia/Seoul");
+        LocalDate today = LocalDate.now(zone);
+
+        LocalDateTime end   = today.with(DayOfWeek.SUNDAY).atStartOfDay();
+        LocalDateTime start = end.minusWeeks(1);
+
+        List<Post> posts = postRepository.findWeeklyHot(start, end, user.getUnivName());
+
+        return posts.stream()
+                .limit(4)
+                .map(PostWeeklyHotPreviewResponse::from)
                 .toList();
     }
 

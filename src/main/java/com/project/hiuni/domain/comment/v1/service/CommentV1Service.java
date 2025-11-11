@@ -45,6 +45,8 @@ public class CommentV1Service {
                 .user(user)
                 .build();
 
+        post.incrementCommentCount();
+
         return CommentCreateResponse.from(commentRepository.save(comment));
     }
 
@@ -76,6 +78,9 @@ public class CommentV1Service {
         if(!comment.getUser().getId().equals(userId)) {
             throw new CustomForbiddenException(ErrorCode.FORBIDDEN);
         }
+
+        Post post = comment.getPost();
+        post.decrementCommentCount();
 
         commentRepository.delete(comment);
     }
