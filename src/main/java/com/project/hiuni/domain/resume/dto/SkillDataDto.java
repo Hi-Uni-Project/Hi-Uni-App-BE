@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class skillsDataDto {
+public class SkillDataDto {
     @JsonProperty("id")
     private Long skillId;
     private String name;
