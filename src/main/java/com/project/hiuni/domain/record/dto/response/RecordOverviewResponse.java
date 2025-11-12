@@ -11,6 +11,7 @@ import lombok.Setter;
 public class RecordOverviewResponse {
   private String title; //이력서 제목
   private List<CoverLetterResponse> coverLetters; //자기소개서 질문 + 답변
+  private String image_url;
 
   @Getter
   @Setter
