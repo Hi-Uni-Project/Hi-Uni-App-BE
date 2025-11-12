@@ -1,0 +1,2214 @@
+[
+  {
+    "id": 1,
+    "name": "Python"
+  },
+  {
+    "id": 2,
+    "name": "JavaScript"
+  },
+  {
+    "id": 3,
+    "name": "Java"
+  },
+  {
+    "id": 4,
+    "name": "TypeScript"
+  },
+  {
+    "id": 5,
+    "name": "C++"
+  },
+  {
+    "id": 6,
+    "name": "C#"
+  },
+  {
+    "id": 7,
+    "name": "C"
+  },
+  {
+    "id": 8,
+    "name": "Go"
+  },
+  {
+    "id": 9,
+    "name": "PHP"
+  },
+  {
+    "id": 10,
+    "name": "Ruby"
+  },
+  {
+    "id": 11,
+    "name": "Swift"
+  },
+  {
+    "id": 12,
+    "name": "Kotlin"
+  },
+  {
+    "id": 13,
+    "name": "Rust"
+  },
+  {
+    "id": 14,
+    "name": "R"
+  },
+  {
+    "id": 15,
+    "name": "Scala"
+  },
+  {
+    "id": 16,
+    "name": "Dart"
+  },
+  {
+    "id": 17,
+    "name": "Elixir"
+  },
+  {
+    "id": 18,
+    "name": "Perl"
+  },
+  {
+    "id": 19,
+    "name": "Shell/Bash"
+  },
+  {
+    "id": 20,
+    "name": "PowerShell"
+  },
+  {
+    "id": 21,
+    "name": "SQL"
+  },
+  {
+    "id": 22,
+    "name": "MATLAB"
+  },
+  {
+    "id": 23,
+    "name": "Objective-C"
+  },
+  {
+    "id": 24,
+    "name": "Lua"
+  },
+  {
+    "id": 25,
+    "name": "Haskell"
+  },
+  {
+    "id": 26,
+    "name": "React.js"
+  },
+  {
+    "id": 27,
+    "name": "Angular"
+  },
+  {
+    "id": 28,
+    "name": "Vue.js"
+  },
+  {
+    "id": 29,
+    "name": "Next.js"
+  },
+  {
+    "id": 30,
+    "name": "Svelte"
+  },
+  {
+    "id": 31,
+    "name": "jQuery"
+  },
+  {
+    "id": 32,
+    "name": "Preact"
+  },
+  {
+    "id": 33,
+    "name": "SolidJS"
+  },
+  {
+    "id": 34,
+    "name": "Nuxt.js"
+  },
+  {
+    "id": 35,
+    "name": "Remix"
+  },
+  {
+    "id": 36,
+    "name": "Astro"
+  },
+  {
+    "id": 37,
+    "name": "Qwik"
+  },
+  {
+    "id": 38,
+    "name": "Alpine.js"
+  },
+  {
+    "id": 39,
+    "name": "Ember.js"
+  },
+  {
+    "id": 40,
+    "name": "Backbone.js"
+  },
+  {
+    "id": 41,
+    "name": "Node.js"
+  },
+  {
+    "id": 42,
+    "name": "Express.js"
+  },
+  {
+    "id": 43,
+    "name": "Django"
+  },
+  {
+    "id": 44,
+    "name": "Flask"
+  },
+  {
+    "id": 45,
+    "name": "FastAPI"
+  },
+  {
+    "id": 46,
+    "name": "Spring Boot"
+  },
+  {
+    "id": 47,
+    "name": "Ruby on Rails"
+  },
+  {
+    "id": 48,
+    "name": "Laravel"
+  },
+  {
+    "id": 49,
+    "name": "ASP.NET Core"
+  },
+  {
+    "id": 50,
+    "name": "NestJS"
+  },
+  {
+    "id": 51,
+    "name": "Phoenix"
+  },
+  {
+    "id": 52,
+    "name": "Gin"
+  },
+  {
+    "id": 53,
+    "name": "Echo"
+  },
+  {
+    "id": 54,
+    "name": "Fiber"
+  },
+  {
+    "id": 55,
+    "name": "Koa.js"
+  },
+  {
+    "id": 56,
+    "name": "Hapi.js"
+  },
+  {
+    "id": 57,
+    "name": "Strapi"
+  },
+  {
+    "id": 58,
+    "name": "Adonis.js"
+  },
+  {
+    "id": 59,
+    "name": "React Native"
+  },
+  {
+    "id": 60,
+    "name": "Flutter"
+  },
+  {
+    "id": 61,
+    "name": "SwiftUI"
+  },
+  {
+    "id": 62,
+    "name": "Android Studio"
+  },
+  {
+    "id": 63,
+    "name": "Jetpack Compose"
+  },
+  {
+    "id": 64,
+    "name": "Ionic"
+  },
+  {
+    "id": 65,
+    "name": "Xamarin"
+  },
+  {
+    "id": 66,
+    "name": "Cordova"
+  },
+  {
+    "id": 67,
+    "name": "Capacitor"
+  },
+  {
+    "id": 68,
+    "name": "Expo"
+  },
+  {
+    "id": 69,
+    "name": "UIKit"
+  },
+  {
+    "id": 70,
+    "name": "Android SDK"
+  },
+  {
+    "id": 71,
+    "name": "MySQL"
+  },
+  {
+    "id": 72,
+    "name": "PostgreSQL"
+  },
+  {
+    "id": 73,
+    "name": "Microsoft SQL Server"
+  },
+  {
+    "id": 74,
+    "name": "Oracle Database"
+  },
+  {
+    "id": 75,
+    "name": "SQLite"
+  },
+  {
+    "id": 76,
+    "name": "MariaDB"
+  },
+  {
+    "id": 77,
+    "name": "MongoDB"
+  },
+  {
+    "id": 78,
+    "name": "Redis"
+  },
+  {
+    "id": 79,
+    "name": "Cassandra"
+  },
+  {
+    "id": 80,
+    "name": "Firebase"
+  },
+  {
+    "id": 81,
+    "name": "DynamoDB"
+  },
+  {
+    "id": 82,
+    "name": "Elasticsearch"
+  },
+  {
+    "id": 83,
+    "name": "Neo4j"
+  },
+  {
+    "id": 84,
+    "name": "CouchDB"
+  },
+  {
+    "id": 85,
+    "name": "InfluxDB"
+  },
+  {
+    "id": 86,
+    "name": "Supabase"
+  },
+  {
+    "id": 87,
+    "name": "PlanetScale"
+  },
+  {
+    "id": 88,
+    "name": "Cockroach DB"
+  },
+  {
+    "id": 89,
+    "name": "AWS"
+  },
+  {
+    "id": 90,
+    "name": "Microsoft Azure"
+  },
+  {
+    "id": 91,
+    "name": "Google Cloud Platform"
+  },
+  {
+    "id": 92,
+    "name": "IBM Cloud"
+  },
+  {
+    "id": 93,
+    "name": "Oracle Cloud"
+  },
+  {
+    "id": 94,
+    "name": "DigitalOcean"
+  },
+  {
+    "id": 95,
+    "name": "Heroku"
+  },
+  {
+    "id": 96,
+    "name": "Vercel"
+  },
+  {
+    "id": 97,
+    "name": "Netlify"
+  },
+  {
+    "id": 98,
+    "name": "Railway"
+  },
+  {
+    "id": 99,
+    "name": "Render"
+  },
+  {
+    "id": 100,
+    "name": "Fly.io"
+  },
+  {
+    "id": 101,
+    "name": "Cloudflare"
+  },
+  {
+    "id": 102,
+    "name": "Linode"
+  },
+  {
+    "id": 103,
+    "name": "Vultr"
+  },
+  {
+    "id": 104,
+    "name": "AWS EC2"
+  },
+  {
+    "id": 105,
+    "name": "AWS S3"
+  },
+  {
+    "id": 106,
+    "name": "AWS Lambda"
+  },
+  {
+    "id": 107,
+    "name": "AWS RDS"
+  },
+  {
+    "id": 108,
+    "name": "AWS CloudFront"
+  },
+  {
+    "id": 109,
+    "name": "Azure Functions"
+  },
+  {
+    "id": 110,
+    "name": "Azure Blob Storage"
+  },
+  {
+    "id": 111,
+    "name": "Google Cloud Functions"
+  },
+  {
+    "id": 112,
+    "name": "Google Cloud Storage"
+  },
+  {
+    "id": 113,
+    "name": "Cloud SQL"
+  },
+  {
+    "id": 114,
+    "name": "Cloud Run"
+  },
+  {
+    "id": 115,
+    "name": "Serverless Framework"
+  },
+  {
+    "id": 116,
+    "name": "AWS Elastic Beanstalk"
+  },
+  {
+    "id": 117,
+    "name": "AWS ECS"
+  },
+  {
+    "id": 118,
+    "name": "AWS EKS"
+  },
+  {
+    "id": 119,
+    "name": "Docker"
+  },
+  {
+    "id": 120,
+    "name": "Kubernetes"
+  },
+  {
+    "id": 121,
+    "name": "Docker Compose"
+  },
+  {
+    "id": 122,
+    "name": "Podman"
+  },
+  {
+    "id": 123,
+    "name": "Rancher"
+  },
+  {
+    "id": 124,
+    "name": "OpenShift"
+  },
+  {
+    "id": 125,
+    "name": "Docker Swarm"
+  },
+  {
+    "id": 126,
+    "name": "Nomad"
+  },
+  {
+    "id": 127,
+    "name": "Helm"
+  },
+  {
+    "id": 128,
+    "name": "Minikube"
+  },
+  {
+    "id": 129,
+    "name": "K3s"
+  },
+  {
+    "id": 130,
+    "name": "Git"
+  },
+  {
+    "id": 131,
+    "name": "GitHub"
+  },
+  {
+    "id": 132,
+    "name": "GitLab"
+  },
+  {
+    "id": 133,
+    "name": "Bitbucket"
+  },
+  {
+    "id": 134,
+    "name": "SVN"
+  },
+  {
+    "id": 135,
+    "name": "Mercurial"
+  },
+  {
+    "id": 136,
+    "name": "Azure Repos"
+  },
+  {
+    "id": 137,
+    "name": "Gitea"
+  },
+  {
+    "id": 138,
+    "name": "Perforce"
+  },
+  {
+    "id": 139,
+    "name": "Jenkins"
+  },
+  {
+    "id": 140,
+    "name": "GitHub Actions"
+  },
+  {
+    "id": 141,
+    "name": "GitLab CI/CD"
+  },
+  {
+    "id": 142,
+    "name": "CircleCI"
+  },
+  {
+    "id": 143,
+    "name": "Travis CI"
+  },
+  {
+    "id": 144,
+    "name": "Azure DevOps"
+  },
+  {
+    "id": 145,
+    "name": "TeamCity"
+  },
+  {
+    "id": 146,
+    "name": "Bamboo"
+  },
+  {
+    "id": 147,
+    "name": "ArgoCD"
+  },
+  {
+    "id": 148,
+    "name": "Spinnaker"
+  },
+  {
+    "id": 149,
+    "name": "Drone"
+  },
+  {
+    "id": 150,
+    "name": "Buildkite"
+  },
+  {
+    "id": 151,
+    "name": "Terraform"
+  },
+  {
+    "id": 152,
+    "name": "Ansible"
+  },
+  {
+    "id": 153,
+    "name": "Chef"
+  },
+  {
+    "id": 154,
+    "name": "Puppet"
+  },
+  {
+    "id": 155,
+    "name": "CloudFormation"
+  },
+  {
+    "id": 156,
+    "name": "Vagrant"
+  },
+  {
+    "id": 157,
+    "name": "Pulumi"
+  },
+  {
+    "id": 158,
+    "name": "Salt"
+  },
+  {
+    "id": 159,
+    "name": "Packer"
+  },
+  {
+    "id": 160,
+    "name": "Consul"
+  },
+  {
+    "id": 161,
+    "name": "Tableau"
+  },
+  {
+    "id": 162,
+    "name": "Power BI"
+  },
+  {
+    "id": 163,
+    "name": "Looker"
+  },
+  {
+    "id": 164,
+    "name": "Metabase"
+  },
+  {
+    "id": 165,
+    "name": "Apache Superset"
+  },
+  {
+    "id": 166,
+    "name": "D3.js"
+  },
+  {
+    "id": 167,
+    "name": "Plotly"
+  },
+  {
+    "id": 168,
+    "name": "Matplotlib"
+  },
+  {
+    "id": 169,
+    "name": "Seaborn"
+  },
+  {
+    "id": 170,
+    "name": "Chart.js"
+  },
+  {
+    "id": 171,
+    "name": "Highcharts"
+  },
+  {
+    "id": 172,
+    "name": "Grafana"
+  },
+  {
+    "id": 173,
+    "name": "Kibana"
+  },
+  {
+    "id": 174,
+    "name": "Redash"
+  },
+  {
+    "id": 175,
+    "name": "Pandas"
+  },
+  {
+    "id": 176,
+    "name": "NumPy"
+  },
+  {
+    "id": 177,
+    "name": "Excel"
+  },
+  {
+    "id": 178,
+    "name": "Google Sheets"
+  },
+  {
+    "id": 179,
+    "name": "SAS"
+  },
+  {
+    "id": 180,
+    "name": "SPSS"
+  },
+  {
+    "id": 181,
+    "name": "Stata"
+  },
+  {
+    "id": 182,
+    "name": "Alteryx"
+  },
+  {
+    "id": 183,
+    "name": "Knime"
+  },
+  {
+    "id": 184,
+    "name": "RapidMiner"
+  },
+  {
+    "id": 185,
+    "name": "TensorFlow"
+  },
+  {
+    "id": 186,
+    "name": "PyTorch"
+  },
+  {
+    "id": 187,
+    "name": "Scikit-learn"
+  },
+  {
+    "id": 188,
+    "name": "Keras"
+  },
+  {
+    "id": 189,
+    "name": "OpenAI API"
+  },
+  {
+    "id": 190,
+    "name": "Hugging Face"
+  },
+  {
+    "id": 191,
+    "name": "LangChain"
+  },
+  {
+    "id": 192,
+    "name": "XGBoost"
+  },
+  {
+    "id": 193,
+    "name": "OpenCV"
+  },
+  {
+    "id": 194,
+    "name": "YOLO"
+  },
+  {
+    "id": 195,
+    "name": "FastAI"
+  },
+  {
+    "id": 196,
+    "name": "MXNet"
+  },
+  {
+    "id": 197,
+    "name": "Caffe"
+  },
+  {
+    "id": 198,
+    "name": "LightGBM"
+  },
+  {
+    "id": 199,
+    "name": "CatBoost"
+  },
+  {
+    "id": 200,
+    "name": "Anthropic Claude API"
+  },
+  {
+    "id": 201,
+    "name": "Stable Diffusion"
+  },
+  {
+    "id": 202,
+    "name": "LlamaIndex"
+  },
+  {
+    "id": 203,
+    "name": "AutoML"
+  },
+  {
+    "id": 204,
+    "name": "Apache Spark"
+  },
+  {
+    "id": 205,
+    "name": "Hadoop"
+  },
+  {
+    "id": 206,
+    "name": "Kafka"
+  },
+  {
+    "id": 207,
+    "name": "Airflow"
+  },
+  {
+    "id": 208,
+    "name": "Databricks"
+  },
+  {
+    "id": 209,
+    "name": "Flink"
+  },
+  {
+    "id": 210,
+    "name": "Storm"
+  },
+  {
+    "id": 211,
+    "name": "Presto"
+  },
+  {
+    "id": 212,
+    "name": "Hive"
+  },
+  {
+    "id": 213,
+    "name": "Pig"
+  },
+  {
+    "id": 214,
+    "name": "Beam"
+  },
+  {
+    "id": 215,
+    "name": "NiFi"
+  },
+  {
+    "id": 216,
+    "name": "Snowflake"
+  },
+  {
+    "id": 217,
+    "name": "Redshift"
+  },
+  {
+    "id": 218,
+    "name": "Jest"
+  },
+  {
+    "id": 219,
+    "name": "Mocha"
+  },
+  {
+    "id": 220,
+    "name": "Selenium"
+  },
+  {
+    "id": 221,
+    "name": "Cypress"
+  },
+  {
+    "id": 222,
+    "name": "JUnit"
+  },
+  {
+    "id": 223,
+    "name": "PyTest"
+  },
+  {
+    "id": 224,
+    "name": "TestNG"
+  },
+  {
+    "id": 225,
+    "name": "Jasmine"
+  },
+  {
+    "id": 226,
+    "name": "Puppeteer"
+  },
+  {
+    "id": 227,
+    "name": "Playwright"
+  },
+  {
+    "id": 228,
+    "name": "Vitest"
+  },
+  {
+    "id": 229,
+    "name": "Testing Library"
+  },
+  {
+    "id": 230,
+    "name": "Karma"
+  },
+  {
+    "id": 231,
+    "name": "Cucumber"
+  },
+  {
+    "id": 232,
+    "name": "Robot Framework"
+  },
+  {
+    "id": 233,
+    "name": "k6"
+  },
+  {
+    "id": 234,
+    "name": "Locust"
+  },
+  {
+    "id": 235,
+    "name": "Postman"
+  },
+  {
+    "id": 236,
+    "name": "Insomnia"
+  },
+  {
+    "id": 237,
+    "name": "SoapUI"
+  },
+  {
+    "id": 238,
+    "name": "Swagger"
+  },
+  {
+    "id": 239,
+    "name": "Paw"
+  },
+  {
+    "id": 240,
+    "name": "Thunder Client"
+  },
+  {
+    "id": 241,
+    "name": "REST Client"
+  },
+  {
+    "id": 242,
+    "name": "HTTPie"
+  },
+  {
+    "id": 243,
+    "name": "cURL"
+  },
+  {
+    "id": 244,
+    "name": "Figma"
+  },
+  {
+    "id": 245,
+    "name": "Adobe XD"
+  },
+  {
+    "id": 246,
+    "name": "Sketch"
+  },
+  {
+    "id": 247,
+    "name": "Adobe Photoshop"
+  },
+  {
+    "id": 248,
+    "name": "Adobe Illustrator"
+  },
+  {
+    "id": 249,
+    "name": "Adobe InDesign"
+  },
+  {
+    "id": 250,
+    "name": "Canva"
+  },
+  {
+    "id": 251,
+    "name": "InVision"
+  },
+  {
+    "id": 252,
+    "name": "Framer"
+  },
+  {
+    "id": 253,
+    "name": "Principle"
+  },
+  {
+    "id": 254,
+    "name": "Zeplin"
+  },
+  {
+    "id": 255,
+    "name": "Marvel"
+  },
+  {
+    "id": 256,
+    "name": "Affinity Designer"
+  },
+  {
+    "id": 257,
+    "name": "CorelDRAW"
+  },
+  {
+    "id": 258,
+    "name": "Pixelmator"
+  },
+  {
+    "id": 259,
+    "name": "GIMP"
+  },
+  {
+    "id": 260,
+    "name": "ProtoPie"
+  },
+  {
+    "id": 261,
+    "name": "Axure RP"
+  },
+  {
+    "id": 262,
+    "name": "Balsamiq"
+  },
+  {
+    "id": 263,
+    "name": "MockFlow"
+  },
+  {
+    "id": 264,
+    "name": "Origami Studio"
+  },
+  {
+    "id": 265,
+    "name": "Flinto"
+  },
+  {
+    "id": 266,
+    "name": "Blender"
+  },
+  {
+    "id": 267,
+    "name": "Cinema 4D"
+  },
+  {
+    "id": 268,
+    "name": "Maya"
+  },
+  {
+    "id": 269,
+    "name": "3ds Max"
+  },
+  {
+    "id": 270,
+    "name": "Houdini"
+  },
+  {
+    "id": 271,
+    "name": "ZBrush"
+  },
+  {
+    "id": 272,
+    "name": "Substance Painter"
+  },
+  {
+    "id": 273,
+    "name": "Unreal Engine"
+  },
+  {
+    "id": 274,
+    "name": "Unity"
+  },
+  {
+    "id": 275,
+    "name": "TouchDesigner"
+  },
+  {
+    "id": 276,
+    "name": "Adobe Premiere Pro"
+  },
+  {
+    "id": 277,
+    "name": "Final Cut Pro"
+  },
+  {
+    "id": 278,
+    "name": "DaVinci Resolve"
+  },
+  {
+    "id": 279,
+    "name": "Adobe After Effects"
+  },
+  {
+    "id": 280,
+    "name": "Avid Media Composer"
+  },
+  {
+    "id": 281,
+    "name": "CapCut"
+  },
+  {
+    "id": 282,
+    "name": "iMovie"
+  },
+  {
+    "id": 283,
+    "name": "Camtasia"
+  },
+  {
+    "id": 284,
+    "name": "Sony Vegas Pro"
+  },
+  {
+    "id": 285,
+    "name": "Filmora"
+  },
+  {
+    "id": 286,
+    "name": "Jira"
+  },
+  {
+    "id": 287,
+    "name": "Trello"
+  },
+  {
+    "id": 288,
+    "name": "Asana"
+  },
+  {
+    "id": 289,
+    "name": "Monday.com"
+  },
+  {
+    "id": 290,
+    "name": "Notion"
+  },
+  {
+    "id": 291,
+    "name": "Confluence"
+  },
+  {
+    "id": 292,
+    "name": "ClickUp"
+  },
+  {
+    "id": 293,
+    "name": "Linear"
+  },
+  {
+    "id": 294,
+    "name": "Basecamp"
+  },
+  {
+    "id": 295,
+    "name": "Wrike"
+  },
+  {
+    "id": 296,
+    "name": "Microsoft Project"
+  },
+  {
+    "id": 297,
+    "name": "Airtable"
+  },
+  {
+    "id": 298,
+    "name": "Smartsheet"
+  },
+  {
+    "id": 299,
+    "name": "Height"
+  },
+  {
+    "id": 300,
+    "name": "Plane"
+  },
+  {
+    "id": 301,
+    "name": "Slack"
+  },
+  {
+    "id": 302,
+    "name": "Microsoft Teams"
+  },
+  {
+    "id": 303,
+    "name": "Discord"
+  },
+  {
+    "id": 304,
+    "name": "Zoom"
+  },
+  {
+    "id": 305,
+    "name": "Google Meet"
+  },
+  {
+    "id": 306,
+    "name": "Miro"
+  },
+  {
+    "id": 307,
+    "name": "FigJam"
+  },
+  {
+    "id": 308,
+    "name": "Mural"
+  },
+  {
+    "id": 309,
+    "name": "Loom"
+  },
+  {
+    "id": 310,
+    "name": "Gather"
+  },
+  {
+    "id": 311,
+    "name": "Webex"
+  },
+  {
+    "id": 312,
+    "name": "Skype"
+  },
+  {
+    "id": 313,
+    "name": "Telegram"
+  },
+  {
+    "id": 314,
+    "name": "KakaoTalk"
+  },
+  {
+    "id": 315,
+    "name": "Microsoft Office"
+  },
+  {
+    "id": 316,
+    "name": "Google Workspace"
+  },
+  {
+    "id": 317,
+    "name": "GitBook"
+  },
+  {
+    "id": 318,
+    "name": "Markdown"
+  },
+  {
+    "id": 319,
+    "name": "LaTeX"
+  },
+  {
+    "id": 320,
+    "name": "Obsidian"
+  },
+  {
+    "id": 321,
+    "name": "Coda"
+  },
+  {
+    "id": 322,
+    "name": "Dropbox Paper"
+  },
+  {
+    "id": 323,
+    "name": "Evernote"
+  },
+  {
+    "id": 324,
+    "name": "OneNote"
+  },
+  {
+    "id": 325,
+    "name": "WordPress"
+  },
+  {
+    "id": 326,
+    "name": "Webflow"
+  },
+  {
+    "id": 327,
+    "name": "Wix"
+  },
+  {
+    "id": 328,
+    "name": "Squarespace"
+  },
+  {
+    "id": 329,
+    "name": "Contentful"
+  },
+  {
+    "id": 330,
+    "name": "Sanity"
+  },
+  {
+    "id": 331,
+    "name": "Ghost"
+  },
+  {
+    "id": 332,
+    "name": "Bubble"
+  },
+  {
+    "id": 333,
+    "name": "Zapier"
+  },
+  {
+    "id": 334,
+    "name": "Make (Integromat)"
+  },
+  {
+    "id": 335,
+    "name": "Retool"
+  },
+  {
+    "id": 336,
+    "name": "n8n"
+  },
+  {
+    "id": 337,
+    "name": "AppGyver"
+  },
+  {
+    "id": 338,
+    "name": "Glide"
+  },
+  {
+    "id": 339,
+    "name": "Adalo"
+  },
+  {
+    "id": 340,
+    "name": "FlutterFlow"
+  },
+  {
+    "id": 341,
+    "name": "Shopify"
+  },
+  {
+    "id": 342,
+    "name": "WooCommerce"
+  },
+  {
+    "id": 343,
+    "name": "Magento"
+  },
+  {
+    "id": 344,
+    "name": "BigCommerce"
+  },
+  {
+    "id": 345,
+    "name": "PrestaShop"
+  },
+  {
+    "id": 346,
+    "name": "OpenCart"
+  },
+  {
+    "id": 347,
+    "name": "Wix eCommerce"
+  },
+  {
+    "id": 348,
+    "name": "Squarespace Commerce"
+  },
+  {
+    "id": 349,
+    "name": "Ecwid"
+  },
+  {
+    "id": 350,
+    "name": "Salesforce"
+  },
+  {
+    "id": 351,
+    "name": "HubSpot"
+  },
+  {
+    "id": 352,
+    "name": "Zoho CRM"
+  },
+  {
+    "id": 353,
+    "name": "Pipedrive"
+  },
+  {
+    "id": 354,
+    "name": "Monday CRM"
+  },
+  {
+    "id": 355,
+    "name": "Microsoft Dynamics 365"
+  },
+  {
+    "id": 356,
+    "name": "Freshsales"
+  },
+  {
+    "id": 357,
+    "name": "SugarCRM"
+  },
+  {
+    "id": 358,
+    "name": "Copper"
+  },
+  {
+    "id": 359,
+    "name": "Insightly"
+  },
+  {
+    "id": 360,
+    "name": "Google Analytics"
+  },
+  {
+    "id": 361,
+    "name": "Google Ads"
+  },
+  {
+    "id": 362,
+    "name": "Facebook Ads Manager"
+  },
+  {
+    "id": 363,
+    "name": "Mailchimp"
+  },
+  {
+    "id": 364,
+    "name": "SEMrush"
+  },
+  {
+    "id": 365,
+    "name": "Hootsuite"
+  },
+  {
+    "id": 366,
+    "name": "Buffer"
+  },
+  {
+    "id": 367,
+    "name": "Ahrefs"
+  },
+  {
+    "id": 368,
+    "name": "Moz"
+  },
+  {
+    "id": 369,
+    "name": "Google Tag Manager"
+  },
+  {
+    "id": 370,
+    "name": "Mixpanel"
+  },
+  {
+    "id": 371,
+    "name": "Amplitude"
+  },
+  {
+    "id": 372,
+    "name": "Hotjar"
+  },
+  {
+    "id": 373,
+    "name": "Optimizely"
+  },
+  {
+    "id": 374,
+    "name": "LinkedIn Ads"
+  },
+  {
+    "id": 375,
+    "name": "TikTok Ads"
+  },
+  {
+    "id": 376,
+    "name": "Wireshark"
+  },
+  {
+    "id": 377,
+    "name": "Nmap"
+  },
+  {
+    "id": 378,
+    "name": "Burp Suite"
+  },
+  {
+    "id": 379,
+    "name": "Metasploit"
+  },
+  {
+    "id": 380,
+    "name": "Nessus"
+  },
+  {
+    "id": 381,
+    "name": "Snort"
+  },
+  {
+    "id": 382,
+    "name": "Kali Linux"
+  },
+  {
+    "id": 383,
+    "name": "OWASP ZAP"
+  },
+  {
+    "id": 384,
+    "name": "Netsparker"
+  },
+  {
+    "id": 385,
+    "name": "Acunetix"
+  },
+  {
+    "id": 386,
+    "name": "OAuth"
+  },
+  {
+    "id": 387,
+    "name": "JWT"
+  },
+  {
+    "id": 388,
+    "name": "SSL/TLS"
+  },
+  {
+    "id": 389,
+    "name": "SAML"
+  },
+  {
+    "id": 390,
+    "name": "OpenID Connect"
+  },
+  {
+    "id": 391,
+    "name": "Two-Factor Authentication"
+  },
+  {
+    "id": 392,
+    "name": "Encryption"
+  },
+  {
+    "id": 393,
+    "name": "Penetration Testing"
+  },
+  {
+    "id": 394,
+    "name": "Security Auditing"
+  },
+  {
+    "id": 395,
+    "name": "GDPR Compliance"
+  },
+  {
+    "id": 396,
+    "name": "SOC 2"
+  },
+  {
+    "id": 397,
+    "name": "ISO 27001"
+  },
+  {
+    "id": 398,
+    "name": "HIPAA"
+  },
+  {
+    "id": 399,
+    "name": "Prometheus"
+  },
+  {
+    "id": 400,
+    "name": "ELK Stack"
+  },
+  {
+    "id": 401,
+    "name": "Splunk"
+  },
+  {
+    "id": 402,
+    "name": "Datadog"
+  },
+  {
+    "id": 403,
+    "name": "New Relic"
+  },
+  {
+    "id": 404,
+    "name": "Sentry"
+  },
+  {
+    "id": 405,
+    "name": "Logstash"
+  },
+  {
+    "id": 406,
+    "name": "Fluentd"
+  },
+  {
+    "id": 407,
+    "name": "Jaeger"
+  },
+  {
+    "id": 408,
+    "name": "Zipkin"
+  },
+  {
+    "id": 409,
+    "name": "AppDynamics"
+  },
+  {
+    "id": 410,
+    "name": "Dynatrace"
+  },
+  {
+    "id": 411,
+    "name": "PagerDuty"
+  },
+  {
+    "id": 412,
+    "name": "Agile/Scrum"
+  },
+  {
+    "id": 413,
+    "name": "Kanban"
+  },
+  {
+    "id": 414,
+    "name": "Waterfall"
+  },
+  {
+    "id": 415,
+    "name": "DevOps"
+  },
+  {
+    "id": 416,
+    "name": "TDD (Test Driven Development)"
+  },
+  {
+    "id": 417,
+    "name": "BDD (Behavior Driven Development)"
+  },
+  {
+    "id": 418,
+    "name": "CI/CD"
+  },
+  {
+    "id": 419,
+    "name": "Pair Programming"
+  },
+  {
+    "id": 420,
+    "name": "Code Review"
+  },
+  {
+    "id": 421,
+    "name": "Microservices Architecture"
+  },
+  {
+    "id": 422,
+    "name": "RESTful API Design"
+  },
+  {
+    "id": 423,
+    "name": "GraphQL"
+  },
+  {
+    "id": 424,
+    "name": "Event-Driven Architecture"
+  },
+  {
+    "id": 425,
+    "name": "Domain-Driven Design"
+  },
+  {
+    "id": 426,
+    "name": "Clean Architecture"
+  },
+  {
+    "id": 427,
+    "name": "SOLID Principles"
+  },
+  {
+    "id": 428,
+    "name": "Communication (커뮤니케이션)"
+  },
+  {
+    "id": 429,
+    "name": "Leadership (리더십)"
+  },
+  {
+    "id": 430,
+    "name": "Teamwork (팀워크)"
+  },
+  {
+    "id": 431,
+    "name": "Problem Solving (문제 해결)"
+  },
+  {
+    "id": 432,
+    "name": "Critical Thinking (비판적 사고)"
+  },
+  {
+    "id": 433,
+    "name": "Adaptability (적응력)"
+  },
+  {
+    "id": 434,
+    "name": "Creativity (창의성)"
+  },
+  {
+    "id": 435,
+    "name": "Time Management (시간 관리)"
+  },
+  {
+    "id": 436,
+    "name": "Decision Making (의사 결정)"
+  },
+  {
+    "id": 437,
+    "name": "Negotiation (협상)"
+  },
+  {
+    "id": 438,
+    "name": "Conflict Management (갈등 관리)"
+  },
+  {
+    "id": 439,
+    "name": "Presentation (프레젠테이션)"
+  },
+  {
+    "id": 440,
+    "name": "Mentoring (멘토링)"
+  },
+  {
+    "id": 441,
+    "name": "Emotional Intelligence (감성 지능)"
+  },
+  {
+    "id": 442,
+    "name": "Active Listening (능동적 경청)"
+  },
+  {
+    "id": 443,
+    "name": "Organization (조직력)"
+  },
+  {
+    "id": 444,
+    "name": "Flexibility (유연성)"
+  },
+  {
+    "id": 445,
+    "name": "Accountability (책임감)"
+  },
+  {
+    "id": 446,
+    "name": "Self-Motivation (자기 주도성)"
+  },
+  {
+    "id": 447,
+    "name": "Stress Management (스트레스 관리)"
+  },
+  {
+    "id": 448,
+    "name": "Collaboration (협업)"
+  },
+  {
+    "id": 449,
+    "name": "Attention to Detail (세심함)"
+  },
+  {
+    "id": 450,
+    "name": "Work Ethic (직업 윤리)"
+  },
+  {
+    "id": 451,
+    "name": "Initiative (주도성)"
+  },
+  {
+    "id": 452,
+    "name": "Interpersonal Skills (대인 관계 능력)"
+  },
+  {
+    "id": 453,
+    "name": "Product Strategy"
+  },
+  {
+    "id": 454,
+    "name": "Roadmapping"
+  },
+  {
+    "id": 455,
+    "name": "User Stories"
+  },
+  {
+    "id": 456,
+    "name": "A/B Testing"
+  },
+  {
+    "id": 457,
+    "name": "Product Analytics"
+  },
+  {
+    "id": 458,
+    "name": "Stakeholder Management"
+  },
+  {
+    "id": 459,
+    "name": "Feature Prioritization"
+  },
+  {
+    "id": 460,
+    "name": "User Research"
+  },
+  {
+    "id": 461,
+    "name": "Competitive Analysis"
+  },
+  {
+    "id": 462,
+    "name": "Go-to-Market Strategy"
+  },
+  {
+    "id": 463,
+    "name": "Product-Market Fit"
+  },
+  {
+    "id": 464,
+    "name": "OKRs"
+  },
+  {
+    "id": 465,
+    "name": "KPIs"
+  },
+  {
+    "id": 466,
+    "name": "Requirements Gathering"
+  },
+  {
+    "id": 467,
+    "name": "Business Intelligence"
+  },
+  {
+    "id": 468,
+    "name": "KPI Tracking"
+  },
+  {
+    "id": 469,
+    "name": "Market Research"
+  },
+  {
+    "id": 470,
+    "name": "SWOT Analysis"
+  },
+  {
+    "id": 471,
+    "name": "Process Improvement"
+  },
+  {
+    "id": 472,
+    "name": "Financial Modeling"
+  },
+  {
+    "id": 473,
+    "name": "ROI Analysis"
+  },
+  {
+    "id": 474,
+    "name": "Forecasting"
+  },
+  {
+    "id": 475,
+    "name": "Gap Analysis"
+  },
+  {
+    "id": 476,
+    "name": "Use Case Development"
+  },
+  {
+    "id": 477,
+    "name": "Data Mining"
+  },
+  {
+    "id": 478,
+    "name": "Technical Support"
+  },
+  {
+    "id": 479,
+    "name": "Troubleshooting"
+  },
+  {
+    "id": 480,
+    "name": "Customer Success"
+  },
+  {
+    "id": 481,
+    "name": "Help Desk"
+  },
+  {
+    "id": 482,
+    "name": "ServiceNow"
+  },
+  {
+    "id": 483,
+    "name": "Zendesk"
+  },
+  {
+    "id": 484,
+    "name": "Intercom"
+  },
+  {
+    "id": 485,
+    "name": "Freshdesk"
+  },
+  {
+    "id": 486,
+    "name": "LiveChat"
+  },
+  {
+    "id": 487,
+    "name": "Customer Onboarding"
+  },
+  {
+    "id": 488,
+    "name": "Ticket Management"
+  },
+  {
+    "id": 489,
+    "name": "SLA Management"
+  },
+  {
+    "id": 490,
+    "name": "User Interface Design"
+  },
+  {
+    "id": 491,
+    "name": "User Experience Design"
+  },
+  {
+    "id": 492,
+    "name": "Wireframing"
+  },
+  {
+    "id": 493,
+    "name": "Prototyping"
+  },
+  {
+    "id": 494,
+    "name": "Usability Testing"
+  },
+  {
+    "id": 495,
+    "name": "Information Architecture"
+  },
+  {
+    "id": 496,
+    "name": "Interaction Design"
+  },
+  {
+    "id": 497,
+    "name": "Design Systems"
+  },
+  {
+    "id": 498,
+    "name": "Responsive Design"
+  },
+  {
+    "id": 499,
+    "name": "Accessibility (WCAG)"
+  },
+  {
+    "id": 500,
+    "name": "Design Thinking"
+  },
+  {
+    "id": 501,
+    "name": "User Journey Mapping"
+  },
+  {
+    "id": 502,
+    "name": "Personas"
+  },
+  {
+    "id": 503,
+    "name": "Heuristic Evaluation"
+  },
+  {
+    "id": 504,
+    "name": "QuickBooks"
+  },
+  {
+    "id": 505,
+    "name": "SAP"
+  },
+  {
+    "id": 506,
+    "name": "Oracle Financials"
+  },
+  {
+    "id": 507,
+    "name": "Xero"
+  },
+  {
+    "id": 508,
+    "name": "FreshBooks"
+  },
+  {
+    "id": 509,
+    "name": "Financial Reporting"
+  },
+  {
+    "id": 510,
+    "name": "Tax Preparation"
+  },
+  {
+    "id": 511,
+    "name": "Budgeting"
+  },
+  {
+    "id": 512,
+    "name": "Auditing"
+  },
+  {
+    "id": 513,
+    "name": "Bookkeeping"
+  },
+  {
+    "id": 514,
+    "name": "Accounts Payable"
+  },
+  {
+    "id": 515,
+    "name": "Accounts Receivable"
+  },
+  {
+    "id": 516,
+    "name": "Payroll Management"
+  },
+  {
+    "id": 517,
+    "name": "Workday"
+  },
+  {
+    "id": 518,
+    "name": "BambooHR"
+  },
+  {
+    "id": 519,
+    "name": "ADP"
+  },
+  {
+    "id": 520,
+    "name": "SAP SuccessFactors"
+  },
+  {
+    "id": 521,
+    "name": "Recruitment"
+  },
+  {
+    "id": 522,
+    "name": "Talent Management"
+  },
+  {
+    "id": 523,
+    "name": "Performance Management"
+  },
+  {
+    "id": 524,
+    "name": "Employee Relations"
+  },
+  {
+    "id": 525,
+    "name": "Compensation & Benefits"
+  },
+  {
+    "id": 526,
+    "name": "HRIS"
+  },
+  {
+    "id": 527,
+    "name": "Onboarding"
+  },
+  {
+    "id": 528,
+    "name": "Training & Development"
+  },
+  {
+    "id": 529,
+    "name": "Lead Generation"
+  },
+  {
+    "id": 530,
+    "name": "Cold Calling"
+  },
+  {
+    "id": 531,
+    "name": "Prospecting"
+  },
+  {
+    "id": 532,
+    "name": "Account Management"
+  },
+  {
+    "id": 533,
+    "name": "Sales Forecasting"
+  },
+  {
+    "id": 534,
+    "name": "Pipeline Management"
+  },
+  {
+    "id": 535,
+    "name": "Closing Techniques"
+  },
+  {
+    "id": 536,
+    "name": "B2B Sales"
+  },
+  {
+    "id": 537,
+    "name": "B2C Sales"
+  },
+  {
+    "id": 538,
+    "name": "Inside Sales"
+  },
+  {
+    "id": 539,
+    "name": "Outside Sales"
+  },
+  {
+    "id": 540,
+    "name": "Solution Selling"
+  },
+  {
+    "id": 541,
+    "name": "Consultative Selling"
+  },
+  {
+    "id": 542,
+    "name": "Copywriting"
+  },
+  {
+    "id": 543,
+    "name": "Content Writing"
+  },
+  {
+    "id": 544,
+    "name": "Technical Writing"
+  },
+  {
+    "id": 545,
+    "name": "Blogging"
+  },
+  {
+    "id": 546,
+    "name": "SEO Writing"
+  },
+  {
+    "id": 547,
+    "name": "Social Media Content"
+  },
+  {
+    "id": 548,
+    "name": "Email Marketing"
+  },
+  {
+    "id": 549,
+    "name": "Video Scripting"
+  },
+  {
+    "id": 550,
+    "name": "Editing"
+  },
+  {
+    "id": 551,
+    "name": "Proofreading"
+  },
+  {
+    "id": 552,
+    "name": "Content Strategy"
+  },
+  {
+    "id": 553,
+    "name": "Storytelling"
+  }
+]
