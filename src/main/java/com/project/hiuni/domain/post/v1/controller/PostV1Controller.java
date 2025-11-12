@@ -11,6 +11,7 @@ import com.project.hiuni.domain.post.dto.response.PostReviewResponse;
 import com.project.hiuni.domain.post.dto.response.PostUpdateNoReviewResponse;
 import com.project.hiuni.domain.post.dto.response.PostUpdateReviewResponse;
 import com.project.hiuni.domain.post.dto.response.PostPreviewResponse;
+import com.project.hiuni.domain.post.dto.response.PostWeeklyHotPreviewResponse;
 import com.project.hiuni.domain.post.entity.Category;
 import com.project.hiuni.domain.post.entity.Type;
 import com.project.hiuni.domain.post.v1.service.PostV1Service;
@@ -124,26 +125,37 @@ public class PostV1Controller {
     }
 
     @GetMapping("/weekly-hot")
-    public ResponseDTO<List<PostPreviewResponse>> searchWeeklyHotPosts(@AuthenticationPrincipal CustomUserDetails userDetails) {
-        List<PostPreviewResponse> postPreviewResponses = postV1Service.getWeeklyHotPosts(userDetails.getId());
+    public ResponseDTO<List<PostPreviewResponse>> searchWeeklyHotPosts(@RequestParam String sort,
+                                                                       @AuthenticationPrincipal CustomUserDetails userDetails) {
+        List<PostPreviewResponse> postPreviewResponses = postV1Service.getWeeklyHotPosts(sort, userDetails.getId());
 
         return ResponseDTO.of(postPreviewResponses,"게시글 목록 조회에 성공하였습니다.");
     }
 
-    @GetMapping("/weekly-hot-type")
-    public ResponseDTO<List<PostPreviewResponse>> searchWeeklyHotPostsByType(@RequestParam Type type,
-                                                                            @AuthenticationPrincipal CustomUserDetails userDetails) {
+    @GetMapping("/top-four-weekly-hot")
+    public ResponseDTO<List<PostWeeklyHotPreviewResponse>> searchWeeklyTop4HotPosts(@RequestParam String sort,
+                                                                                    @AuthenticationPrincipal CustomUserDetails userDetails) {
+        List<PostWeeklyHotPreviewResponse> postWeeklyHotPreviewResponses = postV1Service.getWeeklyHotPreviewTop4Posts(sort, userDetails.getId());
 
-        List<PostPreviewResponse> postPreviewResponses = postV1Service.getWeeklyHotPostByType(type,userDetails.getId());
+        return ResponseDTO.of(postWeeklyHotPreviewResponses, "주간 상위 4개 게시글 조회에 성공하였습니다.");
+    }
+
+    @GetMapping("/weekly-hot-type")
+    public ResponseDTO<List<PostPreviewResponse>> searchWeeklyHotPostsByType(@RequestParam String sort,
+                                                                             @RequestParam Type type,
+                                                                             @AuthenticationPrincipal CustomUserDetails userDetails) {
+
+        List<PostPreviewResponse> postPreviewResponses = postV1Service.getWeeklyHotPostByType(type,sort,userDetails.getId());
 
         return ResponseDTO.of(postPreviewResponses, "타입별 인기 게시글 조회에 성공하였습니다.");
     }
 
     @GetMapping("/weekly-hot-category")
     public ResponseDTO<List<PostPreviewResponse>> searchWeeklyHotPostsByCategory(@RequestParam Category category,
+                                                                                 @RequestParam String sort,
                                                                                  @AuthenticationPrincipal CustomUserDetails userDetails) {
 
-        List<PostPreviewResponse> postPreviewResponses = postV1Service.getWeeklyHotPostByCategory(category,userDetails.getId());
+        List<PostPreviewResponse> postPreviewResponses = postV1Service.getWeeklyHotPostByCategory(category,sort,userDetails.getId());
 
         return ResponseDTO.of(postPreviewResponses, "카테고리별 인기 게시글 조회에 성공하였습니다.");
     }
