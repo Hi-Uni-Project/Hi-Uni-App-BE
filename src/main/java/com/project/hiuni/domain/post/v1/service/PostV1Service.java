@@ -393,7 +393,7 @@ public class PostV1Service {
     }
 
     @Transactional
-    public List<PostPreviewResponse> getWeeklyHotPosts(Long userId){
+    public List<PostPreviewResponse> getWeeklyHotPosts(String sort, Long userId){
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomUserNotFoundException(ErrorCode.USER_NOT_FOUND));
 
@@ -403,14 +403,14 @@ public class PostV1Service {
         LocalDateTime end   = today.with(DayOfWeek.SUNDAY).atStartOfDay();
         LocalDateTime start = end.minusWeeks(1);
 
-        return postRepository.findWeeklyHot(start, end, user.getUnivName())
+        return postRepository.findWeeklyHot(start, end, user.getUnivName(),sort)
                 .stream()
                 // .filter(post -> post.getLikeCount()>=3)
                 .map(PostPreviewResponse::from)
                 .toList();
     }
 
-    public List<PostWeeklyHotPreviewResponse> getWeeklyHotPreviewTop4Posts(Long userId){
+    public List<PostWeeklyHotPreviewResponse> getWeeklyHotPreviewTop4Posts(String sort, Long userId){
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomUserNotFoundException(ErrorCode.USER_NOT_FOUND));
 
@@ -420,7 +420,7 @@ public class PostV1Service {
         LocalDateTime end   = today.with(DayOfWeek.SUNDAY).atStartOfDay();
         LocalDateTime start = end.minusWeeks(1);
 
-        List<Post> posts = postRepository.findWeeklyHot(start, end, user.getUnivName());
+        List<Post> posts = postRepository.findWeeklyHot(start, end, user.getUnivName(),sort);
 
         return posts.stream()
                 .limit(4)
@@ -435,13 +435,7 @@ public class PostV1Service {
 
         String univName = user.getUnivName();
 
-        Sort sortedPost = switch (sort) {
-            case "like" -> Sort.by(Sort.Order.desc("likeCount"));
-            case "comment" -> Sort.by(Sort.Order.desc("commentCount"));
-            default -> Sort.by(Sort.Order.desc("createdAt"));
-        };
-
-        return postRepository.findAllPosts(univName, sortedPost)
+        return postRepository.findAllPosts(univName, sort)
                 .stream()
                 .map(PostPreviewResponse::from)
                 .toList();
@@ -453,13 +447,7 @@ public class PostV1Service {
 
         String univName = user.getUnivName();
 
-        Sort sortedPost = switch (sort) {
-            case "like" -> Sort.by(Sort.Order.desc("likeCount"));
-            case "comment" -> Sort.by(Sort.Order.desc("commentCount"));
-            default -> Sort.by(Sort.Order.desc("createdAt"));
-        };
-
-        return postRepository.findAllPostsByCategory(univName,category, sortedPost)
+        return postRepository.findAllPostsByCategory(univName,category, sort)
                 .stream()
                 .map(PostPreviewResponse::from)
                 .toList();
@@ -471,13 +459,7 @@ public class PostV1Service {
 
         String univName = user.getUnivName();
 
-        Sort sortedPost = switch (sort) {
-            case "like" -> Sort.by(Sort.Order.desc("likeCount"));
-            case "comment" -> Sort.by(Sort.Order.desc("commentCount"));
-            default -> Sort.by(Sort.Order.desc("createdAt"));
-        };
-
-        return postRepository.findAllPostsByType(univName,type,sortedPost)
+        return postRepository.findAllPostsByType(univName,type,sort)
                 .stream()
                 .map(PostPreviewResponse::from)
                 .toList();
@@ -489,20 +471,14 @@ public class PostV1Service {
                 .orElseThrow(() -> new CustomUserNotFoundException(ErrorCode.USER_NOT_FOUND));
         String univName = user.getUnivName();
 
-        Sort sortedPost = switch (sort) {
-            case "like" -> Sort.by(Sort.Order.desc("likeCount"));
-            case "comment" -> Sort.by(Sort.Order.desc("commentCount"));
-            default -> Sort.by(Sort.Order.desc("createdAt"));
-        };
-
-        return postRepository.searchByKeywordAndUnivAndCategory(keyword, univName, category, sortedPost)
+        return postRepository.searchByKeywordAndUnivAndCategory(keyword, univName, category, sort)
                 .stream()
                 .map(PostPreviewResponse::from)
                 .toList();
     }
 
     @Transactional(readOnly = true)
-    public List<PostPreviewResponse> getWeeklyHotPostByType(Type type, Long userId){
+    public List<PostPreviewResponse> getWeeklyHotPostByType(Type type, String sort, Long userId){
 
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomUserNotFoundException(ErrorCode.USER_NOT_FOUND));
@@ -513,7 +489,7 @@ public class PostV1Service {
         LocalDateTime end   = today.with(DayOfWeek.SUNDAY).atStartOfDay();
         LocalDateTime start = end.minusWeeks(1);
 
-        return postRepository.findWeeklyHotByType(start, end, user.getUnivName(),type)
+        return postRepository.findWeeklyHotByType(start, end, user.getUnivName(),type,sort)
                 .stream()
                 // .filter(post -> post.getLikeCount()>=3)
                 .map(PostPreviewResponse::from)
@@ -521,7 +497,7 @@ public class PostV1Service {
     }
 
     @Transactional(readOnly = true)
-    public List<PostPreviewResponse> getWeeklyHotPostByCategory(Category category, Long userId){
+    public List<PostPreviewResponse> getWeeklyHotPostByCategory(Category category, String sort, Long userId){
 
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomUserNotFoundException(ErrorCode.USER_NOT_FOUND));
@@ -532,7 +508,7 @@ public class PostV1Service {
         LocalDateTime end   = today.with(DayOfWeek.SUNDAY).atStartOfDay();
         LocalDateTime start = end.minusWeeks(1);
 
-        return postRepository.findWeeklyHotByCategory(start, end, user.getUnivName(),category)
+        return postRepository.findWeeklyHotByCategory(start, end, user.getUnivName(),category,sort)
                 .stream()
                 // .filter(post -> post.getLikeCount()>=3)
                 .map(PostPreviewResponse::from)
@@ -545,17 +521,12 @@ public class PostV1Service {
                 .orElseThrow(() -> new CustomUserNotFoundException(ErrorCode.USER_NOT_FOUND));
         String univName = user.getUnivName();
 
-        Sort sortedPost = switch (sort) {
-            case "like" -> Sort.by(Sort.Order.desc("likeCount"));
-            case "comment" -> Sort.by(Sort.Order.desc("commentCount"));
-            default -> Sort.by(Sort.Order.desc("createdAt"));
-        };
-
-        return postRepository.searchByKeywordAndUniv(keyword, univName, sortedPost)
+        return postRepository.searchByKeywordAndUniv(keyword, univName, sort)
                 .stream()
                 .map(PostPreviewResponse::from)
                 .toList();
     }
+
 
     @Transactional(readOnly = true)
     public List<PostPreviewResponse> getMyPosts(Long userId){
@@ -568,8 +539,6 @@ public class PostV1Service {
                 .map(PostPreviewResponse::from)
                 .collect(Collectors.toList());
     }
-
-
 
     private static Category getCategory(Type type) {
         return switch (type) {
