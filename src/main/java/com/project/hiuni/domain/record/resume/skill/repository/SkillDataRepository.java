@@ -1,6 +1,6 @@
-package com.project.hiuni.domain.resume.skill.repository;
+package com.project.hiuni.domain.record.resume.skill.repository;
 
-import com.project.hiuni.domain.resume.dto.SkillDataDto;
+import com.project.hiuni.domain.record.resume.dto.SkillDataDto;
 import java.util.List;
 import java.util.Optional;
 import lombok.Getter;

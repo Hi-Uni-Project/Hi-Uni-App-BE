@@ -1,4 +1,4 @@
-package com.project.hiuni.domain.resume.dto;
+package com.project.hiuni.domain.record.resume.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;

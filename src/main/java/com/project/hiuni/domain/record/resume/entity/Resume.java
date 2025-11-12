@@ -1,6 +1,6 @@
-package com.project.hiuni.domain.resume.entity;
+package com.project.hiuni.domain.record.resume.entity;
 
-import com.project.hiuni.domain.resume.exception.CustomInvalidException;
+import com.project.hiuni.domain.record.resume.exception.CustomInvalidException;
 import com.project.hiuni.domain.user.entity.User;
 import com.project.hiuni.global.exception.ErrorCode;
 import jakarta.persistence.Entity;

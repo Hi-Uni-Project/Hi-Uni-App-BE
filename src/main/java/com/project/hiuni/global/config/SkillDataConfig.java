@@ -2,8 +2,7 @@ package com.project.hiuni.global.config;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.project.hiuni.domain.resume.dto.SkillDataDto;
-import com.project.hiuni.domain.schedule.dto.CategoryDataDto;
+import com.project.hiuni.domain.record.resume.dto.SkillDataDto;
 import java.io.InputStream;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
