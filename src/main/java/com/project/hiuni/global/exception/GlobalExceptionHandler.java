@@ -14,6 +14,7 @@ import com.project.hiuni.domain.schedule.exception.CustomScheduleNotFoundExcepti
 import com.project.hiuni.domain.tos.exception.RequiredTermsNotAgreedException;
 import com.project.hiuni.domain.user.exception.CustomUserNotFoundException;
 import com.project.hiuni.global.common.dto.response.ResponseDTO;
+import com.project.hiuni.infra.claude.exception.AiCallException;
 import jakarta.validation.ConstraintViolationException;
 import java.time.format.DateTimeParseException;
 import lombok.extern.slf4j.Slf4j;
@@ -164,6 +165,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
   @ExceptionHandler(CustomInvalidException.class)
   public ResponseEntity<ResponseDTO> CustomInvalidException(CustomInvalidException e) {
+    return ResponseEntity.status(e.getErrorCode().getActualStatusCode())
+        .body(ResponseDTO.of(e.getErrorCode()));
+  }
+
+  @ExceptionHandler(AiCallException.class)
+  public ResponseEntity<ResponseDTO> CustomInvalidException(AiCallException e) {
     return ResponseEntity.status(e.getErrorCode().getActualStatusCode())
         .body(ResponseDTO.of(e.getErrorCode()));
   }
