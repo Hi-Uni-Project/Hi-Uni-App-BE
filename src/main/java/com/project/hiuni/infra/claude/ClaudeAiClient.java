@@ -1,5 +1,7 @@
 package com.project.hiuni.infra.claude;
 
+import com.project.hiuni.global.exception.ErrorCode;
+import com.project.hiuni.infra.claude.exception.AiCallException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.anthropic.AnthropicChatModel;
@@ -13,10 +15,11 @@ public class ClaudeAiClient {
 
   public String sendMessage(String prompt) {
     try {
-
+      String aiResponse = chatModel.call(prompt);
+      return aiResponse;
     } catch (Exception e) {
       log.error(e.getMessage(), e);
-      throw new
+      throw new AiCallException(ErrorCode.INTERNAL_SERVER_ERROR);
     }
   }
 
