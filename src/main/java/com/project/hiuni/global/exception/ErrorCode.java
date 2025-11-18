@@ -73,6 +73,7 @@ public enum ErrorCode {
     SELF_ACCESS_ONLY(403, "SELF_ACCESS_ONLY", "본인의 정보만 조회할 수 있습니다."),
     FORBIDDEN(403, "FORBIDDEN", "접근 권한이 없습니다."),
     ACCESS_DENIED(403, "ACCESS_DENIED", "이 기능에 접근할 수 없습니다."),
+    INSUFFICIENT_GENERATION_COUNT(403, "INSUFFICIENT_GENERATION_COUNT", "AI 생성 가능 횟수를 모두 사용했습니다."),
 
 
     // 404 Not Found

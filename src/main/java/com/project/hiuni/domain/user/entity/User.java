@@ -194,4 +194,15 @@ public class User extends BaseEntity {
 	public void changeProfileImage(ProfileImage profileImage) {
 		this.profileImage = profileImage;
 	}
+
+	public void decreaseAiAboutMe() {
+
+	}
+
+	public void decreaseAiCoverLetter() {
+		if(this.coverletterCnt <= 0) {
+			throw
+		}
+
+	}
 }
