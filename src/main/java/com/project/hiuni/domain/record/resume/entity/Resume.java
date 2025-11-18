@@ -1,6 +1,7 @@
 package com.project.hiuni.domain.record.resume.entity;
 
 import com.project.hiuni.domain.record.resume.career.entity.Career;
+import com.project.hiuni.domain.record.resume.education.entity.Education;
 import com.project.hiuni.domain.record.resume.exception.CustomInvalidException;
 import com.project.hiuni.domain.record.resume.project.entity.Project;
 import com.project.hiuni.domain.user.entity.User;
@@ -58,5 +59,7 @@ public class Resume {
   @OneToMany(mappedBy = "resume")
   private List<Project> projects = new ArrayList<>();
 
+  @OneToMany(mappedBy = "education")
+  private List<Education> educations = new ArrayList<>();
 
 }
