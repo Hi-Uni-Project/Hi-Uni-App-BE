@@ -134,8 +134,8 @@ public class User extends BaseEntity {
 				.role(Role.ROLE_USER)
 				.userStatus(UserStatus.ACTIVE)
 				.profileImage(null)
-				.aboutMeCnt(0)
-				.coverletterCnt(0)
+				.aboutMeCnt(5)
+				.coverletterCnt(5)
 				.build();
 	}
 
@@ -165,8 +165,8 @@ public class User extends BaseEntity {
 			.univEmail(univEmail)
 			.nickname(nickname)
 			.imageUrl(imageUrl)
-				.aboutMeCnt(0)
-				.coverletterCnt(0)
+				.aboutMeCnt(5)
+				.coverletterCnt(5)
 			.role(Role.ROLE_ADMIN)
 			.build();
 	}

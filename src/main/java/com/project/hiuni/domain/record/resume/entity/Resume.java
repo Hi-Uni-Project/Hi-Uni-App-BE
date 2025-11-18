@@ -1,5 +1,6 @@
 package com.project.hiuni.domain.record.resume.entity;
 
+import com.project.hiuni.domain.record.resume.career.entity.Career;
 import com.project.hiuni.domain.record.resume.exception.CustomInvalidException;
 import com.project.hiuni.domain.user.entity.User;
 import com.project.hiuni.global.exception.ErrorCode;
@@ -12,8 +13,11 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -48,6 +52,9 @@ public class Resume {
   @OneToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id")
   public User user;
+
+  @OneToMany(mappedBy = "resume")
+  private List<Career> careers = new ArrayList<>();
 
   /**
    * AI 내 소개 생성 가능 횟수 감소 메서드 입니다.
