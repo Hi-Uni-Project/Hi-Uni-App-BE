@@ -2,6 +2,7 @@ package com.project.hiuni.domain.record.resume.entity;
 
 import com.project.hiuni.domain.record.resume.career.entity.Career;
 import com.project.hiuni.domain.record.resume.exception.CustomInvalidException;
+import com.project.hiuni.domain.record.resume.project.entity.Project;
 import com.project.hiuni.domain.user.entity.User;
 import com.project.hiuni.global.exception.ErrorCode;
 import jakarta.persistence.Entity;
@@ -55,6 +56,9 @@ public class Resume {
 
   @OneToMany(mappedBy = "resume")
   private List<Career> careers = new ArrayList<>();
+
+  @OneToMany(mappedBy = "resume")
+  private List<Project> projects = new ArrayList<>();
 
   /**
    * AI 내 소개 생성 가능 횟수 감소 메서드 입니다.
