@@ -4,7 +4,9 @@ import com.project.hiuni.admin.common.BaseEntity;
 import com.project.hiuni.domain.auth.dto.request.AuthSignUpRequest.Univ;
 import com.project.hiuni.domain.auth.entity.Auth;
 import com.project.hiuni.domain.auth.entity.SocialProvider;
+import com.project.hiuni.domain.record.exception.InsufficientGenerationCountException;
 import com.project.hiuni.domain.user.dto.request.UserPostRequest;
+import com.project.hiuni.global.exception.ErrorCode;
 import com.project.hiuni.global.security.core.Role;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -196,13 +198,17 @@ public class User extends BaseEntity {
 	}
 
 	public void decreaseAiAboutMe() {
-
+		if(this.aboutMeCnt <= 0) {
+			throw new InsufficientGenerationCountException(ErrorCode.INSUFFICIENT_GENERATION_COUNT);
+		}
+		this.aboutMeCnt -= 1;
 	}
 
 	public void decreaseAiCoverLetter() {
 		if(this.coverletterCnt <= 0) {
-			throw
+			throw new InsufficientGenerationCountException(ErrorCode.INSUFFICIENT_GENERATION_COUNT);
 		}
-
+		this.coverletterCnt -= 1;
 	}
+
 }
