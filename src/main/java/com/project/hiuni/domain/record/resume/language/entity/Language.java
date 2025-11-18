@@ -1,9 +1,15 @@
 package com.project.hiuni.domain.record.resume.language.entity;
 
+import com.project.hiuni.domain.record.resume.entity.Resume;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -22,6 +28,10 @@ public class Language {
 
   private String language;
 
+  @Enumerated(EnumType.STRING)
+  private Level level;
 
-
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "resume_id")
+  private Resume resume;
 }

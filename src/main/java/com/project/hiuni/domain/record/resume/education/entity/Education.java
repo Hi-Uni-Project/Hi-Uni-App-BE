@@ -2,6 +2,8 @@ package com.project.hiuni.domain.record.resume.education.entity;
 
 import com.project.hiuni.domain.record.resume.entity.Resume;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -30,6 +32,7 @@ public class Education {
   private LocalDateTime startDate; //재학 기간(입학일)
   private LocalDateTime endDate; //재학 기간(졸업일)
 
+  @Enumerated(EnumType.STRING)
   private GraduationStatus graduationStatus;
 
   private String major;
