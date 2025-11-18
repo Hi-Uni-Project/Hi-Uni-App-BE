@@ -57,6 +57,9 @@ public class User extends BaseEntity {
 
 	private String imageUrl;
 
+	private Integer aboutMeCnt;
+	private Integer coverletterCnt;
+
 	@Enumerated(EnumType.STRING)
 	private Role role;
 
@@ -82,7 +85,9 @@ public class User extends BaseEntity {
 		String imageUrl,
 		Role role,
 		UserStatus userStatus,
-		ProfileImage profileImage
+		ProfileImage profileImage,
+		Integer aboutMeCnt,
+		Integer coverletterCnt
 	) {
 
 		this.id = id;
@@ -99,6 +104,8 @@ public class User extends BaseEntity {
 		this.role = role;
 		this.userStatus = userStatus;
 		this.profileImage = profileImage;
+		this.aboutMeCnt = aboutMeCnt;
+		this.coverletterCnt = coverletterCnt;
 	}
 
 	/**
@@ -125,6 +132,8 @@ public class User extends BaseEntity {
 				.role(Role.ROLE_USER)
 				.userStatus(UserStatus.ACTIVE)
 				.profileImage(null)
+				.aboutMeCnt(0)
+				.coverletterCnt(0)
 				.build();
 	}
 
@@ -154,6 +163,8 @@ public class User extends BaseEntity {
 			.univEmail(univEmail)
 			.nickname(nickname)
 			.imageUrl(imageUrl)
+				.aboutMeCnt(0)
+				.coverletterCnt(0)
 			.role(Role.ROLE_ADMIN)
 			.build();
 	}
