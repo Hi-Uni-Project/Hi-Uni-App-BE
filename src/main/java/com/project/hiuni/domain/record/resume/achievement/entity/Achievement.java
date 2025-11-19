@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 @Entity
@@ -38,6 +39,7 @@ public class Achievement {
   @Lob
   private String achievementDescription;
 
+  @Setter
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "resume_id")
   private Resume resume;

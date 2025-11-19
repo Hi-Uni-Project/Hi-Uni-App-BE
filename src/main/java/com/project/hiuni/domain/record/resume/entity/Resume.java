@@ -7,8 +7,10 @@ import com.project.hiuni.domain.record.resume.exception.CustomInvalidException;
 import com.project.hiuni.domain.record.resume.language.entity.Language;
 import com.project.hiuni.domain.record.resume.link.entity.Link;
 import com.project.hiuni.domain.record.resume.project.entity.Project;
+import com.project.hiuni.domain.record.resume.skill.entity.Skill;
 import com.project.hiuni.domain.user.entity.User;
 import com.project.hiuni.global.exception.ErrorCode;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -56,21 +58,59 @@ public class Resume {
   @JoinColumn(name = "user_id")
   public User user;
 
-  @OneToMany(mappedBy = "resume")
+  @OneToMany(mappedBy = "resume", cascade = CascadeType.ALL)
   private List<Career> careers = new ArrayList<>();
 
-  @OneToMany(mappedBy = "resume")
+  @OneToMany(mappedBy = "resume", cascade = CascadeType.ALL)
   private List<Project> projects = new ArrayList<>();
 
-  @OneToMany(mappedBy = "resume")
+  @OneToMany(mappedBy = "resume", cascade = CascadeType.ALL)
   private List<Education> educations = new ArrayList<>();
 
-  @OneToMany(mappedBy = "resume")
+  @OneToMany(mappedBy = "resume", cascade = CascadeType.ALL)
   private List<Language> languages = new ArrayList<>();
 
-  @OneToMany(mappedBy = "resume")
+  @OneToMany(mappedBy = "resume", cascade = CascadeType.ALL)
   private List<Achievement> achievements = new ArrayList<>();
 
-  @OneToMany(mappedBy = "resume")
+  @OneToMany(mappedBy = "resume", cascade = CascadeType.ALL)
   private List<Link> links = new ArrayList<>();
+
+  @OneToMany(mappedBy = "resume", cascade = CascadeType.ALL)
+  private List<Skill> skills = new ArrayList<>();
+
+  public void addCareer(Career career) {
+    this.careers.add(career);
+    career.setResume(this);
+  }
+
+  public void addProject(Project project) {
+    this.projects.add(project);
+    project.setResume(this);
+  }
+
+  public void addEducation(Education education) {
+    this.educations.add(education);
+    education.setResume(this);
+  }
+
+  public void addLanguage(Language language) {
+    this.languages.add(language);
+    language.setResume(this);
+  }
+
+  public void addAchievement(Achievement achievement) {
+    this.achievements.add(achievement);
+    achievement.setResume(this);
+  }
+
+  public void addLink(Link link) {
+    this.links.add(link);
+    link.setResume(this);
+  }
+
+  public void addSkill(Skill skill) {
+    this.skills.add(skill);
+    skill.setResume(this);
+  }
 }
