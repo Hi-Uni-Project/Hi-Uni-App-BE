@@ -170,6 +170,7 @@ public class ResumeController {
                 AchievementResponse
                     .builder()
                     .achievementId(1L)
+                    .activityName("대한민국 패키징 디자인 대회 대상")
                     .periodDate(LocalDateTime.now().minusMonths(1))
                     .type(Type.AWARD)
                     .achievementDescription("숟가락 없이도 편리하게 떠먹을 수 있는 요거트 뚜껑스푼")
@@ -177,6 +178,7 @@ public class ResumeController {
                 AchievementResponse
                     .builder()
                     .achievementId(2L)
+                    .activityName("정보처리기사")
                     .periodDate(LocalDateTime.now().minusMonths(6))
                     .type(Type.CERTIFICATE)
                     .achievementDescription("정보처리기사 자격증 취득")
@@ -184,6 +186,7 @@ public class ResumeController {
                 AchievementResponse
                     .builder()
                     .achievementId(3L)
+                    .activityName("2024 해커톤 대회")
                     .periodDate(LocalDateTime.now().minusYears(1))
                     .type(Type.AWARD)
                     .achievementDescription("2024 해커톤 대회 최우수상 수상")
@@ -191,6 +194,7 @@ public class ResumeController {
                 AchievementResponse
                     .builder()
                     .achievementId(4L)
+                    .activityName("AWS Certified Solutions Architect Associate")
                     .periodDate(LocalDateTime.now().minusMonths(3))
                     .type(Type.CERTIFICATE)
                     .achievementDescription("AWS Certified Solutions Architect Associate 자격증 취득")
