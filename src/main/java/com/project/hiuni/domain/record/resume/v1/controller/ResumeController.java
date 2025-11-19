@@ -46,6 +46,7 @@ public class ResumeController {
         .imageUrl(imageUrl)
         .title("하이유니 개발자 이력서 2025")
         .aboutMe("안녕하세요! 사용자 중심의 안정적인 백엔드 개발을 지향하는 김유니입니다. 다양한 프로젝트 경험과 문제 해결 능력을 바탕으로 귀사에 기여하고 싶습니다.")
+        .aboutMeCnt(5)
         .careers(
             List.of(
                 CareerResponse

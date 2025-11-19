@@ -31,6 +31,8 @@ public class ResumeResponse {
 
   private String aboutMe; //내 소개
 
+  private Integer aboutMeCnt; //내 소개 생성가능 횟수
+
   private List<CareerResponse> careers; //경력사항
   @JsonProperty("careersSize")
   public int getCareersSize() {
