@@ -23,7 +23,7 @@ public class SkillDataConfig {
   @Bean
   public List<SkillDataDto> loadSkillData() {
     try {
-      Resource resource = resourceLoader.getResource("classpath:static/data/scheduleCategoryData.json");
+      Resource resource = resourceLoader.getResource("classpath:static/data/skillData.json");
       InputStream inputStream = resource.getInputStream();
       return objectMapper.readValue(inputStream,
           new TypeReference<List<SkillDataDto>>() {});
