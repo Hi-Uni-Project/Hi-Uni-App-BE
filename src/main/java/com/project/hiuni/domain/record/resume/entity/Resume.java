@@ -52,11 +52,11 @@ public class Resume {
   @Lob
   private String aboutMe;
 
-  public String imageUrl;
+  private String imageUrl;
 
   @OneToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id")
-  public User user;
+  private User user;
 
   @OneToMany(mappedBy = "resume", cascade = CascadeType.ALL)
   private List<Career> careers = new ArrayList<>();
