@@ -1,5 +1,6 @@
 package com.project.hiuni.domain.record.resume.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.project.hiuni.domain.record.resume.achievement.dto.response.AchievementResponse;
 import com.project.hiuni.domain.record.resume.career.dto.response.CareerResponse;
 import com.project.hiuni.domain.record.resume.career.entity.Career;
@@ -31,11 +32,46 @@ public class ResumeResponse {
   private String aboutMe; //내 소개
 
   private List<CareerResponse> careers; //경력사항
+  @JsonProperty("careersSize")
+  public int getCareersSize() {
+    return careers != null ? careers.size() : 0;
+  }
+
   private List<ProjectResponse> projects; //프로젝트
+  @JsonProperty("projectsSize")
+  public int getProjectsSize() {
+    return projects != null ? projects.size() : 0;
+  }
+
   private List<EducationResponse> educations; //학력
+  @JsonProperty("educationsSize")
+  public int getEducationsSize() {
+    return educations != null ? educations.size() : 0;
+  }
+
   private List<LanguageResponse> languages; //어학
+  @JsonProperty("languagesSize")
+  public int getLanguagesSize() {
+    return languages != null ? languages.size() : 0;
+  }
+
   private List<AchievementResponse> achievements; //수상/자격증/교육
+  @JsonProperty("achievementsSize")
+  public int getAchievementsSize() {
+    return achievements != null ? achievements.size() : 0;
+  }
+
   private List<LinkResponse> links; //링크
+  @JsonProperty("linksSize")
+  public int getLinksSize() {
+    return links != null ? links.size() : 0;
+  }
+
   private List<SkillDataDto> skills; //스킬
+  @JsonProperty("skillsSize")
+  public int getSkillsSize() {
+    return skills != null ? skills.size() : 0;
+  }
+
 
 }
