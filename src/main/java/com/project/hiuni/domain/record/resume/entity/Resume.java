@@ -5,6 +5,7 @@ import com.project.hiuni.domain.record.resume.career.entity.Career;
 import com.project.hiuni.domain.record.resume.education.entity.Education;
 import com.project.hiuni.domain.record.resume.exception.CustomInvalidException;
 import com.project.hiuni.domain.record.resume.language.entity.Language;
+import com.project.hiuni.domain.record.resume.link.entity.Link;
 import com.project.hiuni.domain.record.resume.project.entity.Project;
 import com.project.hiuni.domain.user.entity.User;
 import com.project.hiuni.global.exception.ErrorCode;
@@ -70,4 +71,6 @@ public class Resume {
   @OneToMany(mappedBy = "resume")
   private List<Achievement> achievements = new ArrayList<>();
 
+  @OneToMany(mappedBy = "resume")
+  private List<Link> links = new ArrayList<>();
 }
