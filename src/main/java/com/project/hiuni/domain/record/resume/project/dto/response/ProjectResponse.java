@@ -10,6 +10,8 @@ import lombok.Setter;
 @Builder
 public class ProjectResponse {
 
+  private Long projectId;
+
   private String projectName;
 
   private LocalDateTime startDate; //활동 기간(시작일)

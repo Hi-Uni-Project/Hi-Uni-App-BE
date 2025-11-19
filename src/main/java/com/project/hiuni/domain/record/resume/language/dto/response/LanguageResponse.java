@@ -9,6 +9,8 @@ import lombok.Setter;
 @Setter
 @Builder
 public class LanguageResponse {
+  private Long languageId;
+
   private String language;
 
   private Level level;

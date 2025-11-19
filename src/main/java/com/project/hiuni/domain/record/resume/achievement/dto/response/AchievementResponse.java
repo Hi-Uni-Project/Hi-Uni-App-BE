@@ -14,6 +14,8 @@ import lombok.Setter;
 @Setter
 @Builder
 public class AchievementResponse {
+  private Long achievementId;
+
   private String activityName;
 
   private LocalDateTime periodDate;

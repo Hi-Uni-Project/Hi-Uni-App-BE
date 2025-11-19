@@ -11,6 +11,8 @@ import lombok.Setter;
 @Builder
 public class CareerResponse {
 
+  private Long careerId;
+
   private String companyName;
 
   private LocalDateTime startDate; //재직 기간(시작일)

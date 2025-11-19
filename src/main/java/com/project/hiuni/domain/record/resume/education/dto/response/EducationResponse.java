@@ -11,6 +11,8 @@ import lombok.Setter;
 @Builder
 public class EducationResponse {
 
+  private Long educationId;
+
   private String universityName;
 
   private LocalDateTime startDate; //재학 기간(입학일)
