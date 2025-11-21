@@ -14,6 +14,7 @@ import com.project.hiuni.domain.auth.exception.ProviderNotFoundException;
 import com.project.hiuni.domain.auth.repository.AuthRepository;
 import com.project.hiuni.domain.tos.service.TosService;
 import com.project.hiuni.domain.user.entity.User;
+import com.project.hiuni.domain.user.exception.CustomUserNotFoundException;
 import com.project.hiuni.domain.user.repository.UserRepository;
 import com.project.hiuni.global.exception.ErrorCode;
 import com.project.hiuni.global.exception.InternalServerException;
@@ -26,6 +27,7 @@ import com.project.hiuni.infra.naver.NaverApiClient;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -67,8 +69,9 @@ public class AuthService {
       }
 
       // 이미 가입된 유저인 경우 로그인 처리
-      if (userRepository.findBySocialId(socialId).isPresent() ) {
-        User user = userRepository.findBySocialId(socialId).orElse(null);
+      if (userRepository.findBySocialId(socialId).isPresent()) {
+        User user = userRepository.findBySocialId(socialId)
+            .orElseThrow(() -> new CustomUserNotFoundException(ErrorCode.USER_NOT_FOUND));
 
         Auth auth = user.getAuth();
 
@@ -89,13 +92,38 @@ public class AuthService {
         String newRefreshToken = auth.getRefreshToken();
         String accessToken = jwtTokenProvider.createAccessToken(newRefreshToken);
 
+        AuthSocialResponse.User userDataInfo;
 
+        if(!isFinalSignUp(user)) {
+          userDataInfo = null;
+        } else {
+          userDataInfo = AuthSocialResponse.User
+              .builder()
+              .univ(
+                  AuthSocialResponse.Univ
+                      .builder()
+                      .univName(user.getUnivName())
+                      .firstMajorName(user.getFirstMajorName())
+                      .secondMajorName(user.getSecondMajorName())
+                      .univEmail(user.getUnivEmail())
+                      .build()
+              )
+              .social(
+                  AuthSocialResponse.Social
+                      .builder()
+                      .socialEmail(user.getSocialEmail())
+                      .provider(user.getSocialProvider())
+                      .build()
+              )
+              .build();
+        }
 
         return AuthSocialResponse
             .builder()
             .accessToken(accessToken)
             .refreshToken(newRefreshToken)
             .isSignUp(isFinalSignUp(user))
+            .user(userDataInfo)
             .build();
       }
 
@@ -115,6 +143,7 @@ public class AuthService {
           .accessToken(accessToken)
           .refreshToken(refreshToken)
           .isSignUp(false)
+          .user(null)
           .build();
     }
 
@@ -157,11 +186,38 @@ public class AuthService {
         String newRefreshToken = auth.getRefreshToken();
         String accessToken = jwtTokenProvider.createAccessToken(newRefreshToken);
 
+        AuthSocialResponse.User userDataInfo;
+
+        if(!isFinalSignUp(user)) {
+          userDataInfo = null;
+        } else {
+          userDataInfo = AuthSocialResponse.User
+              .builder()
+              .univ(
+                  AuthSocialResponse.Univ
+                      .builder()
+                      .univName(user.getUnivName())
+                      .firstMajorName(user.getFirstMajorName())
+                      .secondMajorName(user.getSecondMajorName())
+                      .univEmail(user.getUnivEmail())
+                      .build()
+              )
+              .social(
+                  AuthSocialResponse.Social
+                      .builder()
+                      .socialEmail(user.getSocialEmail())
+                      .provider(user.getSocialProvider())
+                      .build()
+              )
+              .build();
+        }
+
         return AuthSocialResponse
             .builder()
             .accessToken(accessToken)
             .refreshToken(newRefreshToken)
             .isSignUp(isFinalSignUp(user))
+            .user(userDataInfo)
             .build();
       }
 
@@ -181,6 +237,7 @@ public class AuthService {
           .accessToken(accessToken)
           .refreshToken(refreshToken)
           .isSignUp(false)
+          .user(null)
           .build();
     }
 
@@ -221,11 +278,38 @@ public class AuthService {
           String newRefreshToken = auth.getRefreshToken();
           String accessToken = jwtTokenProvider.createAccessToken(newRefreshToken);
 
+          AuthSocialResponse.User userDataInfo;
+
+          if(!isFinalSignUp(user)) {
+            userDataInfo = null;
+          } else {
+            userDataInfo = AuthSocialResponse.User
+                .builder()
+                .univ(
+                    AuthSocialResponse.Univ
+                        .builder()
+                        .univName(user.getUnivName())
+                        .firstMajorName(user.getFirstMajorName())
+                        .secondMajorName(user.getSecondMajorName())
+                        .univEmail(user.getUnivEmail())
+                        .build()
+                )
+                .social(
+                    AuthSocialResponse.Social
+                        .builder()
+                        .socialEmail(user.getSocialEmail())
+                        .provider(user.getSocialProvider())
+                        .build()
+                )
+                .build();
+          }
+
           return AuthSocialResponse
               .builder()
               .accessToken(accessToken)
               .refreshToken(newRefreshToken)
               .isSignUp(isFinalSignUp(user))
+              .user(userDataInfo)
               .build();
         }
 
@@ -245,6 +329,7 @@ public class AuthService {
             .accessToken(accessToken)
             .refreshToken(refreshToken)
             .isSignUp(false)
+            .user(null)
             .build();
       }
 
