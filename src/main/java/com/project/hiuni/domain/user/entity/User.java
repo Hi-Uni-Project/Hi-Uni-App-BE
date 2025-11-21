@@ -4,7 +4,9 @@ import com.project.hiuni.admin.common.BaseEntity;
 import com.project.hiuni.domain.auth.dto.request.AuthSignUpRequest.Univ;
 import com.project.hiuni.domain.auth.entity.Auth;
 import com.project.hiuni.domain.auth.entity.SocialProvider;
+import com.project.hiuni.domain.record.exception.InsufficientGenerationCountException;
 import com.project.hiuni.domain.user.dto.request.UserPostRequest;
+import com.project.hiuni.global.exception.ErrorCode;
 import com.project.hiuni.global.security.core.Role;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -57,6 +59,9 @@ public class User extends BaseEntity {
 
 	private String imageUrl;
 
+	private Integer aboutMeCnt;
+	private Integer coverletterCnt;
+
 	@Enumerated(EnumType.STRING)
 	private Role role;
 
@@ -82,7 +87,9 @@ public class User extends BaseEntity {
 		String imageUrl,
 		Role role,
 		UserStatus userStatus,
-		ProfileImage profileImage
+		ProfileImage profileImage,
+		Integer aboutMeCnt,
+		Integer coverletterCnt
 	) {
 
 		this.id = id;
@@ -99,6 +106,8 @@ public class User extends BaseEntity {
 		this.role = role;
 		this.userStatus = userStatus;
 		this.profileImage = profileImage;
+		this.aboutMeCnt = aboutMeCnt;
+		this.coverletterCnt = coverletterCnt;
 	}
 
 	/**
@@ -125,6 +134,8 @@ public class User extends BaseEntity {
 				.role(Role.ROLE_USER)
 				.userStatus(UserStatus.ACTIVE)
 				.profileImage(null)
+				.aboutMeCnt(5)
+				.coverletterCnt(5)
 				.build();
 	}
 
@@ -154,6 +165,8 @@ public class User extends BaseEntity {
 			.univEmail(univEmail)
 			.nickname(nickname)
 			.imageUrl(imageUrl)
+				.aboutMeCnt(5)
+				.coverletterCnt(5)
 			.role(Role.ROLE_ADMIN)
 			.build();
 	}
@@ -183,4 +196,19 @@ public class User extends BaseEntity {
 	public void changeProfileImage(ProfileImage profileImage) {
 		this.profileImage = profileImage;
 	}
+
+	public void decreaseAiAboutMe() {
+		if(this.aboutMeCnt <= 0) {
+			throw new InsufficientGenerationCountException(ErrorCode.INSUFFICIENT_GENERATION_COUNT);
+		}
+		this.aboutMeCnt -= 1;
+	}
+
+	public void decreaseAiCoverLetter() {
+		if(this.coverletterCnt <= 0) {
+			throw new InsufficientGenerationCountException(ErrorCode.INSUFFICIENT_GENERATION_COUNT);
+		}
+		this.coverletterCnt -= 1;
+	}
+
 }
