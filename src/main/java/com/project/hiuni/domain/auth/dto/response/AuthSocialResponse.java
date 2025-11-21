@@ -19,8 +19,20 @@ public class AuthSocialResponse {
   @Setter
   @Builder
   public static class User {
+    private Tos tos;
     private Univ univ;
     private Social social;
+  }
+
+  @Getter
+  @Setter
+  @Builder
+  public static class Tos {
+    private Boolean serviceTosIsAgreed;
+    private Boolean personalInfoTosIsAgreed;
+    private Boolean marketingTosIsAgreed;
+    private Boolean serviceImprovementTosIsAgreed;
+    private Boolean inPersonTosIsAgreed;
   }
 
   @Getter
@@ -40,5 +52,7 @@ public class AuthSocialResponse {
     private String socialEmail;
     private SocialProvider provider;
   }
+
+
 
 }

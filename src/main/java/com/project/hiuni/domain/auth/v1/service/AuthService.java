@@ -12,6 +12,11 @@ import com.project.hiuni.domain.auth.entity.Auth;
 import com.project.hiuni.domain.auth.entity.SocialProvider;
 import com.project.hiuni.domain.auth.exception.ProviderNotFoundException;
 import com.project.hiuni.domain.auth.repository.AuthRepository;
+import com.project.hiuni.domain.tos.repository.InPersonTosHistoryRepository;
+import com.project.hiuni.domain.tos.repository.MarketingTosHistoryRepository;
+import com.project.hiuni.domain.tos.repository.PersonalInfoTosHistoryRepository;
+import com.project.hiuni.domain.tos.repository.ServiceImprovementTosHistoryRepository;
+import com.project.hiuni.domain.tos.repository.ServiceTosHistoryRepository;
 import com.project.hiuni.domain.tos.service.TosService;
 import com.project.hiuni.domain.user.entity.User;
 import com.project.hiuni.domain.user.exception.CustomUserNotFoundException;
@@ -47,6 +52,12 @@ public class AuthService {
   private final AuthRepository authRepository;
 
   private final TosService tosService;
+
+  private final ServiceTosHistoryRepository serviceTosHistoryRepository;
+  private final PersonalInfoTosHistoryRepository personalInfoTosHistoryRepository;
+  private final MarketingTosHistoryRepository marketingTosHistoryRepository;
+  private final ServiceImprovementTosHistoryRepository serviceImprovementTosHistoryRepository;
+  private final InPersonTosHistoryRepository inPersonTosHistoryRepository;
 
 
 
@@ -99,6 +110,7 @@ public class AuthService {
         } else {
           userDataInfo = AuthSocialResponse.User
               .builder()
+              .tos(getTosAgreeInfo(user))
               .univ(
                   AuthSocialResponse.Univ
                       .builder()
@@ -193,6 +205,7 @@ public class AuthService {
         } else {
           userDataInfo = AuthSocialResponse.User
               .builder()
+              .tos(getTosAgreeInfo(user))
               .univ(
                   AuthSocialResponse.Univ
                       .builder()
@@ -285,6 +298,7 @@ public class AuthService {
           } else {
             userDataInfo = AuthSocialResponse.User
                 .builder()
+                .tos(getTosAgreeInfo(user))
                 .univ(
                     AuthSocialResponse.Univ
                         .builder()
@@ -403,6 +417,18 @@ public class AuthService {
       return false;
     }
     return true;
+  }
+
+  @Transactional(readOnly = true)
+  public AuthSocialResponse.Tos getTosAgreeInfo(User user) {
+    return AuthSocialResponse.Tos
+        .builder()
+        .serviceTosIsAgreed(serviceTosHistoryRepository.existsByUser(user))
+        .personalInfoTosIsAgreed(personalInfoTosHistoryRepository.existsByUser(user))
+        .marketingTosIsAgreed(marketingTosHistoryRepository.existsByUser(user))
+        .serviceImprovementTosIsAgreed(serviceImprovementTosHistoryRepository.existsByUser(user))
+        .inPersonTosIsAgreed(inPersonTosHistoryRepository.existsByUser(user))
+        .build();
   }
 
 }
