@@ -1,4 +1,4 @@
-package com.project.hiuni.domain.record.resume.education.dto.response;
+package com.project.hiuni.domain.record.resume.education.dto;
 
 import com.project.hiuni.domain.record.resume.education.entity.GraduationStatus;
 import java.time.LocalDateTime;
@@ -9,7 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class EducationResponse {
+public class EducationDto {
 
   private Long educationId;
 

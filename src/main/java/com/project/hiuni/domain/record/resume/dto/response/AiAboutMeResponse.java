@@ -9,6 +9,7 @@ import lombok.Setter;
 @Builder
 public class AiAboutMeResponse {
 
+  private int aboutMeCnt;
   private String aboutMe;
 
 }

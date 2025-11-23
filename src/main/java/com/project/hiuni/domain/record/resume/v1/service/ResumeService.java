@@ -4,6 +4,7 @@ import com.project.hiuni.domain.post.entity.Post;
 import com.project.hiuni.domain.post.exception.CustomPostNotFoundException;
 import com.project.hiuni.domain.post.repository.PostRepository;
 import com.project.hiuni.domain.record.exception.InsufficientGenerationCountException;
+import com.project.hiuni.domain.record.resume.dto.response.AiAboutMeResponse;
 import com.project.hiuni.domain.record.resume.exception.CustomInvalidException;
 import com.project.hiuni.domain.user.entity.User;
 import com.project.hiuni.domain.user.exception.CustomUserNotFoundException;
@@ -29,7 +30,7 @@ public class ResumeService {
   private final ClaudeAiClient claudeAiClient;
 
   @Transactional
-  public String getAiAboutMe(Long userId) {
+  public AiAboutMeResponse getAiAboutMe(Long userId) {
 
     try {
       User user = userRepository.findById(userId)
@@ -54,7 +55,10 @@ public class ResumeService {
 
       user.decreaseAiAboutMe();
 
-      return response;
+      return AiAboutMeResponse.builder()
+          .aboutMeCnt(user.getAboutMeCnt())
+          .aboutMe(response)
+          .build();
     } catch (Exception e) {
       log.info("AI 자기소개서 생성 실패: {}", e.getMessage());
       throw new InternalServerException(ErrorCode.INTERNAL_SERVER_ERROR);

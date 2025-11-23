@@ -1,4 +1,4 @@
-package com.project.hiuni.domain.record.resume.project.dto.response;
+package com.project.hiuni.domain.record.resume.project.dto;
 
 import java.time.LocalDateTime;
 import lombok.Builder;
@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class ProjectResponse {
+public class ProjectDto {
 
   private Long projectId;
 

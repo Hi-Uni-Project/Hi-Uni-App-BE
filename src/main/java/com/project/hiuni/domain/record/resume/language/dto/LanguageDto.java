@@ -1,4 +1,4 @@
-package com.project.hiuni.domain.record.resume.language.dto.response;
+package com.project.hiuni.domain.record.resume.language.dto;
 
 import com.project.hiuni.domain.record.resume.language.entity.Level;
 import lombok.Builder;
@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class LanguageResponse {
+public class LanguageDto {
   private Long languageId;
 
   private String language;

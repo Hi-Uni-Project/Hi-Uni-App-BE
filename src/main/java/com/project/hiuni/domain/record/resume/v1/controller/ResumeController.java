@@ -1,18 +1,18 @@
 package com.project.hiuni.domain.record.resume.v1.controller;
 
 
-import com.project.hiuni.domain.record.resume.achievement.dto.response.AchievementResponse;
+import com.project.hiuni.domain.record.resume.achievement.dto.AchievementDto;
 import com.project.hiuni.domain.record.resume.achievement.entity.Type;
-import com.project.hiuni.domain.record.resume.career.dto.response.CareerResponse;
+import com.project.hiuni.domain.record.resume.career.dto.CareerDto;
 import com.project.hiuni.domain.record.resume.dto.response.AiAboutMeResponse;
 import com.project.hiuni.domain.record.resume.dto.response.ResumeResponse;
-import com.project.hiuni.domain.record.resume.education.dto.response.EducationResponse;
+import com.project.hiuni.domain.record.resume.education.dto.EducationDto;
 import com.project.hiuni.domain.record.resume.education.entity.GraduationStatus;
 import com.project.hiuni.domain.record.resume.entity.Gender;
-import com.project.hiuni.domain.record.resume.language.dto.response.LanguageResponse;
+import com.project.hiuni.domain.record.resume.language.dto.LanguageDto;
 import com.project.hiuni.domain.record.resume.language.entity.Level;
-import com.project.hiuni.domain.record.resume.link.dto.response.LinkResponse;
-import com.project.hiuni.domain.record.resume.project.dto.response.ProjectResponse;
+import com.project.hiuni.domain.record.resume.link.dto.LinkDto;
+import com.project.hiuni.domain.record.resume.project.dto.ProjectDto;
 import com.project.hiuni.domain.record.resume.skill.repository.SkillDataRepository;
 import com.project.hiuni.domain.record.resume.v1.service.ResumeService;
 import com.project.hiuni.global.common.dto.response.ResponseDTO;
@@ -39,18 +39,14 @@ public class ResumeController {
   private final ResumeService resumeService;
 
   @PostMapping
+  public ResponseDTO<?> createOrUpdate()
 
   @GetMapping("/ai-about-me")
   public ResponseDTO<AiAboutMeResponse> getAiAboutMe(@AuthenticationPrincipal CustomUserDetails userDetails) {
-    String response;
-    response = resumeService.getAiAboutMe(userDetails.getId());
 
-    return ResponseDTO.of(
-        AiAboutMeResponse
-            .builder()
-            .aboutMe(response)
-            .build()
-    , "AI 자기소개 생성에 성공하였습니다.");
+    AiAboutMeResponse response = resumeService.getAiAboutMe(userDetails.getId());
+
+    return ResponseDTO.of(response, "AI 자기소개 생성에 성공하였습니다.");
   }
 
 
@@ -69,9 +65,9 @@ public class ResumeController {
         .title("하이유니 개발자 이력서 2025")
         .aboutMe("안녕하세요! 사용자 중심의 안정적인 백엔드 개발을 지향하는 김유니입니다. 다양한 프로젝트 경험과 문제 해결 능력을 바탕으로 귀사에 기여하고 싶습니다.")
         .aboutMeCnt(5)
-        .careers(
+        .careerDtos(
             List.of(
-                CareerResponse
+                CareerDto
                     .builder()
                     .careerId(1L)
                     .companyName("카카오")
@@ -81,7 +77,7 @@ public class ResumeController {
                     .position("인턴")
                     .jobDescription("카카오톡 및 관련 서비스의 UI 개선 작업")
                     .build(),
-                CareerResponse
+                CareerDto
                     .builder()
                     .careerId(2L)
                     .companyName("네이버")
@@ -91,7 +87,7 @@ public class ResumeController {
                     .position("주니어")
                     .jobDescription("네이버 통합검색 API 개발 및 성능 최적화")
                     .build(),
-                CareerResponse
+                CareerDto
                     .builder()
                     .careerId(3L)
                     .companyName("토스")
@@ -101,7 +97,7 @@ public class ResumeController {
                     .position("시니어")
                     .jobDescription("토스뱅크 웹 서비스 개발 및 UI/UX 개선")
                     .build(),
-                CareerResponse
+                CareerDto
                     .builder()
                     .careerId(4L)
                     .companyName("우아한형제들")
@@ -115,7 +111,7 @@ public class ResumeController {
         )
         .projects(
             List.of(
-                ProjectResponse
+                ProjectDto
                     .builder()
                     .projectId(1L)
                     .projectName("하이유니 프로젝트")
@@ -124,7 +120,7 @@ public class ResumeController {
                     .role("UI디자이너")
                     .experienceDescription("하이유니 UI 디자인 및 컴포넌트, 디자인시스템 제작")
                     .build(),
-                ProjectResponse
+                ProjectDto
                     .builder()
                     .projectId(2L)
                     .projectName("AI 챗봇 서비스 개발")
@@ -133,7 +129,7 @@ public class ResumeController {
                     .role("백엔드 개발자")
                     .experienceDescription("Spring Boot 기반 챗봇 API 서버 구축 및 LLM 연동")
                     .build(),
-                ProjectResponse
+                ProjectDto
                     .builder()
                     .projectId(3L)
                     .projectName("전자상거래 플랫폼 리뉴얼")
@@ -142,7 +138,7 @@ public class ResumeController {
                     .role("프론트엔드 개발자")
                     .experienceDescription("React 기반 사용자 대시보드 개발 및 반응형 UI 구현")
                     .build(),
-                ProjectResponse
+                ProjectDto
                     .builder()
                     .projectId(4L)
                     .projectName("사내 업무 자동화 시스템")
@@ -155,7 +151,7 @@ public class ResumeController {
         )
         .educations(
             List.of(
-                EducationResponse
+                EducationDto
                     .builder()
                     .educationId(1L)
                     .universityName("유니 대학교")
@@ -168,19 +164,19 @@ public class ResumeController {
         )
         .languages(
             List.of(
-                LanguageResponse
+                LanguageDto
                     .builder()
                     .languageId(1L)
                     .language("영어")
                     .level(Level.BUSINESS)
                     .build(),
-                LanguageResponse
+                LanguageDto
                     .builder()
                     .languageId(2L)
                     .language("일어")
                     .level(Level.PROFESSIONAL)
                     .build(),
-                LanguageResponse
+                LanguageDto
                     .builder()
                     .languageId(3L)
                     .language("중국어")
@@ -188,9 +184,9 @@ public class ResumeController {
                     .build()
             )
         )
-        .achievements(
+        .achievementDtos(
             List.of(
-                AchievementResponse
+                AchievementDto
                     .builder()
                     .achievementId(1L)
                     .activityName("대한민국 패키징 디자인 대회 대상")
@@ -198,7 +194,7 @@ public class ResumeController {
                     .type(Type.AWARD)
                     .achievementDescription("숟가락 없이도 편리하게 떠먹을 수 있는 요거트 뚜껑스푼")
                     .build(),
-                AchievementResponse
+                AchievementDto
                     .builder()
                     .achievementId(2L)
                     .activityName("정보처리기사")
@@ -206,7 +202,7 @@ public class ResumeController {
                     .type(Type.CERTIFICATE)
                     .achievementDescription("정보처리기사 자격증 취득")
                     .build(),
-                AchievementResponse
+                AchievementDto
                     .builder()
                     .achievementId(3L)
                     .activityName("2024 해커톤 대회")
@@ -214,7 +210,7 @@ public class ResumeController {
                     .type(Type.AWARD)
                     .achievementDescription("2024 해커톤 대회 최우수상 수상")
                     .build(),
-                AchievementResponse
+                AchievementDto
                     .builder()
                     .achievementId(4L)
                     .activityName("AWS Certified Solutions Architect Associate")
@@ -226,25 +222,25 @@ public class ResumeController {
         )
         .links(
             List.of(
-                LinkResponse
+                LinkDto
                     .builder()
                     .linkId(1L)
                     .linkName("포트폴리오")
                     .linkUrl("https://hiuni826.myportfolio.com/work")
                     .build(),
-                LinkResponse
+                LinkDto
                     .builder()
                     .linkId(2L)
                     .linkName("GitHub")
                     .linkUrl("https://github.com/hiuni826")
                     .build(),
-                LinkResponse
+                LinkDto
                     .builder()
                     .linkId(3L)
                     .linkName("LinkedIn")
                     .linkUrl("https://www.linkedin.com/in/hiuni826")
                     .build(),
-                LinkResponse
+                LinkDto
                     .builder()
                     .linkId(4L)
                     .linkName("개인 블로그")

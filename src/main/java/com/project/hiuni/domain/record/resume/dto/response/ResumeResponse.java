@@ -1,14 +1,13 @@
 package com.project.hiuni.domain.record.resume.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.project.hiuni.domain.record.resume.achievement.dto.response.AchievementResponse;
-import com.project.hiuni.domain.record.resume.career.dto.response.CareerResponse;
-import com.project.hiuni.domain.record.resume.career.entity.Career;
-import com.project.hiuni.domain.record.resume.education.dto.response.EducationResponse;
+import com.project.hiuni.domain.record.resume.achievement.dto.AchievementDto;
+import com.project.hiuni.domain.record.resume.career.dto.CareerDto;
+import com.project.hiuni.domain.record.resume.education.dto.EducationDto;
 import com.project.hiuni.domain.record.resume.entity.Gender;
-import com.project.hiuni.domain.record.resume.language.dto.response.LanguageResponse;
-import com.project.hiuni.domain.record.resume.link.dto.response.LinkResponse;
-import com.project.hiuni.domain.record.resume.project.dto.response.ProjectResponse;
+import com.project.hiuni.domain.record.resume.language.dto.LanguageDto;
+import com.project.hiuni.domain.record.resume.link.dto.LinkDto;
+import com.project.hiuni.domain.record.resume.project.dto.ProjectDto;
 import com.project.hiuni.domain.record.resume.skill.dto.SkillDataDto;
 import java.util.List;
 import lombok.Builder;
@@ -33,37 +32,37 @@ public class ResumeResponse {
 
   private Integer aboutMeCnt; //내 소개 생성가능 횟수
 
-  private List<CareerResponse> careers; //경력사항
+  private List<CareerDto> careerDtos; //경력사항
   @JsonProperty("careersSize")
   public int getCareersSize() {
-    return careers != null ? careers.size() : 0;
+    return careerDtos != null ? careerDtos.size() : 0;
   }
 
-  private List<ProjectResponse> projects; //프로젝트
+  private List<ProjectDto> projects; //프로젝트
   @JsonProperty("projectsSize")
   public int getProjectsSize() {
     return projects != null ? projects.size() : 0;
   }
 
-  private List<EducationResponse> educations; //학력
+  private List<EducationDto> educations; //학력
   @JsonProperty("educationsSize")
   public int getEducationsSize() {
     return educations != null ? educations.size() : 0;
   }
 
-  private List<LanguageResponse> languages; //어학
+  private List<LanguageDto> languages; //어학
   @JsonProperty("languagesSize")
   public int getLanguagesSize() {
     return languages != null ? languages.size() : 0;
   }
 
-  private List<AchievementResponse> achievements; //수상/자격증/교육
+  private List<AchievementDto> achievementDtos; //수상/자격증/교육
   @JsonProperty("achievementsSize")
   public int getAchievementsSize() {
-    return achievements != null ? achievements.size() : 0;
+    return achievementDtos != null ? achievementDtos.size() : 0;
   }
 
-  private List<LinkResponse> links; //링크
+  private List<LinkDto> links; //링크
   @JsonProperty("linksSize")
   public int getLinksSize() {
     return links != null ? links.size() : 0;

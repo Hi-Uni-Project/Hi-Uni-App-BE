@@ -1,10 +1,6 @@
-package com.project.hiuni.domain.record.resume.achievement.dto.response;
+package com.project.hiuni.domain.record.resume.achievement.dto;
 
 import com.project.hiuni.domain.record.resume.achievement.entity.Type;
-import com.project.hiuni.domain.record.resume.language.entity.Level;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.Lob;
 import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,7 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class AchievementResponse {
+public class AchievementDto {
   private Long achievementId;
 
   private String activityName;

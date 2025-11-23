@@ -1,6 +1,5 @@
-package com.project.hiuni.domain.record.resume.career.dto.response;
+package com.project.hiuni.domain.record.resume.career.dto;
 
-import jakarta.persistence.Lob;
 import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Getter;
@@ -9,7 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class CareerResponse {
+public class CareerDto {
 
   private Long careerId;
 
