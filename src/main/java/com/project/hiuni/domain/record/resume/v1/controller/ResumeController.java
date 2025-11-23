@@ -4,6 +4,7 @@ package com.project.hiuni.domain.record.resume.v1.controller;
 import com.project.hiuni.domain.record.resume.achievement.dto.AchievementDto;
 import com.project.hiuni.domain.record.resume.achievement.entity.Type;
 import com.project.hiuni.domain.record.resume.career.dto.CareerDto;
+import com.project.hiuni.domain.record.resume.dto.request.ResumeRequest;
 import com.project.hiuni.domain.record.resume.dto.response.AiAboutMeResponse;
 import com.project.hiuni.domain.record.resume.dto.response.ResumeResponse;
 import com.project.hiuni.domain.record.resume.education.dto.EducationDto;
@@ -24,7 +25,9 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 내 이력서 화면에 보여질 데이터를 제공하는 컨트롤러 입니다.
@@ -39,7 +42,15 @@ public class ResumeController {
   private final ResumeService resumeService;
 
   @PostMapping
-  public ResponseDTO<?> createOrUpdate()
+  public ResponseDTO<?> createOrUpdate(
+      @RequestPart("image") MultipartFile file,
+      @RequestPart("data") ResumeRequest request,
+      @AuthenticationPrincipal CustomUserDetails userDetails) {
+
+    resumeService.createOrUpdateResume(file, request, userDetails.getId());
+
+    return ResponseDTO.of("이력서 저장에 성공하였습니다.");
+  }
 
   @GetMapping("/ai-about-me")
   public ResponseDTO<AiAboutMeResponse> getAiAboutMe(@AuthenticationPrincipal CustomUserDetails userDetails) {
@@ -58,6 +69,7 @@ public class ResumeController {
 
     ResumeResponse response = ResumeResponse
         .builder()
+        .resumeId(1L)
         .name("김유니")
         .gender(Gender.FEMALE)
         .birthYear(1998)
@@ -65,7 +77,7 @@ public class ResumeController {
         .title("하이유니 개발자 이력서 2025")
         .aboutMe("안녕하세요! 사용자 중심의 안정적인 백엔드 개발을 지향하는 김유니입니다. 다양한 프로젝트 경험과 문제 해결 능력을 바탕으로 귀사에 기여하고 싶습니다.")
         .aboutMeCnt(5)
-        .careerDtos(
+        .careers(
             List.of(
                 CareerDto
                     .builder()
@@ -184,7 +196,7 @@ public class ResumeController {
                     .build()
             )
         )
-        .achievementDtos(
+        .achievements(
             List.of(
                 AchievementDto
                     .builder()

@@ -11,6 +11,7 @@ import com.project.hiuni.domain.post.exception.CustomForbiddenException;
 import com.project.hiuni.domain.post.exception.CustomPostNotFoundException;
 import com.project.hiuni.domain.record.exception.InsufficientGenerationCountException;
 import com.project.hiuni.domain.record.resume.exception.CustomInvalidException;
+import com.project.hiuni.domain.record.resume.exception.CustomResumeNotFoundException;
 import com.project.hiuni.domain.schedule.exception.CustomScheduleNotFoundException;
 import com.project.hiuni.domain.tos.exception.RequiredTermsNotAgreedException;
 import com.project.hiuni.domain.user.exception.CustomUserNotFoundException;
@@ -181,6 +182,14 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     return ResponseEntity.status(e.getErrorCode().getActualStatusCode())
         .body(ResponseDTO.of(e.getErrorCode()));
   }
+
+  @ExceptionHandler(CustomResumeNotFoundException.class)
+  public ResponseEntity<ResponseDTO> CustomResumeNotFoundException(InsufficientGenerationCountException e) {
+    return ResponseEntity.status(e.getErrorCode().getActualStatusCode())
+        .body(ResponseDTO.of(e.getErrorCode()));
+  }
+
+
 
 
 

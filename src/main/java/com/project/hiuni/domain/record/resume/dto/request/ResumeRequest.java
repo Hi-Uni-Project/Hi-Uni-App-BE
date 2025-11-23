@@ -18,6 +18,8 @@ import lombok.Setter;
 @Builder
 public class ResumeRequest {
 
+  private Long resumeId;
+
   private String name; //이름
 
   private Gender gender; //성별
@@ -28,7 +30,7 @@ public class ResumeRequest {
 
   private String aboutMe; //내 소개
 
-  private List<CareerDto> careerDtos; //경력 사항
+  private List<CareerDto> careers; //경력 사항
 
   private List<ProjectDto> projects; //프로젝트 사항
 

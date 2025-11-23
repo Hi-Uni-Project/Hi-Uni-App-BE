@@ -1,5 +1,7 @@
 package com.project.hiuni.domain.record.resume.career.dto;
 
+import com.project.hiuni.domain.record.resume.career.entity.Career;
+import com.project.hiuni.domain.record.resume.entity.Resume;
 import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Getter;
@@ -23,4 +25,18 @@ public class CareerDto {
   private String position; //직급/직책
 
   private String jobDescription; //담당 업무 및 성과
+
+  public Career toEntity(Resume resume) {
+
+    return Career.of(
+        this.companyName,
+        this.startDate,
+        this.endDate,
+        this.role,
+        this.position,
+        this.jobDescription,
+        resume
+    );
+
+  }
 }

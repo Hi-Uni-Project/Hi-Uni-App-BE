@@ -113,4 +113,44 @@ public class Resume {
     this.skills.add(skill);
     skill.setResume(this);
   }
+
+  public void updateImageUrl(String imageUrl) {
+    this.imageUrl = imageUrl;
+  }
+
+  public void updateName(String name) {
+    this.name = name;
+  }
+
+  public void updateBirthYear(Integer birthYear) {
+    this.birthYear = birthYear;
+  }
+
+  public void updateGender(Gender gender) {
+    this.gender = gender;
+  }
+
+  public void updateTitle(String title) {
+    this.title = title;
+  }
+
+  public void updateAboutMe(String aboutMe) {
+    this.aboutMe = aboutMe;
+  }
+
+  private Resume(User user, String name, Gender gender, Integer birthYear, String title, String aboutMe, String imageUrl) {
+    this.user = user;
+    this.name = name;
+    this.gender = gender;
+    this.birthYear = birthYear;
+    this.title = title;
+    this.aboutMe = aboutMe;
+    this.imageUrl = imageUrl;
+  }
+
+  public static Resume of(User user, String name, Gender gender, Integer birthYear, String title, String aboutMe, String imageUrl) {
+    return new Resume(user, name, gender, birthYear, title, aboutMe, imageUrl);
+  }
+
+
 }

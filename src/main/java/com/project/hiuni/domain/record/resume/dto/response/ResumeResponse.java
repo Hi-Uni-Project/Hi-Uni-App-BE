@@ -18,6 +18,9 @@ import lombok.Setter;
 @Setter
 @Builder
 public class ResumeResponse {
+
+  private Long resumeId;
+
   private String name; //이름
 
   private Gender gender; //성별

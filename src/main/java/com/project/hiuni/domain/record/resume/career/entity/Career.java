@@ -12,6 +12,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -45,4 +46,37 @@ public class Career {
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "resume_id")
   private Resume resume;
+
+  @Builder
+  private Career(Long id, String companyName, LocalDateTime startDate, LocalDateTime endDate, String role, String position, String jobDescription, Resume resume) {
+    this.id = id;
+    this.companyName = companyName;
+    this.startDate = startDate;
+    this.endDate = endDate;
+    this.role = role;
+    this.position = position;
+    this.jobDescription = jobDescription;
+    this.resume = resume;
+  }
+
+  public static Career of(String companyName, LocalDateTime startDate, LocalDateTime endDate, String role, String position, String jobDescription, Resume resume) {
+    return Career.builder()
+        .companyName(companyName)
+        .startDate(startDate)
+        .endDate(endDate)
+        .role(role)
+        .position(position)
+        .jobDescription(jobDescription)
+        .resume(resume)
+        .build();
+  }
+
+  public void update(Career career) {
+    this.companyName = career.getCompanyName();
+    this.startDate = career.getStartDate();
+    this.endDate = career.getEndDate();
+    this.role = career.getRole();
+    this.position = career.getPosition();
+    this.jobDescription = career.getJobDescription();
+  }
 }

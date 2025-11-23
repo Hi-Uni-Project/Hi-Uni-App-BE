@@ -1,6 +1,8 @@
 package com.project.hiuni.domain.record.resume.education.dto;
 
+import com.project.hiuni.domain.record.resume.education.entity.Education;
 import com.project.hiuni.domain.record.resume.education.entity.GraduationStatus;
+import com.project.hiuni.domain.record.resume.entity.Resume;
 import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,4 +23,16 @@ public class EducationDto {
   private GraduationStatus graduationStatus;
 
   private String major;
+
+  public Education toEntity(Resume resume) {
+    return Education.of(
+        this.universityName,
+        this.startDate,
+        this.endDate,
+        this.graduationStatus,
+        this.major,
+        resume
+
+    );
+  }
 }

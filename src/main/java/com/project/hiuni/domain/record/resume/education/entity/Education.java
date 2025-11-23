@@ -43,4 +43,42 @@ public class Education {
   @JoinColumn(name = "resume_id")
   private Resume resume;
 
+  private Education(String universityName, LocalDateTime startDate, LocalDateTime endDate,
+      GraduationStatus graduationStatus, String major, Resume resume) {
+    this.universityName = universityName;
+    this.startDate = startDate;
+    this.endDate = endDate;
+    this.graduationStatus = graduationStatus;
+    this.major = major;
+    this.resume = resume;
+  }
+
+  public static Education of(
+      String universityName,
+      LocalDateTime startDate,
+      LocalDateTime endDate,
+      GraduationStatus graduationStatus,
+      String major,
+      Resume resume
+  ) {
+    return new Education(
+        universityName,
+        startDate,
+        endDate,
+        graduationStatus,
+        major,
+        resume
+    );
+  }
+
+  public void update(Education education) {
+    this.universityName = education.universityName;
+    this.startDate = education.startDate;
+    this.endDate = education.endDate;
+    this.graduationStatus = education.graduationStatus;
+    this.major = education.major;
+  }
+
+
+
 }

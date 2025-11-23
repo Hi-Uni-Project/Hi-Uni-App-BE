@@ -1,5 +1,7 @@
 package com.project.hiuni.domain.record.resume.project.dto;
 
+import com.project.hiuni.domain.record.resume.entity.Resume;
+import com.project.hiuni.domain.record.resume.project.entity.Project;
 import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,4 +22,17 @@ public class ProjectDto {
   private String role;
 
   private String experienceDescription; //경험 및 성과
+
+  public Project toEntity(Resume resume) {
+
+    return Project.of(
+        this.projectName,
+        this.startDate,
+        this.endDate,
+        this.role,
+        this.experienceDescription,
+        resume
+    );
+
+  }
 }
