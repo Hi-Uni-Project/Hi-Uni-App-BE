@@ -31,6 +31,9 @@ public class ResumeController {
 
   private final SkillDataRepository skillDataRepository;
 
+  @GetMapping
+  public ResponseDTO()
+
 
   //TODO: 목 데이터를 반환하는 API 입니다. 추후에 서비스 로직이 구현되면 수정이 필요합니다.
   @GetMapping
