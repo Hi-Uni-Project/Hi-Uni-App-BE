@@ -32,10 +32,10 @@ public class ResumeResponse {
 
   private Integer aboutMeCnt; //내 소개 생성가능 횟수
 
-  private List<CareerDto> careerDtos; //경력사항
+  private List<CareerDto> careers; //경력사항
   @JsonProperty("careersSize")
   public int getCareersSize() {
-    return careerDtos != null ? careerDtos.size() : 0;
+    return careers != null ? careers.size() : 0;
   }
 
   private List<ProjectDto> projects; //프로젝트
@@ -56,10 +56,10 @@ public class ResumeResponse {
     return languages != null ? languages.size() : 0;
   }
 
-  private List<AchievementDto> achievementDtos; //수상/자격증/교육
+  private List<AchievementDto> achievements; //수상/자격증/교육
   @JsonProperty("achievementsSize")
   public int getAchievementsSize() {
-    return achievementDtos != null ? achievementDtos.size() : 0;
+    return achievements != null ? achievements.size() : 0;
   }
 
   private List<LinkDto> links; //링크
