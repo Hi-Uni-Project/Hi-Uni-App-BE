@@ -4,7 +4,6 @@ package com.project.hiuni.domain.record.resume.v1.controller;
 import com.project.hiuni.domain.record.resume.dto.request.ResumeRequest;
 import com.project.hiuni.domain.record.resume.dto.response.AiAboutMeResponse;
 import com.project.hiuni.domain.record.resume.dto.response.ResumeResponse;
-import com.project.hiuni.domain.record.resume.skill.repository.SkillDataRepository;
 import com.project.hiuni.domain.record.resume.v1.service.ResumeService;
 import com.project.hiuni.global.common.dto.response.ResponseDTO;
 import com.project.hiuni.global.security.core.CustomUserDetails;
