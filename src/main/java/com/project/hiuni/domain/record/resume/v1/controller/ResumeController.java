@@ -4,6 +4,7 @@ package com.project.hiuni.domain.record.resume.v1.controller;
 import com.project.hiuni.domain.record.resume.achievement.dto.response.AchievementResponse;
 import com.project.hiuni.domain.record.resume.achievement.entity.Type;
 import com.project.hiuni.domain.record.resume.career.dto.response.CareerResponse;
+import com.project.hiuni.domain.record.resume.dto.response.AiAboutMeResponse;
 import com.project.hiuni.domain.record.resume.dto.response.ResumeResponse;
 import com.project.hiuni.domain.record.resume.education.dto.response.EducationResponse;
 import com.project.hiuni.domain.record.resume.education.entity.GraduationStatus;
@@ -13,10 +14,13 @@ import com.project.hiuni.domain.record.resume.language.entity.Level;
 import com.project.hiuni.domain.record.resume.link.dto.response.LinkResponse;
 import com.project.hiuni.domain.record.resume.project.dto.response.ProjectResponse;
 import com.project.hiuni.domain.record.resume.skill.repository.SkillDataRepository;
+import com.project.hiuni.domain.record.resume.v1.service.ResumeService;
 import com.project.hiuni.global.common.dto.response.ResponseDTO;
+import com.project.hiuni.global.security.core.CustomUserDetails;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,6 +34,21 @@ import org.springframework.web.bind.annotation.RestController;
 public class ResumeController {
 
   private final SkillDataRepository skillDataRepository;
+
+  private final ResumeService resumeService;
+
+  @GetMapping("/ai-about-me")
+  public ResponseDTO<AiAboutMeResponse> getAiAboutMe(@AuthenticationPrincipal CustomUserDetails userDetails) {
+    String response;
+    response = resumeService.getAiAboutMe(userDetails.getId());
+
+    return ResponseDTO.of(
+        AiAboutMeResponse
+            .builder()
+            .aboutMe(response)
+            .build()
+    , "AI 자기소개 생성에 성공하였습니다.");
+  }
 
 
   //TODO: 목 데이터를 반환하는 API 입니다. 추후에 서비스 로직이 구현되면 수정이 필요합니다.
