@@ -1,6 +1,7 @@
 package com.project.hiuni.domain.record.resume.language.entity;
 
 import com.project.hiuni.domain.record.resume.entity.Resume;
+import com.project.hiuni.domain.record.resume.language.dto.LanguageDto;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -12,6 +13,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -36,4 +38,32 @@ public class Language {
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "resume_id")
   private Resume resume;
+
+  @Builder
+  private Language(String language, Level level, Resume resume) {
+    this.language = language;
+    this.level = level;
+    this.resume = resume;
+  }
+
+  public static Language of(String language, Level level, Resume resume) {
+    return Language.builder()
+        .language(language)
+        .level(level)
+        .resume(resume)
+        .build();
+  }
+
+  public void update(Language language) {
+    this.language = language.getLanguage();
+    this.level = language.getLevel();
+  }
+
+  public LanguageDto toDto() {
+    return LanguageDto.builder()
+        .languageId(this.id)
+        .language(this.language)
+        .level(this.level)
+        .build();
+  }
 }

@@ -1,0 +1,392 @@
+package com.project.hiuni.domain.record.resume.v1.service;
+
+import com.project.hiuni.domain.post.entity.Post;
+import com.project.hiuni.domain.post.exception.CustomPostNotFoundException;
+import com.project.hiuni.domain.post.repository.PostRepository;
+import com.project.hiuni.domain.record.exception.InsufficientGenerationCountException;
+import com.project.hiuni.domain.record.resume.achievement.entity.Achievement;
+import com.project.hiuni.domain.record.resume.achievement.repository.AchievementRepository;
+import com.project.hiuni.domain.record.resume.career.entity.Career;
+import com.project.hiuni.domain.record.resume.career.repository.CareerRepository;
+import com.project.hiuni.domain.record.resume.dto.request.ResumeRequest;
+import com.project.hiuni.domain.record.resume.dto.response.AiAboutMeResponse;
+import com.project.hiuni.domain.record.resume.dto.response.ResumeResponse;
+import com.project.hiuni.domain.record.resume.education.entity.Education;
+import com.project.hiuni.domain.record.resume.education.repository.EducationRepository;
+import com.project.hiuni.domain.record.resume.entity.Resume;
+import com.project.hiuni.domain.record.resume.exception.CustomResumeNotFoundException;
+import com.project.hiuni.domain.record.resume.skill.repository.SkillDataRepository;
+import java.util.ArrayList;
+import com.project.hiuni.domain.record.resume.language.entity.Language;
+import com.project.hiuni.domain.record.resume.language.repository.LanguageRepository;
+import com.project.hiuni.domain.record.resume.link.entity.Link;
+import com.project.hiuni.domain.record.resume.link.repository.LinkRepository;
+import com.project.hiuni.domain.record.resume.project.entity.Project;
+import com.project.hiuni.domain.record.resume.project.repository.ProjectRepository;
+import com.project.hiuni.domain.record.resume.repository.ResumeRepository;
+import com.project.hiuni.domain.record.resume.skill.repository.SkillRepository;
+import com.project.hiuni.domain.user.entity.User;
+import com.project.hiuni.domain.user.exception.CustomUserNotFoundException;
+import com.project.hiuni.domain.user.repository.UserRepository;
+import com.project.hiuni.global.common.util.ImageUtil;
+import com.project.hiuni.global.exception.ErrorCode;
+import com.project.hiuni.global.exception.InternalServerException;
+import com.project.hiuni.infra.claude.ClaudeAiClient;
+import com.project.hiuni.infra.claude.prompt.ClaudeAiPrompt;
+import java.util.List;
+import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
+@Service
+@RequiredArgsConstructor
+@Slf4j
+public class ResumeService {
+
+  private final UserRepository userRepository;
+  private final PostRepository postRepository;
+  private final ResumeRepository resumeRepository;
+
+  private final CareerRepository careerRepository;
+  private final ProjectRepository projectRepository;
+  private final EducationRepository educationRepository;
+  private final LanguageRepository languageRepository;
+  private final AchievementRepository achievementRepository;
+  private final LinkRepository linkRepository;
+  private final SkillRepository skillRepository;
+  private final SkillDataRepository skillDataRepository;
+
+  private final ClaudeAiClient claudeAiClient;
+
+  private final ImageUtil imageUtil;
+
+  @Transactional
+  public void createOrUpdateResume(
+      MultipartFile file,
+      ResumeRequest request,
+      Long userId) {
+
+    try {
+
+      User user = userRepository.findById(userId)
+          .orElseThrow(() -> new CustomUserNotFoundException(ErrorCode.USER_NOT_FOUND));
+
+      Resume resume = resumeRepository.findByUser(user)
+          .orElse(
+              Resume.of(user, request.getName(), request.getGender(), request.getBirthYear(), request.getTitle(), request.getAboutMe(), null)
+          );
+
+      resumeRepository.save(resume);
+
+      String IMAGE_PATH = "/home/ubuntu/image";
+      String imageUrl = null;
+
+      if(file != null) {
+        imageUrl = imageUtil.saveImage(file, IMAGE_PATH);
+      }
+
+      // 이력서 기본정보 업데이트
+      resume.updateImageUrl(imageUrl);
+      resume.updateName(request.getName());
+      resume.updateGender(request.getGender());
+      resume.updateBirthYear(request.getBirthYear());
+      resume.updateTitle(request.getTitle());
+      resume.updateAboutMe(request.getAboutMe());
+
+      // 이력서 리스트 업데이트
+      // 1. 경력 사항
+      List<Long> existingCareerIds = careerRepository.findAllByResume(resume).stream()
+          .map(Career::getId)
+          .collect(Collectors.toCollection(ArrayList::new));
+
+      request.getCareers().forEach(career -> {
+        if(career.getCareerId() == null) {
+          careerRepository.save(career.toEntity(resume));
+        } else {
+          Career originCareer = careerRepository.findById(career.getCareerId())
+              .orElseThrow(() -> new InternalServerException(ErrorCode.INTERNAL_SERVER_ERROR));
+
+          originCareer.update(career.toEntity(resume));
+
+          existingCareerIds.remove(originCareer.getId());
+        }
+      });
+
+      if (!existingCareerIds.isEmpty()) {
+        careerRepository.deleteAllById(existingCareerIds);
+      }
+
+
+
+
+
+      // 2. 프로젝트 사항
+      List<Long> existingProjectIds = projectRepository.findAllByResume(resume).stream()
+          .map(Project::getId)
+          .collect(Collectors.toCollection(ArrayList::new));
+
+      request.getProjects().forEach(project -> {
+        if(project.getProjectId() == null) {
+          projectRepository.save(project.toEntity(resume));
+        } else {
+          Project originProject = projectRepository.findById(project.getProjectId())
+              .orElseThrow(() -> new InternalServerException(ErrorCode.INTERNAL_SERVER_ERROR));
+
+          originProject.update(project.toEntity(resume));
+
+          existingProjectIds.remove(originProject.getId());
+        }
+      });
+
+      if (!existingProjectIds.isEmpty()) {
+        projectRepository.deleteAllById(existingProjectIds);
+      }
+
+
+
+
+
+      // 3. 학력 사항
+      List<Long> existingEducationIds = educationRepository.findAllByResume(resume).stream()
+          .map(Education::getId)
+          .collect(Collectors.toCollection(ArrayList::new));
+
+      request.getEducations().forEach(education -> {
+        if(education.getEducationId() == null) {
+          educationRepository.save(education.toEntity(resume));
+        } else {
+          Education originEducation = educationRepository.findById(education.getEducationId())
+              .orElseThrow(() -> new InternalServerException(ErrorCode.INTERNAL_SERVER_ERROR));
+
+          originEducation.update(education.toEntity(resume));
+
+          existingEducationIds.remove(originEducation.getId());
+        }
+      });
+
+      if (!existingEducationIds.isEmpty()) {
+        educationRepository.deleteAllById(existingEducationIds);
+      }
+
+
+
+
+
+
+
+      // 4. 어학
+      List<Long> existingLanguageIds = languageRepository.findAllByResume(resume).stream()
+          .map(Language::getId)
+          .collect(Collectors.toCollection(ArrayList::new));
+
+      request.getLanguages().forEach(language -> {
+        if(language.getLanguageId() == null) {
+          languageRepository.save(language.toEntity(resume));
+        } else {
+          Language originLanguage = languageRepository.findById(language.getLanguageId())
+              .orElseThrow(() -> new InternalServerException(ErrorCode.INTERNAL_SERVER_ERROR));
+
+          originLanguage.update(language.toEntity(resume));
+
+          existingLanguageIds.remove(originLanguage.getId());
+        }
+      });
+
+      if (!existingLanguageIds.isEmpty()) {
+        languageRepository.deleteAllById(existingLanguageIds);
+      }
+
+
+
+
+
+      // 5. 수상/자격증/교육
+      List<Long> existingAchievementIds = achievementRepository.findAllByResume(resume).stream()
+          .map(Achievement::getId)
+          .collect(Collectors.toCollection(ArrayList::new));
+
+      request.getAchievements().forEach(achievement -> {
+        if(achievement.getAchievementId() == null) {
+          achievementRepository.save(achievement.toEntity(resume));
+        } else {
+          Achievement originAchievement = achievementRepository.findById(achievement.getAchievementId())
+              .orElseThrow(() -> new InternalServerException(ErrorCode.INTERNAL_SERVER_ERROR));
+
+          originAchievement.update(achievement.toEntity(resume));
+
+          existingAchievementIds.remove(originAchievement.getId());
+        }
+      });
+
+      if (!existingAchievementIds.isEmpty()) {
+        achievementRepository.deleteAllById(existingAchievementIds);
+      }
+
+
+
+      // 6. 링크
+      List<Long> existingLinkIds = linkRepository.findAllByResume(resume).stream()
+          .map(Link::getId)
+          .collect(Collectors.toCollection(ArrayList::new));
+
+      request.getLinks().forEach(link -> {
+        if(link.getLinkId() == null) {
+          linkRepository.save(link.toEntity(resume));
+        } else {
+          Link originLink = linkRepository.findById(link.getLinkId())
+              .orElseThrow(() -> new InternalServerException(ErrorCode.INTERNAL_SERVER_ERROR));
+
+          originLink.update(link.toEntity(resume));
+        }
+      });
+
+      if (!existingLinkIds.isEmpty()) {
+        linkRepository.deleteAllById(existingLinkIds);
+      }
+
+
+
+      // 7. 스킬
+      skillRepository.deleteAll();
+      request.getSkills().forEach(skill -> {
+        skillRepository.save(skill.toEntity(resume));
+      });
+
+
+    } catch (CustomUserNotFoundException e) {
+      log.error("유저를 찾을 수 없음: {}", e.getMessage());
+      throw e;
+
+    } catch (Exception e) {
+      log.error("이력서 저장 실패: {}", e.getMessage(), e);  // 스택 트레이스 포함
+      throw new InternalServerException(ErrorCode.INTERNAL_SERVER_ERROR);
+    }
+
+  }
+
+
+
+  @Transactional
+  public AiAboutMeResponse getAiAboutMe(Long userId) {
+
+    try {
+      User user = userRepository.findById(userId)
+          .orElseThrow(() -> new CustomUserNotFoundException(ErrorCode.USER_NOT_FOUND));
+
+      List<Post> userPosts = postRepository.findAllByUserId(userId);
+
+      //후기글이 존재하지 않을 경우
+      //TODO: 현재 후기글만 따로 불러오는 로직이 없어, 일단 전체 게시글을 불러오도록 구현하였습니다. 추후에 수정이 필요합니다.
+      if (userPosts.isEmpty()) {
+        throw new CustomPostNotFoundException(ErrorCode.POST_NOT_FOUND);
+      }
+
+      //생성 가능 횟수가 0 이하일 경우
+      if (user.getAboutMeCnt() <= 0) {
+        throw new InsufficientGenerationCountException(ErrorCode.INSUFFICIENT_GENERATION_COUNT);
+      }
+
+      log.info("생성된 프롬프트: {}", ClaudeAiPrompt.ABOUT_ME_PROMPT(userPosts, user));
+
+      String response = claudeAiClient.sendMessage(ClaudeAiPrompt.ABOUT_ME_PROMPT(userPosts, user));
+
+      user.decreaseAiAboutMe();
+
+      return AiAboutMeResponse.builder()
+          .aboutMeCnt(user.getAboutMeCnt())
+          .aboutMe(response)
+          .build();
+    } catch (CustomPostNotFoundException e) {
+      log.error("게시글을 찾을 수 없음: {}", e.getMessage());
+      throw e;
+
+    } catch (CustomUserNotFoundException e) {
+      log.error("유저를 찾을 수 없음: {}", e.getMessage());
+      throw e;
+
+    } catch (InsufficientGenerationCountException e) {
+      log.error("생성 가능 횟수가 0 이하임: {}", e.getMessage());
+      throw e;
+
+    } catch (Exception e) {
+      log.info("이력서 저장 실패: {}", e.getMessage());
+      throw new InternalServerException(ErrorCode.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+
+  @Transactional(readOnly = true)
+  public ResumeResponse getResume(Long userId) {
+
+    try {
+
+      User user = userRepository.findById(userId)
+          .orElseThrow(() -> new CustomUserNotFoundException(ErrorCode.USER_NOT_FOUND));
+
+      Resume resume = resumeRepository.findByUser(user)
+          .orElseThrow(() -> new CustomResumeNotFoundException(ErrorCode.RESUME_NOT_FOUND));
+
+      return ResumeResponse
+          .builder()
+          .resumeId(resume.getId())
+          .name(resume.getName())
+          .gender(resume.getGender())
+          .birthYear(resume.getBirthYear())
+          .imageUrl(resume.getImageUrl())
+          .title(resume.getTitle())
+          .aboutMe(resume.getAboutMe())
+          .aboutMeCnt(user.getAboutMeCnt())
+          .careers(
+              careerRepository.findAllByResume(resume).stream()
+                  .map(Career::toDto)
+                  .collect(Collectors.toList())
+          )
+          .projects(
+              projectRepository.findAllByResume(resume).stream()
+                  .map(Project::toDto)
+                  .collect(Collectors.toList())
+          )
+          .educations(
+              educationRepository.findAllByResume(resume).stream()
+                  .map(Education::toDto)
+                  .collect(Collectors.toList())
+          )
+          .languages(
+              languageRepository.findAllByResume(resume).stream()
+                  .map(Language::toDto)
+                  .collect(Collectors.toList())
+          )
+          .achievements(
+              achievementRepository.findAllByResume(resume).stream()
+                  .map(Achievement::toDto)
+                  .collect(Collectors.toList())
+          )
+          .links(
+              linkRepository.findAllByResume(resume).stream()
+                  .map(Link::toDto)
+                  .collect(Collectors.toList())
+          )
+          .skills(
+              skillRepository.findAllByResume(resume).stream()
+                  .map(skill -> skill.toDto(skillDataRepository))
+                  .collect(Collectors.toList())
+          )
+          .build();
+
+    } catch (CustomUserNotFoundException e) {
+    log.error("유저를 찾을 수 없음: {}", e.getMessage());
+    throw e;
+
+    } catch (Exception e) {
+      log.error("이력서 조회 실패: {}", e.getMessage(), e);  // 스택 트레이스 포함
+      throw new InternalServerException(ErrorCode.INTERNAL_SERVER_ERROR);
+    }
+
+
+  }
+
+}
+
