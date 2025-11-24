@@ -1,25 +1,12 @@
 package com.project.hiuni.domain.record.resume.v1.controller;
 
 
-import com.project.hiuni.domain.record.resume.achievement.dto.AchievementDto;
-import com.project.hiuni.domain.record.resume.achievement.entity.Type;
-import com.project.hiuni.domain.record.resume.career.dto.CareerDto;
 import com.project.hiuni.domain.record.resume.dto.request.ResumeRequest;
 import com.project.hiuni.domain.record.resume.dto.response.AiAboutMeResponse;
 import com.project.hiuni.domain.record.resume.dto.response.ResumeResponse;
-import com.project.hiuni.domain.record.resume.education.dto.EducationDto;
-import com.project.hiuni.domain.record.resume.education.entity.GraduationStatus;
-import com.project.hiuni.domain.record.resume.entity.Gender;
-import com.project.hiuni.domain.record.resume.language.dto.LanguageDto;
-import com.project.hiuni.domain.record.resume.language.entity.Level;
-import com.project.hiuni.domain.record.resume.link.dto.LinkDto;
-import com.project.hiuni.domain.record.resume.project.dto.ProjectDto;
-import com.project.hiuni.domain.record.resume.skill.repository.SkillDataRepository;
 import com.project.hiuni.domain.record.resume.v1.service.ResumeService;
 import com.project.hiuni.global.common.dto.response.ResponseDTO;
 import com.project.hiuni.global.security.core.CustomUserDetails;
-import java.time.LocalDateTime;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -37,8 +24,6 @@ import org.springframework.web.multipart.MultipartFile;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/resume")
 public class ResumeController {
-
-  private final SkillDataRepository skillDataRepository;
 
   private final ResumeService resumeService;
 
