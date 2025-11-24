@@ -376,7 +376,7 @@ public class ResumeService {
           )
           .build();
 
-    } catch (CustomUserNotFoundException e) {
+    } catch (CustomResumeNotFoundException e) {
     log.error("유저를 찾을 수 없음: {}", e.getMessage());
     throw e;
 
