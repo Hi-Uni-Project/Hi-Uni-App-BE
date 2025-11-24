@@ -19,7 +19,7 @@ public class SkillService {
     List<SkillDataDto> skills = skillDataRepository.findAll();
 
     List<SkillDataDto> searchedSkills = skills.stream()
-        .filter(skill -> skill.getName().contains(keyword.toLowerCase()) || skill.getName().contains(keyword.toUpperCase()))
+        .filter(skill -> skill.getName().toLowerCase().contains(keyword.toLowerCase()))
         .toList();
 
     return searchedSkills;
