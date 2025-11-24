@@ -4,10 +4,12 @@ import com.project.hiuni.domain.record.resume.achievement.dto.AchievementDto;
 import com.project.hiuni.domain.record.resume.career.dto.CareerDto;
 import com.project.hiuni.domain.record.resume.education.dto.EducationDto;
 import com.project.hiuni.domain.record.resume.entity.Gender;
+import com.project.hiuni.domain.record.resume.entity.Resume;
 import com.project.hiuni.domain.record.resume.language.dto.LanguageDto;
 import com.project.hiuni.domain.record.resume.language.entity.Level;
 import com.project.hiuni.domain.record.resume.link.dto.LinkDto;
 import com.project.hiuni.domain.record.resume.project.dto.ProjectDto;
+import com.project.hiuni.domain.record.resume.skill.entity.Skill;
 import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,8 +19,6 @@ import lombok.Setter;
 @Setter
 @Builder
 public class ResumeRequest {
-
-  private Long resumeId;
 
   private String name; //이름
 
@@ -48,9 +48,14 @@ public class ResumeRequest {
   @Setter
   public static class SkillDto {
     private Long skillId;
+
+    public Skill toEntity(Resume resume) {
+      return Skill.of(
+          this.skillId,
+          resume
+      );
+    }
+
   }
-
-
-
 
 }

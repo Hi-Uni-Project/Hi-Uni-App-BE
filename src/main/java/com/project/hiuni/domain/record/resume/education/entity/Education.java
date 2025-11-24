@@ -1,5 +1,6 @@
 package com.project.hiuni.domain.record.resume.education.entity;
 
+import com.project.hiuni.domain.record.resume.education.dto.EducationDto;
 import com.project.hiuni.domain.record.resume.entity.Resume;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -77,6 +78,17 @@ public class Education {
     this.endDate = education.endDate;
     this.graduationStatus = education.graduationStatus;
     this.major = education.major;
+  }
+
+  public EducationDto toDto() {
+    return EducationDto.builder()
+        .educationId(this.id)
+        .universityName(this.universityName)
+        .startDate(this.startDate)
+        .endDate(this.endDate)
+        .graduationStatus(this.graduationStatus)
+        .major(this.major)
+        .build();
   }
 
 

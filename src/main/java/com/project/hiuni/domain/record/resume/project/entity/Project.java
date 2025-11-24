@@ -1,6 +1,7 @@
 package com.project.hiuni.domain.record.resume.project.entity;
 
 import com.project.hiuni.domain.record.resume.entity.Resume;
+import com.project.hiuni.domain.record.resume.project.dto.ProjectDto;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -77,5 +78,16 @@ public class Project {
     this.endDate = project.getEndDate();
     this.role = project.getRole();
     this.experienceDescription = project.getExperienceDescription();
+  }
+
+  public ProjectDto toDto() {
+    return ProjectDto.builder()
+        .projectId(this.id)
+        .projectName(this.projectName)
+        .startDate(this.startDate)
+        .endDate(this.endDate)
+        .role(this.role)
+        .experienceDescription(this.experienceDescription)
+        .build();
   }
 }

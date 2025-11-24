@@ -1,8 +1,11 @@
 package com.project.hiuni.domain.record.resume.skill.repository;
 
-import com.project.hiuni.domain.record.resume.education.entity.Education;
+import com.project.hiuni.domain.record.resume.entity.Resume;
+import com.project.hiuni.domain.record.resume.skill.entity.Skill;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface SkillRepository extends JpaRepository<Education, Long> {
+public interface SkillRepository extends JpaRepository<Skill, Long> {
 
+  List<Skill> findAllByResume(Resume resume);
 }

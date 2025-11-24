@@ -1,5 +1,6 @@
 package com.project.hiuni.domain.record.resume.career.entity;
 
+import com.project.hiuni.domain.record.resume.career.dto.CareerDto;
 import com.project.hiuni.domain.record.resume.entity.Resume;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -78,5 +79,17 @@ public class Career {
     this.role = career.getRole();
     this.position = career.getPosition();
     this.jobDescription = career.getJobDescription();
+  }
+
+  public CareerDto toDto() {
+    return CareerDto.builder()
+        .careerId(this.getId())
+        .companyName(this.companyName)
+        .startDate(this.startDate)
+        .endDate(this.endDate)
+        .role(this.role)
+        .position(this.position)
+        .jobDescription(this.jobDescription)
+        .build();
   }
 }
