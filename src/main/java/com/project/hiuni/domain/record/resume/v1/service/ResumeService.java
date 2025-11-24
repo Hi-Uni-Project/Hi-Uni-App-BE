@@ -377,8 +377,12 @@ public class ResumeService {
           .build();
 
     } catch (CustomResumeNotFoundException e) {
-    log.error("유저를 찾을 수 없음: {}", e.getMessage());
+    log.error("이력서를 찾을 수 없음: {}", e.getMessage());
     throw e;
+
+    } catch (CustomUserNotFoundException e) {
+      log.error("유저를 찾을 수 없음: {}", e.getMessage());
+      throw e;
 
     } catch (Exception e) {
       log.error("이력서 조회 실패: {}", e.getMessage(), e);  // 스택 트레이스 포함
