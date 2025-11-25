@@ -59,7 +59,11 @@ public class MailV1Service {
 
         // 테스트용 이메일 허용 입니다. 추후 제거돼야합니다.
         // TODO: 추후 제거
-        if(email.equals("seolbotdae@gmail.com") || email.equals("hjphjp321212@gmail.com") || email.equals("tlsgksk159@naver.com")) {
+        if(email.equals("seolbotdae@gmail.com")
+            || email.equals("hjphjp321212@gmail.com")
+            || email.equals("tlsgksk159@naver.com")
+            || email.equals("0keyes8260@gmail.com")
+        ) {
           return true;
         }
 
