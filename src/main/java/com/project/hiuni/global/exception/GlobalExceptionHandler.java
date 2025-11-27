@@ -184,7 +184,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
   }
 
   @ExceptionHandler(CustomResumeNotFoundException.class)
-  public ResponseEntity<ResponseDTO> CustomResumeNotFoundException(InsufficientGenerationCountException e) {
+  public ResponseEntity<ResponseDTO> CustomResumeNotFoundException(CustomResumeNotFoundException e) {
     return ResponseEntity.status(e.getErrorCode().getActualStatusCode())
         .body(ResponseDTO.of(e.getErrorCode()));
   }
