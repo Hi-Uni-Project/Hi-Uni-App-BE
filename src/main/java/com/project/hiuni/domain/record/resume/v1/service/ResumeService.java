@@ -102,21 +102,25 @@ public class ResumeService {
           .map(Career::getId)
           .collect(Collectors.toCollection(ArrayList::new));
 
-      request.getCareers().forEach(career -> {
-        if(career.getCareerId() == null) {
-          careerRepository.save(career.toEntity(resume));
-        } else {
-          Career originCareer = careerRepository.findById(career.getCareerId())
-              .orElseThrow(() -> new InternalServerException(ErrorCode.INTERNAL_SERVER_ERROR));
+      if(request.getCareers() != null && !request.getCareers().isEmpty()) {
+        request.getCareers().forEach(career -> {
+          if(career.getCareerId() == null) {
+            careerRepository.save(career.toEntity(resume));
+          } else {
+            Career originCareer = careerRepository.findById(career.getCareerId())
+                .orElseThrow(() -> new InternalServerException(ErrorCode.INTERNAL_SERVER_ERROR));
 
-          originCareer.update(career.toEntity(resume));
+            originCareer.update(career.toEntity(resume));
 
-          existingCareerIds.remove(originCareer.getId());
+            existingCareerIds.remove(originCareer.getId());
+          }
+        });
+
+        if (!existingCareerIds.isEmpty()) {
+          careerRepository.deleteAllById(existingCareerIds);
         }
-      });
-
-      if (!existingCareerIds.isEmpty()) {
-        careerRepository.deleteAllById(existingCareerIds);
+      } else {
+        careerRepository.deleteAll();
       }
 
 
@@ -128,21 +132,25 @@ public class ResumeService {
           .map(Project::getId)
           .collect(Collectors.toCollection(ArrayList::new));
 
-      request.getProjects().forEach(project -> {
-        if(project.getProjectId() == null) {
-          projectRepository.save(project.toEntity(resume));
-        } else {
-          Project originProject = projectRepository.findById(project.getProjectId())
-              .orElseThrow(() -> new InternalServerException(ErrorCode.INTERNAL_SERVER_ERROR));
+      if(request.getProjects() != null && !request.getProjects().isEmpty()) {
+        request.getProjects().forEach(project -> {
+          if(project.getProjectId() == null) {
+            projectRepository.save(project.toEntity(resume));
+          } else {
+            Project originProject = projectRepository.findById(project.getProjectId())
+                .orElseThrow(() -> new InternalServerException(ErrorCode.INTERNAL_SERVER_ERROR));
 
-          originProject.update(project.toEntity(resume));
+            originProject.update(project.toEntity(resume));
 
-          existingProjectIds.remove(originProject.getId());
+            existingProjectIds.remove(originProject.getId());
+          }
+        });
+
+        if (!existingProjectIds.isEmpty()) {
+          projectRepository.deleteAllById(existingProjectIds);
         }
-      });
-
-      if (!existingProjectIds.isEmpty()) {
-        projectRepository.deleteAllById(existingProjectIds);
+      } else {
+        projectRepository.deleteAll();
       }
 
 
@@ -154,21 +162,25 @@ public class ResumeService {
           .map(Education::getId)
           .collect(Collectors.toCollection(ArrayList::new));
 
-      request.getEducations().forEach(education -> {
-        if(education.getEducationId() == null) {
-          educationRepository.save(education.toEntity(resume));
-        } else {
-          Education originEducation = educationRepository.findById(education.getEducationId())
-              .orElseThrow(() -> new InternalServerException(ErrorCode.INTERNAL_SERVER_ERROR));
+      if(request.getEducations() != null && !request.getEducations().isEmpty()) {
+        request.getEducations().forEach(education -> {
+          if(education.getEducationId() == null) {
+            educationRepository.save(education.toEntity(resume));
+          } else {
+            Education originEducation = educationRepository.findById(education.getEducationId())
+                .orElseThrow(() -> new InternalServerException(ErrorCode.INTERNAL_SERVER_ERROR));
 
-          originEducation.update(education.toEntity(resume));
+            originEducation.update(education.toEntity(resume));
 
-          existingEducationIds.remove(originEducation.getId());
+            existingEducationIds.remove(originEducation.getId());
+          }
+        });
+
+        if (!existingEducationIds.isEmpty()) {
+          educationRepository.deleteAllById(existingEducationIds);
         }
-      });
-
-      if (!existingEducationIds.isEmpty()) {
-        educationRepository.deleteAllById(existingEducationIds);
+      } else {
+        educationRepository.deleteAll();
       }
 
 
@@ -182,21 +194,25 @@ public class ResumeService {
           .map(Language::getId)
           .collect(Collectors.toCollection(ArrayList::new));
 
-      request.getLanguages().forEach(language -> {
-        if(language.getLanguageId() == null) {
-          languageRepository.save(language.toEntity(resume));
-        } else {
-          Language originLanguage = languageRepository.findById(language.getLanguageId())
-              .orElseThrow(() -> new InternalServerException(ErrorCode.INTERNAL_SERVER_ERROR));
+      if(request.getLanguages() != null && !request.getLanguages().isEmpty()) {
+        request.getLanguages().forEach(language -> {
+          if(language.getLanguageId() == null) {
+            languageRepository.save(language.toEntity(resume));
+          } else {
+            Language originLanguage = languageRepository.findById(language.getLanguageId())
+                .orElseThrow(() -> new InternalServerException(ErrorCode.INTERNAL_SERVER_ERROR));
 
-          originLanguage.update(language.toEntity(resume));
+            originLanguage.update(language.toEntity(resume));
 
-          existingLanguageIds.remove(originLanguage.getId());
+            existingLanguageIds.remove(originLanguage.getId());
+          }
+        });
+
+        if (!existingLanguageIds.isEmpty()) {
+          languageRepository.deleteAllById(existingLanguageIds);
         }
-      });
-
-      if (!existingLanguageIds.isEmpty()) {
-        languageRepository.deleteAllById(existingLanguageIds);
+      } else {
+        languageRepository.deleteAll();
       }
 
 
@@ -208,21 +224,25 @@ public class ResumeService {
           .map(Achievement::getId)
           .collect(Collectors.toCollection(ArrayList::new));
 
-      request.getAchievements().forEach(achievement -> {
-        if(achievement.getAchievementId() == null) {
-          achievementRepository.save(achievement.toEntity(resume));
-        } else {
-          Achievement originAchievement = achievementRepository.findById(achievement.getAchievementId())
-              .orElseThrow(() -> new InternalServerException(ErrorCode.INTERNAL_SERVER_ERROR));
+      if(request.getAchievements() != null && request.getAchievements().isEmpty()) {
+        request.getAchievements().forEach(achievement -> {
+          if(achievement.getAchievementId() == null) {
+            achievementRepository.save(achievement.toEntity(resume));
+          } else {
+            Achievement originAchievement = achievementRepository.findById(achievement.getAchievementId())
+                .orElseThrow(() -> new InternalServerException(ErrorCode.INTERNAL_SERVER_ERROR));
 
-          originAchievement.update(achievement.toEntity(resume));
+            originAchievement.update(achievement.toEntity(resume));
 
-          existingAchievementIds.remove(originAchievement.getId());
+            existingAchievementIds.remove(originAchievement.getId());
+          }
+        });
+
+        if (!existingAchievementIds.isEmpty()) {
+          achievementRepository.deleteAllById(existingAchievementIds);
         }
-      });
-
-      if (!existingAchievementIds.isEmpty()) {
-        achievementRepository.deleteAllById(existingAchievementIds);
+      } else {
+        achievementRepository.deleteAll();
       }
 
 
@@ -232,28 +252,34 @@ public class ResumeService {
           .map(Link::getId)
           .collect(Collectors.toCollection(ArrayList::new));
 
-      request.getLinks().forEach(link -> {
-        if(link.getLinkId() == null) {
-          linkRepository.save(link.toEntity(resume));
-        } else {
-          Link originLink = linkRepository.findById(link.getLinkId())
-              .orElseThrow(() -> new InternalServerException(ErrorCode.INTERNAL_SERVER_ERROR));
+      if(request.getLinks() != null && !request.getLinks().isEmpty()) {
+        request.getLinks().forEach(link -> {
+          if(link.getLinkId() == null) {
+            linkRepository.save(link.toEntity(resume));
+          } else {
+            Link originLink = linkRepository.findById(link.getLinkId())
+                .orElseThrow(() -> new InternalServerException(ErrorCode.INTERNAL_SERVER_ERROR));
 
-          originLink.update(link.toEntity(resume));
+            originLink.update(link.toEntity(resume));
+          }
+        });
+
+        if (!existingLinkIds.isEmpty()) {
+          linkRepository.deleteAllById(existingLinkIds);
         }
-      });
-
-      if (!existingLinkIds.isEmpty()) {
-        linkRepository.deleteAllById(existingLinkIds);
+      } else {
+        linkRepository.deleteAll();
       }
 
 
 
       // 7. 스킬
       skillRepository.deleteAll();
-      request.getSkills().forEach(skill -> {
-        skillRepository.save(skill.toEntity(resume));
-      });
+      if(request.getSkills() != null && !request.getSkills().isEmpty()) {
+        request.getSkills().forEach(skill -> {
+          skillRepository.save(skill.toEntity(resume));
+        });
+      } else { }
 
 
     } catch (CustomUserNotFoundException e) {
@@ -329,6 +355,10 @@ public class ResumeService {
       Resume resume = resumeRepository.findByUser(user)
           .orElseThrow(() -> new CustomResumeNotFoundException(ErrorCode.RESUME_NOT_FOUND));
 
+      if(resumeIsEmpty(user)) {
+        throw new CustomResumeNotFoundException(ErrorCode.RESUME_NOT_FOUND);
+      }
+
       return ResumeResponse
           .builder()
           .resumeId(resume.getId())
@@ -389,6 +419,38 @@ public class ResumeService {
       throw new InternalServerException(ErrorCode.INTERNAL_SERVER_ERROR);
     }
 
+
+  }
+
+  public boolean resumeIsEmpty(User user) {
+
+    Resume resume = resumeRepository.findByUser(user).orElse(null);
+
+    if(resume == null) {
+      return true;
+    }
+
+    if(
+        (resume.getCareers() == null || resume.getCareers().isEmpty()) &&
+        (resume.getProjects() == null || resume.getProjects().isEmpty()) &&
+        (resume.getEducations() == null || resume.getEducations().isEmpty()) &&
+        (resume.getLanguages() == null || resume.getLanguages().isEmpty()) &&
+        (resume.getAchievements() == null || resume.getAchievements().isEmpty()) &&
+        (resume.getLinks() == null || resume.getLinks().isEmpty()) &&
+        (resume.getSkills() == null || resume.getSkills().isEmpty()) &&
+            (resume.getName() == null || resume.getName().isEmpty()) &&
+            (resume.getGender() == null) &&
+            (resume.getBirthYear() == null) &&
+            (resume.getImageUrl() == null || resume.getImageUrl().isEmpty()) &&
+            (resume.getTitle() == null || resume.getTitle().isEmpty()) &&
+            (resume.getAboutMe() == null || resume.getAboutMe().isEmpty())
+    )
+    {
+      return true;
+    }
+
+
+    return false;
 
   }
 
