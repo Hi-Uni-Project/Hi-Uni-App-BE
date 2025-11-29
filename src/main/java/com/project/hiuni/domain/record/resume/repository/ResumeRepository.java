@@ -9,4 +9,5 @@ public interface ResumeRepository extends JpaRepository<Resume, Long> {
 
 
   Optional<Resume> findByUser(User user);
+  void deleteByUser(User user);
 }
