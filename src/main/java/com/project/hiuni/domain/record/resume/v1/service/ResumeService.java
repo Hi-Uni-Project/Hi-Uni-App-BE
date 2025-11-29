@@ -224,7 +224,7 @@ public class ResumeService {
           .map(Achievement::getId)
           .collect(Collectors.toCollection(ArrayList::new));
 
-      if(request.getAchievements() != null && request.getAchievements().isEmpty()) {
+      if(request.getAchievements() != null && !request.getAchievements().isEmpty()) {
         request.getAchievements().forEach(achievement -> {
           if(achievement.getAchievementId() == null) {
             achievementRepository.save(achievement.toEntity(resume));
