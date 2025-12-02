@@ -9,6 +9,7 @@ import com.project.hiuni.domain.mail.exception.InvalidEmailCodeException;
 import com.project.hiuni.domain.mail.exception.InvalidEmailFormatException;
 import com.project.hiuni.domain.post.exception.CustomForbiddenException;
 import com.project.hiuni.domain.post.exception.CustomPostNotFoundException;
+import com.project.hiuni.domain.record.coverletter.exception.CustomCoverLetterNotFountException;
 import com.project.hiuni.domain.record.exception.InsufficientGenerationCountException;
 import com.project.hiuni.domain.record.resume.exception.CustomInvalidException;
 import com.project.hiuni.domain.record.resume.exception.CustomResumeNotFoundException;
@@ -185,6 +186,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
   @ExceptionHandler(CustomResumeNotFoundException.class)
   public ResponseEntity<ResponseDTO> CustomResumeNotFoundException(CustomResumeNotFoundException e) {
+    return ResponseEntity.status(e.getErrorCode().getActualStatusCode())
+        .body(ResponseDTO.of(e.getErrorCode()));
+  }
+
+  @ExceptionHandler(CustomCoverLetterNotFountException.class)
+  public ResponseEntity<ResponseDTO> CustomCoverLetterNotFountException(CustomCoverLetterNotFountException e) {
     return ResponseEntity.status(e.getErrorCode().getActualStatusCode())
         .body(ResponseDTO.of(e.getErrorCode()));
   }
