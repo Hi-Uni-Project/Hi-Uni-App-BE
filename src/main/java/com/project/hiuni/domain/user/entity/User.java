@@ -4,6 +4,7 @@ import com.project.hiuni.admin.common.BaseEntity;
 import com.project.hiuni.domain.auth.dto.request.AuthSignUpRequest.Univ;
 import com.project.hiuni.domain.auth.entity.Auth;
 import com.project.hiuni.domain.auth.entity.SocialProvider;
+import com.project.hiuni.domain.record.coverletter.entity.CoverLetter;
 import com.project.hiuni.domain.record.exception.InsufficientGenerationCountException;
 import com.project.hiuni.domain.user.dto.request.UserPostRequest;
 import com.project.hiuni.global.exception.ErrorCode;
@@ -18,8 +19,11 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -71,6 +75,9 @@ public class User extends BaseEntity {
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn(name = "profile_image_id")
 	private ProfileImage profileImage;
+
+	@OneToMany(mappedBy = "user")
+	private List<CoverLetter> coverLetters = new ArrayList<>();
 
 	@Builder
 	private User(
@@ -210,5 +217,11 @@ public class User extends BaseEntity {
 		}
 		this.coverletterCnt -= 1;
 	}
+
+	public void addCoverLetter(CoverLetter coverLetter) {
+		this.coverLetters.add(coverLetter);
+		coverLetter.setUser(this);
+	}
+
 
 }
