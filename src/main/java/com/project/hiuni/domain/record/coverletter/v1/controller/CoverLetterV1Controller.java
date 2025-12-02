@@ -12,10 +12,13 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -41,6 +44,16 @@ public class CoverLetterV1Controller {
     coverLetterV1Service.createOrUpdateCoverLetter(request, userDetails.getId());
 
     return ResponseDTO.of("자기소개서 생성에 성공하였습니다.");
+  }
+
+  @DeleteMapping("/{id}")
+  public ResponseDTO<?> deleteCoverLetter(
+      @AuthenticationPrincipal CustomUserDetails userDetails,
+      @PathVariable Long id) {
+
+    coverLetterV1Service.deleteCoverLetter(id, userDetails.getId());
+
+    return ResponseDTO.of("자기소개서 삭제에 성공하였습니다.");
   }
 
 

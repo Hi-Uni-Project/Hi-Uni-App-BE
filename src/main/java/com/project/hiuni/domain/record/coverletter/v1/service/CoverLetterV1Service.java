@@ -147,4 +147,34 @@ public class CoverLetterV1Service {
     }
 
   }
+
+  @Transactional
+  public void deleteCoverLetter(Long id ,Long userId) {
+
+    try {
+
+      User user = userRepository.findById(userId).orElseThrow(
+          () -> new CustomUserNotFoundException(ErrorCode.USER_NOT_FOUND)
+      );
+
+      CoverLetter coverLetter = coverLetterRepository.findById(id).orElseThrow(
+          () -> new CustomCoverLetterNotFountException(ErrorCode.COVER_LETTER_NOT_FOUND)
+      );
+
+      coverLetterRepository.deleteById(id);
+
+    } catch (CustomUserNotFoundException e) {
+      log.error("유저를 찾을 수 없습니다.: {}", e.getMessage());
+      throw e;
+
+    } catch (CustomCoverLetterNotFountException e) {
+      log.error("자기소개서를 찾을 수 없습니다.: {}", e.getMessage());
+      throw e;
+    } catch (Exception e) {
+      log.error("자기소개서 삭제 중 오류가 발생했습니다.: {}", e.getMessage());
+      throw new InternalServerException(ErrorCode.INTERNAL_SERVER_ERROR);
+    }
+
+
+  }
 }
