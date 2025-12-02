@@ -28,7 +28,7 @@ public class ResumeController {
   private final ResumeService resumeService;
 
   @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-  public ResponseDTO<?> createOrUpdate(
+  public ResponseDTO<?> createOrUpdateResume(
       @RequestPart(value = "image", required = false) MultipartFile file,
       @RequestPart("data") ResumeRequest request,
       @AuthenticationPrincipal CustomUserDetails userDetails) {

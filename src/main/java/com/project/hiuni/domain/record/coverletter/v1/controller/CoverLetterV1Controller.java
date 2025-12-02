@@ -25,20 +25,20 @@ public class CoverLetterV1Controller {
   private final CoverLetterV1Service coverLetterV1Service;
 
   @GetMapping
-  public ResponseDTO<List<CoverLetterResponse>> getCoverLetter(
+  public ResponseDTO<CoverLetterResponse> getCoverLetter(
       @AuthenticationPrincipal CustomUserDetails userDetails) {
 
-    List<CoverLetterResponse> response = coverLetterV1Service.getCoverLetter(userDetails.getId());
+    CoverLetterResponse response = coverLetterV1Service.getCoverLetter(userDetails.getId());
 
     return ResponseDTO.of(response, "자기소개서 문항 조회에 성공하였습니다.");
   }
 
   @PostMapping
-  public ResponseDTO<?> createCoverLetter(
+  public ResponseDTO<?> createOrUpdateCoverLetter(
       @RequestBody List<CoverLetterRequest> request,
       @AuthenticationPrincipal CustomUserDetails userDetails) {
 
-    coverLetterV1Service.createCoverLetter(request, userDetails.getId());
+    coverLetterV1Service.createOrUpdateCoverLetter(request, userDetails.getId());
 
     return ResponseDTO.of("자기소개서 생성에 성공하였습니다.");
   }

@@ -10,5 +10,6 @@ import lombok.Setter;
 public class AiCoverLetterResponse {
 
   private String answer;
+  private Integer coverletterCnt;
 
 }

@@ -8,14 +8,17 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CoverLetterRequest {
+  private Long coverLetterId;
   private String question;
   private String answer;
 
   public CoverLetter toEntity(User user) {
-    return CoverLetter.builder()
-        .question(this.question)
-        .answer(this.answer)
-        .user(user)
-        .build();
+    return CoverLetter.of(
+        this.coverLetterId,
+        this.question,
+        this.answer,
+        user
+    );
+
   }
 }

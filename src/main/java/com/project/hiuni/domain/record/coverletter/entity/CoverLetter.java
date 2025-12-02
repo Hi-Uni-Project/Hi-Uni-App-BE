@@ -32,18 +32,25 @@ public class CoverLetter {
   private User user;
 
   @Builder
-  private CoverLetter(String question, String answer, User user) {
+  private CoverLetter(Long id, String question, String answer, User user) {
+    this.id = id;
     this.question = question;
     this.answer = answer;
     this.user = user;
   }
 
-  public static CoverLetter of(String question, String answer, User user) {
-    return CoverLetter.of(question, answer, user);
+  public static CoverLetter of(Long id, String question, String answer, User user) {
+    return CoverLetter
+        .builder()
+        .id(id)
+        .question(question)
+        .answer(answer)
+        .user(user)
+        .build();
   }
 
-  public CoverLetterResponse toCoverLetterResponse() {
-    return CoverLetterResponse.
+  public CoverLetterResponse.CoverLetters toCoverLetterResponse() {
+    return CoverLetterResponse.CoverLetters.
         builder()
         .coverLetterId(this.id)
         .question(this.question)

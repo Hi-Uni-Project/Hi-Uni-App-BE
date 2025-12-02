@@ -35,7 +35,7 @@ public class CoverLetterV1Service {
   private final CoverLetterRepository coverLetterRepository;
   private final PostRepository postRepository;
 
-  public List<CoverLetterResponse> getCoverLetter(Long userId) {
+  public CoverLetterResponse getCoverLetter(Long userId) {
     try {
 
       User user = userRepository.findById(userId).orElseThrow(
@@ -48,9 +48,15 @@ public class CoverLetterV1Service {
         throw new CustomCoverLetterNotFountException(ErrorCode.COVER_LETTER_NOT_FOUND);
       }
 
-      return coverLetters.stream()
-          .map(CoverLetter::toCoverLetterResponse)
-          .toList();
+      return CoverLetterResponse
+          .builder()
+          .coverLetters(
+              coverLetters.stream()
+                  .map(CoverLetter::toCoverLetterResponse)
+                  .toList()
+          )
+          .coverletterCnt(user.getCoverletterCnt())
+          .build();
 
     } catch (CustomUserNotFoundException e) {
       log.error("유저를 찾을 수 없습니다.: {}", e.getMessage());
@@ -67,7 +73,9 @@ public class CoverLetterV1Service {
 
   }
 
-  public void createCoverLetter(List<CoverLetterRequest> request, Long userId) {
+
+  @Transactional
+  public void createOrUpdateCoverLetter(List<CoverLetterRequest> request, Long userId) {
 
     try {
 
@@ -122,6 +130,7 @@ public class CoverLetterV1Service {
 
       return AiCoverLetterResponse.builder()
           .answer(response)
+          .coverletterCnt(user.getCoverletterCnt())
           .build();
 
     } catch (CustomUserNotFoundException e) {
