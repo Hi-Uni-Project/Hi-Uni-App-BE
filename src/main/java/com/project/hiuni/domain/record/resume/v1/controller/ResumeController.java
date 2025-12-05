@@ -36,6 +36,7 @@ public class ResumeController {
     resumeService.createOrUpdateResume(file, request, userDetails.getId());
 
     return ResponseDTO.of("이력서 저장에 성공하였습니다.");
+
   }
 
   @GetMapping("/ai-about-me")
