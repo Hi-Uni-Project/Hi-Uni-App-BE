@@ -6,6 +6,7 @@ import com.project.hiuni.domain.post.dto.request.PostUpdateNoReviewRequest;
 import com.project.hiuni.domain.post.dto.request.PostUpdateReviewRequest;
 import com.project.hiuni.domain.post.dto.response.PostCreateNoReviewResponse;
 import com.project.hiuni.domain.post.dto.response.PostCreateReviewResponse;
+import com.project.hiuni.domain.post.dto.response.PostMyReviewResponse;
 import com.project.hiuni.domain.post.dto.response.PostNoReviewResponse;
 import com.project.hiuni.domain.post.dto.response.PostReviewResponse;
 import com.project.hiuni.domain.post.dto.response.PostUpdateNoReviewResponse;
@@ -36,6 +37,8 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -538,6 +541,28 @@ public class PostV1Service {
         return posts.stream()
                 .map(PostPreviewResponse::from)
                 .collect(Collectors.toList());
+    }
+
+    public List<PostMyReviewResponse> getMyReviewPosts(Long userId) {
+
+        List<Post> result = new ArrayList<>();
+
+        result.addAll(experiencePostRepository.findReviewPostsByUser(userId));
+        result.addAll(internshipPostRepository.findReviewPostsByUser(userId));
+        result.addAll(interviewPostRepository.findReviewPostsByUser(userId));
+        result.addAll(jobPostRepository.findReviewPostsByUser(userId));
+        result.addAll(licensePostRepository.findReviewPostsByUser(userId));
+
+        result.sort(Comparator.comparing(Post::getCreatedAt).reversed());
+
+        return result.stream()
+                .map(p -> new PostMyReviewResponse(
+                        p.getCategory(),
+                        p.getType(),
+                        p.getTitle(),
+                        p.getContent()
+                ))
+                .toList();
     }
 
     private static Category getCategory(Type type) {
