@@ -570,4 +570,105 @@ public class PostV1Service {
             case JOB, INTERNSHIP, INTERVIEW, EXPERIENCE, LICENSE -> Category.JOBINFORMATION;
         };
     }
+
+    /*
+[
+  [
+    "삼성전자 DX본부",      // organizationName
+    "백엔드 개발 인턴",      // position
+    "사원급",               // positionRank
+    "API 개발 및 테스트",    // whatWork
+    "Java / Spring",       // requiredSkills
+    "협업 중심",            // characteristics
+    "많이 성장함",          // feelings
+    "추가 팁"               // additional
+  ],
+  [
+    "카카오",               // companyName
+    "서버팀",               // department
+    "로그 시스템 구축",       // tasks
+    "운영 자동화 경험",       // learned
+    "배움이 많았음",         // feelings
+    "추가 내용"              // additional
+  ] 이런식으로 자기 후기에 대해서 반환되는 로직입니다. 자기소개서 AI 이용 시 사용해주세요!
+     */
+    public List<List<String>> getMyReviewDetailList(Long userId) {
+
+        List<Post> result = new ArrayList<>();
+
+        result.addAll(experiencePostRepository.findReviewPostsByUser(userId));
+        result.addAll(internshipPostRepository.findReviewPostsByUser(userId));
+        result.addAll(interviewPostRepository.findReviewPostsByUser(userId));
+        result.addAll(jobPostRepository.findReviewPostsByUser(userId));
+        result.addAll(licensePostRepository.findReviewPostsByUser(userId));
+
+        return result.stream()
+                .map(this::extractDetailFields)
+                .toList();
+    }
+
+    private List<String> extractDetailFields(Post p) {
+        List<String> details = new ArrayList<>();
+
+        if (p instanceof ExperiencePost e) {
+            add(details, e.getOrganizationName());
+            add(details, e.getPosition());
+            add(details, e.getPositionRank());
+            add(details, e.getWhatWork());
+            add(details, e.getRequiredSkills());
+            add(details, e.getCharacteristics());
+            add(details, e.getFeelings());
+            add(details, e.getAdditional());
+        }
+
+        else if (p instanceof InternshipPost i) {
+            add(details, i.getCompanyName());
+            add(details, i.getDepartment());
+            add(details, i.getTasks());
+            add(details, i.getLearned());
+            add(details, i.getFeelings());
+            add(details, i.getAdditional());
+        }
+
+        else if (p instanceof InterviewPost i) {
+            add(details, i.getCompanyName());
+            add(details, i.getAppliedPosition());
+            add(details, i.getInterviewFormat());
+            add(details, i.getInterviewQuestions());
+            add(details, i.getPreparation());
+            add(details, i.getAtmosphere());
+            add(details, i.getFeelings());
+            add(details, i.getAdditional());
+        }
+
+        else if (p instanceof JobPost j) {
+            add(details, j.getCompanyName());
+            add(details, j.getAppliedPosition());
+            add(details, j.getApplyMethod());
+            add(details, j.getInterviewQuestions());
+            add(details, j.getPreparation());
+            add(details, j.getResult());
+            add(details, j.getFeelings());
+            add(details, j.getAdditional());
+        }
+
+        else if (p instanceof LicensePost l) {
+            add(details, l.getCertificationName());
+            add(details, l.getPrepDuration());
+            add(details, l.getMaterials());
+            add(details, l.getDifficulty());
+            add(details, l.getStudyMethod());
+            add(details, l.getTips());
+            add(details, l.getFeelings());
+            add(details, l.getAdditional());
+        }
+
+        return details;
+    }
+
+    private void add(List<String> list, String value) {
+        if (value != null && !value.isBlank()) {
+            list.add(value);
+        }
+    }
 }
