@@ -89,7 +89,10 @@ public class ResumeService {
       }
 
       // 이력서 기본정보 업데이트
-      resume.updateImageUrl(imageUrl);
+      if(request.getUpdateImage()) { //이미지 변경 필드가 true 일 경우에만 반영
+        resume.updateImageUrl(imageUrl);
+      }
+
       resume.updateName(request.getName());
       resume.updateGender(request.getGender());
       resume.updateBirthYear(request.getBirthYear());
