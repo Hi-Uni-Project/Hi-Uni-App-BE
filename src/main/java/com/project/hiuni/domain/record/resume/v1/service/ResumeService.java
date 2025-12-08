@@ -261,6 +261,8 @@ public class ResumeService {
                 .orElseThrow(() -> new InternalServerException(ErrorCode.INTERNAL_SERVER_ERROR));
 
             originLink.update(link.toEntity(resume));
+
+            existingLinkIds.remove(originLink.getId());
           }
         });
 
