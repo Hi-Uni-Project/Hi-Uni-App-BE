@@ -6,6 +6,7 @@ import com.project.hiuni.domain.post.dto.request.PostUpdateNoReviewRequest;
 import com.project.hiuni.domain.post.dto.request.PostUpdateReviewRequest;
 import com.project.hiuni.domain.post.dto.response.PostCreateNoReviewResponse;
 import com.project.hiuni.domain.post.dto.response.PostCreateReviewResponse;
+import com.project.hiuni.domain.post.dto.response.PostMyReviewResponse;
 import com.project.hiuni.domain.post.dto.response.PostNoReviewResponse;
 import com.project.hiuni.domain.post.dto.response.PostReviewResponse;
 import com.project.hiuni.domain.post.dto.response.PostUpdateNoReviewResponse;
@@ -197,5 +198,12 @@ public class PostV1Controller {
         List<PostPreviewResponse> postPreviewResponses = postV1Service.getMyPosts(userDetails.getId());
 
         return ResponseDTO.of(postPreviewResponses, "내가 쓴 게시글 목록 조회에 성공하였습니다.");
+    }
+
+    @GetMapping("/me/reviews")
+    public ResponseDTO<List<PostMyReviewResponse>> getMyReviews(@AuthenticationPrincipal CustomUserDetails userDetails) {
+
+        List<PostMyReviewResponse> postMyReviewResponses = postV1Service.getMyReviewPosts(userDetails.getId());
+        return ResponseDTO.of(postMyReviewResponses, "내가 쓴 모든 후기 조회에 성공하였습니다.");
     }
 }

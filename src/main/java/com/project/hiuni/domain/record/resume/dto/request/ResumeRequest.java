@@ -30,6 +30,8 @@ public class ResumeRequest {
 
   private String aboutMe; //내 소개
 
+  private Boolean updateImage; //이미지 변경 여부
+
   private List<CareerDto> careers; //경력 사항
 
   private List<ProjectDto> projects; //프로젝트 사항
