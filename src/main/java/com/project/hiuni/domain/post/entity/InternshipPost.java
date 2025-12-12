@@ -31,7 +31,7 @@ public class InternshipPost extends Post {
                           String companyName, String department, String tasks, String learned,
                           LocalDateTime startDate, LocalDateTime endDate,
                           String feelings, String additional) {
-        super(title, content, category, Type.INTERNSHIP, imageUrl, user);
+        super(title, content, category, Type.INTERNSHIP, user);
         this.companyName = companyName;
         this.department = department;
         this.tasks = tasks;

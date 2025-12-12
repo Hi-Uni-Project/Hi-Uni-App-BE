@@ -13,7 +13,6 @@ public record PostCreateReviewResponse(
         String univName,
         String firstMajorName,
         String secondMajorName,
-        String user,
 
         // 공통(Post)
         Long id,
@@ -21,11 +20,10 @@ public record PostCreateReviewResponse(
         String content,
         Type type,
         Category category,
-        String imageUrl,
-        Integer likeCount,
-        Integer commentCount,
-        Integer bookmarkCount,
-        Integer viewCount,
+        int likeCount,
+        int commentCount,
+        int bookmarkCount,
+        int viewCount,
         LocalDateTime createdAt,
 
         // JOB & 일부 공통 사용
@@ -73,7 +71,6 @@ public record PostCreateReviewResponse(
         String univName = null;
         String firstMajorName = null;
         String secondMajorName = null;
-        String userImageUrl = null;
 
         User u = post.getUser();
         if (u != null) {
@@ -81,7 +78,6 @@ public record PostCreateReviewResponse(
             univName = u.getUnivName();
             firstMajorName = u.getFirstMajorName();
             secondMajorName = u.getSecondMajorName();
-            userImageUrl = u.getImageUrl();
         }
 
         Long id = post.getId();
@@ -89,7 +85,6 @@ public record PostCreateReviewResponse(
         String content = post.getContent();
         Type type = post.getType();
         Category category = post.getCategory();
-        String imageUrl = post.getImageUrl();
         Integer likeCount = post.getLikeCount();
         Integer commentCount = post.getCommentCount();
         Integer bookmarkCount = post.getBookmarkCount();
@@ -181,8 +176,8 @@ public record PostCreateReviewResponse(
         }
 
         return new PostCreateReviewResponse(
-                nickname, univName, firstMajorName, secondMajorName, userImageUrl,
-                id, title, content, type, category, imageUrl,
+                nickname, univName, firstMajorName, secondMajorName,
+                id, title, content, type, category,
                 likeCount, commentCount, bookmarkCount, viewCount, createdAt,
                 companyName, appliedPosition, applyMethod,
                 interviewQuestions, preparation, result, feelings, additional,

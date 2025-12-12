@@ -32,7 +32,7 @@ public class LicensePost extends Post {
                        String certificationName, String prepDuration, String materials,
                        String difficulty, String studyMethod, String tips,
                        String feelings, String additional) {
-        super(title, content, category, Type.LICENSE, imageUrl, user);
+        super(title, content, category, Type.LICENSE, user);
         this.certificationName = certificationName;
         this.prepDuration = prepDuration;
         this.materials = materials;

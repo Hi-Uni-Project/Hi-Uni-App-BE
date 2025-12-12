@@ -42,7 +42,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -72,7 +71,6 @@ public class PostV1Service {
                             .title(request.title())
                             .content(request.content())
                             .category(category)
-                            .imageUrl(request.imageUrl())
                             .user(user)
                             // detail은 전부 null
                             .companyName(null)
@@ -90,7 +88,6 @@ public class PostV1Service {
                             .title(request.title())
                             .content(request.content())
                             .category(category)
-                            .imageUrl(request.imageUrl())
                             .user(user)
                             .companyName(null)
                             .department(null)
@@ -107,7 +104,6 @@ public class PostV1Service {
                             .title(request.title())
                             .content(request.content())
                             .category(category)
-                            .imageUrl(request.imageUrl())
                             .user(user)
                             .companyName(null)
                             .appliedPosition(null)
@@ -124,7 +120,6 @@ public class PostV1Service {
                             .title(request.title())
                             .content(request.content())
                             .category(category)
-                            .imageUrl(request.imageUrl())
                             .user(user)
                             .organizationName(null)
                             .position(null)
@@ -143,7 +138,6 @@ public class PostV1Service {
                             .title(request.title())
                             .content(request.content())
                             .category(category)
-                            .imageUrl(request.imageUrl())
                             .user(user)
                             .certificationName(null)
                             .prepDuration(null)
@@ -174,7 +168,6 @@ public class PostV1Service {
                             .title(request.title())
                             .content(request.content())
                             .category(category)
-                            .imageUrl(request.imageUrl())
                             .user(user)
                             .companyName(request.firstQuestion())
                             .appliedPosition(request.secondQuestion())
@@ -192,7 +185,6 @@ public class PostV1Service {
                             .title(request.title())
                             .content(request.content())
                             .category(category)
-                            .imageUrl(request.imageUrl())
                             .user(user)
                             .companyName(request.firstQuestion())
                             .department(request.secondQuestion())
@@ -210,7 +202,6 @@ public class PostV1Service {
                             .title(request.title())
                             .content(request.content())
                             .category(category)
-                            .imageUrl(request.imageUrl())
                             .user(user)
                             .companyName(request.firstQuestion())
                             .appliedPosition(request.secondQuestion())
@@ -228,7 +219,6 @@ public class PostV1Service {
                             .title(request.title())
                             .content(request.content())
                             .category(category)
-                            .imageUrl(request.imageUrl())
                             .user(user)
                             .organizationName(request.firstQuestion())
                             .position(request.secondQuestion())
@@ -248,7 +238,6 @@ public class PostV1Service {
                             .title(request.title())
                             .content(request.content())
                             .category(category)
-                            .imageUrl(request.imageUrl())
                             .user(user)
                             .certificationName(request.firstQuestion())
                             .prepDuration(request.secondQuestion())
@@ -296,7 +285,6 @@ public class PostV1Service {
         post.updateCommon(
                 request.title(),
                 request.content(),
-                request.imageUrl(),
                 post.getCategory()
         );
         return PostUpdateNoReviewResponse.from(post);
@@ -316,7 +304,6 @@ public class PostV1Service {
         post.updateCommon(
                 postUpdateReviewRequest.title(),
                 postUpdateReviewRequest.content(),
-                postUpdateReviewRequest.imageUrl(),
                 post.getCategory()
         );
 

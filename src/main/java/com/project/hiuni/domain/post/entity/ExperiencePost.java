@@ -37,7 +37,7 @@ public class ExperiencePost extends Post {
                           String position, String positionRank, String whatWork,
                           String requiredSkills, String characteristics,
                           String feelings, String additional) {
-        super(title, content, category, Type.EXPERIENCE, imageUrl, user);
+        super(title, content, category, Type.EXPERIENCE, user);
         this.organizationName = organizationName;
         this.startDate = startDate;
         this.endDate = endDate;

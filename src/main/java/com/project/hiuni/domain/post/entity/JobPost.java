@@ -31,7 +31,7 @@ public class JobPost extends Post {
                    String companyName, String appliedPosition, String applyMethod,
                    String interviewQuestions, String preparation, String result,
                    String feelings, String additional) {
-        super(title, content, category, Type.JOB, imageUrl, user);
+        super(title, content, category, Type.JOB, user);
         this.companyName = companyName;
         this.appliedPosition = appliedPosition;
         this.applyMethod = applyMethod;
