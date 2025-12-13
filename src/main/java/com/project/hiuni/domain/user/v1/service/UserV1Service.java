@@ -1,5 +1,6 @@
 package com.project.hiuni.domain.user.v1.service;
 
+import com.project.hiuni.domain.bookmark.repository.BookmarkRepository;
 import com.project.hiuni.domain.comment.v1.service.CommentLikeV1Service;
 import com.project.hiuni.domain.comment.v1.service.CommentV1Service;
 import com.project.hiuni.domain.record.coverletter.v1.service.CoverLetterV1Service;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Service;
 public class UserV1Service {
 
   private final UserRepository userRepository;
+  private final BookmarkRepository bookmarkRepository;
 
   private final TosV1Service tosV1Service;
   private final CoverLetterV1Service coverLetterV1Service;
@@ -47,6 +49,10 @@ public class UserV1Service {
 
       //댓글 삭제
       commentV1Service.deleteAllByUser(user);
+
+      //북마크 삭제
+      bookmarkRepository.deleteAllByUser(user);
+
 
 
 
