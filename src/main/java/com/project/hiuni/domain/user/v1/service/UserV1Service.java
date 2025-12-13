@@ -9,6 +9,7 @@ import com.project.hiuni.domain.post.repository.PostRepository;
 import com.project.hiuni.domain.post.v1.service.PostLikeV1Service;
 import com.project.hiuni.domain.record.coverletter.v1.service.CoverLetterV1Service;
 import com.project.hiuni.domain.record.resume.v1.service.ResumeV1Service;
+import com.project.hiuni.domain.schedule.repository.ScheduleRepository;
 import com.project.hiuni.domain.tos.service.TosV1Service;
 import com.project.hiuni.domain.user.entity.User;
 import com.project.hiuni.domain.user.exception.CustomUserNotFoundException;
@@ -27,7 +28,7 @@ public class UserV1Service {
 
   private final UserRepository userRepository;
   private final BookmarkRepository bookmarkRepository;
-  private final PostLikeRepository postLikeRepository;
+  private final ScheduleRepository scheduleRepository;
   private final PostRepository postRepository;
   private final AuthRepository authRepository;
 
@@ -70,6 +71,9 @@ public class UserV1Service {
 
       //게시글 삭제
       postRepository.deleteAllByUserId(user);
+
+      //스케쥴 삭제
+      scheduleRepository.deleteAllByUser(user);
 
       //유저 삭제
       userRepository.delete(user);
