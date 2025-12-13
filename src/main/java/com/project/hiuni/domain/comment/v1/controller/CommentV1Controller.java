@@ -1,6 +1,7 @@
 package com.project.hiuni.domain.comment.v1.controller;
 
 import com.project.hiuni.domain.comment.dto.request.CommentCreateRequest;
+import com.project.hiuni.domain.comment.dto.request.CommentReplyCreateRequest;
 import com.project.hiuni.domain.comment.dto.request.CommentUpdateRequest;
 import com.project.hiuni.domain.comment.dto.response.CommentCreateResponse;
 import com.project.hiuni.domain.comment.dto.response.CommentResponse;
@@ -72,6 +73,18 @@ public class CommentV1Controller {
         List<PostPreviewResponse> postPreviewResponses = commentV1Service.getMyCommentsPosts(userDetails.getId());
 
         return ResponseDTO.of(postPreviewResponses, "내가 쓴 댓글의 게시글 목록 조회에 성공하였습니다.");
+    }
+
+    @PostMapping("/{postId}/reply")
+    public ResponseDTO<CommentCreateResponse> createReplyComment(
+            @PathVariable Long postId,
+            @RequestBody CommentReplyCreateRequest request,
+            @AuthenticationPrincipal CustomUserDetails userDetails
+    ) {
+        CommentCreateResponse response =
+                commentV1Service.createReply(request, postId, userDetails.getId());
+
+        return ResponseDTO.of(response, "답글이 작성되었습니다.");
     }
 
 }
