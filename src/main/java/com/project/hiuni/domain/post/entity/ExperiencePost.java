@@ -32,12 +32,12 @@ public class ExperiencePost extends Post {
     private String additional;
 
     @Builder
-    public ExperiencePost(String title, String content, Category category, String imageUrl, User user,
+    public ExperiencePost(String title, String content, Category category, User user, boolean isReview,
                           String organizationName, LocalDateTime startDate, LocalDateTime endDate,
                           String position, String positionRank, String whatWork,
                           String requiredSkills, String characteristics,
                           String feelings, String additional) {
-        super(title, content, category, Type.EXPERIENCE, user);
+        super(title, content, category, Type.EXPERIENCE, user, isReview);
         this.organizationName = organizationName;
         this.startDate = startDate;
         this.endDate = endDate;

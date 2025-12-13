@@ -20,6 +20,7 @@ public record PostCreateReviewResponse(
         String content,
         Type type,
         Category category,
+        boolean isReview,
         int likeCount,
         int commentCount,
         int bookmarkCount,
@@ -73,6 +74,7 @@ public record PostCreateReviewResponse(
         String secondMajorName = null;
 
         User u = post.getUser();
+        boolean isReview = post.isReview();
         if (u != null) {
             nickname = u.getNickname();
             univName = u.getUnivName();
@@ -85,10 +87,10 @@ public record PostCreateReviewResponse(
         String content = post.getContent();
         Type type = post.getType();
         Category category = post.getCategory();
-        Integer likeCount = post.getLikeCount();
-        Integer commentCount = post.getCommentCount();
-        Integer bookmarkCount = post.getBookmarkCount();
-        Integer viewCount = post.getViewCount();
+        int likeCount = post.getLikeCount();
+        int commentCount = post.getCommentCount();
+        int bookmarkCount = post.getBookmarkCount();
+        int viewCount = post.getViewCount();
         LocalDateTime createdAt = post.getCreatedAt();
 
         // --- 타입별 필드 기본 null 초기화 ---
@@ -178,6 +180,7 @@ public record PostCreateReviewResponse(
         return new PostCreateReviewResponse(
                 nickname, univName, firstMajorName, secondMajorName,
                 id, title, content, type, category,
+                isReview,
                 likeCount, commentCount, bookmarkCount, viewCount, createdAt,
                 companyName, appliedPosition, applyMethod,
                 interviewQuestions, preparation, result, feelings, additional,

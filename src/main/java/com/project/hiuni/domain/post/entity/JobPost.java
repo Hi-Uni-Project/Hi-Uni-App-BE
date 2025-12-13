@@ -27,11 +27,11 @@ public class JobPost extends Post {
     private String additional;
 
     @Builder
-    public JobPost(String title, String content, Category category, String imageUrl, User user,
-                   String companyName, String appliedPosition, String applyMethod,
+    public JobPost(String title, String content, Category category, User user,
+                   boolean isReview, String companyName, String appliedPosition, String applyMethod,
                    String interviewQuestions, String preparation, String result,
                    String feelings, String additional) {
-        super(title, content, category, Type.JOB, user);
+        super(title, content, category, Type.JOB, user, isReview);
         this.companyName = companyName;
         this.appliedPosition = appliedPosition;
         this.applyMethod = applyMethod;

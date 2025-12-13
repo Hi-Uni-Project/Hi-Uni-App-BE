@@ -19,7 +19,8 @@ public record PostCreateNoReviewResponse (
         int commentCount,
         int bookmarkCount,
         int viewCount,
-        LocalDateTime createdAt
+        LocalDateTime createdAt,
+        boolean isReview
 ){
     public static PostCreateNoReviewResponse from(Post post) {
 
@@ -38,7 +39,8 @@ public record PostCreateNoReviewResponse (
                 post.getCommentCount(),
                 post.getBookmarkCount(),
                 post.getViewCount(),
-                post.getCreatedAt()
+                post.getCreatedAt(),
+                post.isReview()
         );
     }
 }

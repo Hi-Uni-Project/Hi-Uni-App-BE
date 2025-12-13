@@ -27,11 +27,11 @@ public class InterviewPost extends Post {
     private String additional;
 
     @Builder
-    public InterviewPost(String title, String content, Category category, String imageUrl, User user,
+    public InterviewPost(String title, String content, Category category, User user, boolean isReview,
                          String companyName, String appliedPosition, String interviewFormat,
                          String interviewQuestions, String preparation, String atmosphere,
                          String feelings, String additional) {
-        super(title, content, category, Type.INTERVIEW, user);
+        super(title, content, category, Type.INTERVIEW, user, isReview);
         this.companyName = companyName;
         this.appliedPosition = appliedPosition;
         this.interviewFormat = interviewFormat;
