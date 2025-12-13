@@ -1,9 +1,11 @@
 package com.project.hiuni.domain.user.v1.service;
 
+import com.project.hiuni.domain.auth.repository.AuthRepository;
 import com.project.hiuni.domain.bookmark.repository.BookmarkRepository;
 import com.project.hiuni.domain.comment.v1.service.CommentLikeV1Service;
 import com.project.hiuni.domain.comment.v1.service.CommentV1Service;
 import com.project.hiuni.domain.post.repository.PostLikeRepository;
+import com.project.hiuni.domain.post.repository.PostRepository;
 import com.project.hiuni.domain.record.coverletter.v1.service.CoverLetterV1Service;
 import com.project.hiuni.domain.record.resume.v1.service.ResumeV1Service;
 import com.project.hiuni.domain.tos.service.TosV1Service;
@@ -15,6 +17,7 @@ import com.project.hiuni.global.exception.InternalServerException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Slf4j
@@ -24,6 +27,8 @@ public class UserV1Service {
   private final UserRepository userRepository;
   private final BookmarkRepository bookmarkRepository;
   private final PostLikeRepository postLikeRepository;
+  private final PostRepository postRepository;
+  private final AuthRepository authRepository;
 
   private final TosV1Service tosV1Service;
   private final CoverLetterV1Service coverLetterV1Service;
@@ -31,11 +36,14 @@ public class UserV1Service {
   private final CommentLikeV1Service commentLikeV1Service;
   private final CommentV1Service commentV1Service;
 
+  @Transactional
   public void deleteUser(Long userId) {
     try {
 
       User user = userRepository.findById(userId)
           .orElseThrow(() -> new CustomUserNotFoundException(ErrorCode.USER_NOT_FOUND));
+
+      Long authId = user.getAuth().getId();
 
       //약관 동의 내역 제거
       tosV1Service.deleteAllByUser(user);
@@ -58,13 +66,14 @@ public class UserV1Service {
       //게시글 좋아요 삭제
       postLikeRepository.deleteAllByUser(user);
 
+      //게시글 삭제
+      postRepository.deleteAllByUserId(user);
 
+      //유저 삭제
+      userRepository.delete(user);
 
-
-
-
-
-
+      //리프레시 토큰 삭제
+      authRepository.deleteById(authId);
 
     } catch (CustomUserNotFoundException e) {
       log.error("유저를 찾을 수 없음: {}", e.getMessage());
