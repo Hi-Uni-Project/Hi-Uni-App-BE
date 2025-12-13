@@ -126,4 +126,9 @@ public class CommentV1Service {
                 .map(PostPreviewResponse::from)
                 .toList();
     }
+
+    @Transactional
+    public void deleteAllByUser(User user) {
+        commentRepository.deleteAllByUserId(user);
+    }
 }
