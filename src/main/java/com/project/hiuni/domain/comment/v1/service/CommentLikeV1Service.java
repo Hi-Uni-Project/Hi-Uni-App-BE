@@ -60,4 +60,9 @@ public class CommentLikeV1Service {
         comment.decreaseLikeCount();
     }
 
+    @Transactional
+    public void deleteAllByUser(User user) {
+        commentLikeRepository.deleteAllByUser(user);
+    }
+
 }
