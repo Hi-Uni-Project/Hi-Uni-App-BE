@@ -1,14 +1,13 @@
 package com.project.hiuni.domain.tos.controller;
 
 import com.project.hiuni.domain.tos.dto.request.TosRequest;
-import com.project.hiuni.domain.tos.service.TosService;
+import com.project.hiuni.domain.tos.service.TosV1Service;
 import com.project.hiuni.global.common.dto.response.ResponseDTO;
 import com.project.hiuni.global.exception.ErrorCode;
 import com.project.hiuni.global.exception.ValidationException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/tos")
 public class TosController {
 
-  private final TosService tosService;
+  private final TosV1Service tosV1Service;
 
   @PostMapping("/agree")
   public ResponseDTO<?> agreeTos(@RequestBody @Valid TosRequest tosRequest,
@@ -33,7 +32,7 @@ public class TosController {
     }
 
 
-    tosService.agreeTos(tosRequest, httpServletRequest);
+    tosV1Service.agreeTos(tosRequest, httpServletRequest);
 
     return ResponseDTO.of("약관 동의에 성공하였습니다.");
 

@@ -17,7 +17,7 @@ import com.project.hiuni.domain.tos.repository.MarketingTosHistoryRepository;
 import com.project.hiuni.domain.tos.repository.PersonalInfoTosHistoryRepository;
 import com.project.hiuni.domain.tos.repository.ServiceImprovementTosHistoryRepository;
 import com.project.hiuni.domain.tos.repository.ServiceTosHistoryRepository;
-import com.project.hiuni.domain.tos.service.TosService;
+import com.project.hiuni.domain.tos.service.TosV1Service;
 import com.project.hiuni.domain.user.entity.User;
 import com.project.hiuni.domain.user.exception.CustomUserNotFoundException;
 import com.project.hiuni.domain.user.repository.UserRepository;
@@ -32,7 +32,6 @@ import com.project.hiuni.infra.naver.NaverApiClient;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -51,7 +50,7 @@ public class AuthService {
   private final UserRepository userRepository;
   private final AuthRepository authRepository;
 
-  private final TosService tosService;
+  private final TosV1Service tosV1Service;
 
   private final ServiceTosHistoryRepository serviceTosHistoryRepository;
   private final PersonalInfoTosHistoryRepository personalInfoTosHistoryRepository;
@@ -380,7 +379,7 @@ public class AuthService {
     // 5. 약관동의 처리
     log.info("5. 약관동의 처리");
     Tos tos = authSignUpRequest.getTos();
-    tosService.agreeTos(tos, user);
+    tosV1Service.agreeTos(tos, user);
 
     // 6. 대학교, 학과, 학교 이메일 정보 업데이트
     log.info("6. 대학교, 학과, 학교 이메일 정보 업데이트");
