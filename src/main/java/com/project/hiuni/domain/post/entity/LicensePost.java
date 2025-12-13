@@ -28,11 +28,11 @@ public class LicensePost extends Post {
     private String additional;
 
     @Builder
-    public LicensePost(String title, String content, Category category, String imageUrl, User user,
+    public LicensePost(String title, String content, Category category, User user, boolean isReview,
                        String certificationName, String prepDuration, String materials,
                        String difficulty, String studyMethod, String tips,
                        String feelings, String additional) {
-        super(title, content, category, Type.LICENSE, imageUrl, user);
+        super(title, content, category, Type.LICENSE, user, isReview);
         this.certificationName = certificationName;
         this.prepDuration = prepDuration;
         this.materials = materials;

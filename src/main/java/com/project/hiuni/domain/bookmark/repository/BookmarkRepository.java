@@ -2,9 +2,11 @@ package com.project.hiuni.domain.bookmark.repository;
 
 import com.project.hiuni.domain.bookmark.entity.Bookmark;
 import com.project.hiuni.domain.post.entity.Post;
+import com.project.hiuni.domain.user.entity.User;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -34,4 +36,15 @@ public interface BookmarkRepository extends JpaRepository<Bookmark, Long> {
        WHERE b.user.id = :userId
        """)
     List<Post> findMyPostsBookmarked(@Param("userId") Long userId);
+
+
+    // 유저가 누른 북마크 전체 삭제 (회원 탈퇴 시 사용)
+    @Modifying
+    @Query("""
+           DELETE
+           FROM Bookmark b
+           WHERE b.user = :user
+           """)
+    void deleteAllByUser(@Param("user") User user);
+
 }

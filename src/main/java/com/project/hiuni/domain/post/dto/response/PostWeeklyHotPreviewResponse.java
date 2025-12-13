@@ -8,7 +8,8 @@ public record PostWeeklyHotPreviewResponse(
         String title,
         int likeCount,
         int commentCount,
-        LocalDateTime createdAt
+        LocalDateTime createdAt,
+        boolean isReview
 ) {
     public static PostWeeklyHotPreviewResponse from(Post post) {
         return new PostWeeklyHotPreviewResponse(
@@ -16,7 +17,8 @@ public record PostWeeklyHotPreviewResponse(
                 post.getTitle(),
                 post.getLikeCount(),
                 post.getCommentCount(),
-                post.getCreatedAt()
+                post.getCreatedAt(),
+                post.isReview()
         );
     }
 }

@@ -48,24 +48,25 @@ public abstract class Post extends BaseEntity {
     protected int viewCount = 0;
     protected int commentCount = 0;
 
+    protected boolean isReview;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     protected User user;
 
     protected Post(String title, String content, Category category, Type type,
-                   String imageUrl, User user) {
+                   User user, boolean isReview) {
         this.title = title;
         this.content = content;
         this.category = category;
         this.type = type;
-        this.imageUrl = imageUrl;
         this.user = user;
+        this.isReview = isReview;
     }
 
-    public void updateCommon(String title, String content, String imageUrl, Category category) {
+    public void updateCommon(String title, String content, Category category) {
         this.title = title;
         this.content = content;
-        this.imageUrl = imageUrl;
         this.category = category;
     }
 

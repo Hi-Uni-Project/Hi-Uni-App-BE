@@ -155,7 +155,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
   }
 
   private void handleUserNotFound(HttpServletResponse response) throws IOException {
-    String errorResponse = objectMapper.writeValueAsString(ErrorResponse.of(ErrorCode.USER_NOT_FOUND));
+    String errorResponse = objectMapper.writeValueAsString(ResponseDTO.of(ErrorCode.USER_NOT_FOUND));
     response.setStatus(ErrorCode.USER_NOT_FOUND.getActualStatusCode());
     response.setContentType("application/json");
     response.getWriter().write(errorResponse);

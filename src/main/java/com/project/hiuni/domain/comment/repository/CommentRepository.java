@@ -1,17 +1,15 @@
 package com.project.hiuni.domain.comment.repository;
 
-import com.project.hiuni.domain.comment.dto.response.CommentResponse;
 import com.project.hiuni.domain.comment.entity.Comment;
 import com.project.hiuni.domain.post.entity.Post;
+import com.project.hiuni.domain.user.entity.User;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface CommentRepository extends JpaRepository <Comment, Long> {
-
-    @Query("SELECT c FROM Comment c JOIN FETCH c.user WHERE c.post.id = :postId ORDER BY c.createdAt ASC")
-    List<Comment> findAllByPostIdOrderByCreatedAtAsc(@Param("postId") Long postId);
 
     @Query("""
     select distinct p
@@ -21,4 +19,26 @@ public interface CommentRepository extends JpaRepository <Comment, Long> {
     order by p.createdAt desc
 """)
     List<Post> findPostsCommentedByUser(@Param("userId") Long userId);
+
+    @Query("""
+    SELECT c
+    FROM Comment c
+    JOIN FETCH c.user
+    WHERE c.post.id = :postId
+      AND c.parent IS NULL
+    ORDER BY c.createdAt ASC
+""")
+    List<Comment> findParentCommentsByPostId(@Param("postId") Long postId);
+
+
+    // 유저 댓글 전체삭제 (회원 탈퇴 시 사용)
+    @Modifying
+    @Query("""
+    DELETE
+    FROM Comment c
+    WHERE c.user = :user
+""")
+    void deleteAllByUser(@Param("user") User user);
+
+
 }

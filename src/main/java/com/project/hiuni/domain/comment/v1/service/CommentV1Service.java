@@ -1,5 +1,6 @@
 package com.project.hiuni.domain.comment.v1.service;
 
+import com.project.hiuni.domain.comment.dto.request.CommentReplyCreateRequest;
 import com.project.hiuni.domain.comment.exception.CustomCommentNotFoundException;
 import com.project.hiuni.domain.comment.dto.request.CommentCreateRequest;
 import com.project.hiuni.domain.comment.dto.request.CommentUpdateRequest;
@@ -50,10 +51,39 @@ public class CommentV1Service {
         return CommentCreateResponse.from(commentRepository.save(comment));
     }
 
+    @Transactional
+    public CommentCreateResponse createReply(CommentReplyCreateRequest request, Long postId, Long userId){
+
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new CustomPostNotFoundException(ErrorCode.POST_NOT_FOUND));
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new CustomUserNotFoundException(ErrorCode.USER_NOT_FOUND));
+
+        Comment parent = commentRepository.findById(request.parentCommentId())
+                .orElseThrow(() -> new CustomCommentNotFoundException(ErrorCode.COMMENT_NOT_FOUND));
+
+        if (!parent.getPost().getId().equals(postId)) {
+            throw new CustomForbiddenException(ErrorCode.FORBIDDEN);
+        }
+
+        Comment reply = Comment.builder()
+                .content(request.content())
+                .post(post)
+                .user(user)
+                .parent(parent)
+                .build();
+
+        post.incrementCommentCount();
+
+        return CommentCreateResponse.from(commentRepository.save(reply));
+
+    }
+
     @Transactional(readOnly = true)
     public List<CommentResponse> getAllComments(Long postId) {
 
-        return commentRepository.findAllByPostIdOrderByCreatedAtAsc(postId)
+        return commentRepository
+                .findParentCommentsByPostId(postId)
                 .stream()
                 .map(CommentResponse::from)
                 .toList();
@@ -95,5 +125,10 @@ public class CommentV1Service {
         return posts.stream()
                 .map(PostPreviewResponse::from)
                 .toList();
+    }
+
+    @Transactional
+    public void deleteAllByUser(User user) {
+        commentRepository.deleteAllByUser(user);
     }
 }

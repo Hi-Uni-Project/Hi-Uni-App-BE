@@ -3,9 +3,11 @@ package com.project.hiuni.domain.post.repository;
 import com.project.hiuni.domain.post.entity.Category;
 import com.project.hiuni.domain.post.entity.Post;
 import com.project.hiuni.domain.post.entity.Type;
+import com.project.hiuni.domain.user.entity.User;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -169,5 +171,14 @@ public interface PostRepository extends JpaRepository <Post, Long> {
     order by p.createdAt desc
 """)
     List<Post> findAllByUserId(@Param("userId") Long userId);
+
+    // 유저가 작성한 게시글 전체 삭제 (회원 탈퇴 시 사용)
+    @Modifying
+    @Query("""
+    delete
+    from Post p
+    where p.user = :user
+""")
+    void deleteAllByUserId(@Param("user") User user);
 
 }
