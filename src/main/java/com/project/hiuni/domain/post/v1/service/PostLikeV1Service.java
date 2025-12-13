@@ -72,4 +72,10 @@ public class PostLikeV1Service {
                 .toList();
     }
 
+    @Transactional
+    public void deleteAllByUser(User user) {
+        postLikeRepository.deleteAllByPostUser(user);
+        postLikeRepository.deleteAllByUser(user);
+    }
+
 }
