@@ -66,6 +66,9 @@ public class UserV1Service {
       //게시글 좋아요 삭제
       postLikeRepository.deleteAllByUser(user);
 
+      //자기 게시글에 대한 좋아요 삭제
+      postLikeRepository.deleteAllByPostUser(user);
+
       //게시글 삭제
       postRepository.deleteAllByUserId(user);
 
