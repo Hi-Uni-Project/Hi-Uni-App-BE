@@ -5,10 +5,16 @@ import com.project.hiuni.domain.auth.exception.GoogleInvalidTokenException;
 import com.project.hiuni.domain.auth.exception.KakaoInvalidTokenException;
 import com.project.hiuni.domain.auth.exception.NaverInvalidTokenException;
 import com.project.hiuni.domain.auth.exception.ProviderNotFoundException;
+import com.project.hiuni.domain.bookmark.exception.CustomDuplicatedBookmarkException;
+import com.project.hiuni.domain.bookmark.exception.CustomNotBookmarkException;
+import com.project.hiuni.domain.comment.exception.CustomCommentNotFoundException;
 import com.project.hiuni.domain.mail.exception.InvalidEmailCodeException;
 import com.project.hiuni.domain.mail.exception.InvalidEmailFormatException;
+import com.project.hiuni.domain.post.exception.CustomDuplicatedLikeException;
 import com.project.hiuni.domain.post.exception.CustomForbiddenException;
+import com.project.hiuni.domain.post.exception.CustomNotLikeException;
 import com.project.hiuni.domain.post.exception.CustomPostNotFoundException;
+import com.project.hiuni.domain.post.exception.CustomSearchLogNotFoundException;
 import com.project.hiuni.domain.record.coverletter.exception.CustomCoverLetterNotFountException;
 import com.project.hiuni.domain.record.exception.InsufficientGenerationCountException;
 import com.project.hiuni.domain.record.resume.exception.CustomInvalidException;
@@ -196,8 +202,40 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         .body(ResponseDTO.of(e.getErrorCode()));
   }
 
+  @ExceptionHandler(CustomDuplicatedBookmarkException.class)
+  public ResponseEntity<ResponseDTO> CustomDuplicatedBookmarkException(CustomDuplicatedBookmarkException e) {
+    return ResponseEntity.status(e.getErrorCode().getActualStatusCode())
+            .body(ResponseDTO.of(e.getErrorCode()));
+  }
 
+  @ExceptionHandler(CustomNotBookmarkException.class)
+  public ResponseEntity<ResponseDTO> CustomNotBookmarkException(CustomNotBookmarkException e) {
+    return ResponseEntity.status(e.getErrorCode().getActualStatusCode())
+            .body(ResponseDTO.of(e.getErrorCode()));
+  }
 
+  @ExceptionHandler(CustomCommentNotFoundException.class)
+  public ResponseEntity<ResponseDTO> CustomCommentNotFoundException(CustomCommentNotFoundException e) {
+    return ResponseEntity.status(e.getErrorCode().getActualStatusCode())
+            .body(ResponseDTO.of(e.getErrorCode()));
+  }
 
+  @ExceptionHandler(CustomDuplicatedLikeException.class)
+  public ResponseEntity<ResponseDTO> CustomDuplicatedLikeException(CustomDuplicatedLikeException e) {
+    return ResponseEntity.status(e.getErrorCode().getActualStatusCode())
+            .body(ResponseDTO.of(e.getErrorCode()));
+  }
+
+  @ExceptionHandler(CustomNotLikeException.class)
+  public ResponseEntity<ResponseDTO> CustomNotLikeException(CustomNotLikeException e) {
+    return ResponseEntity.status(e.getErrorCode().getActualStatusCode())
+            .body(ResponseDTO.of(e.getErrorCode()));
+  }
+
+  @ExceptionHandler(CustomSearchLogNotFoundException.class)
+  public ResponseEntity<ResponseDTO> CustomSearchLogNotFoundException(CustomSearchLogNotFoundException e) {
+    return ResponseEntity.status(e.getErrorCode().getActualStatusCode())
+            .body(ResponseDTO.of(e.getErrorCode()));
+  }
 
 }
