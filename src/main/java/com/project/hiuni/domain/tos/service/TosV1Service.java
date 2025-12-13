@@ -25,7 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class TosService {
+public class TosV1Service {
 
   private final JwtTokenProvider jwtTokenProvider;
   private final UserRepository userRepository;
@@ -108,6 +108,15 @@ public class TosService {
 
 
 
+  }
+
+  @Transactional
+  public void deleteAllByUser(User user) {
+    serviceTosHistoryRepository.deleteAllByUser(user);
+    personalInfoTosHistoryRepository.deleteAllByUser(user);
+    marketingTosHistoryRepository.deleteAllByUser(user);
+    serviceImprovementTosHistoryRepository.deleteAllByUser(user);
+    inPersonTosHistoryRepository.deleteAllByUser(user);
   }
 
 }

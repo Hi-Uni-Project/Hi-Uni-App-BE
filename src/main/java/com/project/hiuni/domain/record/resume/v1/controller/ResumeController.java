@@ -4,7 +4,7 @@ package com.project.hiuni.domain.record.resume.v1.controller;
 import com.project.hiuni.domain.record.resume.dto.request.ResumeRequest;
 import com.project.hiuni.domain.record.resume.dto.response.AiAboutMeResponse;
 import com.project.hiuni.domain.record.resume.dto.response.ResumeResponse;
-import com.project.hiuni.domain.record.resume.v1.service.ResumeService;
+import com.project.hiuni.domain.record.resume.v1.service.ResumeV1Service;
 import com.project.hiuni.global.common.dto.response.ResponseDTO;
 import com.project.hiuni.global.security.core.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/api/v1/resume")
 public class ResumeController {
 
-  private final ResumeService resumeService;
+  private final ResumeV1Service resumeV1Service;
 
   @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
   public ResponseDTO<?> createOrUpdateResume(
@@ -33,7 +33,7 @@ public class ResumeController {
       @RequestPart("data") ResumeRequest request,
       @AuthenticationPrincipal CustomUserDetails userDetails) {
 
-    resumeService.createOrUpdateResume(file, request, userDetails.getId());
+    resumeV1Service.createOrUpdateResume(file, request, userDetails.getId());
 
     return ResponseDTO.of("이력서 저장에 성공하였습니다.");
 
@@ -42,7 +42,7 @@ public class ResumeController {
   @GetMapping("/ai-about-me")
   public ResponseDTO<AiAboutMeResponse> getAiAboutMe(@AuthenticationPrincipal CustomUserDetails userDetails) {
 
-    AiAboutMeResponse response = resumeService.getAiAboutMe(userDetails.getId());
+    AiAboutMeResponse response = resumeV1Service.getAiAboutMe(userDetails.getId());
 
     return ResponseDTO.of(response, "AI 자기소개 생성에 성공하였습니다.");
   }
@@ -50,7 +50,7 @@ public class ResumeController {
   @GetMapping
   public ResponseDTO<ResumeResponse> getResume(@AuthenticationPrincipal CustomUserDetails userDetails) {
 
-    ResumeResponse response = resumeService.getResume(userDetails.getId());
+    ResumeResponse response = resumeV1Service.getResume(userDetails.getId());
 
     return ResponseDTO.of(response, "조회에 성공하였습니다.");
   }

@@ -177,4 +177,9 @@ public class CoverLetterV1Service {
 
 
   }
+
+  @Transactional
+  public void deleteAllByUser(User user) {
+    coverLetterRepository.deleteAllByUser(user);
+  }
 }

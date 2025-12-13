@@ -44,7 +44,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class ResumeService {
+public class ResumeV1Service {
 
   private final UserRepository userRepository;
   private final PostRepository postRepository;
@@ -456,6 +456,30 @@ public class ResumeService {
 
 
     return false;
+
+  }
+
+  @Transactional
+  public void deleteAllByUser(User user) {
+
+      Resume resume = resumeRepository.findByUser(user)
+          .orElse(null);
+
+      if(resume == null) {
+        return;
+      }
+
+      //이력서 관련 모든 항목 삭제
+      careerRepository.deleteAllByResume(resume);
+      projectRepository.deleteAllByResume(resume);
+      educationRepository.deleteAllByResume(resume);
+      languageRepository.deleteAllByResume(resume);
+      achievementRepository.deleteAllByResume(resume);
+      linkRepository.deleteAllByResume(resume);
+      skillRepository.deleteAllByResume(resume);
+
+      //이력서 삭제
+      resumeRepository.delete(resume);
 
   }
 
