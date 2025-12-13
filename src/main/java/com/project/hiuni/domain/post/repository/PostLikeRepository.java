@@ -61,4 +61,14 @@ public interface PostLikeRepository extends JpaRepository<PostLike, Long> {
             WHERE pl.user = :user
             """)
     void deleteAllByUser(@Param("user") User user);
+
+
+    // 유저가 작성한 게시글에 달린 좋아요 전체 삭제 (회원 탈퇴 시 사용)
+    @Modifying
+    @Query("""
+            DELETE
+            FROM PostLike pl
+            WHERE pl.post.user = :user
+            """)
+    void deleteAllByPostUser(@Param("user") User user);
 }

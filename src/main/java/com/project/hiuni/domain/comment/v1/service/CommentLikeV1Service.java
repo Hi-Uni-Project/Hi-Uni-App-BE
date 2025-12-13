@@ -62,6 +62,7 @@ public class CommentLikeV1Service {
 
     @Transactional
     public void deleteAllByUser(User user) {
+        commentLikeRepository.deleteAllByPostUser(user);
         commentLikeRepository.deleteAllByUser(user);
     }
 
