@@ -3,6 +3,7 @@ package com.project.hiuni.domain.user.v1.service;
 import com.project.hiuni.domain.bookmark.repository.BookmarkRepository;
 import com.project.hiuni.domain.comment.v1.service.CommentLikeV1Service;
 import com.project.hiuni.domain.comment.v1.service.CommentV1Service;
+import com.project.hiuni.domain.post.repository.PostLikeRepository;
 import com.project.hiuni.domain.record.coverletter.v1.service.CoverLetterV1Service;
 import com.project.hiuni.domain.record.resume.v1.service.ResumeV1Service;
 import com.project.hiuni.domain.tos.service.TosV1Service;
@@ -22,6 +23,7 @@ public class UserV1Service {
 
   private final UserRepository userRepository;
   private final BookmarkRepository bookmarkRepository;
+  private final PostLikeRepository postLikeRepository;
 
   private final TosV1Service tosV1Service;
   private final CoverLetterV1Service coverLetterV1Service;
@@ -52,6 +54,9 @@ public class UserV1Service {
 
       //북마크 삭제
       bookmarkRepository.deleteAllByUser(user);
+
+      //게시글 좋아요 삭제
+      postLikeRepository.deleteAllByUser(user);
 
 
 
