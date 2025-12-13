@@ -30,6 +30,9 @@ public class UserV1Service {
       //약관 동의 내역 제거
       tosV1Service.deleteAllByUser(user);
 
+      //자기소개서 제거
+      coverLetterV1Service.deleteAllByUser(user);
+
 
 
     } catch (CustomUserNotFoundException e) {
