@@ -27,11 +27,11 @@ public class InternshipPost extends Post {
     private String additional;
 
     @Builder
-    public InternshipPost(String title, String content, Category category, String imageUrl, User user,
+    public InternshipPost(String title, String content, Category category, User user, boolean isReview,
                           String companyName, String department, String tasks, String learned,
                           LocalDateTime startDate, LocalDateTime endDate,
                           String feelings, String additional) {
-        super(title, content, category, Type.INTERNSHIP, imageUrl, user);
+        super(title, content, category, Type.INTERNSHIP, user, isReview);
         this.companyName = companyName;
         this.department = department;
         this.tasks = tasks;

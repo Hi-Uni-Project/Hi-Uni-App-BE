@@ -13,7 +13,6 @@ public record PostCreateReviewResponse(
         String univName,
         String firstMajorName,
         String secondMajorName,
-        String user,
 
         // 공통(Post)
         Long id,
@@ -21,11 +20,11 @@ public record PostCreateReviewResponse(
         String content,
         Type type,
         Category category,
-        String imageUrl,
-        Integer likeCount,
-        Integer commentCount,
-        Integer bookmarkCount,
-        Integer viewCount,
+        boolean isReview,
+        int likeCount,
+        int commentCount,
+        int bookmarkCount,
+        int viewCount,
         LocalDateTime createdAt,
 
         // JOB & 일부 공통 사용
@@ -73,15 +72,14 @@ public record PostCreateReviewResponse(
         String univName = null;
         String firstMajorName = null;
         String secondMajorName = null;
-        String userImageUrl = null;
 
         User u = post.getUser();
+        boolean isReview = post.isReview();
         if (u != null) {
             nickname = u.getNickname();
             univName = u.getUnivName();
             firstMajorName = u.getFirstMajorName();
             secondMajorName = u.getSecondMajorName();
-            userImageUrl = u.getImageUrl();
         }
 
         Long id = post.getId();
@@ -89,11 +87,10 @@ public record PostCreateReviewResponse(
         String content = post.getContent();
         Type type = post.getType();
         Category category = post.getCategory();
-        String imageUrl = post.getImageUrl();
-        Integer likeCount = post.getLikeCount();
-        Integer commentCount = post.getCommentCount();
-        Integer bookmarkCount = post.getBookmarkCount();
-        Integer viewCount = post.getViewCount();
+        int likeCount = post.getLikeCount();
+        int commentCount = post.getCommentCount();
+        int bookmarkCount = post.getBookmarkCount();
+        int viewCount = post.getViewCount();
         LocalDateTime createdAt = post.getCreatedAt();
 
         // --- 타입별 필드 기본 null 초기화 ---
@@ -181,8 +178,9 @@ public record PostCreateReviewResponse(
         }
 
         return new PostCreateReviewResponse(
-                nickname, univName, firstMajorName, secondMajorName, userImageUrl,
-                id, title, content, type, category, imageUrl,
+                nickname, univName, firstMajorName, secondMajorName,
+                id, title, content, type, category,
+                isReview,
                 likeCount, commentCount, bookmarkCount, viewCount, createdAt,
                 companyName, appliedPosition, applyMethod,
                 interviewQuestions, preparation, result, feelings, additional,

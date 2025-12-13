@@ -5,7 +5,6 @@ import com.project.hiuni.domain.post.entity.Type;
 public record PostUpdateNoReviewRequest(
         String title,
         String content,
-        Type type,
-        String imageUrl
+        Type type
 ) {
 }

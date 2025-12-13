@@ -15,12 +15,12 @@ public record PostCreateNoReviewResponse (
         String content,
         Type type,
         Category category,
-        String imageUrl,
         int likeCount,
         int commentCount,
         int bookmarkCount,
         int viewCount,
-        LocalDateTime createdAt
+        LocalDateTime createdAt,
+        boolean isReview
 ){
     public static PostCreateNoReviewResponse from(Post post) {
 
@@ -35,12 +35,12 @@ public record PostCreateNoReviewResponse (
                 post.getContent(),
                 post.getType(),
                 post.getCategory(),
-                post.getImageUrl(),
                 post.getLikeCount(),
                 post.getCommentCount(),
                 post.getBookmarkCount(),
                 post.getViewCount(),
-                post.getCreatedAt()
+                post.getCreatedAt(),
+                post.isReview()
         );
     }
 }

@@ -18,7 +18,8 @@ public record PostPreviewResponse(
         int likeCount,
         int commentCount,
         int bookmarkCount,
-        LocalDateTime createdAt
+        LocalDateTime createdAt,
+        boolean isReview
 
 ) {
     public static PostPreviewResponse from (Post post) {
@@ -37,7 +38,8 @@ public record PostPreviewResponse(
                 post.getLikeCount(),
                 post.getCommentCount(),
                 post.getBookmarkCount(),
-                post.getCreatedAt()
+                post.getCreatedAt(),
+                post.isReview()
         );
     }
 }

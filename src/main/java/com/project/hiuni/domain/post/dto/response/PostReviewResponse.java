@@ -12,7 +12,6 @@ public record PostReviewResponse(
         String univName,
         String firstMajorName,
         String secondMajorName,
-        String userImageUrl,
 
         // 공통(Post)
         Long id,
@@ -20,11 +19,10 @@ public record PostReviewResponse(
         String content,
         Type type,
         Category category,
-        String imageUrl,
-        Integer likeCount,
-        Integer commentCount,
-        Integer bookmarkCount,
-        Integer viewCount,
+        int likeCount,
+        int commentCount,
+        int bookmarkCount,
+        int viewCount,
         LocalDateTime createdAt,
 
         String companyName,
@@ -71,7 +69,6 @@ public record PostReviewResponse(
         String univName = null;
         String firstMajorName = null;
         String secondMajorName = null;
-        String userImageUrl = null;
 
         User u = post.getUser();
         if (u != null) {
@@ -79,7 +76,6 @@ public record PostReviewResponse(
             univName = u.getUnivName();
             firstMajorName = u.getFirstMajorName();
             secondMajorName = u.getSecondMajorName();
-            userImageUrl = u.getImageUrl();
         }
 
         Long id = post.getId();
@@ -87,11 +83,10 @@ public record PostReviewResponse(
         String content = post.getContent();
         Type type = post.getType();
         Category category = post.getCategory();
-        String imageUrl = post.getImageUrl();
-        Integer likeCount = post.getLikeCount();
-        Integer commentCount = post.getCommentCount();
-        Integer bookmarkCount = post.getBookmarkCount();
-        Integer viewCount = post.getViewCount();
+        int likeCount = post.getLikeCount();
+        int commentCount = post.getCommentCount();
+        int bookmarkCount = post.getBookmarkCount();
+        int viewCount = post.getViewCount();
         LocalDateTime createdAt = post.getCreatedAt();
 
         String companyName = null;
@@ -177,8 +172,8 @@ public record PostReviewResponse(
         }
 
         return new PostReviewResponse(
-                nickname, univName, firstMajorName, secondMajorName, userImageUrl,
-                id, title, content, type, category, imageUrl,
+                nickname, univName, firstMajorName, secondMajorName,
+                id, title, content, type, category,
                 likeCount, commentCount, bookmarkCount, viewCount, createdAt,
                 companyName, appliedPosition, applyMethod, interviewQuestions,
                 preparation, result, feelings, additional,

@@ -7,7 +7,6 @@ public record PostCreateReviewRequest(
         String title,
         String content,
         Type type,
-        String imageUrl,
         String firstQuestion,
         String secondQuestion,
         String thirdQuestion,

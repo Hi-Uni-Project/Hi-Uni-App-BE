@@ -10,7 +10,6 @@ public record PostUpdateReviewResponse(
         String title,
         String content,
         Type type,
-        String imageUrl,
 
         // ===== Job =====
         String companyName,
@@ -54,7 +53,6 @@ public record PostUpdateReviewResponse(
         String title    = post.getTitle();
         String content  = post.getContent();
         Type type       = post.getType();
-        String imageUrl = post.getImageUrl();
 
         String companyName = null, appliedPosition = null, applyMethod = null, interviewQuestions = null,
                 preparation = null, result = null, feelings = null, additional = null;
@@ -125,7 +123,7 @@ public record PostUpdateReviewResponse(
         }
 
         return new PostUpdateReviewResponse(
-                id, title, content, type, imageUrl,
+                id, title, content, type,
                 // Job
                 companyName, appliedPosition, applyMethod, interviewQuestions, preparation, result, feelings, additional,
                 // Internship

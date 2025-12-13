@@ -42,7 +42,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -72,9 +71,8 @@ public class PostV1Service {
                             .title(request.title())
                             .content(request.content())
                             .category(category)
-                            .imageUrl(request.imageUrl())
                             .user(user)
-                            // detail은 전부 null
+                            .isReview(false)
                             .companyName(null)
                             .appliedPosition(null)
                             .applyMethod(null)
@@ -90,8 +88,8 @@ public class PostV1Service {
                             .title(request.title())
                             .content(request.content())
                             .category(category)
-                            .imageUrl(request.imageUrl())
                             .user(user)
+                            .isReview(false)
                             .companyName(null)
                             .department(null)
                             .tasks(null)
@@ -107,8 +105,8 @@ public class PostV1Service {
                             .title(request.title())
                             .content(request.content())
                             .category(category)
-                            .imageUrl(request.imageUrl())
                             .user(user)
+                            .isReview(false)
                             .companyName(null)
                             .appliedPosition(null)
                             .interviewFormat(null)
@@ -124,8 +122,8 @@ public class PostV1Service {
                             .title(request.title())
                             .content(request.content())
                             .category(category)
-                            .imageUrl(request.imageUrl())
                             .user(user)
+                            .isReview(false)
                             .organizationName(null)
                             .position(null)
                             .positionRank(null)
@@ -143,8 +141,8 @@ public class PostV1Service {
                             .title(request.title())
                             .content(request.content())
                             .category(category)
-                            .imageUrl(request.imageUrl())
                             .user(user)
+                            .isReview(false)
                             .certificationName(null)
                             .prepDuration(null)
                             .materials(null)
@@ -174,8 +172,8 @@ public class PostV1Service {
                             .title(request.title())
                             .content(request.content())
                             .category(category)
-                            .imageUrl(request.imageUrl())
                             .user(user)
+                            .isReview(true)
                             .companyName(request.firstQuestion())
                             .appliedPosition(request.secondQuestion())
                             .applyMethod(request.thirdQuestion())
@@ -192,8 +190,8 @@ public class PostV1Service {
                             .title(request.title())
                             .content(request.content())
                             .category(category)
-                            .imageUrl(request.imageUrl())
                             .user(user)
+                            .isReview(true)
                             .companyName(request.firstQuestion())
                             .department(request.secondQuestion())
                             .tasks(request.thirdQuestion())
@@ -210,8 +208,8 @@ public class PostV1Service {
                             .title(request.title())
                             .content(request.content())
                             .category(category)
-                            .imageUrl(request.imageUrl())
                             .user(user)
+                            .isReview(true)
                             .companyName(request.firstQuestion())
                             .appliedPosition(request.secondQuestion())
                             .interviewFormat(request.thirdQuestion())
@@ -228,8 +226,8 @@ public class PostV1Service {
                             .title(request.title())
                             .content(request.content())
                             .category(category)
-                            .imageUrl(request.imageUrl())
                             .user(user)
+                            .isReview(true)
                             .organizationName(request.firstQuestion())
                             .position(request.secondQuestion())
                             .positionRank(request.thirdQuestion())
@@ -248,8 +246,8 @@ public class PostV1Service {
                             .title(request.title())
                             .content(request.content())
                             .category(category)
-                            .imageUrl(request.imageUrl())
                             .user(user)
+                            .isReview(true)
                             .certificationName(request.firstQuestion())
                             .prepDuration(request.secondQuestion())
                             .materials(request.thirdQuestion())
@@ -296,7 +294,6 @@ public class PostV1Service {
         post.updateCommon(
                 request.title(),
                 request.content(),
-                request.imageUrl(),
                 post.getCategory()
         );
         return PostUpdateNoReviewResponse.from(post);
@@ -316,7 +313,6 @@ public class PostV1Service {
         post.updateCommon(
                 postUpdateReviewRequest.title(),
                 postUpdateReviewRequest.content(),
-                postUpdateReviewRequest.imageUrl(),
                 post.getCategory()
         );
 
