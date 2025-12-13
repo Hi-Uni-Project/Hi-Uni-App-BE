@@ -19,6 +19,7 @@ public record PostReviewResponse(
         String content,
         Type type,
         Category category,
+        boolean isReview,
         int likeCount,
         int commentCount,
         int bookmarkCount,
@@ -71,6 +72,7 @@ public record PostReviewResponse(
         String secondMajorName = null;
 
         User u = post.getUser();
+        boolean isReview = post.isReview();
         if (u != null) {
             nickname = u.getNickname();
             univName = u.getUnivName();
@@ -173,7 +175,7 @@ public record PostReviewResponse(
 
         return new PostReviewResponse(
                 nickname, univName, firstMajorName, secondMajorName,
-                id, title, content, type, category,
+                id, title, content, type, category, isReview,
                 likeCount, commentCount, bookmarkCount, viewCount, createdAt,
                 companyName, appliedPosition, applyMethod, interviewQuestions,
                 preparation, result, feelings, additional,
