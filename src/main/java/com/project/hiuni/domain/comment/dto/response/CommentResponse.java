@@ -3,6 +3,7 @@ package com.project.hiuni.domain.comment.dto.response;
 import com.project.hiuni.domain.comment.entity.Comment;
 import com.project.hiuni.domain.user.entity.User;
 import java.util.List;
+import java.util.Set;
 
 public record CommentResponse(
         Long id,
@@ -11,9 +12,10 @@ public record CommentResponse(
         String secondMajorName,
         String content,
         int likeCount,
+        boolean isLiked,
         List<CommentResponse> commentReplies
 ) {
-    public static CommentResponse from(Comment comment) {
+    public static CommentResponse from(Comment comment, Set<Long> likedSet) {
 
         User user = comment.getUser();
 
@@ -24,8 +26,9 @@ public record CommentResponse(
                 user.getSecondMajorName(),
                 comment.getContent(),
                 comment.getLikeCount(),
+                likedSet.contains(comment.getId()),
                 comment.getChildren().stream()
-                        .map(CommentResponse::from)
+                        .map(child -> from(child, likedSet))
                         .toList()
         );
     }
