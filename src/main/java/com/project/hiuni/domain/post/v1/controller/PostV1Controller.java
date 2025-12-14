@@ -60,14 +60,14 @@ public class PostV1Controller {
     @GetMapping("/no-review/{id}")
     public ResponseDTO<PostNoReviewResponse> searchNoReviewPost( @PathVariable Long id,
                                                                  @AuthenticationPrincipal CustomUserDetails userDetails) {
-        PostNoReviewResponse postNoReviewResponse = postV1Service.searchNoReviewPost(id);
+        PostNoReviewResponse postNoReviewResponse = postV1Service.searchNoReviewPost(id, userDetails.getId());
         return ResponseDTO.of(postNoReviewResponse, "게시글 조회에 성공하였습니다.");
     }
 
     @GetMapping("/review/{id}")
     public ResponseDTO<PostReviewResponse> searchReviewPost(@PathVariable Long id,
                                                             @AuthenticationPrincipal CustomUserDetails userDetails) {
-        PostReviewResponse postReviewResponse = postV1Service.searchReviewPost(id);
+        PostReviewResponse postReviewResponse = postV1Service.searchReviewPost(id, userDetails.getId());
         return ResponseDTO.of(postReviewResponse, "게시글 조회에 성공하였습니다.");
     }
 
