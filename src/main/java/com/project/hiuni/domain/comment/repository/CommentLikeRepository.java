@@ -2,12 +2,12 @@ package com.project.hiuni.domain.comment.repository;
 
 import com.project.hiuni.domain.comment.entity.CommentLike;
 import com.project.hiuni.domain.user.entity.User;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.security.core.parameters.P;
 
 public interface CommentLikeRepository extends JpaRepository<CommentLike, Long> {
 
@@ -56,4 +56,14 @@ public interface CommentLikeRepository extends JpaRepository<CommentLike, Long> 
             """)
     void deleteAllByPostUser(@Param("user") User user);
 
+    @Query("""
+        select cl.comment.id
+        from CommentLike cl
+        where cl.user.id = :userId
+          and cl.comment.post.id = :postId
+    """)
+    List<Long> findLikedCommentIds(
+            @Param("postId") Long postId,
+            @Param("userId") Long userId
+    );
 }

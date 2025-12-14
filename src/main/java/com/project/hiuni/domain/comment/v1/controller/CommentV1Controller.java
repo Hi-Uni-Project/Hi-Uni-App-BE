@@ -44,7 +44,7 @@ public class CommentV1Controller {
     public ResponseDTO<List<CommentResponse>> searchAllComment(@PathVariable Long postId,
                                                                @AuthenticationPrincipal CustomUserDetails userDetails) {
 
-        List<CommentResponse> commentResponse = commentV1Service.getAllComments(postId);
+        List<CommentResponse> commentResponse = commentV1Service.getAllComments(postId, userDetails.getId());
 
         return ResponseDTO.of(commentResponse, "댓글 조회에 성공하였습니다.");
     }
