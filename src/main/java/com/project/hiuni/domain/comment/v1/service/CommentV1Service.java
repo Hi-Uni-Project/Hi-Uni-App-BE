@@ -8,6 +8,7 @@ import com.project.hiuni.domain.comment.dto.response.CommentCreateResponse;
 import com.project.hiuni.domain.comment.dto.response.CommentResponse;
 import com.project.hiuni.domain.comment.dto.response.CommentUpdateResponse;
 import com.project.hiuni.domain.comment.entity.Comment;
+import com.project.hiuni.domain.comment.repository.CommentLikeRepository;
 import com.project.hiuni.domain.comment.repository.CommentRepository;
 import com.project.hiuni.domain.post.dto.response.PostPreviewResponse;
 import com.project.hiuni.domain.post.entity.Post;
@@ -19,7 +20,9 @@ import com.project.hiuni.domain.user.exception.CustomUserNotFoundException;
 import com.project.hiuni.domain.user.repository.UserRepository;
 import com.project.hiuni.global.exception.ErrorCode;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,6 +32,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class CommentV1Service {
 
     private final CommentRepository commentRepository;
+    private final CommentLikeRepository commentLikeRepository;
     private final PostRepository postRepository;
     private final UserRepository userRepository;
 
@@ -80,12 +84,16 @@ public class CommentV1Service {
     }
 
     @Transactional(readOnly = true)
-    public List<CommentResponse> getAllComments(Long postId) {
+    public List<CommentResponse> getAllComments(Long postId, Long userId) {
+
+        List<Long> likedCommentIds = commentLikeRepository.findLikedCommentIds(postId, userId);
+
+        Set<Long> likedSet=new HashSet<>(likedCommentIds);
 
         return commentRepository
                 .findParentCommentsByPostId(postId)
                 .stream()
-                .map(CommentResponse::from)
+                .map(comment -> CommentResponse.from(comment,likedSet))
                 .toList();
     }
 

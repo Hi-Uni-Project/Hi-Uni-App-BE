@@ -49,5 +49,4 @@ public interface CommentRepository extends JpaRepository <Comment, Long> {
      """)
     void deleteAllByPostUser(@Param("user") User user);
 
-
 }
