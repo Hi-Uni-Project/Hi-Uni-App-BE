@@ -63,7 +63,10 @@ public class UserV1Service {
       //댓글 삭제
       commentV1Service.deleteAllByUser(user);
 
-      //북마크 삭제
+      //내 게시글에 달린 북마크 삭제
+      bookmarkRepository.deleteAllByPostUser(user);
+
+      //내 북마크 삭제
       bookmarkRepository.deleteAllByUser(user);
 
       //게시글 좋아요 삭제

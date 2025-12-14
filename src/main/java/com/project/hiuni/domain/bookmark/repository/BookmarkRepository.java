@@ -47,4 +47,13 @@ public interface BookmarkRepository extends JpaRepository<Bookmark, Long> {
            """)
     void deleteAllByUser(@Param("user") User user);
 
+    // 내 글에 달린 북마크 전체 삭제 (회원 탈퇴 시 사용)
+    @Modifying
+    @Query("""
+            DELETE
+            FROM Bookmark b
+            WHERE b.post.user = :user
+            """)
+    void deleteAllByPostUser(@Param("user") User user);
+
 }

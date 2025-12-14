@@ -129,6 +129,7 @@ public class CommentV1Service {
 
     @Transactional
     public void deleteAllByUser(User user) {
+        commentRepository.deleteAllByPostUser(user);
         commentRepository.deleteAllByUser(user);
     }
 }
