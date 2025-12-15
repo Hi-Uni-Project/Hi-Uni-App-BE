@@ -2,6 +2,7 @@ package com.project.hiuni.domain.record.coverletter.v1.controller;
 
 import com.project.hiuni.domain.record.coverletter.dto.request.AiCoverLetterRequest;
 import com.project.hiuni.domain.record.coverletter.dto.request.CoverLetterRequest;
+import com.project.hiuni.domain.record.coverletter.dto.response.AiCoverLetterCntResponse;
 import com.project.hiuni.domain.record.coverletter.dto.response.AiCoverLetterResponse;
 import com.project.hiuni.domain.record.coverletter.dto.response.CoverLetterResponse;
 import com.project.hiuni.domain.record.coverletter.v1.service.CoverLetterV1Service;
@@ -67,6 +68,19 @@ public class CoverLetterV1Controller {
     return ResponseDTO.of(response, "AI 자기소개서 생성에 성공하였습니다.");
 
   }
+
+  @GetMapping("/ai-cover-letter/remaining")
+  public ResponseDTO<AiCoverLetterCntResponse> getRemainingCoverLetter(
+      @AuthenticationPrincipal CustomUserDetails userDetails
+  ) {
+
+    AiCoverLetterCntResponse response = coverLetterV1Service.getRemainingAiCoverLetterCnt(userDetails.getId());
+
+    return ResponseDTO.of(response, "AI 자기소개서 잔여 횟수 조회에 성공하였습니다.");
+
+  }
+
+
 
 
 
