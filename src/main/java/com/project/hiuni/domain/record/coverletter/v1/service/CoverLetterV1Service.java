@@ -138,6 +138,10 @@ public class CoverLetterV1Service {
       log.error("유저를 찾을 수 없습니다.: {}", e.getMessage());
       throw e;
 
+    } catch (CustomPostNotFoundException e) {
+      log.error("해당 게시글을 찾을 수 없습니다.: {}", e.getMessage());
+      throw e;
+
     } catch (InsufficientGenerationCountException e) {
       log.error("생성 가능 횟수가 0 이하임: {}", e.getMessage());
       throw e;
