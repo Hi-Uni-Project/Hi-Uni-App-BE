@@ -5,6 +5,7 @@ import com.project.hiuni.domain.post.exception.CustomPostNotFoundException;
 import com.project.hiuni.domain.post.repository.PostRepository;
 import com.project.hiuni.domain.record.coverletter.dto.request.AiCoverLetterRequest;
 import com.project.hiuni.domain.record.coverletter.dto.request.CoverLetterRequest;
+import com.project.hiuni.domain.record.coverletter.dto.response.AiCoverLetterCntResponse;
 import com.project.hiuni.domain.record.coverletter.dto.response.AiCoverLetterResponse;
 import com.project.hiuni.domain.record.coverletter.dto.response.CoverLetterResponse;
 import com.project.hiuni.domain.record.coverletter.entity.CoverLetter;
@@ -181,5 +182,31 @@ public class CoverLetterV1Service {
   @Transactional
   public void deleteAllByUser(User user) {
     coverLetterRepository.deleteAllByUser(user);
+  }
+
+  @Transactional(readOnly = true)
+  public AiCoverLetterCntResponse getRemainingAiCoverLetterCnt(Long userId) {
+
+    try {
+
+      User user = userRepository.findById(userId).orElseThrow(
+          () -> new CustomUserNotFoundException(ErrorCode.USER_NOT_FOUND)
+      );
+
+      return AiCoverLetterCntResponse.builder()
+          .coverletterCnt(user.getCoverletterCnt())
+          .build();
+
+
+    } catch (CustomUserNotFoundException e) {
+      log.error("유저를 찾을 수 없습니다.: {}", e.getMessage());
+      throw e;
+
+    } catch (Exception e) {
+      log.error("조회 중 오류가 발생했습니다.: {}", e.getMessage());
+      throw new InternalServerException(ErrorCode.INTERNAL_SERVER_ERROR);
+    }
+
+
   }
 }
