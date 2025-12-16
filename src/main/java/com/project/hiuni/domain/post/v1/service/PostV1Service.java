@@ -1,5 +1,6 @@
 package com.project.hiuni.domain.post.v1.service;
 
+import com.project.hiuni.domain.bookmark.repository.BookmarkRepository;
 import com.project.hiuni.domain.post.dto.request.PostCreateNoReviewRequest;
 import com.project.hiuni.domain.post.dto.request.PostCreateReviewRequest;
 import com.project.hiuni.domain.post.dto.request.PostUpdateNoReviewRequest;
@@ -28,6 +29,7 @@ import com.project.hiuni.domain.post.repository.InternshipPostRepository;
 import com.project.hiuni.domain.post.repository.InterviewPostRepository;
 import com.project.hiuni.domain.post.repository.JobPostRepository;
 import com.project.hiuni.domain.post.repository.LicensePostRepository;
+import com.project.hiuni.domain.post.repository.PostLikeRepository;
 import com.project.hiuni.domain.post.repository.PostRepository;
 import com.project.hiuni.domain.user.entity.User;
 import com.project.hiuni.domain.user.exception.CustomUserNotFoundException;
@@ -50,6 +52,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class PostV1Service {
 
     private final PostRepository postRepository;
+    private final PostLikeRepository postLikeRepository;
+    private final BookmarkRepository bookmarkRepository;
     private final UserRepository userRepository;
 
     private final JobPostRepository jobPostRepository;
@@ -264,21 +268,27 @@ public class PostV1Service {
     }
 
     @Transactional
-    public PostNoReviewResponse searchNoReviewPost(Long postId) {
+    public PostNoReviewResponse searchNoReviewPost(Long postId, Long userId) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new CustomPostNotFoundException(ErrorCode.POST_NOT_FOUND));
 
+        boolean isLiked=postLikeRepository.existsByPostIdAndUserId(postId, userId);
+        boolean isScrap=bookmarkRepository.existsByPostIdAndUserId(postId, userId);
+
         post.incrementViewCount();
-        return PostNoReviewResponse.from(post);
+        return PostNoReviewResponse.from(post, isLiked, isScrap);
     }
 
     @Transactional
-    public PostReviewResponse searchReviewPost(Long postId) {
+    public PostReviewResponse searchReviewPost(Long postId, Long userId) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new CustomPostNotFoundException(ErrorCode.POST_NOT_FOUND));
 
+        boolean isLiked=postLikeRepository.existsByPostIdAndUserId(postId, userId);
+        boolean isScrap=bookmarkRepository.existsByPostIdAndUserId(postId, userId);
+
         post.incrementViewCount();
-        return PostReviewResponse.from(post);
+        return PostReviewResponse.from(post,isLiked, isScrap);
     }
 
     @Transactional
