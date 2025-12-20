@@ -93,7 +93,7 @@ public class CommentV1Service {
         return commentRepository
                 .findParentCommentsByPostId(postId)
                 .stream()
-                .map(comment -> CommentResponse.from(comment,likedSet))
+                .map(comment -> CommentResponse.from(comment,likedSet, userId))
                 .toList();
     }
 
