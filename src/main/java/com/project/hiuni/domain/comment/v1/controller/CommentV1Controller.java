@@ -62,12 +62,12 @@ public class CommentV1Controller {
     @PutMapping("/{parentId}/reply/{id}")
     public ResponseDTO<CommentUpdateResponse> updateReply(
             @PathVariable Long parentId,
-            @PathVariable Long replyId,
+            @PathVariable Long id,
             @RequestBody CommentUpdateRequest request,
             @AuthenticationPrincipal CustomUserDetails userDetails
     ) {
         CommentUpdateResponse response =
-                commentV1Service.updateReply(parentId, replyId, request, userDetails.getId());
+                commentV1Service.updateReply(parentId, id, request, userDetails.getId());
 
         return ResponseDTO.of(response, "답글 수정에 성공하였습니다.");
     }
@@ -84,10 +84,10 @@ public class CommentV1Controller {
     @DeleteMapping("/{parentId}/reply/{id}")
     public ResponseDTO<Void> deleteReply(
             @PathVariable Long parentId,
-            @PathVariable Long replyId,
+            @PathVariable Long id,
             @AuthenticationPrincipal CustomUserDetails userDetails
     ) {
-        commentV1Service.deleteReply(parentId, replyId, userDetails.getId());
+        commentV1Service.deleteReply(parentId, id, userDetails.getId());
         return ResponseDTO.of("답글 삭제에 성공하였습니다.");
     }
 
