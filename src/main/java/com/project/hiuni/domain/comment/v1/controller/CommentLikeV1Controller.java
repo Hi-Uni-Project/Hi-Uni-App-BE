@@ -25,7 +25,7 @@ public class CommentLikeV1Controller {
         return ResponseDTO.of("좋아요가 추가되었습니다.");
     }
 
-    @PostMapping("/reply/{replyId}/likes")
+    @PostMapping("/reply/{replyId}")
     public ResponseDTO<Void> likeReply(
             @PathVariable Long commentId,
             @PathVariable Long replyId,
@@ -42,7 +42,7 @@ public class CommentLikeV1Controller {
         return ResponseDTO.of("좋아요가 취소되었습니다.");
     }
 
-    @DeleteMapping("/reply/{replyId}/likes")
+    @DeleteMapping("/reply/{replyId}")
     public ResponseDTO<Void> unlikeReply(
             @PathVariable Long commentId,
             @PathVariable Long replyId,
