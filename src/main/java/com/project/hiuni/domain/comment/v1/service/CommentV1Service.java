@@ -108,6 +108,33 @@ public class CommentV1Service {
     }
 
     @Transactional
+    public CommentUpdateResponse updateReply(
+            Long parentId,
+            Long replyId,
+            CommentUpdateRequest request,
+            Long userId
+    ) {
+        Comment reply = commentRepository.findById(replyId)
+                .orElseThrow(() -> new CustomCommentNotFoundException(ErrorCode.COMMENT_NOT_FOUND));
+
+        if (reply.getParent() == null) {
+            throw new CustomForbiddenException(ErrorCode.FORBIDDEN);
+        }
+
+        if (!reply.getParent().getId().equals(parentId)) {
+            throw new CustomForbiddenException(ErrorCode.FORBIDDEN);
+        }
+
+        if (!reply.getUser().getId().equals(userId)) {
+            throw new CustomForbiddenException(ErrorCode.FORBIDDEN);
+        }
+
+        reply.updateComment(request.content());
+
+        return CommentUpdateResponse.from(reply);
+    }
+
+    @Transactional
     public void deleteComment(Long id, Long userId) {
 
         Comment comment =commentRepository.findById(id)
@@ -121,6 +148,29 @@ public class CommentV1Service {
         post.decrementCommentCount();
 
         commentRepository.delete(comment);
+    }
+
+    @Transactional
+    public void deleteReply(Long parentId, Long replyId, Long userId) {
+        Comment reply = commentRepository.findById(replyId)
+                .orElseThrow(() -> new CustomCommentNotFoundException(ErrorCode.COMMENT_NOT_FOUND));
+
+        if (reply.getParent() == null) {
+            throw new CustomForbiddenException(ErrorCode.FORBIDDEN);
+        }
+
+        if (!reply.getParent().getId().equals(parentId)) {
+            throw new CustomForbiddenException(ErrorCode.FORBIDDEN);
+        }
+
+        if (!reply.getUser().getId().equals(userId)) {
+            throw new CustomForbiddenException(ErrorCode.FORBIDDEN);
+        }
+
+        Post post = reply.getPost();
+        post.decrementCommentCount();
+
+        commentRepository.delete(reply);
     }
 
     @Transactional(readOnly = true)

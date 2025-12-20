@@ -51,6 +51,41 @@ public class CommentLikeV1Service {
     }
 
     @Transactional
+    public void addReplyLike(Long commentId, Long replyId, Long userId) {
+
+        Comment reply = commentRepository.findById(replyId)
+                .orElseThrow(() -> new CustomCommentNotFoundException(ErrorCode.COMMENT_NOT_FOUND));
+
+        if (reply.getParent() == null) {
+            throw new CustomCommentNotFoundException(ErrorCode.COMMENT_NOT_FOUND);
+        }
+
+        if (!reply.getParent().getId().equals(commentId)) {
+            throw new CustomCommentNotFoundException(ErrorCode.COMMENT_NOT_FOUND);
+        }
+
+        if (commentLikeRepository.existsByCommentIdAndUserId(replyId, userId)) {
+            throw new CustomDuplicatedLikeException(ErrorCode.DUPLICATED_LIKE);
+        }
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new CustomUserNotFoundException(ErrorCode.USER_NOT_FOUND));
+
+        CommentLike like = CommentLike.builder()
+                .comment(reply)
+                .user(user)
+                .build();
+
+        try {
+            commentLikeRepository.save(like);
+        } catch (DataIntegrityViolationException e) {
+            throw new CustomDuplicatedLikeException(ErrorCode.DUPLICATED_LIKE);
+        }
+
+        reply.increaseLikeCount();
+    }
+
+    @Transactional
     public void removeLike(Long commentId, Long userId) {
         CommentLike commentLike = commentLikeRepository.findByCommentIdAndUserId(commentId, userId)
                 .orElseThrow(() -> new CustomNotLikeException(ErrorCode.NOT_LIKE));
@@ -58,6 +93,28 @@ public class CommentLikeV1Service {
         Comment comment = commentLike.getComment();
         commentLikeRepository.delete(commentLike);
         comment.decreaseLikeCount();
+    }
+
+    @Transactional
+    public void removeReplyLike(Long commentId, Long replyId, Long userId) {
+
+        Comment reply = commentRepository.findById(replyId)
+                .orElseThrow(() -> new CustomCommentNotFoundException(ErrorCode.COMMENT_NOT_FOUND));
+
+        if (reply.getParent() == null) {
+            throw new CustomCommentNotFoundException(ErrorCode.COMMENT_NOT_FOUND);
+        }
+
+        if (!reply.getParent().getId().equals(commentId)) {
+            throw new CustomCommentNotFoundException(ErrorCode.COMMENT_NOT_FOUND);
+        }
+
+        CommentLike commentLike = commentLikeRepository
+                .findByCommentIdAndUserId(replyId, userId)
+                .orElseThrow(() -> new CustomNotLikeException(ErrorCode.NOT_LIKE));
+
+        commentLikeRepository.delete(commentLike);
+        reply.decreaseLikeCount();
     }
 
     @Transactional

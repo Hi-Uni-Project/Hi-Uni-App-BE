@@ -59,6 +59,19 @@ public class CommentV1Controller {
         return ResponseDTO.of(commentUpdateResponse, "댓글 수정에 성공하였습니다.");
     }
 
+    @PutMapping("/{parentId}/reply/{replyId}")
+    public ResponseDTO<CommentUpdateResponse> updateReply(
+            @PathVariable Long parentId,
+            @PathVariable Long replyId,
+            @RequestBody CommentUpdateRequest request,
+            @AuthenticationPrincipal CustomUserDetails userDetails
+    ) {
+        CommentUpdateResponse response =
+                commentV1Service.updateReply(parentId, replyId, request, userDetails.getId());
+
+        return ResponseDTO.of(response, "답글 수정에 성공하였습니다.");
+    }
+
     @DeleteMapping("/{id}")
     public ResponseDTO<Void> deleteComment(@PathVariable Long id,
                                            @AuthenticationPrincipal CustomUserDetails userDetails) {
@@ -66,6 +79,16 @@ public class CommentV1Controller {
         commentV1Service.deleteComment(id,userDetails.getId());
 
         return ResponseDTO.of("댓글 삭제에 성공하였습니다.");
+    }
+
+    @DeleteMapping("/{parentId}/reply/{replyId}")
+    public ResponseDTO<Void> deleteReply(
+            @PathVariable Long parentId,
+            @PathVariable Long replyId,
+            @AuthenticationPrincipal CustomUserDetails userDetails
+    ) {
+        commentV1Service.deleteReply(parentId, replyId, userDetails.getId());
+        return ResponseDTO.of("답글 삭제에 성공하였습니다.");
     }
 
     @GetMapping("/my-comments")
@@ -86,5 +109,6 @@ public class CommentV1Controller {
 
         return ResponseDTO.of(response, "답글이 작성되었습니다.");
     }
+
 
 }
