@@ -59,7 +59,7 @@ public class CommentV1Controller {
         return ResponseDTO.of(commentUpdateResponse, "댓글 수정에 성공하였습니다.");
     }
 
-    @PutMapping("/{parentId}/reply/{replyId}")
+    @PutMapping("/{parentId}/reply/{id}")
     public ResponseDTO<CommentUpdateResponse> updateReply(
             @PathVariable Long parentId,
             @PathVariable Long replyId,
@@ -81,7 +81,7 @@ public class CommentV1Controller {
         return ResponseDTO.of("댓글 삭제에 성공하였습니다.");
     }
 
-    @DeleteMapping("/{parentId}/reply/{replyId}")
+    @DeleteMapping("/{parentId}/reply/{id}")
     public ResponseDTO<Void> deleteReply(
             @PathVariable Long parentId,
             @PathVariable Long replyId,
