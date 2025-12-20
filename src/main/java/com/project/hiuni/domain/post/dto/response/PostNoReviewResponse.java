@@ -18,13 +18,14 @@ public record PostNoReviewResponse(
         boolean isReview,
         boolean isLiked,
         boolean isScrap,
+        boolean isUser,
         int likeCount,
         int commentCount,
         int bookmarkCount,
         int viewCount,
         LocalDateTime createdAt
 ) {
-    public static PostNoReviewResponse from(Post post, boolean isLiked, boolean isScrap) {
+    public static PostNoReviewResponse from(Post post, boolean isLiked, boolean isScrap, boolean isUser) {
 
         User user = post.getUser();
 
@@ -40,6 +41,7 @@ public record PostNoReviewResponse(
                 post.isReview(),
                 isLiked,
                 isScrap,
+                isUser,
                 post.getLikeCount(),
                 post.getCommentCount(),
                 post.getBookmarkCount(),

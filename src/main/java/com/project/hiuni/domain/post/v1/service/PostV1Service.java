@@ -274,9 +274,10 @@ public class PostV1Service {
 
         boolean isLiked=postLikeRepository.existsByPostIdAndUserId(postId, userId);
         boolean isScrap=bookmarkRepository.existsByPostIdAndUserId(postId, userId);
+        boolean isUser = post.getUser().getId().equals(userId);
 
         post.incrementViewCount();
-        return PostNoReviewResponse.from(post, isLiked, isScrap);
+        return PostNoReviewResponse.from(post, isLiked, isScrap, isUser);
     }
 
     @Transactional
@@ -286,9 +287,10 @@ public class PostV1Service {
 
         boolean isLiked=postLikeRepository.existsByPostIdAndUserId(postId, userId);
         boolean isScrap=bookmarkRepository.existsByPostIdAndUserId(postId, userId);
+        boolean isUser = post.getUser().getId().equals(userId);
 
         post.incrementViewCount();
-        return PostReviewResponse.from(post,isLiked, isScrap);
+        return PostReviewResponse.from(post,isLiked, isScrap, isUser);
     }
 
     @Transactional
