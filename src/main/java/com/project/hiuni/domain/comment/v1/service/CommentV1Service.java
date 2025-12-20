@@ -144,8 +144,10 @@ public class CommentV1Service {
             throw new CustomForbiddenException(ErrorCode.FORBIDDEN);
         }
 
+        int deleteCount = 1 + comment.getChildren().size();
+
         Post post = comment.getPost();
-        post.decrementCommentCount();
+        post.decreaseCommentCount(deleteCount);
 
         commentRepository.delete(comment);
     }
