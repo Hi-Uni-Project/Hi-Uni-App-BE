@@ -1,6 +1,5 @@
 package com.project.hiuni.domain.record.resume.v1.service;
 
-import com.project.hiuni.domain.post.entity.Post;
 import com.project.hiuni.domain.post.exception.CustomPostNotFoundException;
 import com.project.hiuni.domain.post.repository.PostRepository;
 import com.project.hiuni.domain.post.v1.service.PostV1Service;

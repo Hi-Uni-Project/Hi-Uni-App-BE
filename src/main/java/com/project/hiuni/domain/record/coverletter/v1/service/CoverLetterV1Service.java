@@ -1,8 +1,6 @@
 package com.project.hiuni.domain.record.coverletter.v1.service;
 
-import com.project.hiuni.domain.post.entity.Post;
 import com.project.hiuni.domain.post.exception.CustomPostNotFoundException;
-import com.project.hiuni.domain.post.repository.PostRepository;
 import com.project.hiuni.domain.post.v1.service.PostV1Service;
 import com.project.hiuni.domain.record.coverletter.dto.request.AiCoverLetterRequest;
 import com.project.hiuni.domain.record.coverletter.dto.request.CoverLetterRequest;

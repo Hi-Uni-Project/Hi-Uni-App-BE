@@ -1,6 +1,5 @@
 package com.project.hiuni.infra.claude.prompt;
 
-import com.project.hiuni.domain.post.entity.Post;
 import com.project.hiuni.domain.user.entity.User;
 import java.util.List;
 import lombok.Getter;
