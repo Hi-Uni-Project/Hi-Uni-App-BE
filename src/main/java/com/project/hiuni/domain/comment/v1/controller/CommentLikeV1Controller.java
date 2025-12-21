@@ -25,11 +25,31 @@ public class CommentLikeV1Controller {
         return ResponseDTO.of("좋아요가 추가되었습니다.");
     }
 
+    @PostMapping("/reply/{id}")
+    public ResponseDTO<Void> likeReply(
+            @PathVariable Long commentId,
+            @PathVariable Long id,
+            @AuthenticationPrincipal CustomUserDetails userDetails
+    ) {
+        commentLikeV1Service.addReplyLike(commentId, id, userDetails.getId());
+        return ResponseDTO.of("답글 좋아요가 추가되었습니다.");
+    }
+
     @DeleteMapping
     public ResponseDTO<Void> removeLike(@PathVariable Long commentId,
                                         @AuthenticationPrincipal CustomUserDetails userDetails) {
         commentLikeV1Service.removeLike(commentId, userDetails.getId());
-        return ResponseDTO.of("좋아요가 삭제되었습니다.");
+        return ResponseDTO.of("좋아요가 취소되었습니다.");
+    }
+
+    @DeleteMapping("/reply/{id}")
+    public ResponseDTO<Void> unlikeReply(
+            @PathVariable Long commentId,
+            @PathVariable Long id,
+            @AuthenticationPrincipal CustomUserDetails userDetails
+    ) {
+        commentLikeV1Service.removeReplyLike(commentId, id, userDetails.getId());
+        return ResponseDTO.of("답글 좋아요 취소에 성공하였습니다.");
     }
 
 }

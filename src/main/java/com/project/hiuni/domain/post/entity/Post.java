@@ -86,4 +86,7 @@ public abstract class Post extends BaseEntity {
 
     public void decrementCommentCount() { commentCount--;}
 
+    public void decreaseCommentCount(int count) {
+        this.commentCount = Math.max(0, this.commentCount - count);
+    }
 }

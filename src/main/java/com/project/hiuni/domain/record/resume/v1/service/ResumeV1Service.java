@@ -1,8 +1,8 @@
 package com.project.hiuni.domain.record.resume.v1.service;
 
-import com.project.hiuni.domain.post.entity.Post;
 import com.project.hiuni.domain.post.exception.CustomPostNotFoundException;
 import com.project.hiuni.domain.post.repository.PostRepository;
+import com.project.hiuni.domain.post.v1.service.PostV1Service;
 import com.project.hiuni.domain.record.exception.InsufficientGenerationCountException;
 import com.project.hiuni.domain.record.resume.achievement.entity.Achievement;
 import com.project.hiuni.domain.record.resume.achievement.repository.AchievementRepository;
@@ -58,6 +58,8 @@ public class ResumeV1Service {
   private final LinkRepository linkRepository;
   private final SkillRepository skillRepository;
   private final SkillDataRepository skillDataRepository;
+
+  private final PostV1Service postV1Service;
 
   private final ClaudeAiClient claudeAiClient;
 
@@ -307,11 +309,10 @@ public class ResumeV1Service {
       User user = userRepository.findById(userId)
           .orElseThrow(() -> new CustomUserNotFoundException(ErrorCode.USER_NOT_FOUND));
 
-      List<Post> userPosts = postRepository.findAllByUserId(userId);
+      List<List<String>> postsReviewData = postV1Service.getMyReviewDetailList(userId);
 
       //후기글이 존재하지 않을 경우
-      //TODO: 현재 후기글만 따로 불러오는 로직이 없어, 일단 전체 게시글을 불러오도록 구현하였습니다. 추후에 수정이 필요합니다.
-      if (userPosts.isEmpty()) {
+      if (postsReviewData.isEmpty()) {
         throw new CustomPostNotFoundException(ErrorCode.POST_NOT_FOUND);
       }
 
@@ -320,9 +321,9 @@ public class ResumeV1Service {
         throw new InsufficientGenerationCountException(ErrorCode.INSUFFICIENT_GENERATION_COUNT);
       }
 
-      log.info("생성된 프롬프트: {}", ClaudeAiPrompt.ABOUT_ME_PROMPT(userPosts, user));
+      log.info("생성된 프롬프트: {}", ClaudeAiPrompt.ABOUT_ME_PROMPT(postsReviewData, user));
 
-      String response = claudeAiClient.sendMessage(ClaudeAiPrompt.ABOUT_ME_PROMPT(userPosts, user));
+      String response = claudeAiClient.sendMessage(ClaudeAiPrompt.ABOUT_ME_PROMPT(postsReviewData, user));
 
       user.decreaseAiAboutMe();
 
@@ -343,7 +344,7 @@ public class ResumeV1Service {
       throw e;
 
     } catch (Exception e) {
-      log.info("이력서 저장 실패: {}", e.getMessage());
+      log.info("내 소개 생성 실패: {}", e.getMessage());
       throw new InternalServerException(ErrorCode.INTERNAL_SERVER_ERROR);
     }
   }
