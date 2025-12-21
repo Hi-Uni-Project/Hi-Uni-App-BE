@@ -22,6 +22,7 @@ public record PostReviewResponse(
         boolean isReview,
         boolean isLiked,
         boolean isScrap,
+        boolean isUser,
         int likeCount,
         int commentCount,
         int bookmarkCount,
@@ -67,7 +68,7 @@ public record PostReviewResponse(
         String tips
 ) {
 
-    public static PostReviewResponse from(Post post, boolean isLiked, boolean isScrap) {
+    public static PostReviewResponse from(Post post, boolean isLiked, boolean isScrap, boolean isUser) {
         String nickname = null;
         String univName = null;
         String firstMajorName = null;
@@ -177,7 +178,7 @@ public record PostReviewResponse(
 
         return new PostReviewResponse(
                 nickname, univName, firstMajorName, secondMajorName,
-                id, title, content, type, category, isReview, isLiked, isScrap,
+                id, title, content, type, category, isReview, isLiked, isScrap, isUser,
                 likeCount, commentCount, bookmarkCount, viewCount, createdAt,
                 companyName, appliedPosition, applyMethod, interviewQuestions,
                 preparation, result, feelings, additional,
