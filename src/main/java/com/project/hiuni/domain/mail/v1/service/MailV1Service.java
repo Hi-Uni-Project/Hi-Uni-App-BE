@@ -103,6 +103,10 @@ public class MailV1Service {
       }
   }
 
+  public boolean duplicateEmailCheck(String email) {
+    return userRepository.existsUserByUnivEmail(email);
+  }
+
   public boolean validateCode(CodeRequest codeRequest) {
 
     String targetAuthCode = codeRequest.getAuthCode();
