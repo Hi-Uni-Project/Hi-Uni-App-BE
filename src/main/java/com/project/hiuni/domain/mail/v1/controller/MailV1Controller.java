@@ -25,8 +25,9 @@ public class MailV1Controller {
   public ResponseDTO<HashMap<String, Object>> sendMail(@RequestBody @Valid MailRequest mailRequest) {
 
     boolean emailIsValid = mailV1Service.validateEmail(mailRequest.getEmail(), mailRequest.getUnivName());
+    boolean emailIsDuplicate = mailV1Service.duplicateEmailCheck(mailRequest.getEmail());
 
-    if(!emailIsValid) {
+    if(!emailIsValid || emailIsDuplicate) {
       throw new InvalidEmailFormatException(ErrorCode.INVALID_EMAIL_FORMAT);
     }
 
