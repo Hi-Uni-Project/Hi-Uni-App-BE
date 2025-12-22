@@ -121,45 +121,43 @@ public interface PostRepository extends JpaRepository <Post, Long> {
             @Param("sort") String sort);
 
     @Query("""
-            select p
-            from Post p
-            join fetch p.user u
-            where function('replace', lower(trim(u.univName)), ' ', '') =
-                  function('replace', lower(trim(:univName)), ' ', '')
-              and (
-                    :keyword is null or :keyword = '' or
-                    lower(p.title)   like concat('%', lower(:keyword), '%') or
-                    lower(p.content) like concat('%', lower(:keyword), '%')
-                  )
-              and ( :category is null or p.category = :category )
-            order by
-              CASE WHEN :sort = 'createdAt' THEN p.createdAt END ASC,
-              CASE WHEN :sort = 'like' THEN p.likeCount END DESC,
-              CASE WHEN :sort = 'comment' THEN p.commentCount END DESC,
-              p.createdAt DESC
-            """)
+    select p
+    from Post p
+    join fetch p.user u
+    where function('replace', trim(u.univName), ' ', '') =
+          function('replace', trim(:univName), ' ', '')
+      and (
+            :keyword is null or :keyword = '' or
+            p.title like concat('%', :keyword, '%')
+          )
+      and ( :category is null or p.category = :category )
+    order by
+      CASE WHEN :sort = 'createdAt' THEN p.createdAt END ASC,
+      CASE WHEN :sort = 'like' THEN p.likeCount END DESC,
+      CASE WHEN :sort = 'comment' THEN p.commentCount END DESC,
+      p.createdAt DESC
+    """)
     List<Post> searchByKeywordAndUnivAndCategory(@Param("keyword") String keyword,
                                                  @Param("univName") String univName,
                                                  @Param("category") Category category,
                                                  @Param("sort") String sort);
 
     @Query("""
-        select p
-        from Post p
-        join fetch p.user u
-        where function('replace', lower(trim(u.univName)), ' ', '') =
-              function('replace', lower(trim(:univName)), ' ', '')
-          and (
-               :keyword is null or :keyword = '' or
-               lower(p.title)   like concat('%', lower(:keyword), '%') or
-               lower(p.content) like concat('%', lower(:keyword), '%')
-          )
-          order by
-              CASE WHEN :sort = 'createdAt' THEN p.createdAt END ASC,
-              CASE WHEN :sort = 'like' THEN p.likeCount END DESC,
-              CASE WHEN :sort = 'comment' THEN p.commentCount END DESC,
-              p.createdAt DESC
-        """)
+    select p
+    from Post p
+    join fetch p.user u
+    where function('replace', trim(u.univName), ' ', '') =
+          function('replace', trim(:univName), ' ', '')
+      and (
+           :keyword is null or :keyword = '' or
+           p.title like concat('%', :keyword, '%')
+      )
+    order by
+      CASE WHEN :sort = 'createdAt' THEN p.createdAt END ASC,
+      CASE WHEN :sort = 'like' THEN p.likeCount END DESC,
+      CASE WHEN :sort = 'comment' THEN p.commentCount END DESC,
+      p.createdAt DESC
+    """)
     List<Post> searchByKeywordAndUniv(@Param("keyword") String keyword,
                                       @Param("univName") String univName,
                                       @Param("sort") String sort);

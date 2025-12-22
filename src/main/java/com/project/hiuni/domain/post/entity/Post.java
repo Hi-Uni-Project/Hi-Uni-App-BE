@@ -13,6 +13,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
@@ -30,9 +31,11 @@ public abstract class Post extends BaseEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
 
+    @Lob
     protected String title;
 
     @Column(columnDefinition = "TEXT")
+    @Lob
     protected String content;
 
     @Enumerated(EnumType.STRING)
