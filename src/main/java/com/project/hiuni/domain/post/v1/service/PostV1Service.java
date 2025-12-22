@@ -557,9 +557,6 @@ public class PostV1Service {
 
         result.addAll(experiencePostRepository.findReviewPostsByUser(userId));
         result.addAll(internshipPostRepository.findReviewPostsByUser(userId));
-        result.addAll(interviewPostRepository.findReviewPostsByUser(userId));
-        result.addAll(jobPostRepository.findReviewPostsByUser(userId));
-        result.addAll(licensePostRepository.findReviewPostsByUser(userId));
 
         result.sort(Comparator.comparing(Post::getCreatedAt).reversed());
 
