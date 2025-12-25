@@ -3,6 +3,7 @@ package com.project.hiuni.global.security.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.hiuni.global.common.dto.response.ResponseDTO;
 import com.project.hiuni.global.exception.ErrorCode;
+import com.project.hiuni.global.filter.GeoIPFilter;
 import com.project.hiuni.global.security.jwt.JwtTokenFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -21,6 +22,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
   private final JwtTokenFilter jwtTokenFilter;
+  private final GeoIPFilter geoIPFilter;
 
   /**
    * 예외처리 응답을 위해 사용되는 객체입니다.
@@ -78,6 +80,7 @@ public class SecurityConfig {
               response.setContentType("application/json");
               response.getWriter().write(invalidAuthorizationResponse);
             }))
+        .addFilterBefore(geoIPFilter, UsernamePasswordAuthenticationFilter.class)
         .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
     return http.build();
   }
