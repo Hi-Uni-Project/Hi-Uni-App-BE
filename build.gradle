@@ -57,6 +57,9 @@ dependencies {
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	//파일 압축 라이브러리
 	implementation 'net.coobird:thumbnailator:0.4.20'
+
+	// IP 주소 기반 위치 정보 조회 라이브러리
+	implementation 'com.maxmind.geoip2:geoip2:2.15.0'
 }
 
 dependencyManagement {
