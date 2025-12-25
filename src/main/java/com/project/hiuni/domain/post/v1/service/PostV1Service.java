@@ -5,6 +5,8 @@ import com.project.hiuni.domain.post.dto.request.PostCreateNoReviewRequest;
 import com.project.hiuni.domain.post.dto.request.PostCreateReviewRequest;
 import com.project.hiuni.domain.post.dto.request.PostUpdateNoReviewRequest;
 import com.project.hiuni.domain.post.dto.request.PostUpdateReviewRequest;
+import com.project.hiuni.domain.post.dto.response.ExperienceMyReviewResponse;
+import com.project.hiuni.domain.post.dto.response.InternshipMyReviewResponse;
 import com.project.hiuni.domain.post.dto.response.PostCreateNoReviewResponse;
 import com.project.hiuni.domain.post.dto.response.PostCreateReviewResponse;
 import com.project.hiuni.domain.post.dto.response.PostMyReviewResponse;
@@ -553,24 +555,42 @@ public class PostV1Service {
 
     public List<PostMyReviewResponse> getMyReviewPosts(Long userId) {
 
-        List<Post> result = new ArrayList<>();
+        List<PostMyReviewResponse> result = new ArrayList<>();
 
-        result.addAll(experiencePostRepository.findReviewPostsByUser(userId));
-        result.addAll(internshipPostRepository.findReviewPostsByUser(userId));
-        result.addAll(interviewPostRepository.findReviewPostsByUser(userId));
-        result.addAll(jobPostRepository.findReviewPostsByUser(userId));
-        result.addAll(licensePostRepository.findReviewPostsByUser(userId));
+        experiencePostRepository.findReviewPostsByUser(userId)
+                .forEach(p -> result.add(
+                        new ExperienceMyReviewResponse(
+                                p.getCategory(),
+                                p.getType(),
+                                p.getTitle(),
+                                p.getContent(),
+                                p.getOrganizationName(),
+                                p.getPosition(),
+                                p.getPositionRank(),
+                                p.getWhatWork(),
+                                p.getStartDate(),
+                                p.getEndDate()
+                        )
+                ));
 
-        result.sort(Comparator.comparing(Post::getCreatedAt).reversed());
+        internshipPostRepository.findReviewPostsByUser(userId)
+                .forEach(p -> result.add(
+                        new InternshipMyReviewResponse(
+                                p.getCategory(),
+                                p.getType(),
+                                p.getTitle(),
+                                p.getContent(),
+                                p.getCompanyName(),
+                                p.getDepartment(),
+                                p.getTasks(),
+                                p.getStartDate(),
+                                p.getEndDate()
+                        )
+                ));
 
-        return result.stream()
-                .map(p -> new PostMyReviewResponse(
-                        p.getCategory(),
-                        p.getType(),
-                        p.getTitle(),
-                        p.getContent()
-                ))
-                .toList();
+        result.sort(Comparator.comparing(PostMyReviewResponse::startDate).reversed());
+
+        return result;
     }
 
     private static Category getCategory(Type type) {
