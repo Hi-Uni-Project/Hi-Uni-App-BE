@@ -26,7 +26,7 @@ public class GeoIPFilter extends OncePerRequestFilter {
 
     public GeoIPFilter(DatabaseReader databaseReader) {
         this.databaseReader = databaseReader;
-        this.allowedCountries = Arrays.asList("KR");
+        this.allowedCountries = Arrays.asList("KR", "JP");
     }
 
     @Override
