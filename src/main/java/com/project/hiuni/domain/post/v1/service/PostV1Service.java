@@ -418,7 +418,7 @@ public class PostV1Service {
 
         return postRepository.findWeeklyHot(start, end, user.getUnivName(),sort)
                 .stream()
-                // .filter(post -> post.getLikeCount()>=3)
+                .filter(post -> post.getLikeCount()>=3)
                 .map(PostPreviewResponse::from)
                 .toList();
     }
@@ -504,7 +504,7 @@ public class PostV1Service {
 
         return postRepository.findWeeklyHotByType(start, end, user.getUnivName(),type,sort)
                 .stream()
-                // .filter(post -> post.getLikeCount()>=3)
+                .filter(post -> post.getLikeCount()>=3)
                 .map(PostPreviewResponse::from)
                 .toList();
     }
@@ -523,7 +523,7 @@ public class PostV1Service {
 
         return postRepository.findWeeklyHotByCategory(start, end, user.getUnivName(),category,sort)
                 .stream()
-                // .filter(post -> post.getLikeCount()>=3)
+                .filter(post -> post.getLikeCount()>=3)
                 .map(PostPreviewResponse::from)
                 .toList();
     }
