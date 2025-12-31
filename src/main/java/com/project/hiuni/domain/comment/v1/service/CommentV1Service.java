@@ -50,8 +50,6 @@ public class CommentV1Service {
                 .user(user)
                 .build();
 
-        post.incrementCommentCount();
-
         return CommentCreateResponse.from(commentRepository.save(comment));
     }
 
@@ -76,8 +74,6 @@ public class CommentV1Service {
                 .user(user)
                 .parent(parent)
                 .build();
-
-        post.incrementCommentCount();
 
         return CommentCreateResponse.from(commentRepository.save(reply));
 
@@ -147,7 +143,6 @@ public class CommentV1Service {
         int deleteCount = 1 + comment.getChildren().size();
 
         Post post = comment.getPost();
-        post.decreaseCommentCount(deleteCount);
 
         commentRepository.delete(comment);
     }
@@ -170,7 +165,6 @@ public class CommentV1Service {
         }
 
         Post post = reply.getPost();
-        post.decrementCommentCount();
 
         commentRepository.delete(reply);
     }

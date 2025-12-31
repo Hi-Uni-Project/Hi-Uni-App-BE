@@ -1,6 +1,7 @@
 package com.project.hiuni.domain.post.v1.service;
 
 import com.project.hiuni.domain.bookmark.repository.BookmarkRepository;
+import com.project.hiuni.domain.comment.repository.CommentRepository;
 import com.project.hiuni.domain.post.dto.request.PostCreateNoReviewRequest;
 import com.project.hiuni.domain.post.dto.request.PostCreateReviewRequest;
 import com.project.hiuni.domain.post.dto.request.PostUpdateNoReviewRequest;
@@ -56,6 +57,7 @@ public class PostV1Service {
     private final PostRepository postRepository;
     private final PostLikeRepository postLikeRepository;
     private final BookmarkRepository bookmarkRepository;
+    private final CommentRepository commentRepository;
     private final UserRepository userRepository;
 
     private final JobPostRepository jobPostRepository;
@@ -277,9 +279,10 @@ public class PostV1Service {
         boolean isLiked=postLikeRepository.existsByPostIdAndUserId(postId, userId);
         boolean isScrap=bookmarkRepository.existsByPostIdAndUserId(postId, userId);
         boolean isUser = post.getUser().getId().equals(userId);
+        int commentCount = commentRepository.countAllByPostId(postId);
 
         post.incrementViewCount();
-        return PostNoReviewResponse.from(post, isLiked, isScrap, isUser);
+        return PostNoReviewResponse.from(post, isLiked, isScrap, isUser,commentCount);
     }
 
     @Transactional
@@ -290,9 +293,10 @@ public class PostV1Service {
         boolean isLiked=postLikeRepository.existsByPostIdAndUserId(postId, userId);
         boolean isScrap=bookmarkRepository.existsByPostIdAndUserId(postId, userId);
         boolean isUser = post.getUser().getId().equals(userId);
+        int commentCount = commentRepository.countAllByPostId(postId);
 
         post.incrementViewCount();
-        return PostReviewResponse.from(post,isLiked, isScrap, isUser);
+        return PostReviewResponse.from(post,isLiked, isScrap, isUser,commentCount);
     }
 
     @Transactional
@@ -300,6 +304,8 @@ public class PostV1Service {
 
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new CustomPostNotFoundException(ErrorCode.POST_NOT_FOUND));
+
+        int commentCount = commentRepository.countAllByPostId(postId);
 
         if (!post.getUser().getId().equals(userId)) {
             throw new CustomForbiddenException(ErrorCode.FORBIDDEN);
@@ -310,7 +316,8 @@ public class PostV1Service {
                 request.content(),
                 post.getCategory()
         );
-        return PostUpdateNoReviewResponse.from(post);
+
+        return PostUpdateNoReviewResponse.from(post,commentCount);
     }
 
     @Transactional
@@ -419,7 +426,10 @@ public class PostV1Service {
         return postRepository.findWeeklyHot(start, end, user.getUnivName(),sort)
                 .stream()
                 .filter(post -> post.getLikeCount()>=3)
-                .map(PostPreviewResponse::from)
+                .map(post ->{
+                        int commentCount = commentRepository.countAllByPostId(post.getId());
+                        return PostPreviewResponse.from(post, commentCount);
+                })
                 .toList();
     }
 
@@ -437,7 +447,10 @@ public class PostV1Service {
 
         return posts.stream()
                 .limit(4)
-                .map(PostWeeklyHotPreviewResponse::from)
+                .map(post -> {
+                    int commentCount = commentRepository.countAllByPostId(post.getId());
+                    return PostWeeklyHotPreviewResponse.from(post, commentCount);
+                })
                 .toList();
     }
 
@@ -450,7 +463,10 @@ public class PostV1Service {
 
         return postRepository.findAllPosts(univName, sort)
                 .stream()
-                .map(PostPreviewResponse::from)
+                .map(post ->{
+                    int commentCount = commentRepository.countAllByPostId(post.getId());
+                    return PostPreviewResponse.from(post, commentCount);
+                })
                 .toList();
     }
 
@@ -462,7 +478,10 @@ public class PostV1Service {
 
         return postRepository.findAllPostsByCategory(univName,category, sort)
                 .stream()
-                .map(PostPreviewResponse::from)
+                .map(post ->{
+                    int commentCount = commentRepository.countAllByPostId(post.getId());
+                    return PostPreviewResponse.from(post, commentCount);
+                })
                 .toList();
     }
 
@@ -474,7 +493,10 @@ public class PostV1Service {
 
         return postRepository.findAllPostsByType(univName,type,sort)
                 .stream()
-                .map(PostPreviewResponse::from)
+                .map(post ->{
+                    int commentCount = commentRepository.countAllByPostId(post.getId());
+                    return PostPreviewResponse.from(post, commentCount);
+                })
                 .toList();
     }
 
@@ -486,7 +508,10 @@ public class PostV1Service {
 
         return postRepository.searchByKeywordAndUnivAndCategory(keyword, univName, category, sort)
                 .stream()
-                .map(PostPreviewResponse::from)
+                .map(post ->{
+                    int commentCount = commentRepository.countAllByPostId(post.getId());
+                    return PostPreviewResponse.from(post, commentCount);
+                })
                 .toList();
     }
 
@@ -505,7 +530,10 @@ public class PostV1Service {
         return postRepository.findWeeklyHotByType(start, end, user.getUnivName(),type,sort)
                 .stream()
                 .filter(post -> post.getLikeCount()>=3)
-                .map(PostPreviewResponse::from)
+                .map(post ->{
+                    int commentCount = commentRepository.countAllByPostId(post.getId());
+                    return PostPreviewResponse.from(post, commentCount);
+                })
                 .toList();
     }
 
@@ -524,7 +552,10 @@ public class PostV1Service {
         return postRepository.findWeeklyHotByCategory(start, end, user.getUnivName(),category,sort)
                 .stream()
                 .filter(post -> post.getLikeCount()>=3)
-                .map(PostPreviewResponse::from)
+                .map(post ->{
+                    int commentCount = commentRepository.countAllByPostId(post.getId());
+                    return PostPreviewResponse.from(post, commentCount);
+                })
                 .toList();
     }
 
@@ -536,7 +567,10 @@ public class PostV1Service {
 
         return postRepository.searchByKeywordAndUniv(keyword, univName, sort)
                 .stream()
-                .map(PostPreviewResponse::from)
+                .map(post ->{
+                    int commentCount = commentRepository.countAllByPostId(post.getId());
+                    return PostPreviewResponse.from(post, commentCount);
+                })
                 .toList();
     }
 
@@ -549,7 +583,10 @@ public class PostV1Service {
         List<Post> posts = postRepository.findAllByUserId(user.getId());
 
         return posts.stream()
-                .map(PostPreviewResponse::from)
+                .map(post ->{
+                    int commentCount = commentRepository.countAllByPostId(post.getId());
+                    return PostPreviewResponse.from(post, commentCount);
+                })
                 .collect(Collectors.toList());
     }
 

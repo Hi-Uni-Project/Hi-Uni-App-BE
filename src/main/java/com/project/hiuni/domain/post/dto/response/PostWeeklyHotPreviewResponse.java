@@ -11,12 +11,12 @@ public record PostWeeklyHotPreviewResponse(
         LocalDateTime createdAt,
         boolean isReview
 ) {
-    public static PostWeeklyHotPreviewResponse from(Post post) {
+    public static PostWeeklyHotPreviewResponse from(Post post, int commentCount) {
         return new PostWeeklyHotPreviewResponse(
                 post.getId(),
                 post.getTitle(),
                 post.getLikeCount(),
-                post.getCommentCount(),
+                commentCount,
                 post.getCreatedAt(),
                 post.isReview()
         );
