@@ -22,7 +22,7 @@ public record PostPreviewResponse(
         boolean isReview
 
 ) {
-    public static PostPreviewResponse from (Post post) {
+    public static PostPreviewResponse from (Post post, int commentCount) {
 
         User user = post.getUser();
 
@@ -36,10 +36,11 @@ public record PostPreviewResponse(
                 post.getType(),
                 post.getCategory(),
                 post.getLikeCount(),
-                post.getCommentCount(),
+                commentCount,
                 post.getBookmarkCount(),
                 post.getCreatedAt(),
                 post.isReview()
         );
     }
+
 }

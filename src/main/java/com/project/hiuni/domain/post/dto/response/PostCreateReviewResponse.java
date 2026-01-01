@@ -87,10 +87,10 @@ public record PostCreateReviewResponse(
         String content = post.getContent();
         Type type = post.getType();
         Category category = post.getCategory();
-        int likeCount = post.getLikeCount();
-        int commentCount = post.getCommentCount();
-        int bookmarkCount = post.getBookmarkCount();
-        int viewCount = post.getViewCount();
+        int likeCount = 0;
+        int commentCount = 0;
+        int bookmarkCount = 0;
+        int viewCount = 0;
         LocalDateTime createdAt = post.getCreatedAt();
 
         // --- 타입별 필드 기본 null 초기화 ---

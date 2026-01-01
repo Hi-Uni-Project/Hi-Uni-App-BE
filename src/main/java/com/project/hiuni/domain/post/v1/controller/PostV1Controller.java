@@ -146,7 +146,7 @@ public class PostV1Controller {
                                                                              @RequestParam Type type,
                                                                              @AuthenticationPrincipal CustomUserDetails userDetails) {
 
-        List<PostPreviewResponse> postPreviewResponses = postV1Service.getWeeklyHotPostByType(type,sort,userDetails.getId());
+        List<PostPreviewResponse> postPreviewResponses = postV1Service.getWeeklyHotPostsByType(type,sort,userDetails.getId());
 
         return ResponseDTO.of(postPreviewResponses, "타입별 인기 게시글 조회에 성공하였습니다.");
     }
@@ -156,7 +156,7 @@ public class PostV1Controller {
                                                                                  @RequestParam String sort,
                                                                                  @AuthenticationPrincipal CustomUserDetails userDetails) {
 
-        List<PostPreviewResponse> postPreviewResponses = postV1Service.getWeeklyHotPostByCategory(category,sort,userDetails.getId());
+        List<PostPreviewResponse> postPreviewResponses = postV1Service.getWeeklyHotPostsByCategory(category,sort,userDetails.getId());
 
         return ResponseDTO.of(postPreviewResponses, "카테고리별 인기 게시글 조회에 성공하였습니다.");
     }

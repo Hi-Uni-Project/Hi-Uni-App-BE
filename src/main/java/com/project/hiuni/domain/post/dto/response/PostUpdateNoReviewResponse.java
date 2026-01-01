@@ -19,7 +19,7 @@ public record PostUpdateNoReviewResponse (
         int viewCount,
         LocalDateTime createdAt
 ){
-    public static PostUpdateNoReviewResponse from(Post post) {
+    public static PostUpdateNoReviewResponse from(Post post, int commentCount) {
 
         User user = post.getUser();
 
@@ -31,7 +31,7 @@ public record PostUpdateNoReviewResponse (
                 post.getType(),
                 post.getCategory(),
                 post.getLikeCount(),
-                post.getCommentCount(),
+                commentCount,
                 post.getBookmarkCount(),
                 post.getViewCount(),
                 post.getCreatedAt()

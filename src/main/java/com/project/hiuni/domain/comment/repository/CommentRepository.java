@@ -1,6 +1,7 @@
 package com.project.hiuni.domain.comment.repository;
 
 import com.project.hiuni.domain.comment.entity.Comment;
+import com.project.hiuni.domain.comment.projection.PostCommentCount;
 import com.project.hiuni.domain.post.entity.Post;
 import com.project.hiuni.domain.user.entity.User;
 import java.util.List;
@@ -48,5 +49,20 @@ public interface CommentRepository extends JpaRepository <Comment, Long> {
      WHERE c.post.user = :user
      """)
     void deleteAllByPostUser(@Param("user") User user);
+
+    @Query("""
+    SELECT COUNT(c)
+    FROM Comment c
+    WHERE c.post.id = :postId
+""")
+    int countAllByPostId(@Param("postId") Long postId);
+
+    @Query("""
+    select c.post.id as postId, count(c) as count
+    from Comment c
+    where c.post.id in :postIds
+    group by c.post.id
+    """)
+    List<PostCommentCount> countByPostIds(@Param("postIds") List<Long> postIds);
 
 }

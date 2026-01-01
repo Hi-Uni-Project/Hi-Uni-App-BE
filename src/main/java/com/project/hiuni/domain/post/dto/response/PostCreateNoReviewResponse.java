@@ -35,10 +35,10 @@ public record PostCreateNoReviewResponse (
                 post.getContent(),
                 post.getType(),
                 post.getCategory(),
-                post.getLikeCount(),
-                post.getCommentCount(),
-                post.getBookmarkCount(),
-                post.getViewCount(),
+                0,
+                0,
+                0,
+                0,
                 post.getCreatedAt(),
                 post.isReview()
         );

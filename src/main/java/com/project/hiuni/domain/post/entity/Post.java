@@ -49,7 +49,6 @@ public abstract class Post extends BaseEntity {
     protected int likeCount = 0;
     protected int bookmarkCount = 0;
     protected int viewCount = 0;
-    protected int commentCount = 0;
 
     protected boolean isReview;
 
@@ -85,11 +84,5 @@ public abstract class Post extends BaseEntity {
 
     public void decrementViewCount() { viewCount--;}
 
-    public void incrementCommentCount() { commentCount++; }
 
-    public void decrementCommentCount() { commentCount--;}
-
-    public void decreaseCommentCount(int count) {
-        this.commentCount = Math.max(0, this.commentCount - count);
-    }
 }

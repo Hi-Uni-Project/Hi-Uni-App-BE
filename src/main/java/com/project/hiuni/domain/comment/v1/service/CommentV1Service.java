@@ -1,5 +1,6 @@
 package com.project.hiuni.domain.comment.v1.service;
 
+import com.project.hiuni.domain.post.common.PostPreviewMapper;
 import com.project.hiuni.domain.comment.dto.request.CommentReplyCreateRequest;
 import com.project.hiuni.domain.comment.exception.CustomCommentNotFoundException;
 import com.project.hiuni.domain.comment.dto.request.CommentCreateRequest;
@@ -19,7 +20,6 @@ import com.project.hiuni.domain.user.entity.User;
 import com.project.hiuni.domain.user.exception.CustomUserNotFoundException;
 import com.project.hiuni.domain.user.repository.UserRepository;
 import com.project.hiuni.global.exception.ErrorCode;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -31,6 +31,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class CommentV1Service {
 
+    private final PostPreviewMapper postPreviewMapper;
     private final CommentRepository commentRepository;
     private final CommentLikeRepository commentLikeRepository;
     private final PostRepository postRepository;
@@ -49,8 +50,6 @@ public class CommentV1Service {
                 .post(post)
                 .user(user)
                 .build();
-
-        post.incrementCommentCount();
 
         return CommentCreateResponse.from(commentRepository.save(comment));
     }
@@ -76,8 +75,6 @@ public class CommentV1Service {
                 .user(user)
                 .parent(parent)
                 .build();
-
-        post.incrementCommentCount();
 
         return CommentCreateResponse.from(commentRepository.save(reply));
 
@@ -147,7 +144,6 @@ public class CommentV1Service {
         int deleteCount = 1 + comment.getChildren().size();
 
         Post post = comment.getPost();
-        post.decreaseCommentCount(deleteCount);
 
         commentRepository.delete(comment);
     }
@@ -170,7 +166,6 @@ public class CommentV1Service {
         }
 
         Post post = reply.getPost();
-        post.decrementCommentCount();
 
         commentRepository.delete(reply);
     }
@@ -182,9 +177,7 @@ public class CommentV1Service {
 
         List<Post> posts = commentRepository.findPostsCommentedByUser(user.getId());
 
-        return posts.stream()
-                .map(PostPreviewResponse::from)
-                .toList();
+        return postPreviewMapper.toPreviewResponses(posts);
     }
 
     @Transactional

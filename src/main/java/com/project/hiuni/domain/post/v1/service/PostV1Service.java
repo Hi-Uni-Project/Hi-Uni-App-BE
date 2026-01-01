@@ -1,6 +1,9 @@
 package com.project.hiuni.domain.post.v1.service;
 
 import com.project.hiuni.domain.bookmark.repository.BookmarkRepository;
+import com.project.hiuni.domain.post.common.PostPreviewMapper;
+import com.project.hiuni.domain.comment.projection.PostCommentCount;
+import com.project.hiuni.domain.comment.repository.CommentRepository;
 import com.project.hiuni.domain.post.dto.request.PostCreateNoReviewRequest;
 import com.project.hiuni.domain.post.dto.request.PostCreateReviewRequest;
 import com.project.hiuni.domain.post.dto.request.PostUpdateNoReviewRequest;
@@ -44,6 +47,7 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -53,9 +57,11 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class PostV1Service {
 
+    private final PostPreviewMapper postPreviewMapper;
     private final PostRepository postRepository;
     private final PostLikeRepository postLikeRepository;
     private final BookmarkRepository bookmarkRepository;
+    private final CommentRepository commentRepository;
     private final UserRepository userRepository;
 
     private final JobPostRepository jobPostRepository;
@@ -277,9 +283,10 @@ public class PostV1Service {
         boolean isLiked=postLikeRepository.existsByPostIdAndUserId(postId, userId);
         boolean isScrap=bookmarkRepository.existsByPostIdAndUserId(postId, userId);
         boolean isUser = post.getUser().getId().equals(userId);
+        int commentCount = commentRepository.countAllByPostId(postId);
 
         post.incrementViewCount();
-        return PostNoReviewResponse.from(post, isLiked, isScrap, isUser);
+        return PostNoReviewResponse.from(post, isLiked, isScrap, isUser,commentCount);
     }
 
     @Transactional
@@ -290,9 +297,10 @@ public class PostV1Service {
         boolean isLiked=postLikeRepository.existsByPostIdAndUserId(postId, userId);
         boolean isScrap=bookmarkRepository.existsByPostIdAndUserId(postId, userId);
         boolean isUser = post.getUser().getId().equals(userId);
+        int commentCount = commentRepository.countAllByPostId(postId);
 
         post.incrementViewCount();
-        return PostReviewResponse.from(post,isLiked, isScrap, isUser);
+        return PostReviewResponse.from(post,isLiked, isScrap, isUser,commentCount);
     }
 
     @Transactional
@@ -300,6 +308,8 @@ public class PostV1Service {
 
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new CustomPostNotFoundException(ErrorCode.POST_NOT_FOUND));
+
+        int commentCount = commentRepository.countAllByPostId(postId);
 
         if (!post.getUser().getId().equals(userId)) {
             throw new CustomForbiddenException(ErrorCode.FORBIDDEN);
@@ -310,7 +320,8 @@ public class PostV1Service {
                 request.content(),
                 post.getCategory()
         );
-        return PostUpdateNoReviewResponse.from(post);
+
+        return PostUpdateNoReviewResponse.from(post,commentCount);
     }
 
     @Transactional
@@ -416,11 +427,15 @@ public class PostV1Service {
         LocalDateTime end   = today.with(DayOfWeek.SUNDAY).atStartOfDay();
         LocalDateTime start = end.minusWeeks(1);
 
-        return postRepository.findWeeklyHot(start, end, user.getUnivName(),sort)
+        List<Post> posts = postRepository.findWeeklyHot(start, end, user.getUnivName())
                 .stream()
-                // .filter(post -> post.getLikeCount()>=3)
-                .map(PostPreviewResponse::from)
+                .filter(post -> post.getLikeCount() >= 3)
                 .toList();
+
+        List<PostPreviewResponse> postPreviewResponses = postPreviewMapper.toPreviewResponses(posts);
+        postPreviewResponses.sort(getPreviewComparator(sort));
+
+        return postPreviewResponses;
     }
 
     public List<PostWeeklyHotPreviewResponse> getWeeklyHotPreviewTop4Posts(String sort, Long userId){
@@ -433,12 +448,33 @@ public class PostV1Service {
         LocalDateTime end   = today.with(DayOfWeek.SUNDAY).atStartOfDay();
         LocalDateTime start = end.minusWeeks(1);
 
-        List<Post> posts = postRepository.findWeeklyHot(start, end, user.getUnivName(),sort);
-
-        return posts.stream()
-                .limit(4)
-                .map(PostWeeklyHotPreviewResponse::from)
+        List<Post> posts = postRepository.findWeeklyHot(start, end, user.getUnivName())
+                .stream()
+                .filter(post -> post.getLikeCount() >= 3)
                 .toList();
+
+        List<Long> postIds = posts.stream().map(Post::getId).toList();
+
+        Map<Long, Integer> commentCountMap = commentRepository
+                .countByPostIds(postIds)
+                .stream()
+                .collect(Collectors.toMap(
+                        PostCommentCount::getPostId,
+                        PostCommentCount::getCount
+                ));
+
+        List<PostWeeklyHotPreviewResponse> previews = new ArrayList<>(posts.stream()
+                .map(post -> PostWeeklyHotPreviewResponse.from(
+                        post, commentCountMap.getOrDefault(post.getId(), 0)
+                ))
+                .toList());
+
+        previews.sort(getWeeklyHotPreviewComparator(sort));
+
+        return previews.stream()
+                .limit(4)
+                .toList();
+
     }
 
     @Transactional(readOnly = true)
@@ -446,12 +482,12 @@ public class PostV1Service {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomUserNotFoundException(ErrorCode.USER_NOT_FOUND));
 
-        String univName = user.getUnivName();
+        List<Post> posts = postRepository.findAllPosts(user.getUnivName());
 
-        return postRepository.findAllPosts(univName, sort)
-                .stream()
-                .map(PostPreviewResponse::from)
-                .toList();
+        List<PostPreviewResponse> postPreviewResponses = postPreviewMapper.toPreviewResponses(posts);
+        postPreviewResponses.sort(getPreviewComparator(sort));
+
+        return postPreviewResponses;
     }
 
     public List<PostPreviewResponse> getAllPostsByCategory(Category category, String sort, Long userId){
@@ -460,10 +496,10 @@ public class PostV1Service {
 
         String univName = user.getUnivName();
 
-        return postRepository.findAllPostsByCategory(univName,category, sort)
-                .stream()
-                .map(PostPreviewResponse::from)
-                .toList();
+        List<Post> posts = postRepository.findAllPostsByCategory(univName, category);
+        List<PostPreviewResponse> postPreviewResponses = postPreviewMapper.toPreviewResponses(posts);
+        postPreviewResponses.sort(getPreviewComparator(sort));
+        return postPreviewResponses;
     }
 
     public List<PostPreviewResponse> getAllPostsByType(Type type, String sort, Long userId){
@@ -472,10 +508,10 @@ public class PostV1Service {
 
         String univName = user.getUnivName();
 
-        return postRepository.findAllPostsByType(univName,type,sort)
-                .stream()
-                .map(PostPreviewResponse::from)
-                .toList();
+        List<Post> posts = postRepository.findAllPostsByType(univName, type);
+        List<PostPreviewResponse> postPreviewResponses = postPreviewMapper.toPreviewResponses(posts);
+        postPreviewResponses.sort(getPreviewComparator(sort));
+        return postPreviewResponses;
     }
 
     @Transactional(readOnly = true)
@@ -484,14 +520,14 @@ public class PostV1Service {
                 .orElseThrow(() -> new CustomUserNotFoundException(ErrorCode.USER_NOT_FOUND));
         String univName = user.getUnivName();
 
-        return postRepository.searchByKeywordAndUnivAndCategory(keyword, univName, category, sort)
-                .stream()
-                .map(PostPreviewResponse::from)
-                .toList();
+        List<Post> posts = postRepository.searchByKeywordAndUnivAndCategory(keyword, univName, category);
+        List<PostPreviewResponse> postPreviewResponses = postPreviewMapper.toPreviewResponses(posts);
+        postPreviewResponses.sort(getPreviewComparator(sort));
+        return postPreviewResponses;
     }
 
     @Transactional(readOnly = true)
-    public List<PostPreviewResponse> getWeeklyHotPostByType(Type type, String sort, Long userId){
+    public List<PostPreviewResponse> getWeeklyHotPostsByType(Type type, String sort, Long userId){
 
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomUserNotFoundException(ErrorCode.USER_NOT_FOUND));
@@ -502,15 +538,20 @@ public class PostV1Service {
         LocalDateTime end   = today.with(DayOfWeek.SUNDAY).atStartOfDay();
         LocalDateTime start = end.minusWeeks(1);
 
-        return postRepository.findWeeklyHotByType(start, end, user.getUnivName(),type,sort)
+        List<Post> posts=postRepository
+                .findWeeklyHotByType(start,end,user.getUnivName(),type)
                 .stream()
-                // .filter(post -> post.getLikeCount()>=3)
-                .map(PostPreviewResponse::from)
+                .filter(post -> post.getLikeCount()>=3)
                 .toList();
+
+        List<PostPreviewResponse> postPreviewResponses = postPreviewMapper.toPreviewResponses(posts);
+        postPreviewResponses.sort(getPreviewComparator(sort));
+
+        return postPreviewResponses;
     }
 
     @Transactional(readOnly = true)
-    public List<PostPreviewResponse> getWeeklyHotPostByCategory(Category category, String sort, Long userId){
+    public List<PostPreviewResponse> getWeeklyHotPostsByCategory(Category category, String sort, Long userId){
 
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomUserNotFoundException(ErrorCode.USER_NOT_FOUND));
@@ -521,11 +562,15 @@ public class PostV1Service {
         LocalDateTime end   = today.with(DayOfWeek.SUNDAY).atStartOfDay();
         LocalDateTime start = end.minusWeeks(1);
 
-        return postRepository.findWeeklyHotByCategory(start, end, user.getUnivName(),category,sort)
+        List<Post> posts = postRepository
+                .findWeeklyHotByCategory(start, end, user.getUnivName(), category)
                 .stream()
-                // .filter(post -> post.getLikeCount()>=3)
-                .map(PostPreviewResponse::from)
+                .filter(post -> post.getLikeCount() >= 3)
                 .toList();
+
+        List<PostPreviewResponse> postPreviewResponses = postPreviewMapper.toPreviewResponses(posts);
+        postPreviewResponses.sort(getPreviewComparator(sort));
+        return postPreviewResponses;
     }
 
     @Transactional(readOnly = true)
@@ -534,12 +579,11 @@ public class PostV1Service {
                 .orElseThrow(() -> new CustomUserNotFoundException(ErrorCode.USER_NOT_FOUND));
         String univName = user.getUnivName();
 
-        return postRepository.searchByKeywordAndUniv(keyword, univName, sort)
-                .stream()
-                .map(PostPreviewResponse::from)
-                .toList();
+        List<Post> posts=postRepository.searchByKeywordAndUniv(keyword, univName);
+        List<PostPreviewResponse> postPreviewResponses = postPreviewMapper.toPreviewResponses(posts);
+        postPreviewResponses.sort(getPreviewComparator(sort));
+        return postPreviewResponses;
     }
-
 
     @Transactional(readOnly = true)
     public List<PostPreviewResponse> getMyPosts(Long userId){
@@ -548,9 +592,7 @@ public class PostV1Service {
 
         List<Post> posts = postRepository.findAllByUserId(user.getId());
 
-        return posts.stream()
-                .map(PostPreviewResponse::from)
-                .collect(Collectors.toList());
+        return postPreviewMapper.toPreviewResponses(posts);
     }
 
     public List<PostMyReviewResponse> getMyReviewPosts(Long userId) {
@@ -698,5 +740,34 @@ public class PostV1Service {
         if (value != null && !value.isBlank()) {
             list.add(value);
         }
+    }
+
+    private Comparator<PostPreviewResponse> getPreviewComparator(String sort) {
+
+        if ("like".equals(sort)) {
+            return Comparator.comparing(PostPreviewResponse::likeCount).reversed()
+                    .thenComparing(PostPreviewResponse::createdAt).reversed();
+        }
+
+        if ("comment".equals(sort)) {
+            return Comparator.comparing(PostPreviewResponse::commentCount).reversed()
+                    .thenComparing(PostPreviewResponse::createdAt).reversed();
+        }
+
+        return Comparator.comparing(PostPreviewResponse::createdAt).reversed();
+    }
+
+    private Comparator<PostWeeklyHotPreviewResponse> getWeeklyHotPreviewComparator(String sort) {
+        if ("like".equals(sort)) {
+            return Comparator.comparing(PostWeeklyHotPreviewResponse::likeCount).reversed()
+                    .thenComparing(PostWeeklyHotPreviewResponse::createdAt).reversed();
+        }
+
+        if ("comment".equals(sort)) {
+            return Comparator.comparing(PostWeeklyHotPreviewResponse::commentCount).reversed()
+                    .thenComparing(PostWeeklyHotPreviewResponse::createdAt).reversed();
+        }
+
+        return Comparator.comparing(PostWeeklyHotPreviewResponse::createdAt).reversed();
     }
 }
