@@ -16,75 +16,50 @@ public interface PostRepository extends JpaRepository <Post, Long> {
     @Query("""
         select p
         from Post p
-        join p.user u
+        join fetch p.user u
         where p.createdAt >= :startDate
           and p.createdAt < :endDate
           and u.univName = :univName
-        order by
-          CASE WHEN :sort = 'createdAt' THEN p.createdAt END ASC,
-          CASE WHEN :sort = 'like' THEN p.likeCount END DESC,
-          CASE WHEN :sort = 'comment' THEN p.commentCount END DESC,
-          p.createdAt DESC
     """)
     List<Post> findWeeklyHot(@Param("startDate") LocalDateTime startDate,
                              @Param("endDate") LocalDateTime endDate,
-                             @Param("univName") String univName,
-                             @Param("sort") String sort);
+                             @Param("univName") String univName);
 
     @Query("""
         select p
         from Post p
-        join p.user u
+        join fetch p.user u
         where p.createdAt >= :startDate
           and p.createdAt < :endDate
           and u.univName = :univName
           and p.type = :type
-        order by
-          CASE WHEN :sort = 'createdAt' THEN p.createdAt END ASC,
-          CASE WHEN :sort = 'like' THEN p.likeCount END DESC,
-          CASE WHEN :sort = 'comment' THEN p.commentCount END DESC,
-          p.createdAt DESC
     """)
     List<Post> findWeeklyHotByType(@Param("startDate") LocalDateTime startDate,
                                    @Param("endDate") LocalDateTime endDate,
                                    @Param("univName") String univName,
-                                   @Param("type") Type type,
-                                   @Param("sort")String sort);
+                                   @Param("type") Type type);
 
     @Query("""
         select p
         from Post p
-        join p.user u
+        join fetch p.user u
         where p.createdAt >= :startDate
           and p.createdAt < :endDate
           and u.univName = :univName
           and p.category = :category
-        order by
-          CASE WHEN :sort = 'createdAt' THEN p.createdAt END ASC,
-          CASE WHEN :sort = 'like' THEN p.likeCount END DESC,
-          CASE WHEN :sort = 'comment' THEN p.commentCount END DESC,
-          p.createdAt DESC
     """)
     List<Post> findWeeklyHotByCategory(@Param("startDate") LocalDateTime startDate,
                                        @Param("endDate") LocalDateTime endDate,
                                        @Param("univName") String univName,
-                                       @Param("category") Category category,
-                                       @Param("sort") String sort);
+                                       @Param("category") Category category);
 
 
     @Query("""
         select p
         from Post p
         join fetch p.user u
-        where u.univName = :univName
-        order by
-          CASE WHEN :sort = 'createdAt' THEN p.createdAt END ASC,
-          CASE WHEN :sort = 'like' THEN p.likeCount END DESC,
-          CASE WHEN :sort = 'comment' THEN p.commentCount END DESC,
-          p.createdAt DESC
-    """)
-    List<Post> findAllPosts(@Param("univName") String univName,
-                            @Param("sort") String sort);
+        where u.univName = :univName    """)
+    List<Post> findAllPosts(@Param("univName") String univName);
 
     @Query("""
         select p
@@ -92,16 +67,10 @@ public interface PostRepository extends JpaRepository <Post, Long> {
         join fetch p.user u
         where u.univName = :univName
           and (p.category = :category)
-        order by
-          CASE WHEN :sort = 'createdAt' THEN p.createdAt END ASC,
-          CASE WHEN :sort = 'like' THEN p.likeCount END DESC,
-          CASE WHEN :sort = 'comment' THEN p.commentCount END DESC,
-          p.createdAt DESC
         """)
     List<Post> findAllPostsByCategory(
             @Param("univName") String univName,
-            @Param("category") Category category,
-            @Param("sort") String sort);
+            @Param("category") Category category);
 
     @Query("""
         select p
@@ -109,16 +78,10 @@ public interface PostRepository extends JpaRepository <Post, Long> {
         join fetch p.user u
         where u.univName = :univName
           and (p.type = :type)
-        order by
-          CASE WHEN :sort = 'createdAt' THEN p.createdAt END ASC,
-          CASE WHEN :sort = 'like' THEN p.likeCount END DESC,
-          CASE WHEN :sort = 'comment' THEN p.commentCount END DESC,
-          p.createdAt DESC
         """)
     List<Post> findAllPostsByType(
             @Param("univName") String univName,
-            @Param("type") Type type,
-            @Param("sort") String sort);
+            @Param("type") Type type);
 
     @Query("""
     select p
@@ -131,16 +94,10 @@ public interface PostRepository extends JpaRepository <Post, Long> {
             p.title like concat('%', :keyword, '%')
           )
       and ( :category is null or p.category = :category )
-    order by
-      CASE WHEN :sort = 'createdAt' THEN p.createdAt END ASC,
-      CASE WHEN :sort = 'like' THEN p.likeCount END DESC,
-      CASE WHEN :sort = 'comment' THEN p.commentCount END DESC,
-      p.createdAt DESC
     """)
     List<Post> searchByKeywordAndUnivAndCategory(@Param("keyword") String keyword,
                                                  @Param("univName") String univName,
-                                                 @Param("category") Category category,
-                                                 @Param("sort") String sort);
+                                                 @Param("category") Category category);
 
     @Query("""
     select p
@@ -152,19 +109,13 @@ public interface PostRepository extends JpaRepository <Post, Long> {
            :keyword is null or :keyword = '' or
            p.title like concat('%', :keyword, '%')
       )
-    order by
-      CASE WHEN :sort = 'createdAt' THEN p.createdAt END ASC,
-      CASE WHEN :sort = 'like' THEN p.likeCount END DESC,
-      CASE WHEN :sort = 'comment' THEN p.commentCount END DESC,
-      p.createdAt DESC
     """)
     List<Post> searchByKeywordAndUniv(@Param("keyword") String keyword,
-                                      @Param("univName") String univName,
-                                      @Param("sort") String sort);
+                                      @Param("univName") String univName);
     @Query("""
     select p
     from Post p
-    join p.user u
+    join fetch p.user u
     where u.id = :userId
     order by p.createdAt desc
 """)

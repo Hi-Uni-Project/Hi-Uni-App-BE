@@ -1,5 +1,6 @@
 package com.project.hiuni.domain.post.v1.service;
 
+import com.project.hiuni.domain.comment.repository.CommentRepository;
 import com.project.hiuni.domain.post.dto.response.PostPreviewResponse;
 import com.project.hiuni.domain.post.entity.Post;
 import com.project.hiuni.domain.post.entity.PostLike;
@@ -24,6 +25,7 @@ import java.util.List;
 public class PostLikeV1Service {
 
     private final PostLikeRepository postLikeRepository;
+    private final CommentRepository commentRepository;
     private final PostRepository postRepository;
     private final UserRepository userRepository;
 
@@ -63,12 +65,15 @@ public class PostLikeV1Service {
         post.decrementLikeCount();
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<PostPreviewResponse> getLikedPostsByUserId(Long userId) {
         List<Post> posts = postLikeRepository.findLikedPostsByUserId(userId);
 
         return posts.stream()
-                .map(PostPreviewResponse::from)
+                .map(post ->{
+                    int commentCount = commentRepository.countAllByPostId(post.getId());
+                    return PostPreviewResponse.from(post, commentCount);
+                })
                 .toList();
     }
 

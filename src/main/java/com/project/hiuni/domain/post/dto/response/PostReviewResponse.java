@@ -68,7 +68,7 @@ public record PostReviewResponse(
         String tips
 ) {
 
-    public static PostReviewResponse from(Post post, boolean isLiked, boolean isScrap, boolean isUser) {
+    public static PostReviewResponse from(Post post, boolean isLiked, boolean isScrap, boolean isUser, int commentCount) {
         String nickname = null;
         String univName = null;
         String firstMajorName = null;
@@ -89,7 +89,6 @@ public record PostReviewResponse(
         Type type = post.getType();
         Category category = post.getCategory();
         int likeCount = post.getLikeCount();
-        int commentCount = post.getCommentCount();
         int bookmarkCount = post.getBookmarkCount();
         int viewCount = post.getViewCount();
         LocalDateTime createdAt = post.getCreatedAt();

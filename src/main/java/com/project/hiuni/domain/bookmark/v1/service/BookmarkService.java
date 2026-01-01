@@ -4,6 +4,7 @@ import com.project.hiuni.domain.bookmark.entity.Bookmark;
 import com.project.hiuni.domain.bookmark.exception.CustomNotBookmarkException;
 import com.project.hiuni.domain.bookmark.repository.BookmarkRepository;
 import com.project.hiuni.domain.bookmark.exception.CustomDuplicatedBookmarkException;
+import com.project.hiuni.domain.post.common.PostPreviewMapper;
 import com.project.hiuni.domain.post.dto.response.PostPreviewResponse;
 import com.project.hiuni.domain.post.entity.Post;
 import com.project.hiuni.domain.post.exception.CustomPostNotFoundException;
@@ -22,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class BookmarkService {
 
+    private final PostPreviewMapper postPreviewMapper;
     private final BookmarkRepository bookmarkRepository;
     private final UserRepository userRepository;
     private final PostRepository postRepository;
@@ -68,10 +70,7 @@ public class BookmarkService {
 
         List<Post> bookmarks = bookmarkRepository.findMyPostsBookmarked(userId);
 
-        return bookmarks.stream()
-                .map(PostPreviewResponse::from)
-                .toList();
-
+        return postPreviewMapper.toPreviewResponses(bookmarks);
     }
 
 }
