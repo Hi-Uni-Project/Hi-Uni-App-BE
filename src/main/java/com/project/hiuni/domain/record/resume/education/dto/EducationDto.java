@@ -24,6 +24,8 @@ public class EducationDto {
 
   private String major;
 
+  private LocalDateTime createdAt;
+
   public Education toEntity(Resume resume) {
     return Education.of(
         this.universityName,
