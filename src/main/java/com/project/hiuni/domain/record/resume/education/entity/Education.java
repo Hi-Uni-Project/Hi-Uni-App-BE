@@ -1,5 +1,6 @@
 package com.project.hiuni.domain.record.resume.education.entity;
 
+import com.project.hiuni.admin.common.BaseEntity;
 import com.project.hiuni.domain.record.resume.education.dto.EducationDto;
 import com.project.hiuni.domain.record.resume.entity.Resume;
 import jakarta.persistence.Entity;
@@ -24,7 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "education")
-public class Education {
+public class Education extends BaseEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
@@ -88,6 +89,7 @@ public class Education {
         .endDate(this.endDate)
         .graduationStatus(this.graduationStatus)
         .major(this.major)
+        .createdAt(this.getCreatedAt())
         .build();
   }
 
