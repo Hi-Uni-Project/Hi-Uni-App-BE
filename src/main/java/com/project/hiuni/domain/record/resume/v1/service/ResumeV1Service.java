@@ -11,6 +11,7 @@ import com.project.hiuni.domain.record.resume.career.repository.CareerRepository
 import com.project.hiuni.domain.record.resume.dto.request.ResumeRequest;
 import com.project.hiuni.domain.record.resume.dto.response.AiAboutMeResponse;
 import com.project.hiuni.domain.record.resume.dto.response.ResumeResponse;
+import com.project.hiuni.domain.record.resume.education.dto.EducationDto;
 import com.project.hiuni.domain.record.resume.education.entity.Education;
 import com.project.hiuni.domain.record.resume.education.repository.EducationRepository;
 import com.project.hiuni.domain.record.resume.entity.Resume;
@@ -33,6 +34,7 @@ import com.project.hiuni.global.exception.ErrorCode;
 import com.project.hiuni.global.exception.InternalServerException;
 import com.project.hiuni.infra.claude.ClaudeAiClient;
 import com.project.hiuni.infra.claude.prompt.ClaudeAiPrompt;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -388,6 +390,10 @@ public class ResumeV1Service {
           .educations(
               educationRepository.findAllByResume(resume).stream()
                   .map(Education::toDto)
+                  .sorted(
+                      Comparator.comparing(EducationDto::getStartDate)
+                          .thenComparing(EducationDto::)
+                  )
                   .collect(Collectors.toList())
           )
           .languages(
