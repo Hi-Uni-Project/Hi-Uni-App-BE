@@ -392,7 +392,8 @@ public class ResumeV1Service {
                   .map(Education::toDto)
                   .sorted(
                       Comparator.comparing(EducationDto::getStartDate)
-                          .thenComparing(EducationDto::)
+                          .thenComparing(EducationDto::getCreatedAt)
+                          .reversed()
                   )
                   .collect(Collectors.toList())
           )
