@@ -8,6 +8,7 @@ import java.util.Set;
 
 public record CommentResponse(
         Long id,
+        Long userId,
         String nickname,
         String firstMajorName,
         String secondMajorName,
@@ -26,6 +27,7 @@ public record CommentResponse(
 
         return new CommentResponse(
                 comment.getId(),
+                user.getId(),
                 user.getNickname(),
                 user.getFirstMajorName(),
                 user.getSecondMajorName(),
