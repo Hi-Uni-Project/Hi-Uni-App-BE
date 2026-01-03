@@ -1,7 +1,10 @@
 package com.project.hiuni.domain.post.entity;
 
 import com.project.hiuni.admin.common.BaseEntity;
+import com.project.hiuni.domain.bookmark.entity.Bookmark;
+import com.project.hiuni.domain.comment.entity.Comment;
 import com.project.hiuni.domain.user.entity.User;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -15,7 +18,10 @@ import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -56,6 +62,15 @@ public abstract class Post extends BaseEntity {
     @JoinColumn(name = "user_id")
     protected User user;
 
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> comments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Bookmark> bookmarks = new ArrayList<>();
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PostLike> postLikes = new ArrayList<>();
+
     protected Post(String title, String content, Category category, Type type,
                    User user, boolean isReview) {
         this.title = title;
@@ -83,6 +98,5 @@ public abstract class Post extends BaseEntity {
     public void incrementViewCount() { viewCount++; }
 
     public void decrementViewCount() { viewCount--;}
-
 
 }
