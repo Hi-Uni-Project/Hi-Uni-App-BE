@@ -4,6 +4,7 @@ import com.project.hiuni.domain.bookmark.repository.BookmarkRepository;
 import com.project.hiuni.domain.post.common.PostPreviewMapper;
 import com.project.hiuni.domain.comment.projection.PostCommentCount;
 import com.project.hiuni.domain.comment.repository.CommentRepository;
+import com.project.hiuni.domain.post.common.WeekRange;
 import com.project.hiuni.domain.post.dto.request.PostCreateNoReviewRequest;
 import com.project.hiuni.domain.post.dto.request.PostCreateReviewRequest;
 import com.project.hiuni.domain.post.dto.request.PostUpdateNoReviewRequest;
@@ -40,10 +41,7 @@ import com.project.hiuni.domain.user.entity.User;
 import com.project.hiuni.domain.user.exception.CustomUserNotFoundException;
 import com.project.hiuni.domain.user.repository.UserRepository;
 import com.project.hiuni.global.exception.ErrorCode;
-import java.time.DayOfWeek;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -421,11 +419,8 @@ public class PostV1Service {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomUserNotFoundException(ErrorCode.USER_NOT_FOUND));
 
-        ZoneId zone = ZoneId.of("Asia/Seoul");
-        LocalDate today = LocalDate.now(zone);
-
-        LocalDateTime end   = today.with(DayOfWeek.SUNDAY).atStartOfDay();
-        LocalDateTime start = end.minusWeeks(1);
+        LocalDateTime start = WeekRange.start();
+        LocalDateTime end   = WeekRange.end();
 
         List<Post> posts = postRepository.findWeeklyHot(start, end, user.getUnivName())
                 .stream()
@@ -442,11 +437,8 @@ public class PostV1Service {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomUserNotFoundException(ErrorCode.USER_NOT_FOUND));
 
-        ZoneId zone = ZoneId.of("Asia/Seoul");
-        LocalDate today = LocalDate.now(zone);
-
-        LocalDateTime end   = today.with(DayOfWeek.SUNDAY).atStartOfDay();
-        LocalDateTime start = end.minusWeeks(1);
+        LocalDateTime start = WeekRange.start();
+        LocalDateTime end   = WeekRange.end();
 
         List<Post> posts = postRepository.findWeeklyHot(start, end, user.getUnivName())
                 .stream()
@@ -532,11 +524,8 @@ public class PostV1Service {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomUserNotFoundException(ErrorCode.USER_NOT_FOUND));
 
-        ZoneId zone = ZoneId.of("Asia/Seoul");
-        LocalDate today = LocalDate.now(zone);
-
-        LocalDateTime end   = today.with(DayOfWeek.SUNDAY).atStartOfDay();
-        LocalDateTime start = end.minusWeeks(1);
+        LocalDateTime start = WeekRange.start();
+        LocalDateTime end   = WeekRange.end();
 
         List<Post> posts=postRepository
                 .findWeeklyHotByType(start,end,user.getUnivName(),type)
@@ -556,11 +545,8 @@ public class PostV1Service {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomUserNotFoundException(ErrorCode.USER_NOT_FOUND));
 
-        ZoneId zone = ZoneId.of("Asia/Seoul");
-        LocalDate today = LocalDate.now(zone);
-
-        LocalDateTime end   = today.with(DayOfWeek.SUNDAY).atStartOfDay();
-        LocalDateTime start = end.minusWeeks(1);
+        LocalDateTime start = WeekRange.start();
+        LocalDateTime end   = WeekRange.end();
 
         List<Post> posts = postRepository
                 .findWeeklyHotByCategory(start, end, user.getUnivName(), category)
