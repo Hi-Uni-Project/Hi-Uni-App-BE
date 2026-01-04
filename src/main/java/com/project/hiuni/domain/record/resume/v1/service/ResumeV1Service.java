@@ -9,6 +9,7 @@ import com.project.hiuni.domain.record.resume.achievement.repository.Achievement
 import com.project.hiuni.domain.record.resume.career.entity.Career;
 import com.project.hiuni.domain.record.resume.career.repository.CareerRepository;
 import com.project.hiuni.domain.record.resume.dto.request.ResumeRequest;
+import com.project.hiuni.domain.record.resume.dto.response.AiAboutMeCntResponse;
 import com.project.hiuni.domain.record.resume.dto.response.AiAboutMeResponse;
 import com.project.hiuni.domain.record.resume.dto.response.ResumeResponse;
 import com.project.hiuni.domain.record.resume.education.dto.EducationDto;
@@ -491,5 +492,27 @@ public class ResumeV1Service {
 
   }
 
+  public AiAboutMeCntResponse getAiAboutMeCnt(Long userId) {
+
+    try {
+
+      User user = userRepository.findById(userId)
+          .orElseThrow(() -> new CustomUserNotFoundException(ErrorCode.USER_NOT_FOUND));
+
+      return AiAboutMeCntResponse
+          .builder()
+          .aboutMeCnt(user.getAboutMeCnt())
+          .build();
+
+    } catch (CustomUserNotFoundException e) {
+      log.error("유저를 찾을 수 없음: {}", e.getMessage());
+      throw e;
+
+    } catch (Exception e) {
+      log.info("내 소개 생성 횟수 조회 실패: {}", e.getMessage());
+      throw new InternalServerException(ErrorCode.INTERNAL_SERVER_ERROR);
+    }
+
+  }
 }
 
