@@ -4,6 +4,7 @@ import com.project.hiuni.domain.comment.projection.PostCommentCount;
 import com.project.hiuni.domain.comment.repository.CommentRepository;
 import com.project.hiuni.domain.post.dto.response.PostPreviewResponse;
 import com.project.hiuni.domain.post.entity.Post;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -27,9 +28,8 @@ public class PostPreviewMapper {
                 ));
 
         return posts.stream()
-                .map(post -> PostPreviewResponse.from(
-                        post, commentCountMap.getOrDefault(post.getId(), 0)
-                ))
-                .toList();
+                .map(post -> PostPreviewResponse.from(post, commentCountMap.getOrDefault(post.getId(), 0)))
+                .collect(Collectors.toCollection(ArrayList::new));
+
     }
 }
