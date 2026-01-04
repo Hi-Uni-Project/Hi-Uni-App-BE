@@ -2,6 +2,7 @@ package com.project.hiuni.domain.record.resume.v1.controller;
 
 
 import com.project.hiuni.domain.record.resume.dto.request.ResumeRequest;
+import com.project.hiuni.domain.record.resume.dto.response.AiAboutMeCntResponse;
 import com.project.hiuni.domain.record.resume.dto.response.AiAboutMeResponse;
 import com.project.hiuni.domain.record.resume.dto.response.ResumeResponse;
 import com.project.hiuni.domain.record.resume.v1.service.ResumeV1Service;
@@ -46,6 +47,16 @@ public class ResumeController {
 
     return ResponseDTO.of(response, "AI 자기소개 생성에 성공하였습니다.");
   }
+
+  @GetMapping("/ai-about-me/remaining")
+  public ResponseDTO<AiAboutMeCntResponse> getAiAboutMeCnt(@AuthenticationPrincipal CustomUserDetails userDetails) {
+
+    AiAboutMeCntResponse response = resumeV1Service.getAiAboutMeCnt(userDetails.getId());
+
+    return ResponseDTO.of(response, "AI 자기소개 생성 가능 횟수 조회에 성공하였습니다.");
+  }
+
+
 
   @GetMapping
   public ResponseDTO<ResumeResponse> getResume(@AuthenticationPrincipal CustomUserDetails userDetails) {
