@@ -4,9 +4,12 @@ import com.project.hiuni.domain.post.entity.Category;
 import com.project.hiuni.domain.post.entity.Post;
 import com.project.hiuni.domain.post.entity.Type;
 import com.project.hiuni.domain.user.entity.User;
+import jakarta.persistence.LockModeType;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -129,5 +132,14 @@ public interface PostRepository extends JpaRepository <Post, Long> {
     where p.user = :user
 """)
     void deleteAllByUserId(@Param("user") User user);
+
+
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @Query("""
+            SELECT p
+            FROM Post p
+            WHERE p.id = :postId
+            """)
+    Optional<Post> findByIdForUpdate(@Param("postId") Long postId);
 
 }

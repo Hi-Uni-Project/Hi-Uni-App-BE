@@ -35,8 +35,8 @@ public class PostLikeV1Service {
             throw new CustomDuplicatedLikeException(ErrorCode.DUPLICATED_LIKE);
         }
 
-        Post post = postRepository.findById(postId)
-                .orElseThrow(()-> new CustomPostNotFoundException(ErrorCode.POST_NOT_FOUND));
+        Post post = postRepository.findByIdForUpdate(postId)
+                .orElseThrow(() -> new CustomPostNotFoundException(ErrorCode.POST_NOT_FOUND));
 
         User user = userRepository.findById(userId)
                 .orElseThrow(()-> new CustomUserNotFoundException(ErrorCode.USER_NOT_FOUND));
@@ -57,10 +57,13 @@ public class PostLikeV1Service {
 
     @Transactional
     public void removeLike(Long postId, Long userId) {
+
+        Post post = postRepository.findByIdForUpdate(postId)
+                .orElseThrow(() -> new CustomPostNotFoundException(ErrorCode.POST_NOT_FOUND));
+
         PostLike postLike = postLikeRepository.findByPostIdAndUserId(postId, userId)
                 .orElseThrow(() -> new CustomNotLikeException(ErrorCode.NOT_LIKE));
 
-        Post post = postLike.getPost();
         postLikeRepository.delete(postLike);
         post.decrementLikeCount();
     }
